@@ -1,0 +1,50 @@
+//
+//  MaShangTong.pch
+//  MaShangTong
+//
+//  Created by niliu1h  on 15/10/15.
+//  Copyright (c) 2015年 NY. All rights reserved.
+//
+
+#ifndef MaShangTong_MaShangTong_pch
+#define MaShangTong_MaShangTong_pch
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "UIView+Extension.h"
+#import "AppDelegate.h"
+#import "DownloadManager.h"
+#import "Helper.h"
+#import "MBProgressHUD+MJ.h"
+#import "ValuationRuleModel.h"
+#import <Masonry.h>
+
+#define USER_DEFAULT [NSUserdefaults standardUserDefaults]
+#define APP_DELEGATE ((AppDelegate *)[UIApplication sharedApplication].delegate)
+
+// RGB色彩
+#define RGBColor(a,b,c,t) [UIColor colorWithRed:a/255.f green:b/255.f blue:c/255.f alpha:t]
+// 圆角Btn
+#define BtnRadius 3.f
+// Cache
+#define CachePath NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)
+
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+#define AMap_ApiKey @"a0ea75c92d27c222fd3ccf2ee236f284"
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#define APPID_IFly @"5657d35c"
+
+#ifdef DEBUG // 处于开发阶段
+#define NYLog(...) NSLog(__VA_ARGS__)
+#else // 处于发布阶段
+#define NYLog(...)
+#endif
+
+/* ----------------------支付宝支付---------------------- */
+const static NSString *alipayPID = @"2088021763249420";
+const static NSString *alipaySecret = @"a59f834f11ed4a4eb6b87736bd7c7e3a";
+const static NSString *alipaySeller = @"dw_mast@163.com";
+const static NSString *alipayRSA = @"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAORTE8wVzYBhxz9t//UaG8/89s+hO6ZQgtm0vvAcGrE/IZaP/J0qZhfzzxg5cxhgfnsgr+gqr/Rm+lwKsCRlE/0co4EaldqsYHpJeeU5XQFuaAuzzBEcLjtf1wcSzQH55mVngYMp3Yn8epXZveLnYf0bXjBHYfC2bICnrKk3WCsBAgMBAAECgYBfJhvW7bMQ8C5nSYDj9HhoqYN1LTy9Z0nQTdlQGHYrLSLjKqfcGyImkyzXbIGBRB0RVKLZvohK8msc1jtnP1QfWj6MPGjejzVa9LDhKEnSneAJ1Fjn0cFSyroRn/zKk+zwnpeh4E4lyfJmJ8qafWNgDRlerLCkFFvi7hqYq2+Z0QJBAPSG0AIV3IC9/O+okMj7798s9LIcz5Dd1YPRoqDTpQY3SA6I+QQ2RtrA5cF0gfK3R75nQ6Lh2NFYfV1zeQ6ZtQUCQQDvCaZRCj46che5CQ6KBBMqSmsXvjIjJ3ybxryL3BzIkgYFcO27W4X7lS+7cbqkPky2ekcMrxqJxWdjx6+2rz7NAkEAhTRvWcN49DUK9a8Y+DOuLyA5SFHDjMIbjwyDECNbMXCp8ykQpge/P2l3f5QtOgA3t/Re9vsa9qfC20aNOrPm1QJAc1kbudWQi9GMowy8yFsJCIpavV1Zgl9GoUE4sODpvtvALhX9kkCrGek23GQYJbOufwvohzVkQAFTT/IHV8efLQJBALwKKdFnHQkl3gthQ5y6bbfvFajw+p4ApecR+KC/4TVZ4zrtlrCH6doKriOuzoxg6rbxdRXMtNELuBjTK8YOlBA=";
+
+#endif

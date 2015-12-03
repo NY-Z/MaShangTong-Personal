@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisViewController">
+            <connections>
+                <outlet property="businessBtn" destination="M8D-k5-aWo" id="ra8-aA-tt7"/>
+                <outlet property="individualBtn" destination="gJ9-71-hnN" id="tVr-6d-A3c"/>
+                <outlet property="loginLabel" destination="1lm-QK-sKQ" id="utU-lt-j6L"/>
+                <outlet property="personLoginLabel" destination="535-wp-pDd" id="J3Z-f0-LB8"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJ9-71-hnN">
+                    <rect key="frame" x="45" y="90" width="230" height="44"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.32941176470588235" green="0.68627450980392157" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="hg2-Ch-NrR"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="我是个人">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="individualBtnClick:" destination="-1" eventType="touchUpInside" id="ZkT-pV-zp2"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8D-k5-aWo">
+                    <rect key="frame" x="45" y="204" width="230" height="44"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.31764705879999999" green="0.66274509800000003" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="187-Y4-u5O"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="我是企业">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="businessBtnClick:" destination="-1" eventType="touchUpInside" id="CVs-pz-Y4x"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已有账号，登陆" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lm-QK-sKQ">
+                    <rect key="frame" x="175" y="263" width="100" height="20"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="FXv-qh-7Xq"/>
+                        <constraint firstAttribute="width" constant="100" id="puv-6N-ozh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.47058823529411764" green="0.73333333333333328" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </label>
+                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已有账号，登陆" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="535-wp-pDd">
+                    <rect key="frame" x="175" y="149" width="100" height="20"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.47058823529999999" green="0.73333333329999995" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </label>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="gJ9-71-hnN" secondAttribute="trailing" constant="45" id="88U-ly-dc8"/>
+                <constraint firstItem="M8D-k5-aWo" firstAttribute="top" secondItem="gJ9-71-hnN" secondAttribute="bottom" constant="70" id="9bO-og-ZHl"/>
+                <constraint firstAttribute="trailing" secondItem="M8D-k5-aWo" secondAttribute="trailing" constant="45" id="9ei-2d-88d"/>
+                <constraint firstItem="535-wp-pDd" firstAttribute="width" secondItem="1lm-QK-sKQ" secondAttribute="width" id="Gfc-N4-Ggc"/>
+                <constraint firstAttribute="trailing" secondItem="1lm-QK-sKQ" secondAttribute="trailing" constant="45" id="HIq-sC-Uza"/>
+                <constraint firstItem="535-wp-pDd" firstAttribute="trailing" secondItem="1lm-QK-sKQ" secondAttribute="trailing" id="P9H-nN-Aa0"/>
+                <constraint firstItem="gJ9-71-hnN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="45" id="Wnc-vO-5DX"/>
+                <constraint firstItem="gJ9-71-hnN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="dWB-sg-fPb"/>
+                <constraint firstItem="535-wp-pDd" firstAttribute="height" secondItem="1lm-QK-sKQ" secondAttribute="height" id="eiN-W5-L9W"/>
+                <constraint firstItem="M8D-k5-aWo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="45" id="g49-xW-Yu6"/>
+                <constraint firstItem="1lm-QK-sKQ" firstAttribute="top" secondItem="M8D-k5-aWo" secondAttribute="bottom" constant="15" id="nIX-q5-Jkr"/>
+                <constraint firstItem="535-wp-pDd" firstAttribute="top" secondItem="gJ9-71-hnN" secondAttribute="bottom" constant="15" id="plR-Ys-G82"/>
+                <constraint firstItem="gJ9-71-hnN" firstAttribute="width" secondItem="M8D-k5-aWo" secondAttribute="width" id="wal-pA-Bd2"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <point key="canvasLocation" x="276" y="348"/>
+        </view>
+    </objects>
+</document>

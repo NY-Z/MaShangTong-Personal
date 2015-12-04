@@ -36,19 +36,7 @@
     self.navigationItem.titleView = label;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    
-    self.navigationController.navigationBar.translucent = NO;
-    [self addNavTitle];
-    
-    // 修改控件的属性
-    [self handleTheWidget];
-    
-    
-}
-
+#pragma mark - HandleTheWidget
 - (void)handleTheWidget
 {
     self.individualBtn.layer.cornerRadius = BtnRadius;
@@ -60,6 +48,20 @@
     
     UITapGestureRecognizer *personLogin = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personLoginLabelTap:)];
     [self.personLoginLabel addGestureRecognizer:personLogin];
+}
+
+#pragma mark - ViewDidLoad
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    
+    self.navigationController.navigationBar.translucent = NO;
+    [self addNavTitle];
+    
+    // 修改控件的属性
+    [self handleTheWidget];
+    
+    
 }
 
 #pragma mark - Action

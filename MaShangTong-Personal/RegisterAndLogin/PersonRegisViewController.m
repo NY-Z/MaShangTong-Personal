@@ -25,39 +25,30 @@
 {
     _mobileNumberTextField.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _mobileNumberTextField.layer.borderWidth = 1.f;
+    _mobileNumberTextField.layer.cornerRadius = 3.f;
     
     _verificationCodeTextField.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _verificationCodeTextField.layer.borderWidth = 1.f;
+    _verificationCodeTextField.layer.cornerRadius = 3.f;
     
     _passwordTextField.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _passwordTextField.layer.borderWidth = 1.f;
+    _passwordTextField.layer.cornerRadius = 3.f;
     
     _sendVerificationCodeBtn.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _sendVerificationCodeBtn.layer.borderWidth = 1.f;
+    _sendVerificationCodeBtn.layer.cornerRadius = 3.f;
     
     _confirmBtn.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _confirmBtn.layer.borderWidth = 1.f;
+    _confirmBtn.layer.cornerRadius = 3.f;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    [self handleThwWidget];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)sendVerificationCodeBtnClicked:(id)sender {
 }

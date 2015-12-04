@@ -45,7 +45,7 @@
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
     label.font = [UIFont systemFontOfSize:15];
-    label.text = @"注册";
+    label.text = @"注册公司";
     label.textAlignment = 1;
     label.font = [UIFont systemFontOfSize:20];
     label.textColor = RGBColor(97, 190, 254, 1.f);

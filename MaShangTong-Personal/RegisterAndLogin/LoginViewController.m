@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "CompanyHomeViewController.h"
 #import "RegisCompanyViewController.h"
+#import "PersonRegisViewController.h"
 
 @interface LoginViewController ()
 
@@ -72,7 +73,13 @@
 
 - (IBAction)regisBtnClick:(id)sender {
     
-    [self.navigationController pushViewController:[[RegisCompanyViewController alloc] init] animated:YES];
+    if (self.type == LoginTypePerson) {
+        PersonRegisViewController *regis = [[PersonRegisViewController alloc] init];
+        [self.navigationController pushViewController:regis animated:YES];
+    } else {
+        RegisCompanyViewController *regis = [[RegisCompanyViewController alloc] init];
+        [self.navigationController pushViewController:regis animated:YES];
+    }
     
 }
 

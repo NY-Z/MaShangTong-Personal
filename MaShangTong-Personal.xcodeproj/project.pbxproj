@@ -541,6 +541,9 @@
 				0E4C92F61C02E3AC00118310 /* RegisViewController.h */,
 				0E4C92F71C02E3AC00118310 /* RegisViewController.m */,
 				0E4C92F81C02E3AC00118310 /* RegisViewController.xib */,
+				0E4C93031C02E45C00118310 /* LoginViewController.h */,
+				0E4C93041C02E45C00118310 /* LoginViewController.m */,
+				0E4C93051C02E45C00118310 /* LoginViewController.xib */,
 				105791E21C106DC100E844FA /* PersonLoginAndRegis */,
 				105791E11C106DAF00E844FA /* DriverLoginAndRegis */,
 				0EDE8CBA1C08401000356AF1 /* UserModel */,
@@ -634,9 +637,6 @@
 			children = (
 				0E4C92FB1C02E40800118310 /* BaseNavViewController.h */,
 				0E4C92FC1C02E40800118310 /* BaseNavViewController.m */,
-				0E4C93031C02E45C00118310 /* LoginViewController.h */,
-				0E4C93041C02E45C00118310 /* LoginViewController.m */,
-				0E4C93051C02E45C00118310 /* LoginViewController.xib */,
 				0E4C92FE1C02E44800118310 /* RegisCompanyViewController.h */,
 				0E4C92FF1C02E44800118310 /* RegisCompanyViewController.m */,
 				0E4C93001C02E44800118310 /* RegisCompanyViewController.xib */,
@@ -1470,7 +1470,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "码尚通-个人端";
-				PROVISIONING_PROFILE = "a4f3774b-aafb-466d-b09a-282c48398d98";
+				PROVISIONING_PROFILE = "50542112-9bf1-46f0-9de0-3c69dfac9c07";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1560,7 +1560,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "码尚通-个人端";
-				PROVISIONING_PROFILE = "a4f3774b-aafb-466d-b09a-282c48398d98";
+				PROVISIONING_PROFILE = "50542112-9bf1-46f0-9de0-3c69dfac9c07";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1599,7 +1599,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "码尚通-个人端";
-				PROVISIONING_PROFILE = "a4f3774b-aafb-466d-b09a-282c48398d98";
+				PROVISIONING_PROFILE = "50542112-9bf1-46f0-9de0-3c69dfac9c07";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

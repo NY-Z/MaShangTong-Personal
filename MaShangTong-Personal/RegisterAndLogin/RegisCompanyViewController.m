@@ -146,7 +146,9 @@
 #pragma mark - Action
 - (void)loginClicked:(UIButton *)btn
 {
-    [self.navigationController pushViewController:[[LoginViewController alloc] init] animated:YES];
+    LoginViewController *login = [[LoginViewController alloc] init];
+    login.type = LoginTypeCompany;
+    [self.navigationController pushViewController:login animated:YES];
 }
 
 - (IBAction)regisBtnClicked:(UIButton *)btn {

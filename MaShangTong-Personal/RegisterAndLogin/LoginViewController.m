@@ -109,6 +109,15 @@
         NSString *isSuccessLog = json[@"data"];
         if ([isSuccessLog isEqualToString:@"1"]) {
             
+            if (self.type == LoginTypeCompany) {
+                CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
+                [self.navigationController pushViewController:companyHome animated:YES];
+            } else if (self.type == LoginTypePerson) {
+#warning 个人端登录
+//                [self.navigationController pushViewController:@"" animated:@""];
+            }
+            
+            
             delegate.model1 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][0] error:nil];
             delegate.model2 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][1] error:nil];
             delegate.model3 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][2] error:nil];
@@ -117,10 +126,6 @@
             [[NSUserDefaults standardUserDefaults] setValue:json[@"user_id"] forKey:@"user_id"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             delegate.userModel = [[UserModel alloc] initWithDictionary:json[@"info"][@"user_info"] error:nil];
-            CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
-            UINavigationController *companyHomeNav = [[UINavigationController alloc] initWithRootViewController:companyHome];
-//            delegate.window.rootViewController = companyHomeNav;
-            [self.navigationController pushViewController:companyHomeNav animated:YES];
             
             [MBProgressHUD hideHUD];
             [MBProgressHUD showSuccess:@"登陆成功"];

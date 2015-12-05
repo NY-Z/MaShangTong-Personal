@@ -12,6 +12,7 @@
 #import <iflyMSC/iflyMSC.h>
 #import "AMapSearchAPI.h"
 #import "MANaviRoute.h"
+#import "PayChargeViewController.h"
 
 @interface WaitForTheOrderViewController () <MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,IFlySpeechSynthesizerDelegate,AMapSearchDelegate>
 {
@@ -290,6 +291,8 @@
                     if (_lastState != DriverStateArriveDestination) {
                         [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
                         _iscalculateStart = 0;
+                        PayChargeViewController *pay = [[PayChargeViewController alloc] init];
+                        [self.navigationController pushViewController:pay animated:YES];
                     }
                     _lastState = DriverStateArriveDestination;
                     break;
@@ -407,7 +410,7 @@
     for (id ann in self.mapView.annotations) {
         if ([ann isKindOfClass:[MAUserLocation class]]) {
             MAUserLocation *userLocation = (MAUserLocation *)ann;
-            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%d:%ld",((float)path.distance)/1000,_driveringTime/60,_driveringTime%60];
+            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%ld:%ld",((float)path.distance)/1000,_driveringTime/60,_driveringTime%60];
             userLocation.title = annTitle;
         }
     }
@@ -416,7 +419,7 @@
 #pragma mark - IFlySpeechSynthesizerDelegate
 - (void) onCompleted:(IFlySpeechError*) error
 {
-    //    [_timer setFireDate:[NSDate distantPast]];
+
 }
 
 #pragma mark - UITableViewDelegate

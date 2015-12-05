@@ -10,4 +10,6 @@
 
 @interface PayChargeViewController : UIViewController
 
+@property (nonatomic,strong) NSArray *detailInfoArr;
+
 @end

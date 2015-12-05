@@ -141,10 +141,10 @@
         }];
     }
     
-    NSArray *detailTitleArr = @[@"14元",@"0元",@"2公里",@"0.3kg"];
+    _detailInfoArr = @[@"14元",@"0元",@"2公里",@"0.3kg"];
     for (NSInteger i = 0; i < 4; i++) {
         UILabel *label = [[UILabel alloc] init];
-        label.text = detailTitleArr[i];
+        label.text = _detailInfoArr[i];
         label.textAlignment = 2;
         label.textColor = RGBColor(71, 71, 71, 1.f);
         label.font = [UIFont systemFontOfSize:12];
@@ -204,12 +204,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     [self initViews];
 }
 
 #pragma mark - NavigationBarAction
 - (void)navRightBtnClicked:(UIButton *)btn
+{
+    
+}
+
+#pragma mark - BtnAction
+- (void)confirmPayBtnClicked:(UIButton *)btn
 {
     
 }

@@ -62,6 +62,7 @@
     _passwordTextField.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _passwordTextField.layer.borderWidth = 1.f;
     _passwordTextField.layer.cornerRadius = 3.f;
+    _passwordTextField.secureTextEntry = YES;
     
     _sendVerificationCodeBtn.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _sendVerificationCodeBtn.layer.borderWidth = 1.f;
@@ -92,7 +93,7 @@
 #pragma mark - BtnAction
 - (IBAction)sendVerificationCodeBtnClicked:(id)sender {
     
-    if ([Helper justMobile:_mobileNumberTextField.text]) {
+    if (![Helper justMobile:_mobileNumberTextField.text]) {
         [MBProgressHUD showSuccess:@"请输入正确的手机号"];
         return;
     }
@@ -127,6 +128,49 @@
 }
 
 - (IBAction)confirmBtnClicked:(id)sender {
+    
+    if (![Helper justMobile:_mobileNumberTextField.text]) {
+        [MBProgressHUD showError:@"请输入正确的手机号"];
+        return;
+    }
+    
+    if (![Helper justPassword:_passwordTextField.text]) {
+        [MBProgressHUD showError:@"您的密码格式不正确"];
+        return;
+    }
+    
+    if (![_verificationCodeTextField.text isEqualToString:_random]) {
+        [MBProgressHUD showError:@"验证码错误"];
+        return;
+    }
+    [MBProgressHUD showMessage:@"注册中，请稍后"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:_mobileNumberTextField.text forKey:@"mobile"];
+    [params setValue:_passwordTextField.text forKey:@"user_pwd"];
+    [params setValue:@"1" forKey:@"group_id"];
+    
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=register" params:params success:^(id json) {
+        
+        NSLog(@"%@",json);
+        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+        [MBProgressHUD hideHUD];
+        if ([resultStr isEqualToString:@"1"]) {
+            [MBProgressHUD showError:@"注册成功"];
+            return ;
+        } else if ([resultStr isEqualToString:@"0"]) {
+            [MBProgressHUD showError:@"您的网络有点问题，请重新注册"];
+            return;
+        } else if ([resultStr isEqualToString:@"-1"]) {
+#warning 注册成功
+            [MBProgressHUD showSuccess:json[@"data"]];
+            return;
+        }
+        
+    } failure:^(NSError *error) {
+        
+        NSLog(@"%@",error.localizedDescription);
+        
+    }];
 }
 
 - (void)loginClicked:(UIButton *)btn
@@ -140,7 +184,7 @@
 - (void)timerUpdate
 {
     _timeCount--;
-    [_sendVerificationCodeBtn setTitle:[NSString stringWithFormat:@"%@s后重新发送",_random] forState:UIControlStateNormal];
+    [_sendVerificationCodeBtn setTitle:[NSString stringWithFormat:@"%is后重新发送",_timeCount] forState:UIControlStateNormal];
     if (_timeCount == 0) {
         _timeCount = 60;
         _sendVerificationCodeBtn.enabled = YES;

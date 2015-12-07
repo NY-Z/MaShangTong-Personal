@@ -60,6 +60,13 @@
 
 - (void)configNavigationBar
 {
+    
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backBtn setImage:[UIImage imageNamed:@"backBtn"] forState:UIControlStateNormal];
+    backBtn.size = CGSizeMake(44, 44);
+    [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
     label.text = @"等待接单";
     label.textAlignment = 1;
@@ -73,6 +80,9 @@
     rightLabel.textColor = [UIColor whiteColor];
     rightLabel.font = [UIFont systemFontOfSize:13];
     rightLabel.size = CGSizeMake(60, 15);
+    rightLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *rightLabelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rightLabelTaped:)];
+    [rightLabel addGestureRecognizer:rightLabelTap];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightLabel];
 }
 
@@ -262,6 +272,7 @@
                 {
                     if (_lastState != DriverStateOrderReceive) {
                         navTitleLabel.text = @"等待接驾";
+                        self.tableView.hidden = NO;
                         [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
                     }
                     _lastState = DriverStateOrderReceive;
@@ -292,6 +303,8 @@
                         [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
                         _iscalculateStart = 0;
                         PayChargeViewController *pay = [[PayChargeViewController alloc] init];
+#warning 价格
+                        pay.detailInfoArr = @[[NSString stringWithFormat:@"%li元",_actualDistance*1+14],@"0元",[NSString stringWithFormat:@"%li公里",_actualDistance],@"0.0kg"];
                         [self.navigationController pushViewController:pay animated:YES];
                     }
                     _lastState = DriverStateArriveDestination;
@@ -324,6 +337,8 @@
             [self.mapView addAnnotation:_navPoint];
         }
     } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"请求超时"];
         NYLog(@"%@",error.localizedDescription);
     }];
 }
@@ -472,6 +487,34 @@
     
     [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     //    [_tableView reloadData];
+}
+
+- (void)rightLabelTaped:(UITapGestureRecognizer *)tap
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您确定要取消行程吗？" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [MBProgressHUD showMessage:@"正在取消订单"];
+        [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
+            
+            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+            [MBProgressHUD hideHUD];
+            if ([resultStr isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"取消订单成功"];
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                [MBProgressHUD showError:@"取消订单失败"];
+            }
+        } failure:^(NSError *error) {
+            
+            [MBProgressHUD hideHUD];
+            [MBProgressHUD showError:@"请求失败，请重试"];
+            NYLog(@"%@",error.localizedDescription);
+            
+        }];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)dealloc

@@ -341,7 +341,7 @@
     [params setObject:reservation_type forKey:@"reservation_type"];
     
     [params setObject:_durationBtn.currentTitle forKey:@"duration_times"];
-    [params setObject:[NSString stringWithFormat:@"%i",_selectedBtn.tag-199] forKey:@"car_type_id"];
+    [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
     [params setObject:@"2" forKey:@"reserva_type"];
     

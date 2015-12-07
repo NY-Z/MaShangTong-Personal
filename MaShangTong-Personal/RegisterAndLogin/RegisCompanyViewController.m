@@ -217,7 +217,8 @@
         }
         
     } failure:^(NSError *error) {
-        
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"请求超时"];
         NYLog(@"%@",error.localizedDescription);
         
     }];

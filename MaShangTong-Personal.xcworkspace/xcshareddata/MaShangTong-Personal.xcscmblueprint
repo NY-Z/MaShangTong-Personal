@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2440C7A73F181934A083DAC132D43400568155B4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2440C7A73F181934A083DAC132D43400568155B4" : 0,
+    "BF2DF27449ACFB00E99B22C68414C7789D03C2A3" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "CEDCD498-8D51-4585-AEA4-CFA0F177D665",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2440C7A73F181934A083DAC132D43400568155B4" : "MaShangTong-Personal\/",
+    "BF2DF27449ACFB00E99B22C68414C7789D03C2A3" : "MaShangTong-Personal\/MaShangTong-Personal\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MaShangTong-Personal",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MaShangTong-Personal.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/NY-Z\/MaShangTong-Personal.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2440C7A73F181934A083DAC132D43400568155B4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/NY-Z\/MaShangTong-Personal.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BF2DF27449ACFB00E99B22C68414C7789D03C2A3"
+    }
+  ]
+}

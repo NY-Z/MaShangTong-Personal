@@ -480,7 +480,7 @@
         reservation_type = @"1";
     }
 
-    [params setObject:[NSString stringWithFormat:@"%i",_selectedBtn.tag-199] forKey:@"car_type_id"];
+    [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
 
     [params setObject:@"71" forKey:@"user_id"];

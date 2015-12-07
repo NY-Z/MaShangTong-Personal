@@ -24,7 +24,6 @@
     UITextView *remarkTextView;
     
     UITextField *numberTextField;
-    
 
     UIButton *sourceBtn;
 
@@ -503,7 +502,7 @@
     [params setObject:reservation_type forKey:@"reservation_type"];
     
     NYLog(@"%li",_selectedBtn.tag-200);
-    [params setObject:[NSString stringWithFormat:@"%li",_selectedBtn.tag-199] forKey:@"car_type_id"];
+    [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
     [params setObject:@"1" forKey:@"reserva_type"];
     
@@ -530,10 +529,12 @@
                 }
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [MBProgressHUD showMessage:@"正在取消订单"];
                 [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
                     
-                    NSLog(@"%@",json);
+                    NYLog(@"%@",json);
                     NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                    [MBProgressHUD hideHUD];
                     if ([resultStr isEqualToString:@"1"]) {
                         [MBProgressHUD showSuccess:@"取消订单成功"];
                     } else {
@@ -542,8 +543,9 @@
                         
                     
                 } failure:^(NSError *error) {
-                    
-                    NSLog(@"%@",error.localizedDescription);
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showError:@"请求超时"];
+                    NYLog(@"%@",error.localizedDescription);
                     
                 }];
             }]];

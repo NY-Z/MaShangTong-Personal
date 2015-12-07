@@ -297,7 +297,7 @@
 //    [_dataArr addObject:airportDropOff];
 }
 
-- (void)configPicker
+- (void)configDatePicker
 {
     _pickBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 260)];
     _pickBgView.backgroundColor = [UIColor whiteColor];
@@ -332,8 +332,21 @@
     _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 216)];
     [_datePicker setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hans_CN"]];
     _datePicker.backgroundColor = [UIColor whiteColor];
+    [_datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     [_pickBgView addSubview:_datePicker];
     
+//    NSDate *localDate = [NSDate date];
+//    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:@"NSGregorianCalendar"];
+//    NSDateComponents *offSetComponents = [[NSDateComponents alloc] init];
+//    [offSetComponents setYear:0];
+//    [offSetComponents setMonth:0];
+//    [offSetComponents setDay:5];
+//    [offSetComponents setHour:20];
+//    [offSetComponents setMinute:0];
+//    [offSetComponents setMinute:0];
+//    NSDate *maxDate = [calendar dateByAddingComponents:offSetComponents toDate:localDate options:0];
+//    _datePicker.minimumDate = [NSDate date];
+//    _datePicker.maximumDate = maxDate;
     
     pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 216)];
     pick.backgroundColor = [UIColor whiteColor];
@@ -579,7 +592,7 @@
     
     [self configCoverView];
     
-    [self configPicker];
+    [self configDatePicker];
     [self configTimePicker];
     [self configCityPicker];
     [self configPersonInfo];
@@ -826,6 +839,11 @@
     [_pageViewController setViewControllers:@[_dataArr[btn.tag - 100]] direction:_currentPage > index animated:YES completion:^(BOOL finished) {
         _currentPage = index;
     }];
+}
+
+- (void)dateChanged:(UIDatePicker *)datePicker
+{
+    
 }
 
 - (void)pickerLeftBtnClicked:(UIButton *)btn

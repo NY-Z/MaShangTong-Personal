@@ -1453,8 +1453,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: China railway huaxia New energy car service Co., LTD. (824Z9655RS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: China railway huaxia New energy car service Co., LTD. (824Z9655RS)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1470,7 +1470,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "码尚通-个人端";
-				PROVISIONING_PROFILE = "50542112-9bf1-46f0-9de0-3c69dfac9c07";
+				PROVISIONING_PROFILE = "c778906f-5061-46b7-820f-5ecff36157df";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1560,7 +1560,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "码尚通-个人端";
-				PROVISIONING_PROFILE = "50542112-9bf1-46f0-9de0-3c69dfac9c07";
+				PROVISIONING_PROFILE = "c778906f-5061-46b7-820f-5ecff36157df";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1599,7 +1599,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "码尚通-个人端";
-				PROVISIONING_PROFILE = "50542112-9bf1-46f0-9de0-3c69dfac9c07";
+				PROVISIONING_PROFILE = "c778906f-5061-46b7-820f-5ecff36157df";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

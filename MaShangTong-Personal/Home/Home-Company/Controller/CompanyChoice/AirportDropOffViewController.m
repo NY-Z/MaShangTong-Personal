@@ -471,7 +471,7 @@
     NSUInteger interval = [self transformToDateFormatterWithDateString:_timeBtn.currentTitle];
     [params setObject:[NSString stringWithFormat:@"%lu",(unsigned long)interval] forKey:@"reservation_time"];
 
-    [params setObject:[NSString stringWithFormat:@"%i",_selectedBtn.tag-199] forKey:@"car_type_id"];
+    [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
     [params setObject:@"4" forKey:@"reserva_type"];
     [params setObject:@"71" forKey:@"user_id"];

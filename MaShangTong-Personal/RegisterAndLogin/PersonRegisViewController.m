@@ -151,7 +151,7 @@
     
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=register" params:params success:^(id json) {
         
-        NSLog(@"%@",json);
+        NYLog(@"%@",json);
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         [MBProgressHUD hideHUD];
         if ([resultStr isEqualToString:@"1"]) {
@@ -167,8 +167,9 @@
         }
         
     } failure:^(NSError *error) {
-        
-        NSLog(@"%@",error.localizedDescription);
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"请求超时"];
+        NYLog(@"%@",error.localizedDescription);
         
     }];
 }
@@ -184,7 +185,7 @@
 - (void)timerUpdate
 {
     _timeCount--;
-    [_sendVerificationCodeBtn setTitle:[NSString stringWithFormat:@"%is后重新发送",_timeCount] forState:UIControlStateNormal];
+    [_sendVerificationCodeBtn setTitle:[NSString stringWithFormat:@"%lis后重新发送",(long)_timeCount] forState:UIControlStateNormal];
     if (_timeCount == 0) {
         _timeCount = 60;
         _sendVerificationCodeBtn.enabled = YES;

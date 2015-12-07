@@ -7,6 +7,7 @@
 //
 
 #import "PayChargeViewController.h"
+#import "AccountBalanceViewController.h"
 
 @interface PayChargeViewController () <UIScrollViewDelegate>
 {
@@ -65,7 +66,7 @@
     propertyLabel.font = [UIFont systemFontOfSize:12];
     [contentView addSubview:propertyLabel];
     [propertyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-    
+        
         make.left.equalTo(nameLabel);
         make.top.equalTo(nameLabel.mas_bottom).offset(5);
         make.right.equalTo(nameLabel);
@@ -141,7 +142,7 @@
         }];
     }
     
-    _detailInfoArr = @[@"14元",@"0元",@"2公里",@"0.3kg"];
+    //    _detailInfoArr = @[@"14元",@"0元",@"2公里",@"0.3kg"];
     for (NSInteger i = 0; i < 4; i++) {
         UILabel *label = [[UILabel alloc] init];
         label.text = _detailInfoArr[i];
@@ -160,7 +161,7 @@
     }
     
     UIButton *confirmPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [confirmPayBtn setTitle:@"确认支付14.00元" forState:UIControlStateNormal];
+    [confirmPayBtn setTitle:[NSString stringWithFormat:@"确认支付%.1f元",[_detailInfoArr[0] floatValue]] forState:UIControlStateNormal];
     [confirmPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [confirmPayBtn setBackgroundColor:RGBColor(84, 175, 255, 1.f)];
     confirmPayBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -200,6 +201,12 @@
     navRightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [navRightBtn addTarget:self action:@selector(navRightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightBtn];
+    
+    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    leftBtn.size = CGSizeMake(44, 44);
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
 }
 
 - (void)viewDidLoad {
@@ -214,10 +221,41 @@
     
 }
 
+- (void)backBtnClicked:(UIButton *)btn
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - BtnAction
 - (void)confirmPayBtnClicked:(UIButton *)btn
 {
-    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] forKey:@"user_id"];
+    [params setValue:_detailInfoArr[0] forKey:@"money"];
+    [MBProgressHUD showMessage:@"正在支付，请稍后"];
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
+        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+        [MBProgressHUD hideHUD];
+        if ([resultStr isEqualToString:@"1"]) {
+            [MBProgressHUD showSuccess:@"支付成功"];
+            return ;
+        } else if ([resultStr isEqualToString:@"0"]) {
+            [self confirmPayBtnClicked:btn];
+            return;
+        } else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您的账户余额不足" preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                AccountBalanceViewController *account = [[AccountBalanceViewController alloc] init];
+                [self.navigationController pushViewController:account animated:YES];
+            }]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+            return;
+        }
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"支付失败，请重试"];
+    }];
 }
 
 @end

@@ -8,16 +8,25 @@
 
 #import "CharteredBusViewController.h"
 #import "Masonry.h"
+#import <AMapSearchKit/AMapSearchKit.h>
+#import "MANaviRoute.h"
+#import "CharteredBusRule.h"
 
-@interface CharteredBusViewController () <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate>
+@interface CharteredBusViewController () <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate,AMapSearchDelegate>
 {
     UIScrollView *_scrollView;
     UITextView *remarkTextView;
     UIButton *_selectedBtn;
     UITextField *numberTextField;
-    
+    UILabel *priceLabel;
     UIButton *_durationBtn;
+    NSMutableArray *_CharteredBusRuleArr;
+    
+    AMapSearchAPI *_search;
 }
+
+@property (nonatomic) MANaviRoute * naviRoute;
+
 @end
 
 @implementation CharteredBusViewController
@@ -91,7 +100,7 @@
         
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(bgView).offset(116);
-//            make.width.mas_equalTo(200);
+            //            make.width.mas_equalTo(200);
             make.right.equalTo(bgView).offset(-26);
             make.top.equalTo(bgView).offset(16+i*40);
             make.height.mas_equalTo(20);
@@ -116,12 +125,13 @@
     numberTextField = [[UITextField alloc] init];
     numberTextField.font = [UIFont systemFontOfSize:14];
     numberTextField.placeholder = @"请输入手机号";
+    numberTextField.text = APP_DELEGATE.userModel.mobile;
     numberTextField.delegate = self;
     [bgView addSubview:numberTextField];
     [numberTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(bgView).offset(136);
         make.left.equalTo(bgView).offset(116);
-//        make.size.mas_equalTo(CGSizeMake(200, 20));
+        //        make.size.mas_equalTo(CGSizeMake(200, 20));
         make.right.equalTo(bgView).offset(-26);
     }];
     
@@ -183,7 +193,7 @@
         make.edges.equalTo(remarkBgView).insets(UIEdgeInsetsMake(10, 20, 10, 20));
     }];
     
-    UILabel *priceLabel = [[UILabel alloc] init];
+    priceLabel = [[UILabel alloc] init];
     priceLabel.font = [UIFont systemFontOfSize:15];
     priceLabel.textColor = RGBColor(154, 154, 154, 1.f);
     priceLabel.textAlignment = 1;
@@ -194,8 +204,8 @@
         make.right.equalTo(contentView);
         make.height.mas_equalTo(60);
     }];
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约 300 元"];
-    [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, 3)];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约    元"];
+//    [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, 3)];
     priceLabel.attributedText = attri;
     
     UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -218,9 +228,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self configViews];
+    _CharteredBusRuleArr = [NSMutableArray array];
     
+    [self configViews];
+    [self requestTheRules];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haha:) name:@"CharteredBusViewControllerSourceBtn" object:nil];
+}
+
+- (void)requestTheRules
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:@"2" forKey:@"reserva_type"];
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+        NSLog(@"%@",json);
+        _CharteredBusRuleArr = json[@"info"][@"rule"];
+        NSString *once_price = [NSString stringWithFormat:@"约 %@ 元",json[@"info"][@"rule"][0][@"once_price"]];
+        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:once_price];
+        [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, ((NSString *)json[@"info"][@"rule"][0][@"once_price"]).length)];
+        priceLabel.attributedText = attri;
+        
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"网络错误"];
+    }];
 }
 
 #pragma mark - UITextViewDelegate
@@ -307,20 +336,17 @@
     btn.selected = YES;
     _selectedBtn.selected = NO;
     _selectedBtn = btn;
+    CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_CharteredBusRuleArr[btn.tag-200] error:nil];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约 %@ 元",charteredBusRule.once_price];
+    
 }
 
 - (void)confirmBtnClicked:(UIButton *)btn
 {
-    NYLog(@"%@",_timeBtn.currentTitle);
-    NYLog(@"%@",_durationBtn.currentTitle);
-    NYLog(@"%@",_sourceBtn.currentTitle);
-    NYLog(@"%@",numberTextField.text);
-    NYLog(@"%@",remarkTextView.text);
-    
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:@"71" forKey:@"user_id"];
+    [params setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] forKey:@"user_id"];
     NYLog(@"%i",[Helper justMobile:numberTextField.text]);
     if (![Helper justMobile:numberTextField.text]) {
         [self showAlertViewWithMessage:@"请输入正确手机号"];
@@ -339,7 +365,6 @@
         reservation_type = @"1";
     }
     [params setObject:reservation_type forKey:@"reservation_type"];
-    
     [params setObject:_durationBtn.currentTitle forKey:@"duration_times"];
     [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
@@ -347,18 +372,49 @@
     
     NSString *urlStr = @"http://112.124.115.81/m.php?m=OrderApi&a=usersigle";
     [MBProgressHUD showMessage:@"正在发送订单,请稍候。。。"];
+    PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
     [DownloadManager post:urlStr params:params success:^(id json) {
-        
-//        NYLog(@"%@",[[NSString alloc]initWithData:json encoding:NSUTF8StringEncoding]);
-        
-//        NYLog(@"%@",[NSJSONSerialization JSONObjectWithData:json options:NSJSONReadingMutableContainers error:nil]);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
             [MBProgressHUD hideHUD];
             [MBProgressHUD showSuccess:@"订单发送成功，请等待接单。。。"];
-        });
-        
+            if (self.confirmBtnBlock) {
+                self.confirmBtnBlock(model,json[@"route_id"]);
+            }
+        } else if ([resultStr isEqualToString:@"0"]) {
+            [MBProgressHUD hideHUD];
+            [MBProgressHUD showError:@"您的网络有问题，请重试"];
+        } else if ([resultStr isEqualToString:@"-1"]) {
+            [MBProgressHUD hideHUD];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if (self.confirmBtnBlock) {
+                    self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
+                }
+            }]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [MBProgressHUD showMessage:@"正在取消订单"];
+                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                    
+                    NYLog(@"%@",json);
+                    NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                    [MBProgressHUD hideHUD];
+                    if ([resultStr isEqualToString:@"1"]) {
+                        [MBProgressHUD showSuccess:@"取消订单成功"];
+                    } else {
+                        [MBProgressHUD showError:@"取消订单失败"];
+                    }
+                    
+                    
+                } failure:^(NSError *error) {
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showError:@"请求超时"];
+                    NYLog(@"%@",error.localizedDescription);
+                    
+                }];
+            }]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     } failure:^(NSError *error) {
         
         NYLog(@"post = %@",error);

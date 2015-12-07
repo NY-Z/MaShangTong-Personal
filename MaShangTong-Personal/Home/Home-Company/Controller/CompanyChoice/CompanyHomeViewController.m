@@ -80,7 +80,8 @@
     
     NSArray *titleArr = @[@"专车",@"包车",@"接机",@"送机"];
     CGFloat width = SCREEN_WIDTH/6;
-    for (NSInteger i = 0; i < 1; i++) {
+#warning 上面的Btn
+    for (NSInteger i = 0; i < 2; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(width + i*width, 20, width, 44);
         [btn setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
@@ -170,12 +171,13 @@
     };
     specialCar.destinationBtnBlock = ^(){
         InputViewController *input = [[InputViewController alloc] init];
+        input.textFieldText = @"请输入目的地";
         input.type = InputViewControllerTypeSpecialCarDestination;
         input.destAddress = ^(NSString *destination) {
             [weakSpecialCar.destinationBtn setTitle:destination forState:UIControlStateNormal];
             [weakSpecialCar performSelector:@selector(initNavi)];
         };
-        input.textFieldText = @"请输入目的地";
+        
         [weakSelf presentViewController:input animated:YES completion:^{
             
         }];
@@ -225,7 +227,14 @@
             
         }];
     };
-//    [_dataArr addObject:charteredBus];
+    charteredBus.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
+        WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
+        waitOrderVc.model = model;
+        waitOrderVc.route_id = route_id;
+        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.sourceCoordinate.latitude, delegate.sourceCoordinate.longitude);
+        [self.navigationController pushViewController:waitOrderVc animated:YES];
+    };
+    [_dataArr addObject:charteredBus];
     
     AirportPickupViewController *airportPickup = [[AirportPickupViewController alloc] init];
     airportPickup.flightBtnBlock = ^(){

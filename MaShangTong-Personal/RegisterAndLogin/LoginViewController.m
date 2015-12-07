@@ -121,6 +121,7 @@
             delegate.model1 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][0] error:nil];
             delegate.model2 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][1] error:nil];
             delegate.model3 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][2] error:nil];
+            delegate.valuationRuleArr = json[@"info"][@"rule"];
             
             delegate.valuationRuleArr = json[@"info"][@"rule"];
             [[NSUserDefaults standardUserDefaults] setValue:json[@"user_id"] forKey:@"user_id"];

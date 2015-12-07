@@ -62,6 +62,7 @@
 		105791E61C106DF600E844FA /* PersonRegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105791E41C106DF600E844FA /* PersonRegisViewController.m */; };
 		105791E71C106DF600E844FA /* PersonRegisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105791E51C106DF600E844FA /* PersonRegisViewController.xib */; };
 		10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */; };
+		1879B14A1C15ACD6006FD947 /* CharteredBusRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879B1491C15ACD6006FD947 /* CharteredBusRule.m */; };
 		6D5434111BF2D3FE002E25DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5434101BF2D3FE002E25DA /* Default-568h@2x.png */; };
 		6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434151BF2D8B5002E25DA /* UIView+Extension.m */; };
 		6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434761BF2F112002E25DA /* CommonUtility.m */; };
@@ -311,6 +312,8 @@
 		105791E51C106DF600E844FA /* PersonRegisViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonRegisViewController.xib; sourceTree = "<group>"; };
 		10823F6D1C0EFBB000B3FAB4 /* PayChargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayChargeViewController.h; sourceTree = "<group>"; };
 		10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayChargeViewController.m; sourceTree = "<group>"; };
+		1879B1481C15ACD6006FD947 /* CharteredBusRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharteredBusRule.h; sourceTree = "<group>"; };
+		1879B1491C15ACD6006FD947 /* CharteredBusRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharteredBusRule.m; sourceTree = "<group>"; };
 		261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6D5434101BF2D3FE002E25DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6D5434121BF2D755002E25DA /* MaShangTong.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaShangTong.pch; sourceTree = "<group>"; };
@@ -711,6 +714,8 @@
 				0E21A4601C059862006A722A /* ValuationRuleModel.m */,
 				0EDE8C6F1C06A4FE00356AF1 /* PassengerMessageModel.h */,
 				0EDE8C701C06A4FE00356AF1 /* PassengerMessageModel.m */,
+				1879B1481C15ACD6006FD947 /* CharteredBusRule.h */,
+				1879B1491C15ACD6006FD947 /* CharteredBusRule.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1349,6 +1354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EDE8C8A1C06AE6000356AF1 /* CharteredBusViewController.m in Sources */,
+				1879B14A1C15ACD6006FD947 /* CharteredBusRule.m in Sources */,
 				0EDE8C8D1C06AE6000356AF1 /* InputViewController.m in Sources */,
 				6D5436211BF30F21002E25DA /* openssl_wrapper.m in Sources */,
 				6D5435B71BF30A99002E25DA /* AccountBalanceViewController.m in Sources */,

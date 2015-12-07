@@ -598,10 +598,7 @@
     AMapPath *path = response.route.paths[0];
     self.naviRoute = [MANaviRoute naviRouteForPath:path withNaviType:type];
 //    NSString *price = [NSString stringWithFormat:@"%f(元)", response.route.taxiCost];
-    
-
-//    NYLog(@"price = %@",[NSString stringWithFormat:@"%f(元)", response.route.taxiCost]);
-    NYLog(@"distance = %@",[NSString stringWithFormat:@"%ld(米)", (long)path.distance]);
+//    NYLog(@"distance = %@",[NSString stringWithFormat:@"%ld(米)", (long)path.distance]);
     
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     

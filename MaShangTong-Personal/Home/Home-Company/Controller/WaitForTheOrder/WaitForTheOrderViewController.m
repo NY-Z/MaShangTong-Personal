@@ -257,7 +257,7 @@
     UILabel *navTitleLabel = (UILabel *)self.navigationItem.titleView;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_route_id forKey:@"route_id"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=route_status" params:params success:^(id json) {
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=near_cars" params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         if ([resultStr isEqualToString:@"0"]) {
             return ;
@@ -322,7 +322,7 @@
                     break;
             }
             NSString *locationStr = json[@"location"];
-            if ([locationStr isEqualToString:@"<null>"]) {
+            if (!locationStr) {
                 return;
             }
             CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);

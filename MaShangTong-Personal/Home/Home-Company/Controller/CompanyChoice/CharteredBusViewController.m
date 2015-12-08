@@ -337,7 +337,7 @@
     _selectedBtn.selected = NO;
     _selectedBtn = btn;
     CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_CharteredBusRuleArr[btn.tag-200] error:nil];
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约 %@ 元",charteredBusRule.once_price];
+//    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约 %@ 元",charteredBusRule.once_price];
     
 }
 

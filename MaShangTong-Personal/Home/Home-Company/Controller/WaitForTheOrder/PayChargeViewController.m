@@ -231,13 +231,16 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] forKey:@"user_id"];
-    [params setValue:_detailInfoArr[0] forKey:@"money"];
-    [MBProgressHUD showMessage:@"正在支付，请稍后"];
+    [params setValue:[_detailInfoArr[0] substringToIndex:((NSString *)_detailInfoArr[0]).length-1] forKey:@"money"];
+    [params setValue:@"2" forKey:@"type"];
+    [params setValue:@"2" forKey:@"group_id"];
+    [MBProgressHUD showMessage:@"正在支付，请稍候"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         [MBProgressHUD hideHUD];
         if ([resultStr isEqualToString:@"1"]) {
             [MBProgressHUD showSuccess:@"支付成功"];
+            
             return ;
         } else if ([resultStr isEqualToString:@"0"]) {
             [self confirmPayBtnClicked:btn];

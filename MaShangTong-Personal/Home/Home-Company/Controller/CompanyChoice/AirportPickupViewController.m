@@ -552,7 +552,6 @@
 #pragma mark - NSNotification
 - (void)hengheng:(NSNotification *)notification
 {
-//    NYLog(@"%@",notification.object);
     [sourceBtn setTitle:notification.object forState:UIControlStateNormal];
 }
 

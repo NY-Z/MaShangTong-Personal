@@ -180,6 +180,7 @@
     NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
     [params setValue:userId forKey:@"user_id"];
     [params setValue:@"4" forKey:@"type"];
+    [params setValue:@"2" forKey:@"group_id"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
         
         NYLog(@"%@",json);
@@ -254,9 +255,9 @@
     order.seller = (NSString *)alipaySeller;
     order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
     order.productName = @"码尚通余额充值";
-    order.productDescription = @"我是描述";
-    order.amount = @"0.01";
-    order.notifyURL =  @"http://www.xxx.com"; //回调URL
+    order.productDescription = @"码尚通余额充值";
+    order.amount = @"500";
+    order.notifyURL =  @"http://www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
     order.inputCharset = @"utf-8";
@@ -282,7 +283,11 @@
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
 
             NYLog(@"reslut = %@",resultDic);
-            
+            NSString *resultStatusStr = [NSString stringWithFormat:@"%@",resultDic[@"resultStatus"]];
+            if ([resultStatusStr isEqualToString:@"6001"]) {
+                [MBProgressHUD showError:@"充值失败"];
+                return ;
+            }
             NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             [params setValue:userId forKey:@"user_id"];

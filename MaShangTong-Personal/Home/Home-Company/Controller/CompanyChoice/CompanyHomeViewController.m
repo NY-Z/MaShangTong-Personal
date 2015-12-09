@@ -438,7 +438,7 @@
         }];
     }
     
-    NSArray *durationArr = @[@"4小时（包含45.0公里）",@"8小时（包含90.0公里）"];
+    NSArray *durationArr = @[@"4小时（包含45.0公里）"];
     for (NSInteger i = 0; i < durationArr.count; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setTitle:durationArr[i] forState:UIControlStateNormal];

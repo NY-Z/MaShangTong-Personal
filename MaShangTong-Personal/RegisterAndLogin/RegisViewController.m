@@ -54,14 +54,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     self.navigationController.navigationBar.translucent = NO;
     [self addNavTitle];
     
     // 修改控件的属性
     [self handleTheWidget];
-    
-    
 }
 
 #pragma mark - Action

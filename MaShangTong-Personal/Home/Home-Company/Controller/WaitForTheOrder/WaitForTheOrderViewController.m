@@ -262,7 +262,7 @@
         if ([resultStr isEqualToString:@"0"]) {
             return ;
         }
-        NSString *routeStatus = [NSString stringWithFormat:@"%@",json[@"route_status"]];
+        NSString *routeStatus = [NSString stringWithFormat:@"%@",json[@"data"][@"route_status"]];
         if ([routeStatus isEqualToString:@"0"]) {
             return;
         } else {
@@ -321,8 +321,8 @@
                 default:
                     break;
             }
-            NSString *locationStr = json[@"location"];
-            if (!locationStr) {
+            NSString *locationStr = json[@"data"][@"location"];
+            if ([locationStr isEqualToString:@""]) {
                 return;
             }
             CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);

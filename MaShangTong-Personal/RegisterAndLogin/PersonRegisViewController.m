@@ -54,10 +54,12 @@
     _mobileNumberTextField.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _mobileNumberTextField.layer.borderWidth = 1.f;
     _mobileNumberTextField.layer.cornerRadius = 3.f;
+    _mobileNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
     
     _verificationCodeTextField.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _verificationCodeTextField.layer.borderWidth = 1.f;
     _verificationCodeTextField.layer.cornerRadius = 3.f;
+    _verificationCodeTextField.keyboardType = UIKeyboardTypeNumberPad;
     
     _passwordTextField.layer.borderColor = RGBColor(84, 175, 255, 1.f).CGColor;
     _passwordTextField.layer.borderWidth = 1.f;
@@ -103,7 +105,7 @@
     {
         _random = [_random stringByAppendingFormat:@"%i",(arc4random() % 9)];
     }
-    
+    NYLog(@"%@",_random);
     UIButton *btn = (UIButton *)sender;
     [btn setTitle:@"验证码已发送" forState:UIControlStateNormal];
     btn.enabled = NO;
@@ -192,5 +194,15 @@
         [_sendVerificationCodeBtn setTitle:@"重新发送" forState:UIControlStateNormal];
         [_timer setFireDate:[NSDate distantFuture]];
     }
+}
+
+#pragma mark - dealloc
+- (void)dealloc
+{
+    [_timer setFireDate:[NSDate distantFuture]];
+    if (_timer.valid) {
+       [_timer invalidate];
+    }
+    _timer = nil;
 }
 @end

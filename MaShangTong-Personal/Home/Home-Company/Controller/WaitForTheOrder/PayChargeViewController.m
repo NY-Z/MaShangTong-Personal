@@ -8,6 +8,7 @@
 
 #import "PayChargeViewController.h"
 #import "AccountBalanceViewController.h"
+#import "CompanyHomeViewController.h"
 
 @interface PayChargeViewController () <UIScrollViewDelegate>
 {
@@ -34,7 +35,7 @@
         make.width.equalTo(_scrollView);
     }];
     
-    UIImageView *headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
+    UIImageView *headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dail"]];
     [contentView addSubview:headerImageView];
     [headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         
@@ -240,20 +241,17 @@
         [MBProgressHUD hideHUD];
         if ([resultStr isEqualToString:@"1"]) {
             [MBProgressHUD showSuccess:@"支付成功"];
-            
+            for (UIViewController *vc in self.navigationController.viewControllers) {
+                if ([vc isKindOfClass:[CompanyHomeViewController class]]) {
+                    [self.navigationController popToViewController:vc animated:YES];
+                }
+            }
             return ;
         } else if ([resultStr isEqualToString:@"0"]) {
-            [self confirmPayBtnClicked:btn];
+            [MBProgressHUD showError:@"支付失败，请重试"];
             return;
-        } else {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您的账户余额不足" preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                AccountBalanceViewController *account = [[AccountBalanceViewController alloc] init];
-                [self.navigationController pushViewController:account animated:YES];
-            }]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-            [self presentViewController:alert animated:YES completion:nil];
-            return;
+        } else if ([resultStr isEqualToString:@""]) {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

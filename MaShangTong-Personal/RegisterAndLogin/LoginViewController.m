@@ -24,13 +24,8 @@
 @implementation LoginViewController
 - (void)addNavTitle
 {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
-    label.font = [UIFont systemFontOfSize:15];
-    label.text = @"登录";
-    label.textAlignment = 1;
-    label.font = [UIFont systemFontOfSize:20];
-    label.textColor = RGBColor(97, 190, 254, 1.f);
-    self.navigationItem.titleView = label;
+    self.navigationItem.title = @"登录";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20],NSForegroundColorAttributeName:RGBColor(97, 190, 254, 1.f)}];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:0 target:nil action:nil];
 }

@@ -304,7 +304,7 @@
                         _iscalculateStart = 0;
                         PayChargeViewController *pay = [[PayChargeViewController alloc] init];
 #warning 价格
-                        pay.detailInfoArr = @[[NSString stringWithFormat:@"%li元",_actualDistance*1+14],@"0元",[NSString stringWithFormat:@"%li公里",_actualDistance],@"0.0kg"];
+                        pay.detailInfoArr = @[[NSString stringWithFormat:@"%li元",(long)_actualDistance*1+14],@"0元",[NSString stringWithFormat:@"%li公里",(long)_actualDistance],@"0.0kg"];
                         [self.navigationController pushViewController:pay animated:YES];
                     }
                     _lastState = DriverStateArriveDestination;
@@ -425,7 +425,7 @@
     for (id ann in self.mapView.annotations) {
         if ([ann isKindOfClass:[MAUserLocation class]]) {
             MAUserLocation *userLocation = (MAUserLocation *)ann;
-            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%ld:%ld",((float)path.distance)/1000,_driveringTime/60,_driveringTime%60];
+            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%ld:%ld",((float)path.distance)/1000,(long)_driveringTime/60,(long)_driveringTime%60];
             userLocation.title = annTitle;
         }
     }
@@ -520,7 +520,9 @@
 - (void)dealloc
 {
     NYLog(@"%s",__FUNCTION__);
-    [_timer setFireDate:[NSDate distantFuture]];
+    if (_timer.valid) {
+        [_timer invalidate];
+    }
     _timer = nil;
 }
 

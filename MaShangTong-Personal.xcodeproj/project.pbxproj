@@ -63,7 +63,7 @@
 		105791E71C106DF600E844FA /* PersonRegisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105791E51C106DF600E844FA /* PersonRegisViewController.xib */; };
 		10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */; };
 		1879B14A1C15ACD6006FD947 /* CharteredBusRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879B1491C15ACD6006FD947 /* CharteredBusRule.m */; };
-		6D5434111BF2D3FE002E25DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5434101BF2D3FE002E25DA /* Default-568h@2x.png */; };
+		18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BB20E31C1986F0005123DA /* Default-568h@2x.png */; };
 		6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434151BF2D8B5002E25DA /* UIView+Extension.m */; };
 		6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434761BF2F112002E25DA /* CommonUtility.m */; };
 		6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434791BF2F112002E25DA /* AMapTipAnnotation.m */; };
@@ -314,8 +314,8 @@
 		10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayChargeViewController.m; sourceTree = "<group>"; };
 		1879B1481C15ACD6006FD947 /* CharteredBusRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharteredBusRule.h; sourceTree = "<group>"; };
 		1879B1491C15ACD6006FD947 /* CharteredBusRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharteredBusRule.m; sourceTree = "<group>"; };
+		18BB20E31C1986F0005123DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		6D5434101BF2D3FE002E25DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6D5434121BF2D755002E25DA /* MaShangTong.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaShangTong.pch; sourceTree = "<group>"; };
 		6D5434141BF2D8B5002E25DA /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		6D5434151BF2D8B5002E25DA /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
@@ -1024,7 +1024,7 @@
 		6DD875B51BF21CC2006145E2 = {
 			isa = PBXGroup;
 			children = (
-				6D5434101BF2D3FE002E25DA /* Default-568h@2x.png */,
+				18BB20E31C1986F0005123DA /* Default-568h@2x.png */,
 				6DD875C01BF21CC3006145E2 /* MaShangTong-Personal */,
 				6DD875BF1BF21CC3006145E2 /* Products */,
 				51DB1C8CF43367F3BCD54696 /* Pods */,
@@ -1251,8 +1251,8 @@
 				6D54357D1BF2FA10002E25DA /* wodeyouhuiquan@3x.png in Resources */,
 				6D5435211BF2FA10002E25DA /* agreeBtnSelect@3x.png in Resources */,
 				6D5435331BF2FA10002E25DA /* che2Select@3x.png in Resources */,
-				6D5434111BF2D3FE002E25DA /* Default-568h@2x.png in Resources */,
 				6D5435771BF2FA10002E25DA /* tuijianyoujiang@3x.png in Resources */,
+				18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */,
 				6D54356F1BF2FA10002E25DA /* tianjiayuangong@3x.png in Resources */,
 				6D5435301BF2FA10002E25DA /* che2Deselect@2x.png in Resources */,
 				6D54357C1BF2FA10002E25DA /* wodeyouhuiquan@2x.png in Resources */,
@@ -1479,6 +1479,7 @@
 				PROVISIONING_PROFILE = "c778906f-5061-46b7-820f-5ecff36157df";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = "-Wno-deprecated-declarations";
 			};
 			name = "ad hoc";
 		};
@@ -1522,6 +1523,10 @@
 				PRODUCT_NAME = "码尚通";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
+				WARNING_LDFLAGS = (
+					"-Wno-deprecated-declarations",
+					"-Wno-deprecated-declarations",
+				);
 			};
 			name = "ad hoc";
 		};
@@ -1568,6 +1573,7 @@
 				PRODUCT_NAME = "码尚通-个人端";
 				PROVISIONING_PROFILE = "c778906f-5061-46b7-820f-5ecff36157df";
 				SDKROOT = iphoneos;
+				WARNING_CFLAGS = "-Wno-deprecated-declarations";
 			};
 			name = Debug;
 		};
@@ -1608,6 +1614,7 @@
 				PROVISIONING_PROFILE = "c778906f-5061-46b7-820f-5ecff36157df";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = "-Wno-deprecated-declarations";
 			};
 			name = Release;
 		};
@@ -1650,6 +1657,10 @@
 				PRODUCT_NAME = "码尚通";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
+				WARNING_LDFLAGS = (
+					"-Wno-deprecated-declarations",
+					"-Wno-deprecated-declarations",
+				);
 			};
 			name = Debug;
 		};
@@ -1693,6 +1704,10 @@
 				PRODUCT_NAME = "码尚通";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
+				WARNING_LDFLAGS = (
+					"-Wno-deprecated-declarations",
+					"-Wno-deprecated-declarations",
+				);
 			};
 			name = Release;
 		};

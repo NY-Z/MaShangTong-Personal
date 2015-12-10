@@ -20,4 +20,6 @@
 @property (nonatomic,strong) UIButton *sourceBtn;
 @property (nonatomic,strong) UIButton *durationBtn;
 
+- (void)requestTheRules;
+
 @end

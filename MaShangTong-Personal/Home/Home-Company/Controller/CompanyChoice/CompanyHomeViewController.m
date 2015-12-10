@@ -338,31 +338,33 @@
         make.top.equalTo(_pickBgView);
     }];
     
-    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 216)];
+    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(-20, 44, SCREEN_WIDTH, 216)];
     [_datePicker setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hans_CN"]];
     _datePicker.backgroundColor = [UIColor whiteColor];
     [_datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     [_pickBgView addSubview:_datePicker];
     
-//    NSDate *localDate = [NSDate date];
-//    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:@"NSGregorianCalendar"];
-//    NSDateComponents *offSetComponents = [[NSDateComponents alloc] init];
-//    [offSetComponents setYear:0];
-//    [offSetComponents setMonth:0];
-//    [offSetComponents setDay:5];
-//    [offSetComponents setHour:20];
-//    [offSetComponents setMinute:0];
-//    [offSetComponents setMinute:0];
-//    NSDate *maxDate = [calendar dateByAddingComponents:offSetComponents toDate:localDate options:0];
-//    _datePicker.minimumDate = [NSDate date];
-//    _datePicker.maximumDate = maxDate;
+    NSDate *localDate = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:@"NSGregorianCalendar"];
+    NSDateComponents *offSetComponents = [[NSDateComponents alloc] init];
+    [offSetComponents setYear:0];
+    [offSetComponents setMonth:0];
+    [offSetComponents setDay:5];
+    [offSetComponents setHour:20];
+    [offSetComponents setMinute:0];
+    [offSetComponents setMinute:0];
+    NSDate *maxDate = [calendar dateByAddingComponents:offSetComponents toDate:localDate options:0];
+    _datePicker.minimumDate = [NSDate date];
+    _datePicker.maximumDate = maxDate;
+    _datePicker.backgroundColor = [UIColor cyanColor];
     
     pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 216)];
     pick.backgroundColor = [UIColor whiteColor];
     pick.showsSelectionIndicator = YES;
     pick.dataSource = self;
     pick.delegate = self;
-    [_pickBgView addSubview:pick];
+//    [_pickBgView addSubview:pick];
+    [_pickBgView addSubview:_datePicker];
     
     dateArr = @[@"现在用车",@"今天",[self latelyEightTime][1],[self latelyEightTime][2]];
     hourArr = @[@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23"];

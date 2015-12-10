@@ -11,7 +11,7 @@
 #import "Order.h"
 #import "DataSigner.h"
 #import <AlipaySDK/AlipaySDK.h>
-#import <AFNetworking.h>
+#import "AFNetworking.h"
 
 @interface AccountBalanceViewController () <UIScrollViewDelegate>
 {
@@ -188,9 +188,8 @@
         [MBProgressHUD hideHUD];
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
-        [MBProgressHUD showError:@"请求超时"];
+        [MBProgressHUD showError:@"请求超时，请重试"];
         NYLog(@"%@",error.localizedDescription);
-        
     }];
 }
 

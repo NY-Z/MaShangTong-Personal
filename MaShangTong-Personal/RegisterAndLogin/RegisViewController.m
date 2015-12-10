@@ -27,13 +27,9 @@
 
 - (void)addNavTitle
 {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
-    label.font = [UIFont systemFontOfSize:15];
-    label.text = @"注册";
-    label.textAlignment = 1;
-    label.font = [UIFont systemFontOfSize:20];
-    label.textColor = RGBColor(97, 190, 254, 1.f);
-    self.navigationItem.titleView = label;
+    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20],NSForegroundColorAttributeName:RGBColor(97, 190, 254, 1.f)}];
+    self.navigationItem.title = @"注册";
 }
 
 #pragma mark - HandleTheWidget
@@ -53,10 +49,7 @@
 #pragma mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.navigationController.navigationBar.translucent = NO;
     [self addNavTitle];
-    
     // 修改控件的属性
     [self handleTheWidget];
 }

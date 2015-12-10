@@ -565,4 +565,10 @@
     [_flightBtn setTitle:noti.object forState:UIControlStateNormal];
 }
 
+#pragma mark - dealloc
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 @end

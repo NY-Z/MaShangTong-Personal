@@ -277,7 +277,6 @@
     }];
     
     remarkTextView = [[UITextView alloc] init];
-    remarkTextView.delegate = self;
     remarkTextView.text = @"请输入备注";
     remarkTextView.textColor = RGBColor(127, 127, 127, 1.f);
     remarkTextView.delegate = self;
@@ -501,7 +500,7 @@
     }
     [params setObject:reservation_type forKey:@"reservation_type"];
     
-    NYLog(@"%li",_selectedBtn.tag-200);
+    NYLog(@"%li",(long)_selectedBtn.tag-200);
     [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
     [params setObject:@"1" forKey:@"reserva_type"];

@@ -305,4 +305,13 @@
     UIButton *btn = (UIButton *)sender;
     btn.selected = !btn.selected;
 }
+
+#pragma mark - dealloc
+- (void)dealloc
+{
+    if (_timer.valid) {
+        [_timer invalidate];
+    }
+    _timer = nil;
+}
 @end

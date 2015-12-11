@@ -185,6 +185,7 @@
         
         NYLog(@"%@",json);
         _moneyLabel.text = [NSString stringWithFormat:@"￥%@",json[@"money"]];
+        APP_DELEGATE.userModel.money = [NSString stringWithFormat:@"%.2f",[APP_DELEGATE.userModel.money floatValue] + [json[@"money"] floatValue]];
         [MBProgressHUD hideHUD];
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

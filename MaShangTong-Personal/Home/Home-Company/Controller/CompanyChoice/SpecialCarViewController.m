@@ -500,6 +500,11 @@
     }
     [params setObject:reservation_type forKey:@"reservation_type"];
     
+    if ([delegate.userModel.money floatValue] <= 200) {
+        [MBProgressHUD showError:@"您的余额不足200"];
+        return;
+    }
+    
     NYLog(@"%li",(long)_selectedBtn.tag-200);
     [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];

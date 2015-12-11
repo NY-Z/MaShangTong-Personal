@@ -48,6 +48,7 @@
     self.numberTextField.layer.borderWidth = 1.3;
     self.numberTextField.layer.cornerRadius = 5.f;
     self.numberTextField.keyboardType = UIKeyboardTypePhonePad;
+    [self.numberTextField becomeFirstResponder];
     
     self.codeTextField.secureTextEntry = YES;
     self.codeTextField.layer.borderWidth = 1.3;
@@ -113,13 +114,14 @@
             }
             
             
-            delegate.model1 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][0] error:nil];
-            delegate.model2 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][1] error:nil];
-            delegate.model3 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][2] error:nil];
+//            delegate.model1 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][0] error:nil];
+//            delegate.model2 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][1] error:nil];
+//            delegate.model3 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][2] error:nil];
             delegate.valuationRuleArr = json[@"info"][@"rule"];
             
-            delegate.valuationRuleArr = json[@"info"][@"rule"];
+//            delegate.valuationRuleArr = json[@"info"][@"rule"];
             [[NSUserDefaults standardUserDefaults] setValue:json[@"user_id"] forKey:@"user_id"];
+//            [[NSUserDefaults standardUserDefaults] setValue:json forKey:@""];
             [[NSUserDefaults standardUserDefaults] synchronize];
             delegate.userModel = [[UserModel alloc] initWithDictionary:json[@"info"][@"user_info"] error:nil];
             

@@ -6,6 +6,11 @@
 
 @interface Helper : NSObject
 
++(NSDate*) convertDateFromString:(NSString*)uiDate;
+
++ (NSDate *)dateFromString:(NSString *)dateString;
+
++ (NSString *)stringFromDate:(NSDate *)date;
 
 //字符串文字的长度
 +(CGFloat)widthOfString:(NSString *)string font:(UIFont*)font height:(CGFloat)height;

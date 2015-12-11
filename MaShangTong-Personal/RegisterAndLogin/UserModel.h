@@ -13,5 +13,6 @@
 @property (nonatomic,strong) NSString <Optional> *mobile;
 @property (nonatomic,strong) NSString <Optional> *user_id;
 @property (nonatomic,strong) NSString <Optional> *user_name;
+@property (nonatomic,strong) NSString <Optional> *money;
 
 @end

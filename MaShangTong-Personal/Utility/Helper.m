@@ -6,6 +6,33 @@
 
 @implementation Helper
 
+// 用于UIDatePicker
++(NSDate*) convertDateFromString:(NSString*)uiDate
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
+    NSDate *date=[formatter dateFromString:uiDate];
+    return date;
+}
+
++ (NSDate *)dateFromString:(NSString *)dateString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    NSDate *destDate= [dateFormatter dateFromString:dateString];
+    return destDate;
+}
+
++ (NSString *)stringFromDate:(NSDate *)date
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //zzz表示时区，zzz可以删除，这样返回的日期字符将不包含时区信息。
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    NSString *destDateString = [dateFormatter stringFromDate:date];
+    return destDateString;
+}
 
 +(CGFloat)widthOfString:(NSString *)string font:(UIFont *)font height:(CGFloat)height
 {

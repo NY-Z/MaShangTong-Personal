@@ -37,9 +37,9 @@
     NSInteger _currentPage;
     
     UIPickerView *pick;
-    NSArray *dateArr;
-    NSArray *hourArr;
-    NSArray *minArr;
+    NSMutableArray *dateArr;
+    NSMutableArray *hourArr;
+    NSMutableArray *minArr;
     
     UIDatePicker *_datePicker;
     
@@ -338,51 +338,42 @@
         make.top.equalTo(_pickBgView);
     }];
     
-    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(-20, 44, SCREEN_WIDTH, 216)];
+    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(-16, 44, SCREEN_WIDTH, 216)];
     [_datePicker setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hans_CN"]];
     _datePicker.backgroundColor = [UIColor whiteColor];
     [_datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     [_pickBgView addSubview:_datePicker];
     
-    NSDate *localDate = [NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:@"NSGregorianCalendar"];
-    NSDateComponents *offSetComponents = [[NSDateComponents alloc] init];
-    [offSetComponents setYear:0];
-    [offSetComponents setMonth:0];
-    [offSetComponents setDay:5];
-    [offSetComponents setHour:20];
-    [offSetComponents setMinute:0];
-    [offSetComponents setMinute:0];
-    NSDate *maxDate = [calendar dateByAddingComponents:offSetComponents toDate:localDate options:0];
+//    NSDate *localDate = [NSDate date];
+//    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:@"NSGregorianCalendar"];
+//    NSDateComponents *offSetComponents = [[NSDateComponents alloc] init];
+//    [offSetComponents setYear:0];
+//    [offSetComponents setMonth:0];
+//    [offSetComponents setDay:5];
+//    [offSetComponents setHour:20];
+//    [offSetComponents setMinute:0];
+//    [offSetComponents setMinute:0];
+//    NSDate *maxDate = [calendar dateByAddingComponents:offSetComponents toDate:localDate options:0];
     _datePicker.minimumDate = [NSDate date];
-    _datePicker.maximumDate = maxDate;
-    _datePicker.backgroundColor = [UIColor cyanColor];
+    _datePicker.maximumDate = [NSDate dateWithTimeInterval:24*3600*3 sinceDate:[NSDate date]];
+    _datePicker.minuteInterval = 10;
     
     pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 216)];
     pick.backgroundColor = [UIColor whiteColor];
     pick.showsSelectionIndicator = YES;
     pick.dataSource = self;
     pick.delegate = self;
-//    [_pickBgView addSubview:pick];
-    [_pickBgView addSubview:_datePicker];
     
-    dateArr = @[@"现在用车",@"今天",[self latelyEightTime][1],[self latelyEightTime][2]];
-    hourArr = @[@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23"];
-    minArr = @[@"00",@"10",@"20",@"30",@"40",@"50"];
+    [_pickBgView addSubview:pick];
+//    [_pickBgView addSubview:_datePicker];
     
-    _date = dateArr[0];
-    _hour = hourArr[0];
-    _minute = minArr[0];
-    
-//    NSDate *senddate =[NSDate date];
+    dateArr = [@[@"现在用车",@"今天",[self latelyEightTime][1],[self latelyEightTime][2]] mutableCopy];
+//    hourArr = @[@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23"];
+//    minArr = @[@"00",@"10",@"20",@"30",@"40",@"50"];
     
     NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
     
     [dateformatter setDateFormat:@"HH mm"];
-    
-//    NSString *locationString = [dateformatter stringFromDate:senddate];
-
-//    NYLog(@"locationString:%@,%s",locationString,__FUNCTION__);
     
     UIView *maskView = [[UIView alloc] init];
     maskView.backgroundColor = [UIColor lightGrayColor];
@@ -596,6 +587,9 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     _currentPage = 0;
+    _date = @"现在用车";
+    _hour = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][0];
+    _minute = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][1];
     
     [self configNavigationBar];
     [self configDataArr];
@@ -675,8 +669,40 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    ((UILabel *)[pick viewForRow:row forComponent:component]).textColor = RGBColor(128, 189, 255, 1.f);
-    
+    if (component == 0) {
+        _date = dateArr[row];
+    } else if (component == 1) {
+        _hour = hourArr[row];
+    } else {
+        _minute = minArr[row];
+    }
+    UILabel *label = (UILabel *)[pickerView viewForRow:row forComponent:component];
+    if ([label.text isEqualToString:@"现在用车"]) {
+        hourArr = [@[] mutableCopy];
+        minArr = [@[] mutableCopy];
+        [pick reloadAllComponents];
+    } else if ([label.text isEqualToString:@"今天"]) {
+        NSDate *date = [NSDate date];
+        NSString *dateStr = [Helper stringFromDate:date];
+        hourArr = [@[@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23"] mutableCopy];
+        minArr = [@[@"00",@"10",@"20",@"30",@"40",@"50"] mutableCopy];
+        [hourArr removeObjectsAtIndexes:[[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, [[dateStr componentsSeparatedByString:@":"][0] integerValue] + 1)]];
+        [minArr removeObjectsAtIndexes:[[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, [[dateStr componentsSeparatedByString:@":"][1] integerValue]/10 + 1)]];
+        if (hourArr.count != 0) {
+            _hour = hourArr[0];
+        } else {
+            _hour = 
+        }
+        
+        _minute = minArr[0];
+        [pick reloadAllComponents];
+    } else if (![_date isEqualToString:@"今天"] && ![_date isEqualToString:@"现在用车"]){
+        hourArr = [@[@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23"] mutableCopy];
+        minArr = [@[@"00",@"10",@"20",@"30",@"40",@"50"] mutableCopy];
+        _hour = hourArr[0];
+        _minute = minArr[0];
+        [pick reloadAllComponents];
+    }
     if (component == 0) {
         _date = dateArr[row];
     } else if (component == 1) {
@@ -690,21 +716,39 @@
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/3, 30)];
     
+
     if (component == 0) {
         label.text = dateArr[row];
-        
     } else if (component == 1) {
-        label.text = hourArr[row];
+        if (hourArr) {
+            _hour = hourArr[row];
+            label.text = hourArr[row];
+        }
     } else {
-        label.text = minArr[row];
+        if (minArr) {
+            _minute = minArr[row];
+            label.text = minArr[row];
+        }
     }
+    
     
     label.font = [UIFont systemFontOfSize:14];
     label.textAlignment = 1;
     label.backgroundColor = [UIColor clearColor];
-    
     return label;
 }
+
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+//{
+//    if (component == 0) {
+//        return dateArr[row];
+//    } else if (component == 1) {
+//        return hourArr[row];
+//    } else if (component == 2) {
+//        return minArr[row];
+//    }
+//    return nil;
+//}
 
 #pragma mark - UIPageViewControllerDelegate
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
@@ -874,10 +918,13 @@
 - (void)pickerRightBtnClicked:(UIButton *)btn
 {
     
-    if ([_date isEqualToString:@"现在用车"] || [_date isEqualToString:@"今天"]) {
+    if ([_date isEqualToString:@"现在用车"]) {
+        _date = [self latelyEightTime][0];
+        _hour = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][0];
+        _minute = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][1];
+    } else if ([_date isEqualToString:@"今天"]){
         _date = [self latelyEightTime][0];
     }
-//    NSString *subDate = [_date componentsSeparatedByString:@" "][0];
     NSString *time = [NSString stringWithFormat:@"%@ %@时%@分",_date,_hour,_minute];
     
     [UIView animateWithDuration:0.3 animations:^{
@@ -888,30 +935,24 @@
         id viewcontroller = _dataArr[_currentPage];
         
         if ([viewcontroller isKindOfClass:[SpecialCarViewController class]]) {
-            NYLog(@"11");
-            
             SpecialCarViewController *vc = (SpecialCarViewController *)viewcontroller;
             [vc.timeBtn setTitle:time forState:UIControlStateNormal];
-            
-            
         } else if ([viewcontroller isKindOfClass:[CharteredBusViewController class]]) {
-            NYLog(@"22");
-            
             CharteredBusViewController *vc = (CharteredBusViewController *)viewcontroller;
             [vc.timeBtn setTitle:time forState:UIControlStateNormal];
-            
         } else if ([viewcontroller isKindOfClass:[AirportPickupViewController class]]) {
-            NYLog(@"33");
-            
             AirportPickupViewController *vc = (AirportPickupViewController *)viewcontroller;
             [vc.timeBtn setTitle:time forState:UIControlStateNormal];
-            
         } else { // [AirportDropOffViewController class]
-            NYLog(@"44");
-            
             AirportDropOffViewController *vc = (AirportDropOffViewController *)viewcontroller;
             [vc.timeBtn setTitle:time forState:UIControlStateNormal];
-            
+        }
+        if ([_date isEqualToString:[self latelyEightTime][0]]) {
+            _date = @"现在用车";
+            _hour = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][0];
+            _minute = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][1];
+        } else if ([_date isEqualToString:[self latelyEightTime][0]]){
+            _date = @"今天";
         }
     } completion:^(BOOL finished) {
         _coverView.hidden = !_coverView.hidden;
@@ -927,7 +968,6 @@
         [btn setBackgroundColor:[UIColor whiteColor]];
         [_citySelectBtn setBackgroundColor:[UIColor darkGrayColor]];
         _citySelectBtn = btn;
-        
         [_cityPickBgView bringSubviewToFront:[_cityPickBgView viewWithTag:btn.tag + 100]];
     }
 }

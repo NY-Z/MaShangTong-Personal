@@ -145,7 +145,7 @@
         make.left.equalTo(bgView);
     }];
     
-    NSArray *titleArr = @[@"舒适电动轿车",@"商务电动轿车",@"豪华电动轿车"];
+    NSArray *titleArr = @[@"电动轿车",@"电动中巴车",@"电动大巴车"];
     NSArray *imageArr = @[@"che1Deselect",@"che2Deselect",@"che3Deselect"];
     NSArray *selectImageArr = @[@"che1Select",@"che2Select",@"che3Select"];
     for (NSInteger i = 0; i < titleArr.count; i++) {
@@ -231,7 +231,7 @@
     _CharteredBusRuleArr = [NSMutableArray array];
     
     [self configViews];
-    [self requestTheRules];
+//    [self requestTheRules];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haha:) name:@"CharteredBusViewControllerSourceBtn" object:nil];
 }
 
@@ -240,7 +240,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"2" forKey:@"reserva_type"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
-        NSLog(@"%@",json);
+        NYLog(@"%@",json);
         _CharteredBusRuleArr = json[@"info"][@"rule"];
         NSString *once_price = [NSString stringWithFormat:@"约 %@ 元",json[@"info"][@"rule"][0][@"once_price"]];
         NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:once_price];
@@ -336,6 +336,9 @@
     btn.selected = YES;
     _selectedBtn.selected = NO;
     _selectedBtn = btn;
+    if (_CharteredBusRuleArr.count == 0) {
+        return;
+    }
     CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_CharteredBusRuleArr[btn.tag-200] error:nil];
     NSString *oncePrice = charteredBusRule.once_price;
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",oncePrice]];

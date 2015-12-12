@@ -46,6 +46,9 @@
 
 - (void)configViews
 {
+    NSData *userModelData = [USER_DEFAULT valueForKey:@"user_info"];
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:userModelData];
+    
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.delegate = self;
     _scrollView.backgroundColor = RGBColor(238, 238, 238, 1.f);
@@ -79,7 +82,7 @@
     }];
     
     _moneyLabel = [[UILabel alloc] init];
-    _moneyLabel.text = @"￥0.00";
+    _moneyLabel.text = [NSString stringWithFormat:@"￥ %@",userModel.money];
     _moneyLabel.textAlignment = 1;
     _moneyLabel.textColor = RGBColor(60, 182, 255, 1.f);
     _moneyLabel.font = [UIFont systemFontOfSize:17];
@@ -186,7 +189,7 @@
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
         
         NYLog(@"%@",json);
-        _moneyLabel.text = [NSString stringWithFormat:@"￥%@",json[@"money"]];
+        _moneyLabel.text = [NSString stringWithFormat:@"￥ %@",json[@"money"]];
         [MBProgressHUD hideHUD];
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             userModel.money = json[@"money"];

@@ -116,19 +116,16 @@
                 [USER_DEFAULT setObject:userModelData forKey:@"user_info"];
                 [USER_DEFAULT setValue:@"1" forKey:@"isLogin"];
                 [USER_DEFAULT synchronize];
-                UserModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"user_info"]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (self.type == LoginTypeCompany) {
-                        CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
-                        [self.navigationController pushViewController:companyHome animated:YES];
-                    } else if (self.type == LoginTypePerson) {
-#warning 个人端登录
-                        //                [self.navigationController pushViewController:@"" animated:@""];
-                    }
-                    [MBProgressHUD hideHUD];
-                    [MBProgressHUD showSuccess:@"登陆成功"];
-                });
             });
+            if (self.type == LoginTypeCompany) {
+                CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
+                [self.navigationController pushViewController:companyHome animated:YES];
+            } else if (self.type == LoginTypePerson) {
+#warning 个人端登录
+                //                [self.navigationController pushViewController:@"" animated:@""];
+            }
+            [MBProgressHUD hideHUD];
+            [MBProgressHUD showSuccess:@"登陆成功"];
         } else if ([isSuccessLog isEqualToString:@"0"]) {
             [MBProgressHUD hideHUD];
             [MBProgressHUD showSuccess:@"请输入正确的用户名和密码"];

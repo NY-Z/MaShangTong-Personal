@@ -20,7 +20,7 @@
     UITextField *numberTextField;
     UILabel *priceLabel;
     UIButton *_durationBtn;
-    NSMutableArray *_CharteredBusRuleArr;
+    NSMutableArray *_charteredBusRuleArr;
     
     AMapSearchAPI *_search;
 }
@@ -40,6 +40,9 @@
 
 - (void)configViews
 {
+    NSData *userModelData = [USER_DEFAULT objectForKey:@"user_info"];
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:userModelData];
+    
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.delegate = self;
     _scrollView.backgroundColor = RGBColor(238, 238, 238, 1.f);
@@ -125,7 +128,7 @@
     numberTextField = [[UITextField alloc] init];
     numberTextField.font = [UIFont systemFontOfSize:14];
     numberTextField.placeholder = @"请输入手机号";
-    numberTextField.text = APP_DELEGATE.userModel.mobile;
+    numberTextField.text = userModel.mobile;
     numberTextField.delegate = self;
     [bgView addSubview:numberTextField];
     [numberTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -228,11 +231,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _CharteredBusRuleArr = [NSMutableArray array];
+    _charteredBusRuleArr = [NSMutableArray array];
     
     [self configViews];
-//    [self requestTheRules];
+    [self requestTheRules];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haha:) name:@"CharteredBusViewControllerSourceBtn" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TransportTimeChanged:) name:@"TransportTimeChanged" object:nil];
 }
 
 - (void)requestTheRules
@@ -241,7 +245,7 @@
     [params setValue:@"2" forKey:@"reserva_type"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
         NYLog(@"%@",json);
-        _CharteredBusRuleArr = json[@"info"][@"rule"];
+        _charteredBusRuleArr = json[@"info"][@"rule"];
         NSString *once_price = [NSString stringWithFormat:@"约 %@ 元",json[@"info"][@"rule"][0][@"once_price"]];
         NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:once_price];
         [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, ((NSString *)json[@"info"][@"rule"][0][@"once_price"]).length)];
@@ -336,10 +340,11 @@
     btn.selected = YES;
     _selectedBtn.selected = NO;
     _selectedBtn = btn;
-    if (_CharteredBusRuleArr.count == 0) {
+    if (_charteredBusRuleArr.count == 0) {
+        [MBProgressHUD showError:@"网络延迟"];
         return;
     }
-    CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_CharteredBusRuleArr[btn.tag-200] error:nil];
+    CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_charteredBusRuleArr[btn.tag-200] error:nil];
     NSString *oncePrice = charteredBusRule.once_price;
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",oncePrice]];
     [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, oncePrice.length)];
@@ -351,7 +356,7 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] forKey:@"user_id"];
+    [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     NYLog(@"%i",[Helper justMobile:numberTextField.text]);
     if (![Helper justMobile:numberTextField.text]) {
         [self showAlertViewWithMessage:@"请输入正确手机号"];
@@ -399,7 +404,7 @@
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [MBProgressHUD showMessage:@"正在取消订单"];
-                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
                     
                     NYLog(@"%@",json);
                     NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
@@ -409,13 +414,10 @@
                     } else {
                         [MBProgressHUD showError:@"取消订单失败"];
                     }
-                    
-                    
                 } failure:^(NSError *error) {
                     [MBProgressHUD hideHUD];
                     [MBProgressHUD showError:@"请求超时"];
                     NYLog(@"%@",error.localizedDescription);
-                    
                 }];
             }]];
             [self presentViewController:alert animated:YES completion:nil];
@@ -479,6 +481,11 @@
 - (void)haha:(NSNotification *)noti
 {
     [self.sourceBtn setTitle:noti.object forState:UIControlStateNormal];
+}
+
+- (void)TransportTimeChanged:(NSNotification *)noti
+{
+        [self.timeBtn setTitle:noti.object forState:UIControlStateNormal];
 }
 
 #pragma mark - dealloc

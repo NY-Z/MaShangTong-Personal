@@ -105,43 +105,40 @@
         NSString *isSuccessLog = json[@"data"];
         if ([isSuccessLog isEqualToString:@"1"]) {
             
-            if (self.type == LoginTypeCompany) {
-                CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
-                [self.navigationController pushViewController:companyHome animated:YES];
-            } else if (self.type == LoginTypePerson) {
+            
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                // 耗时的操作
+                delegate.valuationRuleArr = json[@"info"][@"rule"];
+                
+                [USER_DEFAULT setValue:json[@"user_id"] forKey:@"user_id"];
+                UserModel *userModel = [[UserModel alloc] initWithDictionary:json[@"info"][@"user_info"] error:nil];
+                NSData *userModelData = [NSKeyedArchiver archivedDataWithRootObject:userModel];
+                [USER_DEFAULT setObject:userModelData forKey:@"user_info"];
+                [USER_DEFAULT setValue:@"1" forKey:@"isLogin"];
+                [USER_DEFAULT synchronize];
+                UserModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"user_info"]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (self.type == LoginTypeCompany) {
+                        CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
+                        [self.navigationController pushViewController:companyHome animated:YES];
+                    } else if (self.type == LoginTypePerson) {
 #warning 个人端登录
-//                [self.navigationController pushViewController:@"" animated:@""];
-            }
-            
-            
-//            delegate.model1 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][0] error:nil];
-//            delegate.model2 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][1] error:nil];
-//            delegate.model3 = [[ValuationRuleModel alloc] initWithDictionary:json[@"info"][@"rule"][2] error:nil];
-            delegate.valuationRuleArr = json[@"info"][@"rule"];
-            
-//            delegate.valuationRuleArr = json[@"info"][@"rule"];
-            [[NSUserDefaults standardUserDefaults] setValue:json[@"user_id"] forKey:@"user_id"];
-//            [[NSUserDefaults standardUserDefaults] setValue:json forKey:@""];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            delegate.userModel = [[UserModel alloc] initWithDictionary:json[@"info"][@"user_info"] error:nil];
-            
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showSuccess:@"登陆成功"];
-            return ;
+                        //                [self.navigationController pushViewController:@"" animated:@""];
+                    }
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showSuccess:@"登陆成功"];
+                });
+            });
         } else if ([isSuccessLog isEqualToString:@"0"]) {
             [MBProgressHUD hideHUD];
             [MBProgressHUD showSuccess:@"请输入正确的用户名和密码"];
-            return;
         } else if ([isSuccessLog isEqualToString:@"-1"]) {
             [MBProgressHUD hideHUD];
             [MBProgressHUD showError:@"该账号还未注册过"];
-            return;
         } else if ([isSuccessLog isEqualToString:@"2"]) {
             [MBProgressHUD hideHUD];
             [MBProgressHUD showError:@"该账号已在其他客户端注册"];
-            return;
         }
-        
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"请求超时"];

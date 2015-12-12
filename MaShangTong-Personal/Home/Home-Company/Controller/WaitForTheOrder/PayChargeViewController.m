@@ -231,7 +231,7 @@
 - (void)confirmPayBtnClicked:(UIButton *)btn
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] forKey:@"user_id"];
+    [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [params setValue:[_detailInfoArr[0] substringToIndex:((NSString *)_detailInfoArr[0]).length-1] forKey:@"money"];
     [params setValue:@"2" forKey:@"type"];
     [params setValue:@"2" forKey:@"group_id"];

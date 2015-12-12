@@ -41,8 +41,6 @@
     NSMutableArray *hourArr;
     NSMutableArray *minArr;
     
-    UIDatePicker *_datePicker;
-    
     UIView *_coverView;
     
     UIView *_pickBgView;
@@ -80,8 +78,7 @@
     
     NSArray *titleArr = @[@"专车",@"包车",@"接机",@"送机"];
     CGFloat width = SCREEN_WIDTH/6;
-#warning 上面的Btn
-    for (NSInteger i = 0; i < 2; i++) {
+    for (NSInteger i = 0; i < 4; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(width + i*width, 20, width, 44);
         [btn setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
@@ -276,7 +273,7 @@
             
         }];
     };
-//    [_dataArr addObject:airportPickup];
+    [_dataArr addObject:airportPickup];
     
     AirportDropOffViewController *airportDropOff = [[AirportDropOffViewController alloc] init];
     airportDropOff.sourceBtnBlock = ^(){
@@ -303,7 +300,7 @@
             
         }];
     };
-//    [_dataArr addObject:airportDropOff];
+    [_dataArr addObject:airportDropOff];
 }
 
 - (void)configDatePicker
@@ -337,27 +334,7 @@
         make.size.mas_equalTo(CGSizeMake(44, 38));
         make.top.equalTo(_pickBgView);
     }];
-    
-    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(-16, 44, SCREEN_WIDTH, 216)];
-    [_datePicker setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hans_CN"]];
-    _datePicker.backgroundColor = [UIColor whiteColor];
-    [_datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
-    [_pickBgView addSubview:_datePicker];
-    
-//    NSDate *localDate = [NSDate date];
-//    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:@"NSGregorianCalendar"];
-//    NSDateComponents *offSetComponents = [[NSDateComponents alloc] init];
-//    [offSetComponents setYear:0];
-//    [offSetComponents setMonth:0];
-//    [offSetComponents setDay:5];
-//    [offSetComponents setHour:20];
-//    [offSetComponents setMinute:0];
-//    [offSetComponents setMinute:0];
-//    NSDate *maxDate = [calendar dateByAddingComponents:offSetComponents toDate:localDate options:0];
-    _datePicker.minimumDate = [NSDate date];
-    _datePicker.maximumDate = [NSDate dateWithTimeInterval:24*3600*3 sinceDate:[NSDate date]];
-    _datePicker.minuteInterval = 10;
-    
+        
     pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 216)];
     pick.backgroundColor = [UIColor whiteColor];
     pick.showsSelectionIndicator = YES;
@@ -365,11 +342,8 @@
     pick.delegate = self;
     
     [_pickBgView addSubview:pick];
-//    [_pickBgView addSubview:_datePicker];
     
     dateArr = [@[@"现在用车",@"今天",[self latelyEightTime][1],[self latelyEightTime][2]] mutableCopy];
-//    hourArr = @[@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23"];
-//    minArr = @[@"00",@"10",@"20",@"30",@"40",@"50"];
     
     NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
     
@@ -542,15 +516,14 @@
 
 - (void)configPersonInfo
 {
-#warning _personInfoDataArr
-//    _personInfoDataArr = @[@{kPersonInfoTitle:@"员工信息",kPersonInfoImageName:@"yuangongxinxi"},
-//                           @{kPersonInfoTitle:@"我的订单",kPersonInfoImageName:@"wodexingcheng"},
-//                           @{kPersonInfoTitle:@"账户余额",kPersonInfoImageName:@"wodeqianbao"},
-//                           @{kPersonInfoTitle:@"代金券管理",kPersonInfoImageName:@"daijinquan"},
-//                           @{kPersonInfoTitle:@"设置",kPersonInfoImageName:@"shezhi"}];
-    _personInfoDataArr = @[@{kPersonInfoTitle:@"账户余额",kPersonInfoImageName:@"wodeqianbao"}];
+    _personInfoDataArr = @[@{kPersonInfoTitle:@"员工信息",kPersonInfoImageName:@"yuangongxinxi"},
+                           @{kPersonInfoTitle:@"我的订单",kPersonInfoImageName:@"wodexingcheng"},
+                           @{kPersonInfoTitle:@"账户余额",kPersonInfoImageName:@"wodeqianbao"},
+                           @{kPersonInfoTitle:@"代金券管理",kPersonInfoImageName:@"daijinquan"},
+                           @{kPersonInfoTitle:@"设置",kPersonInfoImageName:@"shezhi"}];
+//    _personInfoDataArr = @[@{kPersonInfoTitle:@"账户余额",kPersonInfoImageName:@"wodeqianbao"}];
     self.view.backgroundColor = [UIColor cyanColor];
-    _personInfoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPersonInfoTableViewHeight) style:UITableViewStylePlain];
+    _personInfoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPersonInfoTableViewHeight*5) style:UITableViewStylePlain];
     _personInfoTableView.bounces = NO;
     _personInfoTableView.backgroundColor = [UIColor whiteColor];
     _personInfoTableView.tableFooterView = [UIView new];
@@ -688,13 +661,21 @@
         minArr = [@[@"00",@"10",@"20",@"30",@"40",@"50"] mutableCopy];
         [hourArr removeObjectsAtIndexes:[[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, [[dateStr componentsSeparatedByString:@":"][0] integerValue] + 1)]];
         [minArr removeObjectsAtIndexes:[[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, [[dateStr componentsSeparatedByString:@":"][1] integerValue]/10 + 1)]];
+        if ([[dateStr componentsSeparatedByString:@":"][1] integerValue]/10 == 5) {
+            [hourArr removeObjectsAtIndexes:[[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, 1)]];
+            minArr = [@[@"00",@"10",@"20",@"30",@"40",@"50"] mutableCopy];
+        }
         if (hourArr.count != 0) {
             _hour = hourArr[0];
         } else {
-            _hour = 
+            _hour = [NSString stringWithFormat:@"%li",[[[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][0] integerValue]];
+        }
+        if (minArr.count != 0) {
+            _minute = minArr[0];
+        } else {
+            _minute = @"00";
         }
         
-        _minute = minArr[0];
         [pick reloadAllComponents];
     } else if (![_date isEqualToString:@"今天"] && ![_date isEqualToString:@"现在用车"]){
         hourArr = [@[@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23"] mutableCopy];
@@ -810,10 +791,9 @@
     switch (indexPath.row) {
         case 0:
         {
-//            EmployeeInfoViewController *employeeInfo = [[EmployeeInfoViewController alloc] init];
-//            [self.navigationController pushViewController:employeeInfo animated:YES];
-            AccountBalanceViewController *accountBalance = [[AccountBalanceViewController alloc] init];
-            [self.navigationController pushViewController:accountBalance animated:YES];
+            EmployeeInfoViewController *employeeInfo = [[EmployeeInfoViewController alloc] init];
+            [self.navigationController pushViewController:employeeInfo animated:YES];
+            
             break;
         }
         case 1:
@@ -918,15 +898,15 @@
 - (void)pickerRightBtnClicked:(UIButton *)btn
 {
     
-    if ([_date isEqualToString:@"现在用车"]) {
+    if ([_date isEqualToString:@"今天"]) {
+        _date = [self latelyEightTime][0];
+    } else if ([_date isEqualToString:@"现在用车"]){
         _date = [self latelyEightTime][0];
         _hour = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][0];
         _minute = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][1];
-    } else if ([_date isEqualToString:@"今天"]){
-        _date = [self latelyEightTime][0];
     }
     NSString *time = [NSString stringWithFormat:@"%@ %@时%@分",_date,_hour,_minute];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TransportTimeChanged" object:time];
     [UIView animateWithDuration:0.3 animations:^{
         _pickBgView.y = SCREEN_HEIGHT;
         _timePickerBgView.y = SCREEN_HEIGHT;
@@ -948,11 +928,11 @@
             [vc.timeBtn setTitle:time forState:UIControlStateNormal];
         }
         if ([_date isEqualToString:[self latelyEightTime][0]]) {
+            _date = @"今天";
+        } else if ([_date isEqualToString:[self latelyEightTime][0]]){
             _date = @"现在用车";
             _hour = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][0];
             _minute = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][1];
-        } else if ([_date isEqualToString:[self latelyEightTime][0]]){
-            _date = @"今天";
         }
     } completion:^(BOOL finished) {
         _coverView.hidden = !_coverView.hidden;
@@ -993,7 +973,7 @@
 {
     _coverView.hidden = NO;
     [UIView animateWithDuration:0.3 animations:^{
-        _personInfoTableView.y = SCREEN_HEIGHT-kPersonInfoTableViewHeight;
+        _personInfoTableView.y = SCREEN_HEIGHT-kPersonInfoTableViewHeight*5;
         _personInfoTableView.hidden = NO;
     } completion:^(BOOL finished) {
         

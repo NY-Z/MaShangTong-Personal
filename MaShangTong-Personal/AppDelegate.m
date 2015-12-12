@@ -22,6 +22,7 @@
 
 #import "WaitForTheOrderViewController.h"
 #import "PayChargeViewController.h"
+#import "CompanyHomeViewController.h"
 
 @interface AppDelegate ()
 
@@ -31,11 +32,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-//    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
-//    manager.enable = YES;
-//    manager.shouldResignOnTouchOutside = YES;
-//    manager.shouldToolbarUsesTextFieldTintColor = YES;
-//    manager.enableAutoToolbar = NO;
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;
+    manager.shouldToolbarUsesTextFieldTintColor = YES;
+    manager.enableAutoToolbar = NO;
     
     [MAMapServices sharedServices].apiKey = AMap_ApiKey;
     [AMapSearchServices sharedServices].apiKey = AMap_ApiKey;
@@ -62,7 +63,12 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[RegisViewController alloc] init]];
+    NSString *str = [USER_DEFAULT objectForKey:@"isLogin"];
+    if ([str isEqualToString:@"1"]) {
+        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[CompanyHomeViewController alloc] init]];
+    } else {
+        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[RegisViewController alloc] init]];
+    }
     [self.window makeKeyAndVisible];
 
     return YES;

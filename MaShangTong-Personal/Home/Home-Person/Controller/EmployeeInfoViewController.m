@@ -67,6 +67,7 @@
     [bottomBtn setTitle:@"返回首页" forState:UIControlStateNormal];
     bottomBtn.titleLabel.font = [UIFont systemFontOfSize:11];
     [bottomBtn setTitleColor:RGBColor(165, 165, 165, 1.f) forState:UIControlStateNormal];
+    [bottomBtn addTarget:self action:@selector(backToHome:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bottomBtn];
     [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view);
@@ -109,7 +110,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (!sectionHide[section]) {
+    if (sectionHide[section]) {
         return 0;
     }
     return 3;
@@ -190,6 +191,11 @@
     NSInteger section = tap.view.tag-300;
     sectionHide[section] ^= 1;
     [_tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)backToHome:(UIButton *)btn
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

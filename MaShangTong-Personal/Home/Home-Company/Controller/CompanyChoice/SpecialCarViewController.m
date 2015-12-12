@@ -14,6 +14,7 @@
 #import <AMapNaviKit/AMapNaviKit.h>
 #import "MANaviRoute.h"
 #import "MAMapKit.h"
+#import "SpecialCarRuleModel.h"
 
 @interface SpecialCarViewController () <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate,AMapLocationManagerDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
 {
@@ -30,6 +31,8 @@
     AMapSearchAPI *_search;
     
     UILabel *priceLabel;
+    
+    NSArray *_specialCarArr;
 }
 @property (nonatomic,strong) AMapLocationManager *locationManager;
 @property (nonatomic, strong) AMapNaviManager *naviManager;
@@ -49,7 +52,8 @@
 
 - (void)configViews
 {
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSData *userModelData = [USER_DEFAULT objectForKey:@"user_info"];
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:userModelData];
     
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.delegate = self;
@@ -93,7 +97,7 @@
     
     numberTextField = [[UITextField alloc] init];
     numberTextField.placeholder = @"请输入您的手机号码";
-    numberTextField.text = delegate.userModel.mobile;
+    numberTextField.text = userModel.mobile;
     numberTextField.font = [UIFont systemFontOfSize:14];
     numberTextField.delegate = self;
     numberTextField.keyboardType = UIKeyboardTypePhonePad;
@@ -367,7 +371,7 @@
     AMapDrivingRouteSearchRequest *request = [[AMapDrivingRouteSearchRequest alloc] init];
     request.origin = [AMapGeoPoint locationWithLatitude:delegate.sourceCoordinate.latitude longitude:delegate.sourceCoordinate.longitude];
     request.destination = [AMapGeoPoint locationWithLatitude:delegate.destinationCoordinate.latitude longitude:delegate.destinationCoordinate.longitude];
-    request.strategy = 4;//结合交通实际情况
+    request.strategy = 6;//结合交通实际情况
     request.requireExtension = YES;
     [_search AMapDrivingRouteSearch:request];
     NYLog(@"%f,%f",delegate.sourceCoordinate.latitude,delegate.sourceCoordinate.longitude);
@@ -383,7 +387,22 @@
     
     [self configLocation];
     
+    [self requestTheRules];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceNotification:) name:@"SpecialCarViewController" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TransportTimeChanged:) name:@"TransportTimeChanged" object:nil];
+}
+
+- (void)requestTheRules
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:@"1" forKey:@"reserva_type"];
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+        NYLog(@"%@",json);
+        _specialCarArr = json[@"info"][@"rule"];
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"网络错误"];
+    }];
 }
 
 #pragma mark - UITextViewDelegate
@@ -456,6 +475,10 @@
     btn.selected = YES;
     _selectedBtn.selected = NO;
     _selectedBtn = btn;
+    if (_specialCarArr.count == 0) {
+        [MBProgressHUD showError:@"网络延迟"];
+        return;
+    }
     [self initNavi];
 }
 
@@ -471,9 +494,10 @@
 - (void)confirmBtnClicked:(UIButton *)btn
 {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-
+    UserModel *userModel = [USER_DEFAULT objectForKey:@"user_info"];
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] forKey:@"user_id"];
+    [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     NYLog(@"%i",[Helper justMobile:numberTextField.text]);
     if (![Helper justMobile:numberTextField.text]) {
         [self showAlertViewWithMessage:@"请输入正确手机号"];
@@ -494,13 +518,15 @@
     [params setObject:_destinationBtn.currentTitle forKey:@"end_name"];
     [params setObject:[NSString stringWithFormat:@"%f,%f",delegate.destinationCoordinate.longitude,delegate.destinationCoordinate.latitude] forKey:@"end_coordinates"];
     
+    
+    
     NSString *reservation_type = @"2";
     if ([_timeBtn.currentTitle isEqualToString:@"现在用车"]) {
         reservation_type = @"1";
     }
     [params setObject:reservation_type forKey:@"reservation_type"];
     
-    if ([delegate.userModel.money floatValue] <= 200) {
+    if ([userModel.money floatValue] <= 200) {
         [MBProgressHUD showError:@"您的余额不足200"];
         return;
     }
@@ -534,7 +560,7 @@
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [MBProgressHUD showMessage:@"正在取消订单"];
-                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
                     
                     NYLog(@"%@",json);
                     NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
@@ -604,9 +630,9 @@
 //    NSString *price = [NSString stringWithFormat:@"%f(元)", response.route.taxiCost];
 //    NYLog(@"distance = %@",[NSString stringWithFormat:@"%ld(米)", (long)path.distance]);
     
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    ValuationRuleModel *model = [[ValuationRuleModel alloc] initWithDictionary:delegate.valuationRuleArr[_selectedBtn.tag-200] error:nil];
+    ValuationRuleModel *model = [[ValuationRuleModel alloc] initWithDictionary:_specialCarArr[_selectedBtn.tag-200] error:nil];
     
     NSString *price = [NSString stringWithFormat:@"%.0f",path.distance*([model.mileage floatValue])/1000+[model.step floatValue]];
     
@@ -653,6 +679,11 @@
     NSTimeInterval interval = [[formatter dateFromString:newDateStr] timeIntervalSince1970];
     NYLog(@"%f",[[formatter dateFromString:newDateStr] timeIntervalSince1970]);
     return interval;
+}
+
+- (void)TransportTimeChanged:(NSNotification *)noti
+{
+    [self.timeBtn setTitle:noti.object forState:UIControlStateNormal];
 }
 
 #pragma mark - dealloc

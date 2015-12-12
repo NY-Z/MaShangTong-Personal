@@ -495,7 +495,7 @@
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         [MBProgressHUD showMessage:@"正在取消订单"];
-        [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
+        [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
             
             NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
             [MBProgressHUD hideHUD];

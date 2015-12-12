@@ -63,6 +63,7 @@
 		105791E71C106DF600E844FA /* PersonRegisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105791E51C106DF600E844FA /* PersonRegisViewController.xib */; };
 		10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */; };
 		1879B14A1C15ACD6006FD947 /* CharteredBusRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879B1491C15ACD6006FD947 /* CharteredBusRule.m */; };
+		1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */; };
 		18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BB20E31C1986F0005123DA /* Default-568h@2x.png */; };
 		6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434151BF2D8B5002E25DA /* UIView+Extension.m */; };
 		6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434761BF2F112002E25DA /* CommonUtility.m */; };
@@ -314,6 +315,8 @@
 		10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayChargeViewController.m; sourceTree = "<group>"; };
 		1879B1481C15ACD6006FD947 /* CharteredBusRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharteredBusRule.h; sourceTree = "<group>"; };
 		1879B1491C15ACD6006FD947 /* CharteredBusRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharteredBusRule.m; sourceTree = "<group>"; };
+		1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialCarRuleModel.h; sourceTree = "<group>"; };
+		1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialCarRuleModel.m; sourceTree = "<group>"; };
 		18BB20E31C1986F0005123DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6D5434121BF2D755002E25DA /* MaShangTong.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaShangTong.pch; sourceTree = "<group>"; };
@@ -567,6 +570,7 @@
 		0EDE8C761C06AE6000356AF1 /* CompanyChoice */ = {
 			isa = PBXGroup;
 			children = (
+				1882C4E01C1C1417000DEAE7 /* Model */,
 				0EDE8C7F1C06AE6000356AF1 /* CompanyHomeViewController.h */,
 				0EDE8C801C06AE6000356AF1 /* CompanyHomeViewController.m */,
 				0EDE8C851C06AE6000356AF1 /* SpecialCarViewController.h */,
@@ -657,6 +661,15 @@
 				105791E51C106DF600E844FA /* PersonRegisViewController.xib */,
 			);
 			name = PersonLoginAndRegis;
+			sourceTree = "<group>";
+		};
+		1882C4E01C1C1417000DEAE7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */,
+				1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		51DB1C8CF43367F3BCD54696 /* Pods */ = {
@@ -1383,6 +1396,7 @@
 				6DD875C61BF21CC3006145E2 /* AppDelegate.m in Sources */,
 				6D5434951BF2F112002E25DA /* GeocodeAnnotation.m in Sources */,
 				6D54361E1BF30F21002E25DA /* DataVerifier.m in Sources */,
+				1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */,
 				6D5434921BF2F112002E25DA /* AnimatedAnnotation.m in Sources */,
 				6D54361D1BF30F21002E25DA /* DataSigner.m in Sources */,
 				6D5434961BF2F112002E25DA /* LineDashPolyline.m in Sources */,

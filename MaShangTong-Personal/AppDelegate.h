@@ -30,8 +30,6 @@
 
 @property (nonatomic,strong) NSArray *valuationRuleArr;
 
-// 用户Model
-@property (nonatomic,strong) UserModel *userModel;
 // 实际行驶距离
 @property (nonatomic,assign) NSInteger actualDistance;
 

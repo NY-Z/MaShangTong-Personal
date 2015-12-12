@@ -207,8 +207,8 @@
         [MBProgressHUD hideHUD];
         if ([json[@"result"] isEqualToString:@"1"]) {
             [MBProgressHUD showSuccess:@"注册成功"];
-            [[NSUserDefaults standardUserDefaults] setObject:json[@"user_id"] forKey:@"user_id"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [USER_DEFAULT setObject:json[@"user_id"] forKey:@"user_id"];
+            [USER_DEFAULT synchronize];
             [self.navigationController pushViewController:[[CompanyHomeViewController alloc] init] animated:YES];
         } else if ([json[@"result"] isEqualToString:@"-1"]){
             [MBProgressHUD showError:@"此账号已经注册过了"];

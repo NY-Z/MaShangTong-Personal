@@ -8,7 +8,7 @@
 
 #import <JSONModel/JSONModel.h>
 
-@interface UserModel : JSONModel
+@interface UserModel : JSONModel <NSCoding>
 
 @property (nonatomic,strong) NSString <Optional> *mobile;
 @property (nonatomic,strong) NSString <Optional> *user_id;

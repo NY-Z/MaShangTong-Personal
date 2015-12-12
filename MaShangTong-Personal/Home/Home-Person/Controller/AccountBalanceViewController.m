@@ -176,8 +176,10 @@
 - (void)showAccountBalance
 {
     [MBProgressHUD showMessage:@"查询余额"];
+    NSData *userModelData = [USER_DEFAULT objectForKey:@"user_info"];
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:userModelData];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
+    NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
     [params setValue:userId forKey:@"user_id"];
     [params setValue:@"4" forKey:@"type"];
     [params setValue:@"2" forKey:@"group_id"];
@@ -185,8 +187,13 @@
         
         NYLog(@"%@",json);
         _moneyLabel.text = [NSString stringWithFormat:@"￥%@",json[@"money"]];
-        APP_DELEGATE.userModel.money = [NSString stringWithFormat:@"%.2f",[APP_DELEGATE.userModel.money floatValue] + [json[@"money"] floatValue]];
         [MBProgressHUD hideHUD];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            userModel.money = json[@"money"];
+            [USER_DEFAULT setObject:[NSKeyedArchiver archivedDataWithRootObject:userModel] forKey:@"user_info"];
+            [USER_DEFAULT synchronize];
+        });
+        
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"请求超时，请重试"];
@@ -288,7 +295,7 @@
                 [MBProgressHUD showError:@"充值失败"];
                 return ;
             }
-            NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
+            NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
             [params setValue:userId forKey:@"user_id"];
             [params setValue:order.amount forKey:@"money"];

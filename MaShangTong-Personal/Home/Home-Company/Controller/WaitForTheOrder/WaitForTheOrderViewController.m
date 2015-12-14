@@ -322,7 +322,7 @@
                     break;
             }
             NSString *locationStr = json[@"data"][@"location"];
-            if ([locationStr isEqualToString:@""]) {
+            if ([locationStr isEqualToString:@"0"]) {
                 return;
             }
             CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);

@@ -17,6 +17,7 @@
 {
     UIScrollView *_scrollView;
     UIButton *_selectPayBtn;
+    UITextField *_payChargeTextField;
 }
 
 @property (nonatomic,strong) UILabel *moneyLabel;
@@ -101,6 +102,7 @@
     [bankCardBtn setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateSelected];
     bankCardBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [bankCardBtn addTarget:self action:@selector(payBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    bankCardBtn.tag = 1000;
     [contentView addSubview:bankCardBtn];
     bankCardBtn.selected = YES;
     [bankCardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,6 +120,7 @@
     [alipayBtn setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateSelected];
     alipayBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [alipayBtn addTarget:self action:@selector(payBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    alipayBtn.tag = 2000;
     [contentView addSubview:alipayBtn];
     [alipayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(bankCardBtn.mas_bottom);
@@ -133,6 +136,7 @@
     [wxBtn setImage:[UIImage imageNamed:@"payBtnDeselect"] forState:UIControlStateNormal];
     [wxBtn setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateSelected];
     [wxBtn addTarget:self action:@selector(payBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    wxBtn.tag = 3000;
     [contentView addSubview:wxBtn];
     [wxBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(alipayBtn.mas_bottom);
@@ -141,16 +145,31 @@
         make.height.equalTo(alipayBtn);
     }];
     
+    _payChargeTextField = [[UITextField alloc] init];
+    _payChargeTextField.borderStyle = UITextBorderStyleRoundedRect;
+    _payChargeTextField.keyboardType = UIKeyboardTypeNumberPad;
+    _payChargeTextField.layer.borderColor = RGBColor(98, 190, 254, 1.f).CGColor;
+    _payChargeTextField.layer.borderWidth = 1.f;
+    _payChargeTextField.layer.cornerRadius = 3.f;
+    _payChargeTextField.placeholder = @"充值价格";
+    [contentView addSubview:_payChargeTextField];
+    [_payChargeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(wxBtn.mas_bottom).offset(12);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(33);
+        make.centerX.equalTo(contentView);
+    }];
+    
     UIButton *rechargeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [rechargeBtn setTitle:@"充值" forState:UIControlStateNormal];
     [rechargeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [rechargeBtn setBackgroundColor:RGBColor(98, 190, 254, 1.f)];
     rechargeBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     rechargeBtn.layer.cornerRadius = 3.f;
-    [rechargeBtn addTarget:self action:@selector(rechargeBtnClicked1:) forControlEvents:UIControlEventTouchUpInside];
+    [rechargeBtn addTarget:self action:@selector(rechargeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [contentView addSubview:rechargeBtn];
     [rechargeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(wxBtn.mas_bottom).offset(30);
+        make.top.equalTo(_payChargeTextField.mas_bottom).offset(30);
         make.centerX.equalTo(contentView);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(30);
@@ -220,10 +239,32 @@
     _selectPayBtn = btn;
 }
 
-- (void)rechargeBtnClicked1:(UIButton *)btn
+- (void)rechargeBtnClicked:(UIButton *)btn
 {
-    NYLog(@"------------");
-    [self payAlipay];
+    NYLog(@"%@",_selectPayBtn.currentTitle);
+    if (![_payChargeTextField.text floatValue]) {
+        [MBProgressHUD showError:@"请输入余额"];
+        return;
+    }
+    switch (_selectPayBtn.tag) {
+        case 1000:
+        {
+            
+            break;
+        }
+        case 2000:
+        {
+            [self payAlipay];
+            break;
+        }
+        case 3000:
+        {
+            
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 -(void)payAlipay
@@ -266,7 +307,7 @@
     order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
     order.productName = @"码尚通余额充值";
     order.productDescription = @"码尚通余额充值";
-    order.amount = @"500";
+    order.amount = _payChargeTextField.text;
     order.notifyURL =  @"http://www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";

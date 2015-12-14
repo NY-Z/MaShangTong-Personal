@@ -147,7 +147,7 @@
     else if (self.type == InputViewControllerTypeSpecialCarSource) {
         
         delegate.sourceCoordinate = CLLocationCoordinate2DMake(p.location.latitude, p.location.longitude);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"SpecialCarViewController" object:cell.textLabel.text];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SpecialCarViewControllerSource" object:cell.textLabel.text];
         
     } else if (self.type == InputViewControllerTypeCharteredBusSource) {
         
@@ -212,18 +212,12 @@
     }
     //处理搜索结果
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//    NSString *strCount = [NSString stringWithFormat:@"count: %ld", (long)response.count];
     NSString *strGeocodes = @"";
-    //    NYLog(@"%li",response.geocodes.count);
     for (AMapTip *p in response.geocodes) {
         strGeocodes = [NSString stringWithFormat:@"%@\ngeocode: %@", strGeocodes, p.description];
-//        NYLog(@"%@",strGeocodes);
         NYLog(@"%f,%f",p.location.latitude,p.location.longitude);
         delegate.destinationCoordinate = CLLocationCoordinate2DMake(p.location.latitude, p.location.longitude);
     }
-//    NSString *result = [NSString stringWithFormat:@"%@ \n %@", strCount, strGeocodes];
-//    NYLog(@"Geocode: %@", result);
-//    NYLog(@"%@",result);
 }
 
 #pragma mark - POI-Search
@@ -234,20 +228,9 @@
     {
         return;
     }
-//    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-//    通过 AMapPOISearchResponse 对象处理搜索结果
-//    NSString *strCount = [NSString stringWithFormat:@"count: %ld",response.count];
-//    NSString *strSuggestion = [NSString stringWithFormat:@"Suggestion: %@", response.suggestion];
-//    NSString *strPoi = @"";
     [_poiResultArr removeAllObjects];
-    for (AMapPOI *p in response.pois) {
-//        strPoi = [NSString stringWithFormat:@"%@\nPOI: %@", strPoi, p.description];
-        [_poiResultArr addObject:p];
-    }
     [_poiResultArr addObjectsFromArray:response.pois];
     [_tableView reloadData];
-//    NSString *result = [NSString stringWithFormat:@"%@ \n %@ \n %@", strCount, strSuggestion, strPoi];
-//    NYLog(@"Place: %@", result);
 }
 /*
  // 基础信息

@@ -8,14 +8,16 @@
 
 #import "AirPortViewController.h"
 #import "Masonry.h"
+#import "AMapSearchAPI.h"
 
 #define kTitleLabelText @"titleLabel"
 #define kDetailLabelText @"detailTitleLabel"
 
-@interface AirPortViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface AirPortViewController () <UITableViewDataSource,UITableViewDelegate,AMapSearchDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
-@property (nonatomic,strong) NSArray *dataArr;
+@property (nonatomic,strong) NSMutableArray *dataArr;
+@property (nonatomic,strong) AMapSearchAPI *search;
 
 @end
 
@@ -46,18 +48,18 @@
         make.width.mas_equalTo(33);
     }];
     
-    UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [confirmBtn setTitleColor:RGBColor(98, 190, 255, 1.f) forState:UIControlStateNormal];
-    confirmBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    [confirmBtn addTarget:self action:@selector(confirmBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [barBgView addSubview:confirmBtn];
-    [confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(barBgView).offset(-15);
-        make.top.equalTo(barBgView).offset(16);
-        make.bottom.equalTo(barBgView).offset(-16);
-        make.width.mas_equalTo(33);
-    }];
+//    UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
+//    [confirmBtn setTitleColor:RGBColor(98, 190, 255, 1.f) forState:UIControlStateNormal];
+//    confirmBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+//    [confirmBtn addTarget:self action:@selector(confirmBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [barBgView addSubview:confirmBtn];
+//    [confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(barBgView).offset(-15);
+//        make.top.equalTo(barBgView).offset(16);
+//        make.bottom.equalTo(barBgView).offset(-16);
+//        make.width.mas_equalTo(33);
+//    }];
     
     UIView *barrierView = [[UIView alloc] init];
     barrierView.backgroundColor = RGBColor(227, 227, 229, 1.f);
@@ -81,12 +83,25 @@
 
 - (void)configDataSource
 {
-    _dataArr = @[@{kTitleLabelText:@"首都机场T3航站楼",kDetailLabelText:@"北京市顺义区二经路"},
-                 @{kTitleLabelText:@"首都机场T1航站楼",kDetailLabelText:@"北京市顺义区首都机场路"},
-                 @{kTitleLabelText:@"南苑机场",kDetailLabelText:@"北京市丰台区南苑南四环警备东路"},
-                 @{kTitleLabelText:@"首都机场",kDetailLabelText:@"北京市顺义区首都机场路"},
-                 @{kTitleLabelText:@"首都机场T航站楼",kDetailLabelText:@"北京市顺义区首都机场路"}];
+//    _dataArr = @[@{kTitleLabelText:@"虹桥机场T1航站楼",kDetailLabelText:@"121.346199,31.194177"},
+//                 @{kTitleLabelText:@"虹桥机场T2航站楼",kDetailLabelText:@"121.327896,31.192555"},
+//                 @{kTitleLabelText:@"浦东机场T1航站楼",kDetailLabelText:@"121.803360,31.149280"},
+//                 @{kTitleLabelText:@"浦东机场T2航站楼",kDetailLabelText:@"121.809733,31.151115"},
+//                 @{kTitleLabelText:@"虹桥高铁",kDetailLabelText:@"121.321492,31.194196"}];
+    _dataArr = [NSMutableArray array];
+    _search = [[AMapSearchAPI alloc] init];
+    _search.delegate = self;
     
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        AMapPOIKeywordsSearchRequest *keywordsRequest = [[AMapPOIKeywordsSearchRequest alloc] init];
+        keywordsRequest.keywords = @"飞机场";
+        keywordsRequest.city = @"上海";
+        keywordsRequest.sortrule = 1;
+        keywordsRequest.requireExtension = 1;
+        keywordsRequest.sortrule = 1;
+        [_search AMapPOIKeywordsSearch:keywordsRequest];
+    });
 }
 
 - (void)viewDidLoad {
@@ -94,10 +109,9 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self configViews];
-    [self configDataSource];
     [self configTableView];
+    [self configDataSource];
     
-
 }
 
 #pragma mark - UITableViewDelegate
@@ -115,20 +129,31 @@
         cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    cell.textLabel.text = _dataArr[indexPath.row][kTitleLabelText];
-    cell.detailTextLabel.text = _dataArr[indexPath.row][kDetailLabelText];
+    AMapPOI *p = _dataArr[indexPath.row];
+    cell.textLabel.text = p.name;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *title = _dataArr[indexPath.row][kTitleLabelText];
+    AMapPOI *p = _dataArr[indexPath.row];
     if (self.type == AirPortViewControllerTypePickUp) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"xuanzejichang" object:title];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"xuanzejichang" object:p];
     } else if (self.type == AirPortViewControllerTypeDropOff) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AirPortDropOffChooseFlight" object:title];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AirPortDropOffChooseFlight" object:p];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - AMapSearchDelegate
+- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
+{
+    if(response.pois.count == 0)
+    {
+        return;
+    }
+    [_dataArr addObjectsFromArray:response.pois];
+    [_tableView reloadData];
 }
 
 #pragma mark - Action
@@ -137,11 +162,6 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
-}
-
-- (void)confirmBtnClicked:(UIButton *)btn
-{
-    
 }
 
 @end

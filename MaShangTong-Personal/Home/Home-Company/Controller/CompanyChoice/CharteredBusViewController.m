@@ -88,7 +88,7 @@
         }];
     }
     
-    NSArray *titleBtn = @[@"4小时（包含45.0公里）",@"现在用车",@"上海"];
+    NSArray *titleBtn = @[@"4小时（包含45.0公里）",@"现在用车",@"您要从哪儿出发？"];
     for (NSInteger i = 0; i < 3; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -198,6 +198,7 @@
     
     priceLabel = [[UILabel alloc] init];
     priceLabel.font = [UIFont systemFontOfSize:15];
+    priceLabel.text = @"约     元";
     priceLabel.textColor = RGBColor(154, 154, 154, 1.f);
     priceLabel.textAlignment = 1;
     [contentView addSubview:priceLabel];
@@ -207,9 +208,6 @@
         make.right.equalTo(contentView);
         make.height.mas_equalTo(60);
     }];
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约    元"];
-//    [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, 3)];
-    priceLabel.attributedText = attri;
     
     UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [confirmBtn setTitle:@"确认用车" forState:UIControlStateNormal];
@@ -485,7 +483,7 @@
 
 - (void)TransportTimeChanged:(NSNotification *)noti
 {
-        [self.timeBtn setTitle:noti.object forState:UIControlStateNormal];
+    [self.timeBtn setTitle:noti.object forState:UIControlStateNormal];
 }
 
 #pragma mark - dealloc

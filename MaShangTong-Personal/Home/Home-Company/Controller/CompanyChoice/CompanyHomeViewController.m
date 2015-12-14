@@ -174,7 +174,6 @@
             [weakSpecialCar.destinationBtn setTitle:destination forState:UIControlStateNormal];
             [weakSpecialCar performSelector:@selector(initNavi)];
         };
-        
         [weakSelf presentViewController:input animated:YES completion:^{
             
         }];
@@ -234,6 +233,7 @@
     [_dataArr addObject:charteredBus];
     
     AirportPickupViewController *airportPickup = [[AirportPickupViewController alloc] init];
+    __weak typeof(airportPickup) weakAirportPickup = airportPickup;
     airportPickup.flightBtnBlock = ^(){
         FlightNoViewController *flightNo = [[FlightNoViewController alloc] init];
         [weakSelf presentViewController:flightNo animated:YES completion:^{
@@ -259,7 +259,7 @@
     airportPickup.destinationBtnBlock = ^(){
         InputViewController *input = [[InputViewController alloc] init];
         input.type = InputViewControllerTypeAirportPickUpDestination;
-        input.textFieldText = @"请输入出发地";
+        input.textFieldText = @"请输入您的目的地";
         [weakSelf presentViewController:input animated:YES completion:^{
             
         }];
@@ -272,6 +272,13 @@
         } completion:^(BOOL finished) {
             
         }];
+    };
+    airportPickup.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
+        WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
+        waitOrderVc.model = model;
+        waitOrderVc.route_id = route_id;
+        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.sourceCoordinate.latitude, delegate.sourceCoordinate.longitude);
+        [self.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:airportPickup];
     
@@ -361,7 +368,7 @@
     _pickBgView.hidden = YES;
 }
 
-- (void)configTimePicker
+- (void)configTransportTimePicker
 {
     _timePickerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216)];
     _timePickerBgView.backgroundColor = [UIColor whiteColor];
@@ -373,7 +380,7 @@
     [leftBtn setTitle:@"取消" forState:UIControlStateNormal];
     leftBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [leftBtn setTitleColor:RGBColor(98, 190, 255, 1.f) forState:UIControlStateNormal];
-    [leftBtn addTarget:self action:@selector(pickerLeftBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [leftBtn addTarget:self action:@selector(transportTimeLeftBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_timePickerBgView addSubview:leftBtn];
     [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_timePickerBgView).offset(26);
@@ -381,19 +388,19 @@
         make.top.equalTo(_timePickerBgView).offset(0);
     }];
     
-    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setTitle:@"确定" forState:UIControlStateNormal];
-    rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [rightBtn setTitleColor:RGBColor(98, 190, 255, 1.f) forState:UIControlStateNormal];
-    [rightBtn addTarget:self action:@selector(pickerRightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_timePickerBgView addSubview:rightBtn];
-    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_timePickerBgView).offset(-26);
-        make.size.mas_equalTo(CGSizeMake(44, 44));
-        make.top.equalTo(_timePickerBgView);
-    }];
+//    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [rightBtn setTitle:@"确定" forState:UIControlStateNormal];
+//    rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [rightBtn setTitleColor:RGBColor(98, 190, 255, 1.f) forState:UIControlStateNormal];
+//    [rightBtn addTarget:self action:@selector(transportTimeRightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [_timePickerBgView addSubview:rightBtn];
+//    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(_timePickerBgView).offset(-26);
+//        make.size.mas_equalTo(CGSizeMake(44, 44));
+//        make.top.equalTo(_timePickerBgView);
+//    }];
     
-    for (NSInteger i = 0; i < 3; i++) {
+    for (NSInteger i = 0; i < 2; i++) {
         UIView *view = [[UILabel alloc] init];
         view.backgroundColor = RGBColor(214, 214, 214, 1.f);
         [_timePickerBgView addSubview:view];
@@ -571,7 +578,7 @@
     [self configCoverView];
     
     [self configDatePicker];
-    [self configTimePicker];
+    [self configTransportTimePicker];
     [self configCityPicker];
     [self configPersonInfo];
 }
@@ -904,6 +911,34 @@
         _date = [self latelyEightTime][0];
         _hour = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][0];
         _minute = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][1];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TransportTimeChanged" object:@"现在用车"];
+        [UIView animateWithDuration:0.3 animations:^{
+            _pickBgView.y = SCREEN_HEIGHT;
+            _timePickerBgView.y = SCREEN_HEIGHT;
+            _cityPickBgView.y = SCREEN_HEIGHT;
+            
+            id viewcontroller = _dataArr[_currentPage];
+            
+            if ([viewcontroller isKindOfClass:[SpecialCarViewController class]]) {
+                SpecialCarViewController *vc = (SpecialCarViewController *)viewcontroller;
+                [vc.timeBtn setTitle:@"现在用车" forState:UIControlStateNormal];
+            } else if ([viewcontroller isKindOfClass:[CharteredBusViewController class]]) {
+                CharteredBusViewController *vc = (CharteredBusViewController *)viewcontroller;
+                [vc.timeBtn setTitle:@"现在用车" forState:UIControlStateNormal];
+            } else if ([viewcontroller isKindOfClass:[AirportPickupViewController class]]) {
+                AirportPickupViewController *vc = (AirportPickupViewController *)viewcontroller;
+                [vc.timeBtn setTitle:@"现在用车" forState:UIControlStateNormal];
+            } else { // [AirportDropOffViewController class]
+                AirportDropOffViewController *vc = (AirportDropOffViewController *)viewcontroller;
+                [vc.timeBtn setTitle:@"现在用车" forState:UIControlStateNormal];
+            }
+        } completion:^(BOOL finished) {
+            _coverView.hidden = !_coverView.hidden;
+            _pickBgView.hidden = YES;
+            _timePickerBgView.hidden = YES;
+            _cityPickBgView.hidden = YES;
+        }];
+        return;
     }
     NSString *time = [NSString stringWithFormat:@"%@ %@时%@分",_date,_hour,_minute];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TransportTimeChanged" object:time];
@@ -968,6 +1003,26 @@
         [vc.durationBtn setTitle:btn.currentTitle forState:UIControlStateNormal];
     }
 }
+
+- (void)transportTimeLeftBtnClicked:(UIButton *)btn
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        _timePickerBgView.y = SCREEN_HEIGHT;
+    } completion:^(BOOL finished) {
+        _coverView.hidden = YES;
+        _timePickerBgView.hidden = YES;
+    }];
+}
+
+//- (void)transportTimeRightBtnClicked:(UIButton *)btn
+//{
+//    [UIView animateWithDuration:0.3 animations:^{
+//        _timePickerBgView.y = SCREEN_HEIGHT;
+//    } completion:^(BOOL finished) {
+//        _coverView.hidden = YES;
+//        _timePickerBgView.hidden = YES;
+//    }];
+//}
 
 - (void)leftBarButtonItemClicked:(UIButton *)btn
 {

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PassengerMessageModel.h"
 
 @interface AirportPickupViewController : UIViewController
 
@@ -15,6 +16,7 @@
 @property (nonatomic,strong) void (^destinationBtnBlock) ();
 @property (nonatomic,strong) void (^sourceBtnBlock) ();
 @property (nonatomic,strong) void (^addressBtnBlock) ();
+@property (nonatomic,strong) void (^confirmBtnBlock) (PassengerMessageModel *model,NSString *route_id);
 
 // Test
 //@property (nonatomic,strong) UIButton *sourceBtn;

@@ -9,6 +9,7 @@
 #import "EmployeeInfoViewController.h"
 #import "Masonry.h"
 #import "EmployeeInfoCell.h"
+#import "AddEmployeeViewController.h"
 
 #define kHeader @"header"
 #define kName @"name"
@@ -17,7 +18,7 @@
 @interface EmployeeInfoViewController () <UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
-    NSArray *_dataArr;
+    NSMutableArray *_dataArr;
     
     int sectionHide[3];
 }
@@ -50,9 +51,6 @@
 
 - (void)configTableView
 {
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
-//    view.backgroundColor = [UIColor cyanColor];
-    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-94) style:UITableViewStylePlain];
     _tableView.tableFooterView = [UIView new];
     _tableView.showsVerticalScrollIndicator = YES;
@@ -64,10 +62,10 @@
 - (void)configBottomBar
 {
     UIButton *bottomBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [bottomBtn setTitle:@"返回首页" forState:UIControlStateNormal];
+    [bottomBtn setTitle:@"添加分组" forState:UIControlStateNormal];
     bottomBtn.titleLabel.font = [UIFont systemFontOfSize:11];
     [bottomBtn setTitleColor:RGBColor(165, 165, 165, 1.f) forState:UIControlStateNormal];
-    [bottomBtn addTarget:self action:@selector(backToHome:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomBtn addTarget:self action:@selector(addGroup:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bottomBtn];
     [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view);
@@ -80,11 +78,12 @@
 #pragma mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _dataArr = [NSMutableArray array];
     
     [self configNavigationBar];
     [self configBottomBar];
-    [self configDataSource];
     [self configTableView];
+    [self configDataSource];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -97,15 +96,22 @@
 #pragma mark - DataSource
 - (void)configDataSource
 {
-    _dataArr = @[@[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}],
-                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}],
-                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}]];
+//    _dataArr = @[@[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}],
+//                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}],
+//                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}]];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid"];
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
+        NYLog(@"%@",json);
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"网络错误"];
+    }];
 }
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return _dataArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -157,12 +163,12 @@
     UITapGestureRecognizer *sectionHeaderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sectionHeaderTaped:)];
     [bgView addGestureRecognizer:sectionHeaderTap];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(26, 0, SCREEN_WIDTH-26, 30)];
-    label.text = [NSString stringWithFormat:@"第 %ld 组",(long)section+1];
-    label.textColor = RGBColor(98, 190, 255, 1.f);
-    label.backgroundColor = RGBColor(238,238,238,1.f);
-    label.font = [UIFont systemFontOfSize:14];
-    [bgView addSubview:label];
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(26, 0, SCREEN_WIDTH/2-26, 30)];
+    textField.text = [NSString stringWithFormat:@"第 %ld 组",(long)section+1];
+    textField.textColor = RGBColor(98, 190, 255, 1.f);
+    textField.backgroundColor = RGBColor(238,238,238,1.f);
+    textField.font = [UIFont systemFontOfSize:14];
+    [bgView addSubview:textField];
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"zhishijiantou"]];
     [bgView addSubview:imageView];
@@ -171,7 +177,6 @@
         make.centerY.equalTo(bgView);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
-    
     return bgView;
 }
 
@@ -183,7 +188,7 @@
 
 - (void)rightBarButtonItemClicked:(UIButton *)btn
 {
-    
+    [self.navigationController pushViewController:[[AddEmployeeViewController alloc] init] animated:YES];
 }
 
 - (void)sectionHeaderTaped:(UITapGestureRecognizer *)tap
@@ -193,7 +198,7 @@
     [_tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void)backToHome:(UIButton *)btn
+- (void)addGroup:(UIButton *)btn
 {
     [self.navigationController popViewControllerAnimated:YES];
 }

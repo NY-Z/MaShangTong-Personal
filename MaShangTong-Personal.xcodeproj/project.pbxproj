@@ -62,6 +62,9 @@
 		105791E61C106DF600E844FA /* PersonRegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105791E41C106DF600E844FA /* PersonRegisViewController.m */; };
 		105791E71C106DF600E844FA /* PersonRegisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105791E51C106DF600E844FA /* PersonRegisViewController.xib */; };
 		10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */; };
+		180378771C1D4C7900F4FDCB /* AirportPickupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180378761C1D4C7900F4FDCB /* AirportPickupModel.m */; };
+		1803787B1C1D6CB400F4FDCB /* AddEmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180378791C1D6CB400F4FDCB /* AddEmployeeViewController.m */; };
+		1803787C1C1D6CB400F4FDCB /* AddEmployeeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1803787A1C1D6CB400F4FDCB /* AddEmployeeViewController.xib */; };
 		1879B14A1C15ACD6006FD947 /* CharteredBusRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879B1491C15ACD6006FD947 /* CharteredBusRule.m */; };
 		1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */; };
 		18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BB20E31C1986F0005123DA /* Default-568h@2x.png */; };
@@ -313,6 +316,11 @@
 		105791E51C106DF600E844FA /* PersonRegisViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonRegisViewController.xib; sourceTree = "<group>"; };
 		10823F6D1C0EFBB000B3FAB4 /* PayChargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayChargeViewController.h; sourceTree = "<group>"; };
 		10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayChargeViewController.m; sourceTree = "<group>"; };
+		180378751C1D4C7900F4FDCB /* AirportPickupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirportPickupModel.h; sourceTree = "<group>"; };
+		180378761C1D4C7900F4FDCB /* AirportPickupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirportPickupModel.m; sourceTree = "<group>"; };
+		180378781C1D6CB400F4FDCB /* AddEmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEmployeeViewController.h; sourceTree = "<group>"; };
+		180378791C1D6CB400F4FDCB /* AddEmployeeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEmployeeViewController.m; sourceTree = "<group>"; };
+		1803787A1C1D6CB400F4FDCB /* AddEmployeeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddEmployeeViewController.xib; sourceTree = "<group>"; };
 		1879B1481C15ACD6006FD947 /* CharteredBusRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharteredBusRule.h; sourceTree = "<group>"; };
 		1879B1491C15ACD6006FD947 /* CharteredBusRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharteredBusRule.m; sourceTree = "<group>"; };
 		1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialCarRuleModel.h; sourceTree = "<group>"; };
@@ -663,11 +671,56 @@
 			name = PersonLoginAndRegis;
 			sourceTree = "<group>";
 		};
+		1803787D1C1D6D2800F4FDCB /* 员工信息 */ = {
+			isa = PBXGroup;
+			children = (
+				6D5435AF1BF30A99002E25DA /* EmployeeInfoViewController.h */,
+				6D5435B01BF30A99002E25DA /* EmployeeInfoViewController.m */,
+				180378781C1D6CB400F4FDCB /* AddEmployeeViewController.h */,
+				180378791C1D6CB400F4FDCB /* AddEmployeeViewController.m */,
+				1803787A1C1D6CB400F4FDCB /* AddEmployeeViewController.xib */,
+			);
+			name = "员工信息";
+			sourceTree = "<group>";
+		};
+		1803787E1C1D6D3D00F4FDCB /* 账户余额 */ = {
+			isa = PBXGroup;
+			children = (
+				6D5435AB1BF30A99002E25DA /* AccountBalanceViewController.h */,
+				6D5435AC1BF30A99002E25DA /* AccountBalanceViewController.m */,
+			);
+			name = "账户余额";
+			sourceTree = "<group>";
+		};
+		1803787F1C1D6D5000F4FDCB /* 代金券管理 */ = {
+			isa = PBXGroup;
+			children = (
+				6D5435B51BF30A99002E25DA /* VoucherViewController.h */,
+				6D5435B61BF30A99002E25DA /* VoucherViewController.m */,
+				6D5435AD1BF30A99002E25DA /* BuyVouchersViewController.h */,
+				6D5435AE1BF30A99002E25DA /* BuyVouchersViewController.m */,
+				6D5435B11BF30A99002E25DA /* SendVoucherViewController.h */,
+				6D5435B21BF30A99002E25DA /* SendVoucherViewController.m */,
+			);
+			name = "代金券管理";
+			sourceTree = "<group>";
+		};
+		180378801C1D6D5F00F4FDCB /* 设置 */ = {
+			isa = PBXGroup;
+			children = (
+				6D5435B31BF30A99002E25DA /* SettingViewController.h */,
+				6D5435B41BF30A99002E25DA /* SettingViewController.m */,
+			);
+			name = "设置";
+			sourceTree = "<group>";
+		};
 		1882C4E01C1C1417000DEAE7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */,
 				1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */,
+				180378751C1D4C7900F4FDCB /* AirportPickupModel.h */,
+				180378761C1D4C7900F4FDCB /* AirportPickupModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -971,18 +1024,10 @@
 		6D5435AA1BF30A6B002E25DA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6D5435AF1BF30A99002E25DA /* EmployeeInfoViewController.h */,
-				6D5435B01BF30A99002E25DA /* EmployeeInfoViewController.m */,
-				6D5435AB1BF30A99002E25DA /* AccountBalanceViewController.h */,
-				6D5435AC1BF30A99002E25DA /* AccountBalanceViewController.m */,
-				6D5435B51BF30A99002E25DA /* VoucherViewController.h */,
-				6D5435B61BF30A99002E25DA /* VoucherViewController.m */,
-				6D5435AD1BF30A99002E25DA /* BuyVouchersViewController.h */,
-				6D5435AE1BF30A99002E25DA /* BuyVouchersViewController.m */,
-				6D5435B11BF30A99002E25DA /* SendVoucherViewController.h */,
-				6D5435B21BF30A99002E25DA /* SendVoucherViewController.m */,
-				6D5435B31BF30A99002E25DA /* SettingViewController.h */,
-				6D5435B41BF30A99002E25DA /* SettingViewController.m */,
+				1803787D1C1D6D2800F4FDCB /* 员工信息 */,
+				1803787E1C1D6D3D00F4FDCB /* 账户余额 */,
+				1803787F1C1D6D5000F4FDCB /* 代金券管理 */,
+				180378801C1D6D5F00F4FDCB /* 设置 */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1291,6 +1336,7 @@
 				6D54358C1BF2FA10002E25DA /* yonghu@2x.png in Resources */,
 				6D54355F1BF2FA10002E25DA /* renminbi@3x.png in Resources */,
 				6D5435791BF2FA10002E25DA /* wodeqianbao@3x.png in Resources */,
+				1803787C1C1D6CB400F4FDCB /* AddEmployeeViewController.xib in Resources */,
 				6DD875CC1BF21CC3006145E2 /* Main.storyboard in Resources */,
 				0E4C93071C02E45C00118310 /* LoginViewController.xib in Resources */,
 				6D5435261BF2FA10002E25DA /* baoxiaoguize@2x.png in Resources */,
@@ -1387,6 +1433,7 @@
 				0EDE8C871C06AE6000356AF1 /* AirportDropOffViewController.m in Sources */,
 				0ED1D9D11BF6CB9200804B14 /* DatePickView.m in Sources */,
 				6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */,
+				1803787B1C1D6CB400F4FDCB /* AddEmployeeViewController.m in Sources */,
 				0ED1D9D21BF6CB9200804B14 /* EmployeeInfoCell.m in Sources */,
 				0EDE8CB91C08257300356AF1 /* MANaviRoute.m in Sources */,
 				6D54349B1BF2F112002E25DA /* POIAnnotation.m in Sources */,
@@ -1431,6 +1478,7 @@
 				6D54361F1BF30F21002E25DA /* MD5DataSigner.m in Sources */,
 				6D97F79D1BF5CC590066257C /* DownloadManager.m in Sources */,
 				0EDE8C8E1C06AE6000356AF1 /* SpecialCarViewController.m in Sources */,
+				180378771C1D4C7900F4FDCB /* AirportPickupModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

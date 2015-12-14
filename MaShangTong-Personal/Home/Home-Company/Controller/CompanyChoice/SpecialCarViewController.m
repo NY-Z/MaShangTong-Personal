@@ -389,7 +389,7 @@
     
     [self requestTheRules];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceNotification:) name:@"SpecialCarViewController" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceNotification:) name:@"SpecialCarViewControllerSource" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TransportTimeChanged:) name:@"TransportTimeChanged" object:nil];
 }
 
@@ -627,10 +627,6 @@
 
     AMapPath *path = response.route.paths[0];
     self.naviRoute = [MANaviRoute naviRouteForPath:path withNaviType:type];
-//    NSString *price = [NSString stringWithFormat:@"%f(元)", response.route.taxiCost];
-//    NYLog(@"distance = %@",[NSString stringWithFormat:@"%ld(米)", (long)path.distance]);
-    
-//    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     ValuationRuleModel *model = [[ValuationRuleModel alloc] initWithDictionary:_specialCarArr[_selectedBtn.tag-200] error:nil];
     

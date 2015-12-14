@@ -8,8 +8,9 @@
 
 #import "AirportDropOffViewController.h"
 #import "Masonry.h"
-//#import <AMapLocationKit/AMapLocationKit.h>
+#import "AirportPickupModel.h"
 #import "AMapLocationKit.h"
+#import "AMapSearchAPI.h"
 
 @interface AirportDropOffViewController () <UIScrollViewDelegate,UITextViewDelegate,AMapLocationManagerDelegate>
 {
@@ -17,6 +18,8 @@
     UITextField *numberTextField;
     UITextView *remarkTextView;
     UIButton *_selectedBtn;
+    NSArray *_airportPickupRuleArr;
+    UILabel *priceLabel;
 }
 @property (nonatomic,strong) AMapLocationManager *locationManager;
 @end
@@ -32,6 +35,8 @@
 
 - (void)configViews
 {
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"user_info"]];
+    
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.delegate = self;
     _scrollView.backgroundColor = RGBColor(238, 238, 238, 1.f);
@@ -159,6 +164,7 @@
     
     numberTextField = [[UITextField alloc] init];
     numberTextField.placeholder = @"请输入手机号码";
+    numberTextField.text = userModel.mobile;
     numberTextField.font = [UIFont systemFontOfSize:13];
     numberTextField.textColor = RGBColor(102, 102, 102, 1.f);
     [bgView addSubview:numberTextField];
@@ -228,6 +234,7 @@
         [btn addTarget:self action:@selector(selectBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [btn setImage:[UIImage imageNamed:imageArr[i]] forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:selectImageArr[i]] forState:UIControlStateSelected];
+        btn.tag = 200+i;
         btn.titleLabel.font = [UIFont systemFontOfSize:11];
         if (i == 0) {
             btn.selected = YES;
@@ -262,7 +269,7 @@
         make.edges.equalTo(remarkBgView).insets(UIEdgeInsetsMake(10, 20, 10, 20));
     }];
     
-    UILabel *priceLabel = [[UILabel alloc] init];
+    priceLabel = [[UILabel alloc] init];
     priceLabel.font = [UIFont systemFontOfSize:15];
     priceLabel.textColor = RGBColor(154, 154, 154, 1.f);
     priceLabel.textAlignment = 1;
@@ -273,7 +280,7 @@
         make.right.equalTo(contentView);
         make.height.mas_equalTo(60);
     }];
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约 82 元"];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约     元"];
     [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, 2)];
     priceLabel.attributedText = attri;
     
@@ -296,9 +303,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self requestTheRules];
     [self configViews];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haha:) name:@"AirportDropOffViewController" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TransportTimeChanged:) name:@"TransportTimeChanged" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chooseFlight:) name:@"AirPortDropOffChooseFlight" object:nil];
 }
 
@@ -310,44 +318,46 @@
     }
 }
 
+#pragma mark - 计价规则
+- (void)requestTheRules
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:@"3" forKey:@"reserva_type"];
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+        _airportPickupRuleArr = json[@"info"][@"rule"];
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"网络错误"];
+    }];
+}
+
 - (void)configLocation
 {
     [AMapLocationServices sharedServices].apiKey = AMap_ApiKey;
     
     self.locationManager = [[AMapLocationManager alloc] init];
     self.locationManager.delegate = self;
-    //    [_locationManager startUpdatingLocation];
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         
         if (error)
         {
-            //            NYLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
-            
             if (error.code == AMapLocationErrorLocateFailed)
             {
                 return;
             }
         }
-        
-        //        NYLog(@"location:%@", location);
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         
         if (regeocode)
         {
-            //            NYLog(@"reGeocode:%@", regeocode);
             if (regeocode.city) {
-                //                NYLog(@"%@",regeocode.city);
                 delegate.currentCity = regeocode.city;
             } else {
-                //                NYLog(@"%@",regeocode.province);
                 delegate.currentCity = regeocode.province;
             }
             NYLog(@"%@",delegate.currentCity);
-            //            NYLog(@"%@",regeocode.formattedAddress);
             [self.sourceBtn setTitle:regeocode.formattedAddress forState:UIControlStateNormal];
             delegate.sourceCoordinate = location.coordinate;
-            //            NYLog(@"%f,%f",delegate.sourceCoordinate.latitude,delegate.sourceCoordinate.longitude);
         }
         
     }];
@@ -435,16 +445,17 @@
     btn.selected = YES;
     _selectedBtn.selected = NO;
     _selectedBtn = btn;
-}
-
-- (void)haha:(NSNotification *)noti
-{
-//    [self.destinationBtn setTitle:noti.object forState:UIControlStateNormal];
-}
-
-- (void)chooseFlight:(NSNotification *)noti
-{
-    [self.destinationBtn setTitle:noti.object forState:UIControlStateNormal];
+    if (_airportPickupRuleArr.count == 0) {
+        return;
+    }
+    for (NSDictionary *dic in _airportPickupRuleArr) {
+        AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
+            [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
+            priceLabel.attributedText = attri;
+        }
+    }
 }
 
 - (void)confirmBtnClicked:(UIButton *)btn
@@ -484,7 +495,6 @@
             [MBProgressHUD showSuccess:@"订单发送成功，请等待接单。。。"];
         });
     } failure:^(NSError *error) {
-        
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"订单发送失败，请重试。。。"];
     }];
@@ -528,14 +538,44 @@
     NSString *subDateStr = [NSString stringWithFormat:@"%@ %@",[dateStr componentsSeparatedByString:@" "][0],[dateStr componentsSeparatedByString:@" "][2]];
     
     NSString *currentStr = [formatter stringFromDate:date];
-    NSString *subCurrnetStr = [currentStr componentsSeparatedByString:@"年"][0];
-    NSString *newDateStr = [NSString stringWithFormat:@"%@年%@",subCurrnetStr,subDateStr];
+    NSString *subCurrentStr = [currentStr componentsSeparatedByString:@"年"][0];
+    NSString *newDateStr = [NSString stringWithFormat:@"%@年%@",subCurrentStr,subDateStr];
     
     NSTimeInterval interval = [[formatter dateFromString:newDateStr] timeIntervalSince1970];
     NYLog(@"%f",[[formatter dateFromString:newDateStr] timeIntervalSince1970]);
     return interval;
 }
 
+#pragma mark - 通知
+- (void)TransportTimeChanged:(NSNotification *)noti
+{
+    [self.timeBtn setTitle:noti.object forState:UIControlStateNormal];
+}
+
+- (void)chooseFlight:(NSNotification *)noti
+{
+    AMapPOI *p = noti.object;
+    NSRange range = [p.name rangeOfString:@"上海"];
+    if (range.location != NSNotFound) {
+        NSMutableString *str = [p.name mutableCopy];
+        [str replaceCharactersInRange:range withString:@""];
+        p.name = [str copy];
+    }
+    [self.destinationBtn setTitle:p.name forState:UIControlStateNormal];
+    
+    if (_airportPickupRuleArr.count == 0) {
+        return;
+    }
+    for (NSDictionary *dic in _airportPickupRuleArr) {
+        AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+            
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
+            [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
+            priceLabel.attributedText = attri;
+        }
+    }
+}
 
 #pragma mark - dealloc
 - (void)dealloc

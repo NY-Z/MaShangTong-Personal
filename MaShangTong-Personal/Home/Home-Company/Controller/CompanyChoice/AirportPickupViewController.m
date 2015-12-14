@@ -8,19 +8,38 @@
 
 #import "AirportPickupViewController.h"
 #import "Masonry.h"
+#import "AMapSearchAPI.h"
+#import "MANaviRoute.h"
+#import "AirportPickupModel.h"
 
-@interface AirportPickupViewController () <UIScrollViewDelegate,UITextViewDelegate>
+@interface AirportPickupViewController () <UIScrollViewDelegate,UITextViewDelegate,AMapSearchDelegate>
 {
     UIScrollView *_scrollView;
     UITextField *numberTextField;
     UITextView *remarkTextView;
     UIButton *_selectedBtn;
+    UILabel *priceLabel;
     
     UIButton *sourceBtn;
+    
+    NSArray *_airportPickupRuleArr;
 }
+
+@property (nonatomic,strong) AMapSearchAPI *search;
+@property (nonatomic) MANaviRoute * naviRoute;
+
 @end
 
 @implementation AirportPickupViewController
+
+- (AMapSearchAPI *)search
+{
+    if (!_search) {
+        _search = [[AMapSearchAPI alloc] init];
+        _search.delegate = self;
+    }
+    return _search;
+}
 
 - (void)showAlertViewWithMessage:(NSString *)message
 {
@@ -31,6 +50,8 @@
 
 - (void)configViews
 {
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"user_info"]];
+    
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.delegate = self;
     _scrollView.backgroundColor = RGBColor(238, 238, 238, 1.f);
@@ -112,6 +133,7 @@
     
     numberTextField = [[UITextField alloc] init];
     numberTextField.placeholder = @"请输入手机号码";
+    numberTextField.text = userModel.mobile;
     numberTextField.font = [UIFont systemFontOfSize:13];
     numberTextField.textColor = RGBColor(102, 102, 102, 1.f);
     [bgView addSubview:numberTextField];
@@ -190,7 +212,7 @@
     }];
     
     _destinationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_destinationBtn setTitle:@"美兰湖" forState:UIControlStateNormal];
+    [_destinationBtn setTitle:@"您的目的地" forState:UIControlStateNormal];
     [_destinationBtn setTitleColor:RGBColor(102, 102, 102, 1.f) forState:UIControlStateNormal];
     _destinationBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     _destinationBtn.titleLabel.textAlignment = 0;
@@ -263,6 +285,7 @@
         [btn addTarget:self action:@selector(selectBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [btn setImage:[UIImage imageNamed:imageArr[i]] forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:selectImageArr[i]] forState:UIControlStateSelected];
+        btn.tag = 200+i;
         btn.titleLabel.font = [UIFont systemFontOfSize:11];
         if (i == 0) {
             btn.selected = YES;
@@ -297,8 +320,9 @@
         make.edges.equalTo(remarkBgView).insets(UIEdgeInsetsMake(10, 20, 10, 20));
     }];
     
-    UILabel *priceLabel = [[UILabel alloc] init];
+    priceLabel = [[UILabel alloc] init];
     priceLabel.font = [UIFont systemFontOfSize:15];
+    priceLabel.text = @"约     元";
     priceLabel.textColor = RGBColor(154, 154, 154, 1.f);
     priceLabel.textAlignment = 1;
     [contentView addSubview:priceLabel];
@@ -308,9 +332,6 @@
         make.right.equalTo(contentView);
         make.height.mas_equalTo(60);
     }];
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约 82 元"];
-    [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, 2)];
-    priceLabel.attributedText = attri;
     
     UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [confirmBtn setTitle:@"确认用车" forState:UIControlStateNormal];
@@ -332,11 +353,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor cyanColor];
+    [self requestTheRules];
     [self configViews];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hengheng:) name:@"xuanzejichang" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hehe:) name:@"AirportPickupViewController" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeFlightNo:) name:@"AirportPickupViewControllerFlightNo" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TransportTimeChanged:) name:@"TransportTimeChanged" object:nil];
+}
+
+#pragma mark - 请求加价规则
+- (void)requestTheRules
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:@"3" forKey:@"reserva_type"];
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+        _airportPickupRuleArr = json[@"info"][@"rule"];
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"网络错误"];
+    }];
 }
 
 #pragma mark - UITextViewDelegate
@@ -430,6 +465,21 @@
     btn.selected = YES;
     _selectedBtn.selected = NO;
     _selectedBtn = btn;
+    if ([sourceBtn.currentTitle isEqualToString:@"请选择航班到达机场"]) {
+        return;
+    }
+    if (_airportPickupRuleArr.count == 0) {
+        return;
+    }
+    for (NSDictionary *dic in _airportPickupRuleArr) {
+        AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+            
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
+            [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
+            priceLabel.attributedText = attri;
+        }
+    }
 }
 
 - (void)addressBtnClicked:(UIButton *)btn
@@ -443,15 +493,10 @@
 
 - (void)confirmBtnClicked:(UIButton *)btn
 {
-    NYLog(@"%@",numberTextField.text);
-    NYLog(@"%@",_timeBtn.currentTitle);
-    NYLog(@"%@",sourceBtn.currentTitle);
-    NYLog(@"%@",_destinationBtn.currentTitle);
-    NYLog(@"%@",remarkTextView.text);
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if ([_flightBtn.currentTitle isEqualToString:@"请选择航班号"]) {
         [self showAlertViewWithMessage:@"请输入您的航班号"];
+        return;
     }
     [params setObject:_flightBtn.currentTitle forKey:@"flight_number"];
     
@@ -483,17 +528,51 @@
     [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
 
-    [params setObject:@"71" forKey:@"user_id"];
+    [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [params setObject:@"3" forKey:@"reserva_type"];
     
     [MBProgressHUD showMessage:@"正在发送订单,请稍候。。。"];
+    PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=usersigle" params:params success:^(id json) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSLog(@"%@",json);
+        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+        [MBProgressHUD hideHUD];
+        if ([resultStr isEqualToString:@"-1"]) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if (self.confirmBtnBlock) {
+                    self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
+                }
+            }]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [MBProgressHUD showMessage:@"正在取消订单"];
+                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                    
+                    NYLog(@"%@",json);
+                    NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                    [MBProgressHUD hideHUD];
+                    if ([resultStr isEqualToString:@"1"]) {
+                        [MBProgressHUD showSuccess:@"取消订单成功"];
+                    } else {
+                        [MBProgressHUD showError:@"取消订单失败"];
+                    }
+                } failure:^(NSError *error) {
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showError:@"请求超时"];
+                    NYLog(@"%@",error.localizedDescription);
+                }];
+            }]];
+            [self presentViewController:alert animated:YES completion:nil];
+        } else if ([resultStr isEqualToString:@"0"]) {
             [MBProgressHUD hideHUD];
-            [MBProgressHUD showSuccess:@"订单发送成功，请等待接单。。。"];
-        });
+            [MBProgressHUD showError:@"您的网络有问题，请重试"];
+        } else if ([resultStr isEqualToString:@"1"]) {
+            if (self.confirmBtnBlock) {
+                self.confirmBtnBlock(model,json[@"route_id"]);
+            }
+        }
+        
     } failure:^(NSError *error) {
         
         [MBProgressHUD hideHUD];
@@ -538,7 +617,6 @@
         return [[formatter dateFromString:timeStr] timeIntervalSince1970];
     }
     NSString *subDateStr = [NSString stringWithFormat:@"%@ %@",[dateStr componentsSeparatedByString:@" "][0],[dateStr componentsSeparatedByString:@" "][2]];
-    
     NSString *currentStr = [formatter stringFromDate:date];
     NSString *subCurrnetStr = [currentStr componentsSeparatedByString:@"年"][0];
     NSString *newDateStr = [NSString stringWithFormat:@"%@年%@",subCurrnetStr,subDateStr];
@@ -548,11 +626,30 @@
     return interval;
 }
 
-
 #pragma mark - NSNotification
 - (void)hengheng:(NSNotification *)notification
 {
-    [sourceBtn setTitle:notification.object forState:UIControlStateNormal];
+    AMapPOI *p = notification.object;
+    APP_DELEGATE.sourceCoordinate = CLLocationCoordinate2DMake(p.location.latitude, p.location.longitude);
+    NSRange range = [p.name rangeOfString:@"上海"];
+    if (range.location != NSNotFound) {
+        NSMutableString *str = [p.name mutableCopy];
+        [str replaceCharactersInRange:range withString:@""];
+        p.name = [str copy];
+    }
+    [sourceBtn setTitle:p.name forState:UIControlStateNormal];
+    if (_airportPickupRuleArr.count == 0) {
+        return;
+    }
+    for (NSDictionary *dic in _airportPickupRuleArr) {
+        AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+            
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
+            [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
+            priceLabel.attributedText = attri;
+        }
+    }
 }
 
 - (void)hehe:(NSNotification *)noti
@@ -563,6 +660,11 @@
 - (void)changeFlightNo:(NSNotification *)noti
 {
     [_flightBtn setTitle:noti.object forState:UIControlStateNormal];
+}
+
+- (void)TransportTimeChanged:(NSNotification *)noti
+{
+    [self.timeBtn setTitle:noti.object forState:UIControlStateNormal];
 }
 
 #pragma mark - dealloc

@@ -121,8 +121,8 @@
                 CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
                 [self.navigationController pushViewController:companyHome animated:YES];
             } else if (self.type == LoginTypePerson) {
-#warning 个人端登录
-                //                [self.navigationController pushViewController:@"" animated:@""];
+                #warning 个人端登录
+                
             }
             [MBProgressHUD hideHUD];
             [MBProgressHUD showSuccess:@"登陆成功"];
@@ -142,7 +142,6 @@
         NYLog(@"%@",error.localizedDescription);
         
     }];
-    
     /*
      {
      "car_type_id" = 1; // 车型

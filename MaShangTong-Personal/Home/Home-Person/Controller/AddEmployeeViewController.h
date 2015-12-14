@@ -10,4 +10,6 @@
 
 @interface AddEmployeeViewController : UIViewController
 
+@property (nonatomic,strong) NSArray *pickerArr;
+
 @end

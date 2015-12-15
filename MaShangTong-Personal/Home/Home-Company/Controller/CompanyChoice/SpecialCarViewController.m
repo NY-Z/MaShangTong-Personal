@@ -494,7 +494,7 @@
 - (void)confirmBtnClicked:(UIButton *)btn
 {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    UserModel *userModel = [USER_DEFAULT objectForKey:@"user_info"];
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"user_info"]];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];

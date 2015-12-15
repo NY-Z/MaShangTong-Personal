@@ -20,6 +20,10 @@
     BOOL isDriverCatch;// 司机是否已接单
     BOOL _iscalculateStart;
     NSInteger _actualDistance;
+    
+    UILabel *distanceLabel;
+    UILabel *speedLabel;
+    UILabel *priceLabel;
 }
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) UITableView *tableView;
@@ -36,6 +40,7 @@
 @property (nonatomic,assign) NSInteger driveringTime;
 @property (nonatomic,assign) BOOL calculaterWitch; // 0 到乘客的距离，1 到达目的地的距离
 @property (nonatomic,assign) DriverState lastState;
+@property (nonatomic,strong) UIView *chargingBgView;
 
 @end
 
@@ -61,11 +66,13 @@
 - (void)configNavigationBar
 {
     
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"backBtn"] forState:UIControlStateNormal];
-    backBtn.size = CGSizeMake(44, 44);
-    [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+//    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [backBtn setImage:[UIImage imageNamed:@"backBtn"] forState:UIControlStateNormal];
+//    backBtn.size = CGSizeMake(44, 44);
+//    [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
     label.text = @"等待接单";
@@ -235,8 +242,54 @@
     //    self.naviManager.delegate = self;
 }
 
+- (void)initChargingBgView
+{
+    _chargingBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-64-95, SCREEN_WIDTH, 95)];
+    _chargingBgView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_chargingBgView];
+    
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"0 元"];
+    [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:24],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, 2)];
+    [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],NSForegroundColorAttributeName : RGBColor(157, 157, 157, 1.f)} range:NSMakeRange(2, 1)];
+    
+    priceLabel = [[UILabel alloc] init];
+    priceLabel.attributedText = attri;
+    priceLabel.frame = CGRectMake(106, 0, 80, 40);
+    [_chargingBgView addSubview:priceLabel];
+    
+    distanceLabel = [[UILabel alloc] init];
+    distanceLabel.text = @"里程0公里";
+    distanceLabel.textAlignment = 0;
+    distanceLabel.textColor = RGBColor(131, 131, 131, 1.f);
+    distanceLabel.font = [UIFont systemFontOfSize:11];
+    distanceLabel.frame = CGRectMake(CGRectGetMaxX(priceLabel.frame), priceLabel.y, 200, 20);
+    [_chargingBgView addSubview:distanceLabel];
+    
+    speedLabel = [[UILabel alloc] init];
+    speedLabel.text = @"低速0分钟";
+    speedLabel.textAlignment = 0;
+    speedLabel.textColor = RGBColor(131, 131, 131, 1.f);
+    speedLabel.font = [UIFont systemFontOfSize:11];
+    speedLabel.frame = CGRectMake(CGRectGetMaxX(priceLabel.frame), CGRectGetMaxY(distanceLabel.frame), distanceLabel.width, distanceLabel.height);
+    [_chargingBgView addSubview:speedLabel];
+    
+    _chargingBgView.hidden = YES;
+}
+
+- (void)reloadChargingBgViewWithJson:(NSDictionary *)json
+{
+    NSString *price = json[@"price"];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:price];
+    [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:24],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, price.length)];
+    [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],NSForegroundColorAttributeName : RGBColor(157, 157, 157, 1.f)} range:NSMakeRange(price.length, 1)];
+    priceLabel.attributedText = attri;
+    
+    distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[json[@"distance"] floatValue]/1000];
+    speedLabel.text = [NSString stringWithFormat:@"低速%.2f分钟",[json[@"time"] floatValue]/60];
+}
+
 #pragma mark - ViewDidLoad
-- (void)viewDidLoad {
+- (void)viewDidLoad {   // http://112.124.115.81/m.php?m=OrderApi&a=dri_info
     [super viewDidLoad];
     _calculaterWitch = 0;
     _driveringTime = 0;
@@ -247,6 +300,7 @@
     [self initMapView];
     [self initIFlySpeech];
     [self configDriverInfo];
+    [self initChargingBgView];
     [self initTimer];
 }
 
@@ -273,6 +327,12 @@
                     if (_lastState != DriverStateOrderReceive) {
                         navTitleLabel.text = @"等待接驾";
                         self.tableView.hidden = NO;
+//                        NSDictionary *param = @{@"_route_id":_model.route_id};
+//                        [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=dri_info" params:param success:^(id json) {
+//                            NYLog(@"%@",json);
+//                        } failure:^(NSError *error) {
+//                            
+//                        }];
                         [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
                     }
                     _lastState = DriverStateOrderReceive;
@@ -291,9 +351,13 @@
                     if (_lastState != DriverStateBeginCharge) {
                         navTitleLabel.text = @"行程中";
                         [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已开始计费"];
+                        _chargingBgView.y = SCREEN_HEIGHT-95;
+#warning ---
+                        _chargingBgView.hidden = NO;
                         _calculaterWitch = 1;
                         _iscalculateStart = 1;
                     }
+                    
                     _lastState = DriverStateBeginCharge;
                     break;
                 }
@@ -303,8 +367,7 @@
                         [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
                         _iscalculateStart = 0;
                         PayChargeViewController *pay = [[PayChargeViewController alloc] init];
-#warning 价格
-                        pay.detailInfoArr = @[[NSString stringWithFormat:@"%li元",(long)_actualDistance*1+14],@"0元",[NSString stringWithFormat:@"%li公里",(long)_actualDistance],@"0.0kg"];
+                        pay.detailInfoArr = @[[NSString stringWithFormat:@"%@",priceLabel.text],@"0元",distanceLabel.text,@"0.0kg"];
                         [self.navigationController pushViewController:pay animated:YES];
                     }
                     _lastState = DriverStateArriveDestination;
@@ -322,19 +385,28 @@
                     break;
             }
             NSString *locationStr = json[@"data"][@"location"];
-            if ([locationStr isEqualToString:@"0"]) {
+            if (!locationStr) {
                 return;
             }
-            CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);
-            _driverCoordinate = location;
-            if (_navPoint) {
-                [self.mapView removeAnnotation:_navPoint];
-                _navPoint = nil;
+            @try {
+                CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);
+                _driverCoordinate = location;
+                if (_navPoint) {
+                    [self.mapView removeAnnotation:_navPoint];
+                    _navPoint = nil;
+                }
+                _navPoint = [[NavPointAnnotation alloc] init];
+                _navPoint.coordinate = location;
+                _navPoint.title = @"司机位置";
+                [self.mapView addAnnotation:_navPoint];
             }
-            _navPoint = [[NavPointAnnotation alloc] init];
-            _navPoint.coordinate = location;
-            _navPoint.title = @"司机位置";
-            [self.mapView addAnnotation:_navPoint];
+            @catch (NSException *exception) {
+                
+            }
+            @finally {
+                
+            }
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -406,7 +478,7 @@
             view.canShowCallout = YES;
         }
         return view;
-    }
+    }//
     return nil;
 }
 

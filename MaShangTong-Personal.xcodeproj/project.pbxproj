@@ -578,23 +578,12 @@
 		0EDE8C761C06AE6000356AF1 /* CompanyChoice */ = {
 			isa = PBXGroup;
 			children = (
+				1805CDCE1C201F750045BC1C /* Controller */,
+				1805CDCA1C201F220045BC1C /* 专车 */,
+				1805CDCB1C201F2C0045BC1C /* 包车 */,
+				1805CDCC1C201F400045BC1C /* 接机 */,
+				1805CDCD1C201F580045BC1C /* 送机 */,
 				1882C4E01C1C1417000DEAE7 /* Model */,
-				0EDE8C7F1C06AE6000356AF1 /* CompanyHomeViewController.h */,
-				0EDE8C801C06AE6000356AF1 /* CompanyHomeViewController.m */,
-				0EDE8C851C06AE6000356AF1 /* SpecialCarViewController.h */,
-				0EDE8C861C06AE6000356AF1 /* SpecialCarViewController.m */,
-				0EDE8C7D1C06AE6000356AF1 /* CharteredBusViewController.h */,
-				0EDE8C7E1C06AE6000356AF1 /* CharteredBusViewController.m */,
-				0EDE8C791C06AE6000356AF1 /* AirportPickupViewController.h */,
-				0EDE8C7A1C06AE6000356AF1 /* AirportPickupViewController.m */,
-				0EDE8C771C06AE6000356AF1 /* AirportDropOffViewController.h */,
-				0EDE8C781C06AE6000356AF1 /* AirportDropOffViewController.m */,
-				0EDE8C831C06AE6000356AF1 /* InputViewController.h */,
-				0EDE8C841C06AE6000356AF1 /* InputViewController.m */,
-				0EDE8C7B1C06AE6000356AF1 /* AirPortViewController.h */,
-				0EDE8C7C1C06AE6000356AF1 /* AirPortViewController.m */,
-				0EDE8C811C06AE6000356AF1 /* FlightNoViewController.h */,
-				0EDE8C821C06AE6000356AF1 /* FlightNoViewController.m */,
 			);
 			path = CompanyChoice;
 			sourceTree = "<group>";
@@ -712,6 +701,57 @@
 				6D5435B41BF30A99002E25DA /* SettingViewController.m */,
 			);
 			name = "设置";
+			sourceTree = "<group>";
+		};
+		1805CDCA1C201F220045BC1C /* 专车 */ = {
+			isa = PBXGroup;
+			children = (
+				0EDE8C851C06AE6000356AF1 /* SpecialCarViewController.h */,
+				0EDE8C861C06AE6000356AF1 /* SpecialCarViewController.m */,
+			);
+			name = "专车";
+			sourceTree = "<group>";
+		};
+		1805CDCB1C201F2C0045BC1C /* 包车 */ = {
+			isa = PBXGroup;
+			children = (
+				0EDE8C7D1C06AE6000356AF1 /* CharteredBusViewController.h */,
+				0EDE8C7E1C06AE6000356AF1 /* CharteredBusViewController.m */,
+			);
+			name = "包车";
+			sourceTree = "<group>";
+		};
+		1805CDCC1C201F400045BC1C /* 接机 */ = {
+			isa = PBXGroup;
+			children = (
+				0EDE8C791C06AE6000356AF1 /* AirportPickupViewController.h */,
+				0EDE8C7A1C06AE6000356AF1 /* AirportPickupViewController.m */,
+			);
+			name = "接机";
+			sourceTree = "<group>";
+		};
+		1805CDCD1C201F580045BC1C /* 送机 */ = {
+			isa = PBXGroup;
+			children = (
+				0EDE8C771C06AE6000356AF1 /* AirportDropOffViewController.h */,
+				0EDE8C781C06AE6000356AF1 /* AirportDropOffViewController.m */,
+			);
+			name = "送机";
+			sourceTree = "<group>";
+		};
+		1805CDCE1C201F750045BC1C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0EDE8C7F1C06AE6000356AF1 /* CompanyHomeViewController.h */,
+				0EDE8C801C06AE6000356AF1 /* CompanyHomeViewController.m */,
+				0EDE8C831C06AE6000356AF1 /* InputViewController.h */,
+				0EDE8C841C06AE6000356AF1 /* InputViewController.m */,
+				0EDE8C7B1C06AE6000356AF1 /* AirPortViewController.h */,
+				0EDE8C7C1C06AE6000356AF1 /* AirPortViewController.m */,
+				0EDE8C811C06AE6000356AF1 /* FlightNoViewController.h */,
+				0EDE8C821C06AE6000356AF1 /* FlightNoViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		1882C4E01C1C1417000DEAE7 /* Model */ = {

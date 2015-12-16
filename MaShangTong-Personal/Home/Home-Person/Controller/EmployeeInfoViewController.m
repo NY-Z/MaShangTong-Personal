@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "EmployeeInfoCell.h"
 #import "AddEmployeeViewController.h"
+#import "EmployeeInfoModel.h"
 
 #define kHeader @"header"
 #define kName @"name"
@@ -83,7 +84,6 @@
     [self configNavigationBar];
     [self configBottomBar];
     [self configTableView];
-    [self configDataSource];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,6 +91,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.translucent = NO;
+    [self configDataSource];
 }
 
 #pragma mark - DataSource
@@ -100,10 +101,11 @@
 //                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}],
 //                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}]];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-#warning USER_DEFAULT
-    [params setValue:@"190" forKey:@"pid_id"];
+    [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
         NYLog(@"%@",json);
+        _dataArr = json[@"info"];
+        [_tableView reloadData];
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];
     }];
@@ -120,7 +122,8 @@
     if (sectionHide[section]) {
         return 0;
     }
-    return 3;
+    EmployeeInfoModel *employeeInfoModel = [[EmployeeInfoModel alloc] initWithDictionary:_dataArr[section] error:nil];
+    return employeeInfoModel.detail.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,22 +134,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"EmployeeInfoCell";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-//    if (!cell) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
-//        cell.imageView.layer.cornerRadius = 20;
-//        cell.detailTextLabel.backgroundColor = [UIColor redColor];
-//    }
-//    cell.imageView.backgroundColor = [UIColor cyanColor];
-//    cell.textLabel.text = _dataArr[indexPath.section][indexPath.row][kName];
-//    cell.detailTextLabel.text = _dataArr[indexPath.section][indexPath.row][kPhone];
     EmployeeInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"EmployeeInfoCell" owner:nil options:nil] lastObject];
         cell.imageView.layer.cornerRadius = 29;
     }
-    cell.nameLabel.text = _dataArr[indexPath.section][indexPath.row][kName];
-    cell.phoneLabel.text = _dataArr[indexPath.section][indexPath.row][kPhone];
+    EmployeeInfoModel *employeeInfoModel = [[EmployeeInfoModel alloc] initWithDictionary:_dataArr[indexPath.section] error:nil];
+    EmployeeInfoDetailModel *employeeInfoDetailModel = employeeInfoModel.detail[indexPath.row];
+    cell.nameLabel.text = employeeInfoDetailModel.user_name;
+    cell.phoneLabel.text = employeeInfoDetailModel.mobile;
     return cell;
 }
 
@@ -164,8 +160,10 @@
     UITapGestureRecognizer *sectionHeaderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sectionHeaderTaped:)];
     [bgView addGestureRecognizer:sectionHeaderTap];
     
+    EmployeeInfoModel *model = [[EmployeeInfoModel alloc] initWithDictionary:_dataArr[section] error:nil];
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(26, 0, SCREEN_WIDTH/2-26, 30)];
-    textField.text = [NSString stringWithFormat:@"第 %ld 组",(long)section+1];
+//    textField.text = [NSString stringWithFormat:@"第 %ld 组",(long)section+1];
+    textField.text = model.pid_name;
     textField.textColor = RGBColor(98, 190, 255, 1.f);
     textField.backgroundColor = RGBColor(238,238,238,1.f);
     textField.font = [UIFont systemFontOfSize:14];
@@ -189,7 +187,9 @@
 
 - (void)rightBarButtonItemClicked:(UIButton *)btn
 {
-    [self.navigationController pushViewController:[[AddEmployeeViewController alloc] init] animated:YES];
+    AddEmployeeViewController *addEmployee = [[AddEmployeeViewController alloc] init];
+    addEmployee.pickerArr = _dataArr;
+    [self.navigationController pushViewController:addEmployee animated:YES];
 }
 
 - (void)sectionHeaderTaped:(UITapGestureRecognizer *)tap

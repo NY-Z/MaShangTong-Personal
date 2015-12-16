@@ -7,6 +7,7 @@
 //
 
 #import "AddEmployeeViewController.h"
+#import "EmployeeInfoModel.h"
 
 @interface AddEmployeeViewController () <UITableViewDataSource,UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 {
@@ -15,6 +16,8 @@
     
     UIView *_coverView;
     UIPickerView *_pickerView;
+    
+    NSString *_currentSelectGroup;
 }
 @end
 
@@ -62,27 +65,51 @@
     _pickerView.delegate = self;
     _pickerView.dataSource = self;
     [self.view addSubview:_pickerView];
+    _pickerView.hidden = YES;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     _dataArr = [NSMutableArray array];
+    _currentSelectGroup = @"";
     self.view.backgroundColor = RGBColor(238, 238, 238, 1.f);
     
     [self configNavigationBar];
-    [self configPickerView];
     [self configTableView];
+    [self configPickerView];
 }
 
 #pragma mark - UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
+    if (self.pickerArr.count) {
+        return 1;
+    }
     return 0;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return 0;
+    return self.pickerArr.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    EmployeeInfoModel *model = [[EmployeeInfoModel alloc] initWithDictionary:_pickerArr[row] error:nil];
+    if (model.detail[0]) {
+        EmployeeInfoDetailModel *detailModel = model.detail[0];
+        return detailModel.pid_name;
+    } else {
+        return nil;
+    }
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    EmployeeInfoModel *model = [[EmployeeInfoModel alloc] initWithDictionary:_pickerArr[row] error:nil];
+    EmployeeInfoDetailModel *detailModel = model.detail[0];
+    UITableViewCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+    cell.detailTextLabel.text = detailModel.pid_name;
 }
 
 #pragma mark - UITableViewDataSource
@@ -93,41 +120,60 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"AddEmployeeTableViewCellReuseId";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.textLabel.textColor = RGBColor(120, 120, 120, 1.f);
-        cell.textLabel.font = [UIFont systemFontOfSize:15];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-190, 0, 210-45-10, 44)];
-        textField.textAlignment = 2;
-        textField.tag = 300;
-        textField.textColor = RGBColor(120, 120, 120, 1.f);
-        [cell.contentView addSubview:textField];
-    }
-    cell.textLabel.text = _dataArr[indexPath.row];
-    UITextField *textField = (UITextField *)[cell.contentView viewWithTag:300];
-    if (indexPath.row == 1) {
-        textField.keyboardType = UIKeyboardTypeNumberPad;
-    } else {
-        textField.keyboardType = UIKeyboardTypeDefault;
-    }
     if (indexPath.row == 3) {
-        textField.hidden = YES;
-    } else {
-        textField.hidden = NO;
+        static NSString *cellId = @"AddEmployeeTableViewCellValue1ReuseId";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+            cell.textLabel.textColor = RGBColor(120, 120, 120, 1.f);
+            cell.textLabel.font = [UIFont systemFontOfSize:15];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.textLabel.text = _dataArr[indexPath.row];
+        return cell;
     }
-    return cell;
+    else {
+        static NSString *cellId = @"AddEmployeeTableViewCellDefaultReuseId";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.textLabel.textColor = RGBColor(120, 120, 120, 1.f);
+            cell.textLabel.font = [UIFont systemFontOfSize:15];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-190, 0, 210-45-10, 44)];
+            textField.textAlignment = 2;
+            textField.tag = 300;
+            textField.textColor = RGBColor(120, 120, 120, 1.f);
+            [cell.contentView addSubview:textField];
+        }
+        cell.textLabel.text = _dataArr[indexPath.row];
+        UITextField *textField = (UITextField *)[cell.contentView viewWithTag:300];
+        if (indexPath.row == 1) {
+            textField.keyboardType = UIKeyboardTypeNumberPad;
+        } else {
+            textField.keyboardType = UIKeyboardTypeDefault;
+        }
+        return cell;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 3) {
         NSLog(@"%@",indexPath);
+        _pickerView.y = SCREEN_HEIGHT-64-216;
+        _pickerView.hidden = NO;
+        
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    _pickerView.y = SCREEN_HEIGHT;
+    _pickerView.hidden = YES;
 }
 
 #pragma mark - Action
@@ -144,23 +190,39 @@
         [MBProgressHUD showError:@"请输入姓名"];
         return;
     }
+    [params setValue:name forKey:@"user_name"];
     NSString *account = ((UITextField *)[[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].contentView viewWithTag:300]).text;
     if (![Helper justMobile:account]) {
         [MBProgressHUD showError:@"请输入账号"];
         return;
     }
+    [params setValue:account forKey:@"mobile"];
     NSString *password = ((UITextField *)[[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]].contentView viewWithTag:300]).text;
     if (![Helper justPassword:password]) {
         [MBProgressHUD showError:@"请输入密码"];
         return;
     }
-    NSString *group = ((UITextField *)[[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]].contentView viewWithTag:300]).text;
+    [params setValue:password forKey:@"user_pwd"];
+    UITableViewCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+    NSString *group = cell.detailTextLabel.text;
     if (!group) {
         [MBProgressHUD showError:@"请输入组名"];
         return;
     }
+    [params setValue:group forKey:@"pid_name"];
+    [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
+    NSLog(@"%@",[USER_DEFAULT valueForKey:@"user_id"]);
+    NSLog(@"%@",[USER_DEFAULT objectForKey:@"user_id"]);
+    [MBProgressHUD showMessage:@"正在添加"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=team_enter" params:params success:^(id json) {
-        
+        [MBProgressHUD hideHUD];
+        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+        if ([dataStr isEqualToString:@"1"]) {
+            [MBProgressHUD showSuccess:@"添加成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [MBProgressHUD showError:@"添加失败"];
+        }
     } failure:^(NSError *error) {
         
     }];

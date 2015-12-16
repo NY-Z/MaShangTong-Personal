@@ -129,7 +129,7 @@
 //昵称
 + (BOOL) justNickname:(NSString *)nickname
 {
-    NSString *nicknameRegex = @"^[\u4e00-\u9fa5]{4,8}$";
+    NSString *nicknameRegex = @"^([\u4e00-\u9fa5]){2,7}$";
     NSPredicate *passWordPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nicknameRegex];
     return [passWordPredicate evaluateWithObject:nickname];
 }

@@ -67,6 +67,7 @@
 		1803787C1C1D6CB400F4FDCB /* AddEmployeeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1803787A1C1D6CB400F4FDCB /* AddEmployeeViewController.xib */; };
 		1879B14A1C15ACD6006FD947 /* CharteredBusRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879B1491C15ACD6006FD947 /* CharteredBusRule.m */; };
 		1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */; };
+		18B149E91C20F55300C60449 /* EmployeeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B149E81C20F55300C60449 /* EmployeeInfoModel.m */; };
 		18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BB20E31C1986F0005123DA /* Default-568h@2x.png */; };
 		6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434151BF2D8B5002E25DA /* UIView+Extension.m */; };
 		6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434761BF2F112002E25DA /* CommonUtility.m */; };
@@ -325,6 +326,8 @@
 		1879B1491C15ACD6006FD947 /* CharteredBusRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharteredBusRule.m; sourceTree = "<group>"; };
 		1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialCarRuleModel.h; sourceTree = "<group>"; };
 		1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialCarRuleModel.m; sourceTree = "<group>"; };
+		18B149E71C20F55300C60449 /* EmployeeInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeInfoModel.h; sourceTree = "<group>"; };
+		18B149E81C20F55300C60449 /* EmployeeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeInfoModel.m; sourceTree = "<group>"; };
 		18BB20E31C1986F0005123DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6D5434121BF2D755002E25DA /* MaShangTong.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaShangTong.pch; sourceTree = "<group>"; };
@@ -1034,6 +1037,8 @@
 		6D5435A81BF30A58002E25DA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18B149E71C20F55300C60449 /* EmployeeInfoModel.h */,
+				18B149E81C20F55300C60449 /* EmployeeInfoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1475,6 +1480,7 @@
 				6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */,
 				1803787B1C1D6CB400F4FDCB /* AddEmployeeViewController.m in Sources */,
 				0ED1D9D21BF6CB9200804B14 /* EmployeeInfoCell.m in Sources */,
+				18B149E91C20F55300C60449 /* EmployeeInfoModel.m in Sources */,
 				0EDE8CB91C08257300356AF1 /* MANaviRoute.m in Sources */,
 				6D54349B1BF2F112002E25DA /* POIAnnotation.m in Sources */,
 				6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */,

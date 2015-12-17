@@ -323,7 +323,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"3" forKey:@"reserva_type"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
         _airportPickupRuleArr = json[@"info"][@"rule"];
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];
@@ -487,8 +487,8 @@
     [params setObject:@"4" forKey:@"reserva_type"];
     [params setObject:@"71" forKey:@"user_id"];
     
-    [MBProgressHUD showMessage:@"正在发送订单,请稍候。。。"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=usersigle" params:params success:^(id json) {
+    [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=OrderApi&a=usersigle" params:params success:^(id json) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [MBProgressHUD hideHUD];

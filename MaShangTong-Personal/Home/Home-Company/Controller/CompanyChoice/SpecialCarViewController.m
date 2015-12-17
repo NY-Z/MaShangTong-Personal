@@ -397,7 +397,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"1" forKey:@"reserva_type"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
         NYLog(@"%@",json);
         _specialCarArr = json[@"info"][@"rule"];
     } failure:^(NSError *error) {
@@ -538,8 +538,8 @@
     
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
     
-    NSString *urlStr = @"http://112.124.115.81/m.php?m=OrderApi&a=usersigle";
-    [MBProgressHUD showMessage:@"正在发送订单,请稍候。。。"];
+    NSString *urlStr = @"http://192.168.8.109/mst/m.php?m=OrderApi&a=usersigle";
+    [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
     [DownloadManager post:urlStr params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         if ([resultStr isEqualToString:@"1"]) {
@@ -560,7 +560,7 @@
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [MBProgressHUD showMessage:@"正在取消订单"];
-                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
                     
                     NYLog(@"%@",json);
                     NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];

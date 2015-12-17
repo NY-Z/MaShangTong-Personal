@@ -37,8 +37,6 @@
     [self addNavTitle];
     // 修改控件的属性
     [self handleTheWidget];
-    
-    
 }
 
 - (void)handleTheWidget
@@ -101,7 +99,7 @@
     } else if (self.type == LoginTypeCompany) {
         [params setValue:@"2" forKey:@"group_id"];
     }
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=login" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=login" params:params success:^(id json) {
         NSString *isSuccessLog = json[@"data"];
         if ([isSuccessLog isEqualToString:@"1"]) {
             
@@ -142,17 +140,6 @@
         NYLog(@"%@",error.localizedDescription);
         
     }];
-    /*
-     {
-     "car_type_id" = 1; // 车型
-     "long_mileage" = "1.5";  // 超出10公里以后每公里价格
-     "low_speed" = "0.5-1.2"; // 低速单价
-     mileage = "1.5"; // 10公里以内的单价
-     night = 2; // 夜间行驶单价（23：00-05：00）；
-     "rule_type" = 1; // 规则id
-     step = 15; // 起步价
-     }
-     */
 }
 
 #pragma mark - Touches

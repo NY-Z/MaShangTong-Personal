@@ -18,6 +18,7 @@
 #import "MBProgressHUD+MJ.h"
 #import "ValuationRuleModel.h"
 #import <Masonry.h>
+#import "SharedMapView.h"
 
 #define USER_DEFAULT [NSUserDefaults standardUserDefaults]
 #define APP_DELEGATE ((AppDelegate *)[UIApplication sharedApplication].delegate)

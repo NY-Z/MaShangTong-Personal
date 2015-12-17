@@ -36,7 +36,7 @@
     manager.enable = YES;
     manager.shouldResignOnTouchOutside = YES;
     manager.shouldToolbarUsesTextFieldTintColor = YES;
-    manager.enableAutoToolbar = NO;
+    manager.enableAutoToolbar = YES;
     
     [MAMapServices sharedServices].apiKey = AMap_ApiKey;
     [AMapSearchServices sharedServices].apiKey = AMap_ApiKey;
@@ -65,9 +65,11 @@
     self.window.backgroundColor = [UIColor whiteColor];
     NSString *str = [USER_DEFAULT objectForKey:@"isLogin"];
     if ([str isEqualToString:@"1"]) {
-        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[CompanyHomeViewController alloc] init]];
+        CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
+        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:companyHome];
     } else {
-        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[RegisViewController alloc] init]];
+        RegisViewController *regis = [[RegisViewController alloc] init];
+        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
     }
     [self.window makeKeyAndVisible];
 

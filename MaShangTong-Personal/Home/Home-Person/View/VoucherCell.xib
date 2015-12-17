@@ -15,12 +15,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wodeyouhuiquan.png" translatesAutoresizingMaskIntoConstraints="NO" id="doH-Wj-Qe4">
-                        <rect key="frame" x="8" y="0.0" width="89" height="79"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="89" id="8du-3B-Ho4"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kcs-rQ-QjW">
                         <rect key="frame" x="56" y="24" width="30" height="30"/>
                         <constraints>
@@ -67,6 +61,12 @@
                             <action selector="sendBtnClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Rlc-D4-2Db"/>
                         </connections>
                     </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wodeyouhuiquan.png" translatesAutoresizingMaskIntoConstraints="NO" id="doH-Wj-Qe4">
+                        <rect key="frame" x="8" y="0.0" width="89" height="79"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="89" id="8du-3B-Ho4"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Kcs-rQ-QjW" firstAttribute="centerY" secondItem="doH-Wj-Qe4" secondAttribute="centerY" constant="-0.5" id="As6-us-B4R"/>
@@ -87,7 +87,7 @@
                 <outlet property="sendBtn" destination="k42-lX-auJ" id="8AY-7o-Fed"/>
                 <outlet property="valueLabel" destination="Kcs-rQ-QjW" id="h3s-6N-UNK"/>
             </connections>
-            <point key="canvasLocation" x="313" y="187"/>
+            <point key="canvasLocation" x="551" y="260"/>
         </tableViewCell>
     </objects>
     <resources>

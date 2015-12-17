@@ -13,8 +13,9 @@
 #import "AMapSearchAPI.h"
 #import "MANaviRoute.h"
 #import "PayChargeViewController.h"
+#import "ActualPriceModel.h"
 
-@interface WaitForTheOrderViewController () <MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,IFlySpeechSynthesizerDelegate,AMapSearchDelegate>
+@interface WaitForTheOrderViewController () <MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,IFlySpeechSynthesizerDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
 {
     BOOL isPullDown;
     BOOL isDriverCatch;// 司机是否已接单
@@ -24,6 +25,10 @@
     UILabel *distanceLabel;
     UILabel *speedLabel;
     UILabel *priceLabel;
+    
+    CLLocationSpeed _speed;
+    
+    NSString *_totalPrice;
 }
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) UITableView *tableView;
@@ -57,7 +62,7 @@
 
 - (void)initMapView
 {
-    _mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];
+    _mapView = [[SharedMapView sharedInstance] mapView];
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
     [self.view addSubview:_mapView];
@@ -65,21 +70,10 @@
 
 - (void)configNavigationBar
 {
-    
-//    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [backBtn setImage:[UIImage imageNamed:@"backBtn"] forState:UIControlStateNormal];
-//    backBtn.size = CGSizeMake(44, 44);
-//    [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
-    label.text = @"等待接单";
-    label.textAlignment = 1;
-    label.textColor = [UIColor whiteColor];
-    label.font = [UIFont systemFontOfSize:16];
-    self.navigationItem.titleView = label;
+    self.navigationItem.title = @"等待接单";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     UILabel *rightLabel = [[UILabel alloc] init];
     rightLabel.text = @"取消行程";
@@ -101,6 +95,23 @@
     self.navigationController.navigationBar.barTintColor = RGBColor(84, 175, 255, 1.f);
     [_mapView setCenterCoordinate:_passengerCoordinate animated:YES];
     [_mapView setZoomLevel:14 animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    self.mapView.showsUserLocation = NO;
+    
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    
+    [self.mapView removeOverlays:self.mapView.overlays];
+    
+    self.mapView.delegate = nil;
+    
+    [[SharedMapView sharedInstance] popMapViewStatus];
+    
+    NSLog(@"%@",self.mapView);
 }
 
 - (void)configDriverInfo {
@@ -238,13 +249,11 @@
     {
         _naviManager = [[AMapNaviManager alloc] init];
     }
-    
-    //    self.naviManager.delegate = self;
 }
 
 - (void)initChargingBgView
 {
-    _chargingBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-64-95, SCREEN_WIDTH, 95)];
+    _chargingBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-64, SCREEN_WIDTH, 70)];
     _chargingBgView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_chargingBgView];
     
@@ -254,7 +263,7 @@
     
     priceLabel = [[UILabel alloc] init];
     priceLabel.attributedText = attri;
-    priceLabel.frame = CGRectMake(106, 0, 80, 40);
+    priceLabel.frame = CGRectMake(90, 0, 80, 40);
     [_chargingBgView addSubview:priceLabel];
     
     distanceLabel = [[UILabel alloc] init];
@@ -308,87 +317,89 @@
 - (void)updateTime
 {
     _driveringTime ++;
-    UILabel *navTitleLabel = (UILabel *)self.navigationItem.titleView;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_route_id forKey:@"route_id"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=near_cars" params:params success:^(id json) {
-        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-        if ([resultStr isEqualToString:@"0"]) {
-            return ;
-        }
-        NSString *routeStatus = [NSString stringWithFormat:@"%@",json[@"data"][@"route_status"]];
-        if ([routeStatus isEqualToString:@"0"]) {
-            return;
-        } else {
-            isDriverCatch = 1;
-            switch ([routeStatus integerValue]) {
-                case 1:
-                {
-                    if (_lastState != DriverStateOrderReceive) {
-                        navTitleLabel.text = @"等待接驾";
-                        self.tableView.hidden = NO;
-//                        NSDictionary *param = @{@"_route_id":_model.route_id};
-//                        [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=dri_info" params:param success:^(id json) {
-//                            NYLog(@"%@",json);
-//                        } failure:^(NSError *error) {
-//                            
-//                        }];
-                        [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
-                    }
-                    _lastState = DriverStateOrderReceive;
-                    break;
-                }
-                case 2:
-                {
-                    if (_lastState != DriverStateReachAppointment) {
-                        [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已到达约定地点"];
-                    }
-                    _lastState = DriverStateReachAppointment;
-                    break;
-                }
-                case 3:
-                {
-                    if (_lastState != DriverStateBeginCharge) {
-                        navTitleLabel.text = @"行程中";
-                        [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已开始计费"];
-                        _chargingBgView.y = SCREEN_HEIGHT-95;
-#warning ---
-                        _chargingBgView.hidden = NO;
-                        _calculaterWitch = 1;
-                        _iscalculateStart = 1;
-                    }
-                    
-                    _lastState = DriverStateBeginCharge;
-                    break;
-                }
-                case 4:
-                {
-                    if (_lastState != DriverStateArriveDestination) {
-                        [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
-                        _iscalculateStart = 0;
-                        PayChargeViewController *pay = [[PayChargeViewController alloc] init];
-                        pay.detailInfoArr = @[[NSString stringWithFormat:@"%@",priceLabel.text],@"0元",distanceLabel.text,@"0.0kg"];
-                        [self.navigationController pushViewController:pay animated:YES];
-                    }
-                    _lastState = DriverStateArriveDestination;
-                    break;
-                }
-                case 5:
-                {
-                    if (_lastState != DriverStatePayOver) {
-                        [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
-                    }
-                    _lastState = DriverStatePayOver;
-                    break;
-                }
-                default:
-                    break;
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=OrderApi&a=near_cars" params:params success:^(id json) {
+        
+        @try {
+            
+            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+            if ([resultStr isEqualToString:@"0"]) {
+                return ;
             }
-            NSString *locationStr = json[@"data"][@"location"];
-            if (!locationStr) {
+            NSString *routeStatus = [NSString stringWithFormat:@"%@",json[@"data"][@"route_status"]];
+            if ([routeStatus isEqualToString:@"0"]) {
                 return;
-            }
-            @try {
+            } else {
+                isDriverCatch = 1;
+                switch ([routeStatus integerValue]) {
+                    case 1:
+                    {
+                        if (_lastState != DriverStateOrderReceive) {
+                            self.navigationItem.title = @"等待接驾";
+                            self.tableView.hidden = NO;
+                            [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
+                            NSMutableDictionary *param = [NSMutableDictionary dictionary];
+                            [param setValue:self.route_id forKey:@"route_id"];
+                            [DownloadManager post:@"http://112.124.115.81/m.php?m=orderApi&a=dri_info" params:param success:^(id json) {
+                                
+                                
+                                
+                            } failure:^(NSError *error) {
+                                
+                            }];
+                        }
+                        _lastState = DriverStateOrderReceive;
+                        break;
+                    }
+                    case 2:
+                    {
+                        if (_lastState != DriverStateReachAppointment) {
+                            [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已到达约定地点"];
+                        }
+                        _lastState = DriverStateReachAppointment;
+                        break;
+                    }
+                    case 3:
+                    {
+                        if (_lastState != DriverStateBeginCharge) {
+                            self.navigationItem.title = @"行程中";
+                            [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已开始计费"];
+                            _chargingBgView.y = SCREEN_HEIGHT-70-34;
+                            _chargingBgView.hidden = NO;
+                            _calculaterWitch = 1;
+                            _iscalculateStart = 1;
+                        }
+                        _lastState = DriverStateBeginCharge;
+                        break;
+                    }
+                    case 4:
+                    {
+                        if (_lastState != DriverStateArriveDestination) {
+                            [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
+                            _iscalculateStart = 0;
+                            PayChargeViewController *pay = [[PayChargeViewController alloc] init];
+                            pay.detailInfoArr = @[[NSString stringWithFormat:@"%@",priceLabel.text],@"0元",distanceLabel.text,@"0.0kg"];
+                            [self.navigationController pushViewController:pay animated:YES];
+                        }
+                        _lastState = DriverStateArriveDestination;
+                        break;
+                    }
+                    case 5:
+                    {
+                        if (_lastState != DriverStatePayOver) {
+                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
+                        }
+                        _lastState = DriverStatePayOver;
+                        break;
+                    }
+                    default:
+                        break;
+                }
+                NSString *locationStr = json[@"data"][@"location"];
+                if (!locationStr) {
+                    return;
+                }
                 CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);
                 _driverCoordinate = location;
                 if (_navPoint) {
@@ -400,12 +411,8 @@
                 _navPoint.title = @"司机位置";
                 [self.mapView addAnnotation:_navPoint];
             }
-            @catch (NSException *exception) {
-                
-            }
-            @finally {
-                
-            }
+        }
+        @catch (NSException *exception) {
             
         }
     } failure:^(NSError *error) {
@@ -413,6 +420,40 @@
         [MBProgressHUD showError:@"请求超时"];
         NYLog(@"%@",error.localizedDescription);
     }];
+    
+    if (_iscalculateStart) {
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        if (_speed == -1) {
+            _speed = 0;
+        }
+        NSString *isLowSpeed = @"0";
+        if (_speed <= 3.4) {
+            isLowSpeed = @"1";
+        }
+        [params setValue:[NSString stringWithFormat:@"%f",_speed] forKey:@"distance"];
+        [params setValue:self.route_id forKey:@"route_id"];
+        [params setValue:@"3" forKey:@"route_status"];
+        [params setValue:isLowSpeed forKey:@"time"];
+        [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=OrderApi&a=speed_price" params:params success:^(id json) {
+            @try {
+                ActualPriceModel *model = [[ActualPriceModel alloc] initWithDictionary:json[@"info"] error:nil];
+                distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[model.mileage floatValue]];
+                speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[model.low_time integerValue]];
+                _totalPrice = [NSString stringWithFormat:@"%.2f",[model.total_price floatValue]];
+                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
+                [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
+                priceLabel.attributedText = attri;
+            }
+            @catch (NSException *exception) {
+                
+            }
+            @finally {
+                
+            }
+        } failure:^(NSError *error) {
+            
+        }];
+    }
 }
 
 #pragma mark - MAMapViewDelegate
@@ -424,6 +465,7 @@
         [_mapView setZoomLevel:14 animated:YES];
     });
     _passengerCoordinate = userLocation.coordinate;
+    _speed = userLocation.location.speed;
     
     if (_iscalculateStart && userLocation.location.speed >= 0) {
         _actualDistance += userLocation.location.speed;
@@ -478,7 +520,7 @@
             view.canShowCallout = YES;
         }
         return view;
-    }//
+    }
     return nil;
 }
 
@@ -506,7 +548,7 @@
 #pragma mark - IFlySpeechSynthesizerDelegate
 - (void) onCompleted:(IFlySpeechError*) error
 {
-
+    
 }
 
 #pragma mark - UITableViewDelegate
@@ -567,7 +609,7 @@
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         [MBProgressHUD showMessage:@"正在取消订单"];
-        [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
+        [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
             
             NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
             [MBProgressHUD hideHUD];
@@ -596,6 +638,7 @@
         [_timer invalidate];
     }
     _timer = nil;
+#warning 释放MapView;
 }
 
 @end

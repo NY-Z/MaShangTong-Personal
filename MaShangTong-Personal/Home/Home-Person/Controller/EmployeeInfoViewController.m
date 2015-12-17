@@ -102,7 +102,7 @@
 //                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}]];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
         NYLog(@"%@",json);
         _dataArr = json[@"info"];
         [_tableView reloadData];

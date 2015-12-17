@@ -202,7 +202,7 @@
     }
     
     [MBProgressHUD showMessage:@"正在注册"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=register" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=register" params:params success:^(id json) {
         
         [MBProgressHUD hideHUD];
         if ([json[@"result"] isEqualToString:@"1"]) {

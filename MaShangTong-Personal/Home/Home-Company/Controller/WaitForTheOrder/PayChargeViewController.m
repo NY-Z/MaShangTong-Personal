@@ -236,7 +236,7 @@
     [params setValue:@"2" forKey:@"type"];
     [params setValue:@"2" forKey:@"group_id"];
     [MBProgressHUD showMessage:@"正在支付，请稍候"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         [MBProgressHUD hideHUD];
         if ([resultStr isEqualToString:@"1"]) {

@@ -367,7 +367,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"3" forKey:@"reserva_type"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
         _airportPickupRuleArr = json[@"info"][@"rule"];
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];
@@ -531,9 +531,9 @@
     [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [params setObject:@"3" forKey:@"reserva_type"];
     
-    [MBProgressHUD showMessage:@"正在发送订单,请稍候。。。"];
+    [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=usersigle" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=OrderApi&a=usersigle" params:params success:^(id json) {
         
         NSLog(@"%@",json);
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
@@ -547,7 +547,7 @@
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [MBProgressHUD showMessage:@"正在取消订单"];
-                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
                     
                     NYLog(@"%@",json);
                     NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];

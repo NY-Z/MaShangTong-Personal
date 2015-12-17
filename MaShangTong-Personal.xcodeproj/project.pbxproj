@@ -69,6 +69,9 @@
 		1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */; };
 		18B149E91C20F55300C60449 /* EmployeeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B149E81C20F55300C60449 /* EmployeeInfoModel.m */; };
 		18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BB20E31C1986F0005123DA /* Default-568h@2x.png */; };
+		18C6BF4C1C22E0A300092E3A /* SharedMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF4B1C22E0A300092E3A /* SharedMapView.m */; };
+		18C6BF4F1C22E67D00092E3A /* ActualPriceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF4E1C22E67D00092E3A /* ActualPriceModel.m */; };
+		18C6BF521C22F3A500092E3A /* DriverInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF511C22F3A500092E3A /* DriverInfoModel.m */; };
 		6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434151BF2D8B5002E25DA /* UIView+Extension.m */; };
 		6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434761BF2F112002E25DA /* CommonUtility.m */; };
 		6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434791BF2F112002E25DA /* AMapTipAnnotation.m */; };
@@ -329,6 +332,12 @@
 		18B149E71C20F55300C60449 /* EmployeeInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeInfoModel.h; sourceTree = "<group>"; };
 		18B149E81C20F55300C60449 /* EmployeeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeInfoModel.m; sourceTree = "<group>"; };
 		18BB20E31C1986F0005123DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		18C6BF4A1C22E0A300092E3A /* SharedMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedMapView.h; sourceTree = "<group>"; };
+		18C6BF4B1C22E0A300092E3A /* SharedMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedMapView.m; sourceTree = "<group>"; };
+		18C6BF4D1C22E67D00092E3A /* ActualPriceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActualPriceModel.h; sourceTree = "<group>"; };
+		18C6BF4E1C22E67D00092E3A /* ActualPriceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActualPriceModel.m; sourceTree = "<group>"; };
+		18C6BF501C22F3A500092E3A /* DriverInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverInfoModel.h; sourceTree = "<group>"; };
+		18C6BF511C22F3A500092E3A /* DriverInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverInfoModel.m; sourceTree = "<group>"; };
 		261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6D5434121BF2D755002E25DA /* MaShangTong.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaShangTong.pch; sourceTree = "<group>"; };
 		6D5434141BF2D8B5002E25DA /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
@@ -608,6 +617,10 @@
 				0EDE8CB81C08257300356AF1 /* MANaviRoute.m */,
 				0EDE8C981C07E87C00356AF1 /* NavPointAnnotation.h */,
 				0EDE8C991C07E87C00356AF1 /* NavPointAnnotation.m */,
+				18C6BF4D1C22E67D00092E3A /* ActualPriceModel.h */,
+				18C6BF4E1C22E67D00092E3A /* ActualPriceModel.m */,
+				18C6BF501C22F3A500092E3A /* DriverInfoModel.h */,
+				18C6BF511C22F3A500092E3A /* DriverInfoModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1114,6 +1127,8 @@
 		6D97F79A1BF5CC450066257C /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				18C6BF4A1C22E0A300092E3A /* SharedMapView.h */,
+				18C6BF4B1C22E0A300092E3A /* SharedMapView.m */,
 				0EF9E6491BF86A4A002B6915 /* MBProgressHUD+MJ.h */,
 				0EF9E64A1BF86A4A002B6915 /* MBProgressHUD+MJ.m */,
 				6D97F79B1BF5CC590066257C /* DownloadManager.h */,
@@ -1486,6 +1501,7 @@
 				6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */,
 				0EDE8C751C06AE3400356AF1 /* WaitForTheOrderViewController.m in Sources */,
 				6D5434971BF2F112002E25DA /* LocalTileOverlay.m in Sources */,
+				18C6BF521C22F3A500092E3A /* DriverInfoModel.m in Sources */,
 				6DD875C61BF21CC3006145E2 /* AppDelegate.m in Sources */,
 				6D5434951BF2F112002E25DA /* GeocodeAnnotation.m in Sources */,
 				6D54361E1BF30F21002E25DA /* DataVerifier.m in Sources */,
@@ -1497,6 +1513,7 @@
 				0E4C92F91C02E3AC00118310 /* RegisViewController.m in Sources */,
 				0EDE8C891C06AE6000356AF1 /* AirPortViewController.m in Sources */,
 				0EDE8C711C06A4FE00356AF1 /* PassengerMessageModel.m in Sources */,
+				18C6BF4C1C22E0A300092E3A /* SharedMapView.m in Sources */,
 				0ED1D9CF1BF6CB9200804B14 /* BuyVouchersCell.m in Sources */,
 				0EDE8CBD1C08402C00356AF1 /* UserModel.m in Sources */,
 				6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */,
@@ -1517,6 +1534,7 @@
 				6D5434941BF2F112002E25DA /* CustomOverlay.m in Sources */,
 				6D5434991BF2F112002E25DA /* MANaviPolyline.m in Sources */,
 				105791E61C106DF600E844FA /* PersonRegisViewController.m in Sources */,
+				18C6BF4F1C22E67D00092E3A /* ActualPriceModel.m in Sources */,
 				0EDE8C8B1C06AE6000356AF1 /* CompanyHomeViewController.m in Sources */,
 				6DD875C31BF21CC3006145E2 /* main.m in Sources */,
 				6D5435BB1BF30A99002E25DA /* SettingViewController.m in Sources */,

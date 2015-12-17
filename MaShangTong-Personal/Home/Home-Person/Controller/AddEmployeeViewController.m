@@ -214,7 +214,7 @@
     NSLog(@"%@",[USER_DEFAULT valueForKey:@"user_id"]);
     NSLog(@"%@",[USER_DEFAULT objectForKey:@"user_id"]);
     [MBProgressHUD showMessage:@"正在添加"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=team_enter" params:params success:^(id json) {
+    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=team_enter" params:params success:^(id json) {
         [MBProgressHUD hideHUD];
         NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
         if ([dataStr isEqualToString:@"1"]) {

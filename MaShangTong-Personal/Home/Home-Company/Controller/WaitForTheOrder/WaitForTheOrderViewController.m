@@ -14,6 +14,8 @@
 #import "MANaviRoute.h"
 #import "PayChargeViewController.h"
 #import "ActualPriceModel.h"
+#import "DriverInfoModel.h"
+
 
 @interface WaitForTheOrderViewController () <MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,IFlySpeechSynthesizerDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
 {
@@ -29,6 +31,8 @@
     CLLocationSpeed _speed;
     
     NSString *_totalPrice;
+    
+    DriverInfoModel *infoModel；
 }
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) UITableView *tableView;
@@ -137,6 +141,7 @@
     
     UILabel *nameLabel = [[UILabel alloc] init];
     nameLabel.text = @"徐师傅";
+    nameLabel.tag = 100;
     nameLabel.font = [UIFont systemFontOfSize:20];
     [bgView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -147,6 +152,7 @@
     
     UILabel *licenseLabel = [[UILabel alloc] init];
     licenseLabel.text = @"沪F88888";
+    licenseLabel.tag = 200;
     licenseLabel.textColor = RGBColor(179, 179, 179, 1);
     licenseLabel.font = [UIFont systemFontOfSize:12];
     [bgView addSubview:licenseLabel];
@@ -158,6 +164,7 @@
     
     UILabel *companyLabel = [[UILabel alloc] init];
     companyLabel.text = @"友联出租";
+    companyLabel.tag = 300;
     companyLabel.font = [UIFont systemFontOfSize:12];
     companyLabel.textColor = RGBColor(179, 179, 179, 1);
     [bgView addSubview:companyLabel];
@@ -181,6 +188,7 @@
     
     UILabel *billLabel = [[UILabel alloc] init];
     billLabel.text = @"26666单";
+    billLabel.tag = 400;
     billLabel.textColor = RGBColor(179, 179, 179, 1);
     billLabel.font = [UIFont systemFontOfSize:12];
     [bgView addSubview:billLabel];
@@ -191,12 +199,15 @@
     }];
     
     UIImageView *dailImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dail"]];
+    dailImageView.userInteractionEnabled = YES;
     [bgView addSubview:dailImageView];
     [dailImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(bgView).offset(-5);
         make.right.equalTo(bgView).offset(-20);
         make.size.mas_equalTo(CGSizeMake(48, 48));
     }];
+    UITapGestureRecognizer *dailImageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(telImageTaped:)];
+    [dailImageView addGestureRecognizer:dailImageViewTap];
     
     tableView.tableHeaderView = bgView;
     
@@ -343,7 +354,16 @@
                             [param setValue:self.route_id forKey:@"route_id"];
                             [DownloadManager post:@"http://112.124.115.81/m.php?m=orderApi&a=dri_info" params:param success:^(id json) {
                                 
-                                
+                                 = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
+                                UIView *tableHeaderView = self.tableView.tableHeaderView;
+                                UILabel *nameLabel = (UILabel *)[tableHeaderView viewWithTag:100];
+                                UILabel *licenseLabel = (UILabel *)[tableHeaderView viewWithTag:200];
+                                UILabel *companyLabel = (UILabel *)[tableHeaderView viewWithTag:300];
+                                UILabel *billLabell = (UILabel *)[tableHeaderView viewWithTag:400];
+                                nameLabel.text = infoModel.owner_name;
+                                licenseLabel.text = infoModel.license_plate;
+                                companyLabel.text = @"";
+                                billLabell.text = [NSString stringWithFormat:@"%@单",infoModel.num];
                                 
                             } failure:^(NSError *error) {
                                 
@@ -629,6 +649,15 @@
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - telImageTaped
+- (void)telImageTaped:(UITapGestureRecognizer *)tap
+{
+    if (!infoModel) {
+        return;
+    }
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",infoModel.mobile]]];
 }
 
 - (void)dealloc

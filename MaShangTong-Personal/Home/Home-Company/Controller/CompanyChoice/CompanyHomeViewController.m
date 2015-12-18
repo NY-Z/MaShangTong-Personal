@@ -20,8 +20,8 @@
 #import "VoucherViewController.h"
 #import "SettingViewController.h"
 #import "PassengerMessageModel.h"
-#import "DatePickView.h"
 #import "WaitForTheOrderViewController.h"
+#import "NYCompanyBillViewController.h"
 
 #define kPersonInfoTitle @"personInfoTitle"
 #define kPersonInfoImageName @"personInfoImageName"
@@ -805,7 +805,8 @@
         }
         case 1:
         {
-            
+            NYCompanyBillViewController *companyBill = [[NYCompanyBillViewController alloc] init];
+            [self.navigationController pushViewController:companyBill animated:YES];
             break;
         }
         case 2:
@@ -881,11 +882,6 @@
     [_pageViewController setViewControllers:@[_dataArr[btn.tag - 100]] direction:_currentPage > index animated:YES completion:^(BOOL finished) {
         _currentPage = index;
     }];
-}
-
-- (void)dateChanged:(UIDatePicker *)datePicker
-{
-    
 }
 
 - (void)pickerLeftBtnClicked:(UIButton *)btn

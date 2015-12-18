@@ -35,6 +35,7 @@
 #define AMap_ApiKey @"a0ea75c92d27c222fd3ccf2ee236f284"
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 #define APPID_IFly @"5657d35c"
+#define Mast_Url @"http://112.124.115.81/m.php?m=%@&a=%@"
 
 #ifdef DEBUG // 处于开发阶段
 #define NYLog(...) NSLog(__VA_ARGS__)

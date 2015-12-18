@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -12,12 +12,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="179"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="179.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dingwei2.png" translatesAutoresizingMaskIntoConstraints="NO" id="JEt-ZF-7AY">
                         <rect key="frame" x="48" y="8" width="22" height="22"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="22" id="HXu-cp-4Sm"/>
                             <constraint firstAttribute="height" constant="22" id="wGz-La-ua7"/>
@@ -25,7 +24,6 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dingwei1.png" translatesAutoresizingMaskIntoConstraints="NO" id="0LU-ts-3tm">
                         <rect key="frame" x="48" y="39" width="22" height="22"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="22" id="0Qw-ez-bfz"/>
                             <constraint firstAttribute="height" constant="22" id="2ze-KK-9ca"/>
@@ -33,7 +31,6 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shijian.png" translatesAutoresizingMaskIntoConstraints="NO" id="YPV-7n-igE">
                         <rect key="frame" x="48" y="70" width="22" height="22"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="EU8-Rs-WHO"/>
                             <constraint firstAttribute="width" constant="22" id="Wip-4l-L59"/>
@@ -41,7 +38,6 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上海市真南路3911弄" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WhS-Cr-yYO">
                         <rect key="frame" x="78" y="9" width="234" height="21"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="234" id="2Xi-6G-5Ga"/>
                             <constraint firstAttribute="height" constant="21" id="9ZB-Y7-h6q"/>
@@ -52,7 +48,6 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下单时间:2015年9月12日" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yJr-LF-RJc">
                         <rect key="frame" x="78" y="70" width="154" height="21"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="154" id="VVh-6q-RwM"/>
                         </constraints>
@@ -62,7 +57,6 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:32:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mF-Of-DsF">
                         <rect key="frame" x="240" y="70" width="63" height="21"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="63" id="97J-XC-z3X"/>
                         </constraints>
@@ -72,20 +66,17 @@
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="advertisementImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="zEt-jp-Ic9">
                         <rect key="frame" x="0.0" y="99" width="320" height="80"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="80" id="ijy-lW-2hF"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="嘉定区南翔镇共和街南翔公馆" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kt-jx-ngg">
                         <rect key="frame" x="78" y="39" width="234" height="21"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.40784313725490196" green="0.40784313725490196" blue="0.40784313725490196" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <animations/>
                 <constraints>
                     <constraint firstItem="WhS-Cr-yYO" firstAttribute="width" secondItem="1kt-jx-ngg" secondAttribute="width" id="5Fj-mG-1FP"/>
                     <constraint firstItem="WhS-Cr-yYO" firstAttribute="height" secondItem="1kt-jx-ngg" secondAttribute="height" id="8hK-22-p8h"/>
@@ -110,8 +101,11 @@
                     <constraint firstItem="WhS-Cr-yYO" firstAttribute="centerY" secondItem="JEt-ZF-7AY" secondAttribute="centerY" constant="0.5" id="x9V-fB-fOr"/>
                 </constraints>
             </tableViewCellContentView>
-            <animations/>
-            <point key="canvasLocation" x="257" y="333"/>
+            <connections>
+                <outlet property="endNameLabel" destination="1kt-jx-ngg" id="rFx-k1-VXq"/>
+                <outlet property="originNameLabel" destination="WhS-Cr-yYO" id="Bzh-bP-eys"/>
+            </connections>
+            <point key="canvasLocation" x="474" y="457"/>
         </tableViewCell>
     </objects>
     <resources>

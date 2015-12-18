@@ -32,12 +32,8 @@
     leftBtn.size = CGSizeMake(44, 44);
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"代金券购买";
-    label.textColor = RGBColor(73, 185, 254, 1.f);
-    label.size = CGSizeMake(100, 44);
-    label.textAlignment = 1;
-    self.navigationItem.titleView = label;
+    self.navigationItem.title = @"代金券购买";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:21],NSForegroundColorAttributeName:RGBColor(73, 185, 254, 1.f)}];
 }
 
 - (void)configDataSource

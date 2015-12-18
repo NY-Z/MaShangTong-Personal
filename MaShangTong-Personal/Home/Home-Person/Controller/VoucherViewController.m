@@ -31,12 +31,8 @@
     leftBtn.size = CGSizeMake(44, 44);
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"代金券管理";
-    label.textColor = RGBColor(73, 185, 254, 1.f);
-    label.size = CGSizeMake(100, 44);
-    label.textAlignment = 1;
-    self.navigationItem.titleView = label;
+    self.navigationItem.title = @"代金券管理";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:21],NSForegroundColorAttributeName:RGBColor(73, 185, 254, 1.f)}];
     
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [rightBtn setImage:[UIImage imageNamed:@"renminbi"] forState:UIControlStateNormal];

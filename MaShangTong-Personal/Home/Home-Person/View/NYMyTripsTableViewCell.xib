@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="NYMyTripsTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dingwei2.png" translatesAutoresizingMaskIntoConstraints="NO" id="xIR-0g-Ldz">
+                        <rect key="frame" x="18" y="8" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="PCq-fj-ReJ"/>
+                            <constraint firstAttribute="height" constant="20" id="xzx-br-zUT"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dingwei1.png" translatesAutoresizingMaskIntoConstraints="NO" id="rW6-DO-9fj">
+                        <rect key="frame" x="18" y="33" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="qhC-rV-rlg"/>
+                            <constraint firstAttribute="width" constant="20" id="tmr-JO-RMf"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0T9-xj-cbc">
+                        <rect key="frame" x="46" y="8" width="196" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gTH-qR-WLs">
+                        <rect key="frame" x="46" y="33" width="196" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.6686187891386921" green="0.6686187891386921" blue="0.6686187891386921" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cbl-kC-Rsz">
+                        <rect key="frame" x="267" y="19" width="40" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="V66-Yi-mVB"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.65695184978441634" green="0.65695184978441634" blue="0.65695184978441634" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="0T9-xj-cbc" secondAttribute="trailing" constant="70" id="2my-MZ-I9T"/>
+                    <constraint firstItem="Cbl-kC-Rsz" firstAttribute="leading" secondItem="0T9-xj-cbc" secondAttribute="trailing" constant="25" id="3cB-Su-aiN"/>
+                    <constraint firstItem="0T9-xj-cbc" firstAttribute="top" secondItem="xIR-0g-Ldz" secondAttribute="top" id="ATb-8g-TTf"/>
+                    <constraint firstItem="gTH-qR-WLs" firstAttribute="top" secondItem="0T9-xj-cbc" secondAttribute="bottom" constant="5" id="BFb-yV-t4I"/>
+                    <constraint firstItem="rW6-DO-9fj" firstAttribute="top" secondItem="xIR-0g-Ldz" secondAttribute="bottom" constant="5" id="DG4-CW-glb"/>
+                    <constraint firstItem="gTH-qR-WLs" firstAttribute="height" secondItem="rW6-DO-9fj" secondAttribute="height" id="EL2-UG-t05"/>
+                    <constraint firstItem="gTH-qR-WLs" firstAttribute="trailing" secondItem="0T9-xj-cbc" secondAttribute="trailing" id="IbG-DY-SKa"/>
+                    <constraint firstItem="0T9-xj-cbc" firstAttribute="bottom" secondItem="xIR-0g-Ldz" secondAttribute="bottom" id="M06-lk-J0m"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Cbl-kC-Rsz" secondAttribute="trailing" constant="5" id="M8Z-M6-rKv"/>
+                    <constraint firstAttribute="topMargin" secondItem="xIR-0g-Ldz" secondAttribute="top" id="Q2D-PV-uwk"/>
+                    <constraint firstItem="0T9-xj-cbc" firstAttribute="leading" secondItem="xIR-0g-Ldz" secondAttribute="trailing" constant="8" id="X8r-QE-PPD"/>
+                    <constraint firstItem="xIR-0g-Ldz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="alI-nD-FD6"/>
+                    <constraint firstItem="rW6-DO-9fj" firstAttribute="leading" secondItem="xIR-0g-Ldz" secondAttribute="leading" id="mO4-Fn-yZH"/>
+                    <constraint firstItem="gTH-qR-WLs" firstAttribute="leading" secondItem="0T9-xj-cbc" secondAttribute="leading" id="rlf-pO-SsC"/>
+                    <constraint firstItem="Cbl-kC-Rsz" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="y2z-bL-foQ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="endNameImageView" destination="rW6-DO-9fj" id="UDg-z8-dYP"/>
+                <outlet property="endNameLabel" destination="gTH-qR-WLs" id="WJc-ha-8vY"/>
+                <outlet property="originNameImageView" destination="xIR-0g-Ldz" id="OPe-lm-z8B"/>
+                <outlet property="originNameLabel" destination="0T9-xj-cbc" id="UXd-nb-hO9"/>
+                <outlet property="reservationTypeLabel" destination="Cbl-kC-Rsz" id="DHq-Cw-g6E"/>
+            </connections>
+            <point key="canvasLocation" x="438" y="320"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="dingwei1.png" width="42" height="42"/>
+        <image name="dingwei2.png" width="42" height="42"/>
+    </resources>
+</document>

@@ -42,12 +42,8 @@
     rightBtn.size = CGSizeMake(44, 44);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
     
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"员工信息";
-    label.textColor = RGBColor(73, 185, 254, 1.f);
-    label.size = CGSizeMake(100, 44);
-    label.textAlignment = 1;
-    self.navigationItem.titleView = label;
+    self.navigationItem.title = @"员工信息";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:21],NSForegroundColorAttributeName:RGBColor(73, 185, 254, 1.f)}];
 }
 
 - (void)configTableView
@@ -67,7 +63,8 @@
     bottomBtn.titleLabel.font = [UIFont systemFontOfSize:11];
     [bottomBtn setTitleColor:RGBColor(165, 165, 165, 1.f) forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(addGroup:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:bottomBtn];
+//    [self.view addSubview:bottomBtn];
+#warning 添加分组
     [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view);
         make.left.equalTo(self.view);
@@ -102,7 +99,7 @@
 //                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}]];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
-    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
         NYLog(@"%@",json);
         _dataArr = json[@"info"];
         [_tableView reloadData];

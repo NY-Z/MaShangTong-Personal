@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ActualPriceModel.h"
 
 @interface PayChargeViewController : UIViewController
 
-@property (nonatomic,strong) NSArray *detailInfoArr;
+//@property (nonatomic,strong) NSArray *detailInfoArr;
+@property (nonatomic,strong) ActualPriceModel *actualPriceModel;
 
 @end

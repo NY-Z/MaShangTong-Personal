@@ -37,12 +37,8 @@
     leftBtn.size = CGSizeMake(44, 44);
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"账户余额";
-    label.textColor = RGBColor(73, 185, 254, 1.f);
-    label.size = CGSizeMake(100, 44);
-    label.textAlignment = 1;
-    self.navigationItem.titleView = label;
+    self.navigationItem.title = @"账户余额";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:21],NSForegroundColorAttributeName:RGBColor(73, 185, 254, 1.f)}];
 }
 
 - (void)configViews
@@ -205,7 +201,7 @@
     [params setValue:userId forKey:@"user_id"];
     [params setValue:@"4" forKey:@"type"];
     [params setValue:@"2" forKey:@"group_id"];
-    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
         
         NYLog(@"%@",json);
         _moneyLabel.text = [NSString stringWithFormat:@"￥ %@",json[@"money"]];
@@ -249,7 +245,7 @@
     switch (_selectPayBtn.tag) {
         case 1000:
         {
-            
+            [self bizPay];
             break;
         }
         case 2000:
@@ -265,6 +261,11 @@
         default:
             break;
     }
+}
+
+- (void)bizPay
+{
+    
 }
 
 -(void)payAlipay
@@ -346,7 +347,7 @@
             [params setValue:@"1" forKey:@"type"];
             
             AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-            [mgr POST:@"http://192.168.8.109/mst/m.php?m=UserApi&a=recharge" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            [mgr POST:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
                 
                 NYLog(@"%@",responseObject);
                 

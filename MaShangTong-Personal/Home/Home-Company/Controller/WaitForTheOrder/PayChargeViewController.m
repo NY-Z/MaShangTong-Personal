@@ -144,9 +144,10 @@
     }
     
     //    _detailInfoArr = @[@"14元",@"0元",@"2公里",@"0.3kg"];
+    NSArray *detailInfoArr = @[_actualPriceModel.total_price,@"0",_actualPriceModel.mileage,@"0.0kg"];
     for (NSInteger i = 0; i < 4; i++) {
         UILabel *label = [[UILabel alloc] init];
-        label.text = _detailInfoArr[i];
+        label.text = detailInfoArr[i];
         label.textAlignment = 2;
         label.textColor = RGBColor(71, 71, 71, 1.f);
         label.font = [UIFont systemFontOfSize:12];
@@ -162,7 +163,7 @@
     }
     
     UIButton *confirmPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [confirmPayBtn setTitle:[NSString stringWithFormat:@"确认支付%.1f元",[_detailInfoArr[0] floatValue]] forState:UIControlStateNormal];
+    [confirmPayBtn setTitle:[NSString stringWithFormat:@"确认支付%.1f元",[detailInfoArr[0] floatValue]] forState:UIControlStateNormal];
     [confirmPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [confirmPayBtn setBackgroundColor:RGBColor(84, 175, 255, 1.f)];
     confirmPayBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -232,11 +233,11 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
-    [params setValue:[_detailInfoArr[0] substringToIndex:((NSString *)_detailInfoArr[0]).length-1] forKey:@"money"];
+    [params setValue:[NSString stringWithFormat:@"%.2f",[_actualPriceModel.total_price floatValue]] forKey:@"money"];
     [params setValue:@"2" forKey:@"type"];
     [params setValue:@"2" forKey:@"group_id"];
     [MBProgressHUD showMessage:@"正在支付，请稍候"];
-    [DownloadManager post:@"http://192.168.8.109/mst/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         [MBProgressHUD hideHUD];
         if ([resultStr isEqualToString:@"1"]) {

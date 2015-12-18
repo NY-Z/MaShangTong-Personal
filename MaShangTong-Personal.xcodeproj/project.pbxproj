@@ -21,7 +21,6 @@
 		0E71B7C41BF6E8CD00D95618 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71B7C31BF6E8CD00D95618 /* Helper.m */; };
 		0ED1D9CF1BF6CB9200804B14 /* BuyVouchersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C01BF6CB9200804B14 /* BuyVouchersCell.m */; };
 		0ED1D9D01BF6CB9200804B14 /* BuyVouchersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C11BF6CB9200804B14 /* BuyVouchersCell.xib */; };
-		0ED1D9D11BF6CB9200804B14 /* DatePickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C31BF6CB9200804B14 /* DatePickView.m */; };
 		0ED1D9D21BF6CB9200804B14 /* EmployeeInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C51BF6CB9200804B14 /* EmployeeInfoCell.m */; };
 		0ED1D9D31BF6CB9200804B14 /* EmployeeInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C61BF6CB9200804B14 /* EmployeeInfoCell.xib */; };
 		0ED1D9D41BF6CB9200804B14 /* SendVoucherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C81BF6CB9200804B14 /* SendVoucherCell.m */; };
@@ -67,6 +66,11 @@
 		1803787C1C1D6CB400F4FDCB /* AddEmployeeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1803787A1C1D6CB400F4FDCB /* AddEmployeeViewController.xib */; };
 		1879B14A1C15ACD6006FD947 /* CharteredBusRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879B1491C15ACD6006FD947 /* CharteredBusRule.m */; };
 		1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */; };
+		189EF12E1C239A46002E7702 /* NYCompanyBillViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF12D1C239A46002E7702 /* NYCompanyBillViewController.m */; };
+		189EF1351C23A11A002E7702 /* NYMyTripsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF1341C23A11A002E7702 /* NYMyTripsModel.m */; };
+		189EF13A1C23A1CC002E7702 /* NYMyTripsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF1381C23A1CC002E7702 /* NYMyTripsTableViewCell.m */; };
+		189EF13B1C23A1CC002E7702 /* NYMyTripsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 189EF1391C23A1CC002E7702 /* NYMyTripsTableViewCell.xib */; };
+		189EF13E1C23B229002E7702 /* NYCompanyDetailBillViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF13D1C23B229002E7702 /* NYCompanyDetailBillViewController.m */; };
 		18B149E91C20F55300C60449 /* EmployeeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B149E81C20F55300C60449 /* EmployeeInfoModel.m */; };
 		18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BB20E31C1986F0005123DA /* Default-568h@2x.png */; };
 		18C6BF4C1C22E0A300092E3A /* SharedMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF4B1C22E0A300092E3A /* SharedMapView.m */; };
@@ -256,8 +260,6 @@
 		0ED1D9BF1BF6CB9200804B14 /* BuyVouchersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyVouchersCell.h; sourceTree = "<group>"; };
 		0ED1D9C01BF6CB9200804B14 /* BuyVouchersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyVouchersCell.m; sourceTree = "<group>"; };
 		0ED1D9C11BF6CB9200804B14 /* BuyVouchersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuyVouchersCell.xib; sourceTree = "<group>"; };
-		0ED1D9C21BF6CB9200804B14 /* DatePickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickView.h; sourceTree = "<group>"; };
-		0ED1D9C31BF6CB9200804B14 /* DatePickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickView.m; sourceTree = "<group>"; };
 		0ED1D9C41BF6CB9200804B14 /* EmployeeInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeInfoCell.h; sourceTree = "<group>"; };
 		0ED1D9C51BF6CB9200804B14 /* EmployeeInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeInfoCell.m; sourceTree = "<group>"; };
 		0ED1D9C61BF6CB9200804B14 /* EmployeeInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmployeeInfoCell.xib; sourceTree = "<group>"; };
@@ -329,6 +331,15 @@
 		1879B1491C15ACD6006FD947 /* CharteredBusRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharteredBusRule.m; sourceTree = "<group>"; };
 		1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialCarRuleModel.h; sourceTree = "<group>"; };
 		1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialCarRuleModel.m; sourceTree = "<group>"; };
+		189EF12C1C239A46002E7702 /* NYCompanyBillViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCompanyBillViewController.h; sourceTree = "<group>"; };
+		189EF12D1C239A46002E7702 /* NYCompanyBillViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCompanyBillViewController.m; sourceTree = "<group>"; };
+		189EF1331C23A11A002E7702 /* NYMyTripsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYMyTripsModel.h; sourceTree = "<group>"; };
+		189EF1341C23A11A002E7702 /* NYMyTripsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYMyTripsModel.m; sourceTree = "<group>"; };
+		189EF1371C23A1CC002E7702 /* NYMyTripsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYMyTripsTableViewCell.h; sourceTree = "<group>"; };
+		189EF1381C23A1CC002E7702 /* NYMyTripsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYMyTripsTableViewCell.m; sourceTree = "<group>"; };
+		189EF1391C23A1CC002E7702 /* NYMyTripsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYMyTripsTableViewCell.xib; sourceTree = "<group>"; };
+		189EF13C1C23B229002E7702 /* NYCompanyDetailBillViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCompanyDetailBillViewController.h; sourceTree = "<group>"; };
+		189EF13D1C23B229002E7702 /* NYCompanyDetailBillViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCompanyDetailBillViewController.m; sourceTree = "<group>"; };
 		18B149E71C20F55300C60449 /* EmployeeInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeInfoModel.h; sourceTree = "<group>"; };
 		18B149E81C20F55300C60449 /* EmployeeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeInfoModel.m; sourceTree = "<group>"; };
 		18BB20E31C1986F0005123DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -590,12 +601,12 @@
 		0EDE8C761C06AE6000356AF1 /* CompanyChoice */ = {
 			isa = PBXGroup;
 			children = (
+				1882C4E01C1C1417000DEAE7 /* Model */,
 				1805CDCE1C201F750045BC1C /* Controller */,
 				1805CDCA1C201F220045BC1C /* 专车 */,
 				1805CDCB1C201F2C0045BC1C /* 包车 */,
 				1805CDCC1C201F400045BC1C /* 接机 */,
 				1805CDCD1C201F580045BC1C /* 送机 */,
-				1882C4E01C1C1417000DEAE7 /* Model */,
 			);
 			path = CompanyChoice;
 			sourceTree = "<group>";
@@ -779,6 +790,62 @@
 				180378761C1D4C7900F4FDCB /* AirportPickupModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		189EF12B1C239A22002E7702 /* 我的订单 */ = {
+			isa = PBXGroup;
+			children = (
+				189EF12C1C239A46002E7702 /* NYCompanyBillViewController.h */,
+				189EF12D1C239A46002E7702 /* NYCompanyBillViewController.m */,
+				189EF13C1C23B229002E7702 /* NYCompanyDetailBillViewController.h */,
+				189EF13D1C23B229002E7702 /* NYCompanyDetailBillViewController.m */,
+			);
+			name = "我的订单";
+			sourceTree = "<group>";
+		};
+		189EF12F1C23A0A7002E7702 /* 员工信息 */ = {
+			isa = PBXGroup;
+			children = (
+				0ED1D9C41BF6CB9200804B14 /* EmployeeInfoCell.h */,
+				0ED1D9C51BF6CB9200804B14 /* EmployeeInfoCell.m */,
+				0ED1D9C61BF6CB9200804B14 /* EmployeeInfoCell.xib */,
+			);
+			name = "员工信息";
+			sourceTree = "<group>";
+		};
+		189EF1301C23A0BA002E7702 /* 代金券管理 */ = {
+			isa = PBXGroup;
+			children = (
+				0ED1D9BF1BF6CB9200804B14 /* BuyVouchersCell.h */,
+				0ED1D9C01BF6CB9200804B14 /* BuyVouchersCell.m */,
+				0ED1D9C11BF6CB9200804B14 /* BuyVouchersCell.xib */,
+				0ED1D9C71BF6CB9200804B14 /* SendVoucherCell.h */,
+				0ED1D9C81BF6CB9200804B14 /* SendVoucherCell.m */,
+				0ED1D9C91BF6CB9200804B14 /* SendVoucherCell.xib */,
+				0ED1D9CC1BF6CB9200804B14 /* VoucherCell.h */,
+				0ED1D9CD1BF6CB9200804B14 /* VoucherCell.m */,
+				0ED1D9CE1BF6CB9200804B14 /* VoucherCell.xib */,
+			);
+			name = "代金券管理";
+			sourceTree = "<group>";
+		};
+		189EF1311C23A0D4002E7702 /* 设置 */ = {
+			isa = PBXGroup;
+			children = (
+				0ED1D9CA1BF6CB9200804B14 /* SettingTableViewCell.h */,
+				0ED1D9CB1BF6CB9200804B14 /* SettingTableViewCell.m */,
+			);
+			name = "设置";
+			sourceTree = "<group>";
+		};
+		189EF1361C23A1B2002E7702 /* 我的订单 */ = {
+			isa = PBXGroup;
+			children = (
+				189EF1371C23A1CC002E7702 /* NYMyTripsTableViewCell.h */,
+				189EF1381C23A1CC002E7702 /* NYMyTripsTableViewCell.m */,
+				189EF1391C23A1CC002E7702 /* NYMyTripsTableViewCell.xib */,
+			);
+			name = "我的订单";
 			sourceTree = "<group>";
 		};
 		51DB1C8CF43367F3BCD54696 /* Pods */ = {
@@ -1052,6 +1119,8 @@
 			children = (
 				18B149E71C20F55300C60449 /* EmployeeInfoModel.h */,
 				18B149E81C20F55300C60449 /* EmployeeInfoModel.m */,
+				189EF1331C23A11A002E7702 /* NYMyTripsModel.h */,
+				189EF1341C23A11A002E7702 /* NYMyTripsModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1059,22 +1128,10 @@
 		6D5435A91BF30A5F002E25DA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0ED1D9BF1BF6CB9200804B14 /* BuyVouchersCell.h */,
-				0ED1D9C01BF6CB9200804B14 /* BuyVouchersCell.m */,
-				0ED1D9C11BF6CB9200804B14 /* BuyVouchersCell.xib */,
-				0ED1D9C21BF6CB9200804B14 /* DatePickView.h */,
-				0ED1D9C31BF6CB9200804B14 /* DatePickView.m */,
-				0ED1D9C41BF6CB9200804B14 /* EmployeeInfoCell.h */,
-				0ED1D9C51BF6CB9200804B14 /* EmployeeInfoCell.m */,
-				0ED1D9C61BF6CB9200804B14 /* EmployeeInfoCell.xib */,
-				0ED1D9C71BF6CB9200804B14 /* SendVoucherCell.h */,
-				0ED1D9C81BF6CB9200804B14 /* SendVoucherCell.m */,
-				0ED1D9C91BF6CB9200804B14 /* SendVoucherCell.xib */,
-				0ED1D9CA1BF6CB9200804B14 /* SettingTableViewCell.h */,
-				0ED1D9CB1BF6CB9200804B14 /* SettingTableViewCell.m */,
-				0ED1D9CC1BF6CB9200804B14 /* VoucherCell.h */,
-				0ED1D9CD1BF6CB9200804B14 /* VoucherCell.m */,
-				0ED1D9CE1BF6CB9200804B14 /* VoucherCell.xib */,
+				189EF12F1C23A0A7002E7702 /* 员工信息 */,
+				189EF1361C23A1B2002E7702 /* 我的订单 */,
+				189EF1301C23A0BA002E7702 /* 代金券管理 */,
+				189EF1311C23A0D4002E7702 /* 设置 */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1083,6 +1140,7 @@
 			isa = PBXGroup;
 			children = (
 				1803787D1C1D6D2800F4FDCB /* 员工信息 */,
+				189EF12B1C239A22002E7702 /* 我的订单 */,
 				1803787E1C1D6D3D00F4FDCB /* 账户余额 */,
 				1803787F1C1D6D5000F4FDCB /* 代金券管理 */,
 				180378801C1D6D5F00F4FDCB /* 设置 */,
@@ -1327,6 +1385,7 @@
 				0E4C92FA1C02E3AC00118310 /* RegisViewController.xib in Resources */,
 				6D5435391BF2FA10002E25DA /* daijinquan@3x.png in Resources */,
 				0ED1D9D51BF6CB9200804B14 /* SendVoucherCell.xib in Resources */,
+				189EF13B1C23A1CC002E7702 /* NYMyTripsTableViewCell.xib in Resources */,
 				6D5435911BF2FA10002E25DA /* yue@3x.png in Resources */,
 				6D54356A1BF2FA10002E25DA /* sijitouxiang@2x.png in Resources */,
 				6D54358A1BF2FA10002E25DA /* xiugaimima@2x.png in Resources */,
@@ -1483,6 +1542,7 @@
 				10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */,
 				6D5434A01BF2F299002E25DA /* NYStepper.m in Sources */,
 				0EF9E64B1BF86A4A002B6915 /* MBProgressHUD+MJ.m in Sources */,
+				189EF13E1C23B229002E7702 /* NYCompanyDetailBillViewController.m in Sources */,
 				0EDE8C9A1C07E87C00356AF1 /* NavPointAnnotation.m in Sources */,
 				0E4C930C1C02F94300118310 /* ProvincesAndCitiesTableViewController.m in Sources */,
 				6D5436201BF30F21002E25DA /* NSDataEx.m in Sources */,
@@ -1491,10 +1551,10 @@
 				6D54361C1BF30F21002E25DA /* base64.m in Sources */,
 				0ED1D9D61BF6CB9200804B14 /* SettingTableViewCell.m in Sources */,
 				0EDE8C871C06AE6000356AF1 /* AirportDropOffViewController.m in Sources */,
-				0ED1D9D11BF6CB9200804B14 /* DatePickView.m in Sources */,
 				6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */,
 				1803787B1C1D6CB400F4FDCB /* AddEmployeeViewController.m in Sources */,
 				0ED1D9D21BF6CB9200804B14 /* EmployeeInfoCell.m in Sources */,
+				189EF13A1C23A1CC002E7702 /* NYMyTripsTableViewCell.m in Sources */,
 				18B149E91C20F55300C60449 /* EmployeeInfoModel.m in Sources */,
 				0EDE8CB91C08257300356AF1 /* MANaviRoute.m in Sources */,
 				6D54349B1BF2F112002E25DA /* POIAnnotation.m in Sources */,
@@ -1504,9 +1564,11 @@
 				18C6BF521C22F3A500092E3A /* DriverInfoModel.m in Sources */,
 				6DD875C61BF21CC3006145E2 /* AppDelegate.m in Sources */,
 				6D5434951BF2F112002E25DA /* GeocodeAnnotation.m in Sources */,
+				189EF12E1C239A46002E7702 /* NYCompanyBillViewController.m in Sources */,
 				6D54361E1BF30F21002E25DA /* DataVerifier.m in Sources */,
 				1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */,
 				6D5434921BF2F112002E25DA /* AnimatedAnnotation.m in Sources */,
+				189EF1351C23A11A002E7702 /* NYMyTripsModel.m in Sources */,
 				6D54361D1BF30F21002E25DA /* DataSigner.m in Sources */,
 				6D5434961BF2F112002E25DA /* LineDashPolyline.m in Sources */,
 				0E4C93011C02E44800118310 /* RegisCompanyViewController.m in Sources */,
@@ -1613,7 +1675,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AC39481D512E3812E98E3CF2 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -1748,7 +1810,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -1794,7 +1856,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AC39481D512E3812E98E3CF2 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;

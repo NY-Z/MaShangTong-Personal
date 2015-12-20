@@ -79,7 +79,7 @@
     _dataArr = [NSMutableArray array];
     
     [self configNavigationBar];
-    [self configBottomBar];
+//    [self configBottomBar];
     [self configTableView];
 }
 
@@ -88,6 +88,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.translucent = NO;
+    
     [self configDataSource];
 }
 
@@ -99,8 +100,10 @@
 //                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}]];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
+    [MBProgressHUD showMessage:@"加载员工信息"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
         NYLog(@"%@",json);
+        [MBProgressHUD hideHUD];
         _dataArr = json[@"info"];
         [_tableView reloadData];
     } failure:^(NSError *error) {

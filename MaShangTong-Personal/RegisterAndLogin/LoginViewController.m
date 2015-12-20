@@ -117,6 +117,7 @@
             });
             if (self.type == LoginTypeCompany) {
                 CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
+                [USER_DEFAULT setValue:@"2" forKey:@"group_id"];
                 [self.navigationController pushViewController:companyHome animated:YES];
             } else if (self.type == LoginTypePerson) {
                 #warning 个人端登录

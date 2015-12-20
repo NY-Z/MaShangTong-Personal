@@ -419,10 +419,16 @@
                     {
                         if (_lastState != DriverStatePayOver) {
                             _route_status = 5;
-                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
                         }
                         _lastState = DriverStatePayOver;
                         break;
+                    }
+                    case 6:
+                    {
+                        if (_lastState != DriverStateComplete) {
+                            _route_status = 6;
+                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
+                        }
                     }
                     default:
                         break;

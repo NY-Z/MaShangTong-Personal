@@ -22,6 +22,7 @@
 #import "PassengerMessageModel.h"
 #import "WaitForTheOrderViewController.h"
 #import "NYCompanyBillViewController.h"
+#import "RegisViewController.h"
 
 #define kPersonInfoTitle @"personInfoTitle"
 #define kPersonInfoImageName @"personInfoImageName"
@@ -110,12 +111,12 @@
     // RightBarButtonItem
     UIView *rightBgView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-44, 31, 22, 22)];
     rightBgView.backgroundColor = RGBColor(160, 160, 160, 1.f);
-//    [myNavigationBar addSubview:rightBgView];
+    //    [myNavigationBar addSubview:rightBgView];
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [rightBtn setImage:[UIImage imageNamed:@"qichenew"] forState:UIControlStateNormal];
     rightBtn.frame = CGRectMake(SCREEN_WIDTH-38, 38, 18, 18);
     [rightBtn addTarget:self action:@selector(rightBarButtonItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    [myNavigationBar addSubview:rightBtn];
+    //    [myNavigationBar addSubview:rightBtn];
 #warning rightBtn
     self.navigationBar = myNavigationBar;
 }
@@ -341,7 +342,7 @@
         make.size.mas_equalTo(CGSizeMake(44, 38));
         make.top.equalTo(_pickBgView);
     }];
-        
+    
     pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 216)];
     pick.backgroundColor = [UIColor whiteColor];
     pick.showsSelectionIndicator = YES;
@@ -388,17 +389,17 @@
         make.top.equalTo(_timePickerBgView).offset(0);
     }];
     
-//    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [rightBtn setTitle:@"确定" forState:UIControlStateNormal];
-//    rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-//    [rightBtn setTitleColor:RGBColor(98, 190, 255, 1.f) forState:UIControlStateNormal];
-//    [rightBtn addTarget:self action:@selector(transportTimeRightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    [_timePickerBgView addSubview:rightBtn];
-//    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(_timePickerBgView).offset(-26);
-//        make.size.mas_equalTo(CGSizeMake(44, 44));
-//        make.top.equalTo(_timePickerBgView);
-//    }];
+    //    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    [rightBtn setTitle:@"确定" forState:UIControlStateNormal];
+    //    rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    //    [rightBtn setTitleColor:RGBColor(98, 190, 255, 1.f) forState:UIControlStateNormal];
+    //    [rightBtn addTarget:self action:@selector(transportTimeRightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    //    [_timePickerBgView addSubview:rightBtn];
+    //    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.right.equalTo(_timePickerBgView).offset(-26);
+    //        make.size.mas_equalTo(CGSizeMake(44, 44));
+    //        make.top.equalTo(_timePickerBgView);
+    //    }];
     
     for (NSInteger i = 0; i < 2; i++) {
         UIView *view = [[UILabel alloc] init];
@@ -527,10 +528,11 @@
                            @{kPersonInfoTitle:@"我的订单",kPersonInfoImageName:@"wodexingcheng"},
                            @{kPersonInfoTitle:@"账户余额",kPersonInfoImageName:@"wodeqianbao"},
                            @{kPersonInfoTitle:@"代金券管理",kPersonInfoImageName:@"daijinquan"},
-                           @{kPersonInfoTitle:@"设置",kPersonInfoImageName:@"shezhi"}];
-//    _personInfoDataArr = @[@{kPersonInfoTitle:@"账户余额",kPersonInfoImageName:@"wodeqianbao"}];
+                           @{kPersonInfoTitle:@"设置",kPersonInfoImageName:@"shezhi"},
+                           @{kPersonInfoTitle:@"退出登录",kPersonInfoImageName:@"tuichudenglu"}];
+    //    _personInfoDataArr = @[@{kPersonInfoTitle:@"账户余额",kPersonInfoImageName:@"wodeqianbao"}];
     self.view.backgroundColor = [UIColor cyanColor];
-    _personInfoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPersonInfoTableViewHeight*5) style:UITableViewStylePlain];
+    _personInfoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPersonInfoTableViewHeight*6) style:UITableViewStylePlain];
     _personInfoTableView.bounces = NO;
     _personInfoTableView.backgroundColor = [UIColor whiteColor];
     _personInfoTableView.tableFooterView = [UIView new];
@@ -704,7 +706,7 @@
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/3, 30)];
     
-
+    
     if (component == 0) {
         label.text = dateArr[row];
     } else if (component == 1) {
@@ -826,6 +828,22 @@
             SettingViewController *setting = [[SettingViewController alloc] init];
             [self.navigationController pushViewController:setting animated:YES];
             break;
+        }
+        case 5:
+        {
+            [MBProgressHUD showMessage:@"正在退出"];
+            if (self.navigationController.viewControllers.count == 2) {
+                BOOL a = [self.navigationController.viewControllers[1] isKindOfClass:[RegisViewController class]];
+                if (a) {
+                    [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
+                }
+            }
+            else {
+                RegisViewController *regis = [[RegisViewController alloc] init];
+                [UIApplication sharedApplication].keyWindow.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
+                [USER_DEFAULT setValue:@"0" forKey:@"group_id"];
+            }
+            [MBProgressHUD hideHUD];
         }
         default:
             break;
@@ -1024,7 +1042,7 @@
 {
     _coverView.hidden = NO;
     [UIView animateWithDuration:0.3 animations:^{
-        _personInfoTableView.y = SCREEN_HEIGHT-kPersonInfoTableViewHeight*5;
+        _personInfoTableView.y = SCREEN_HEIGHT-kPersonInfoTableViewHeight*6;
         _personInfoTableView.hidden = NO;
     } completion:^(BOOL finished) {
         

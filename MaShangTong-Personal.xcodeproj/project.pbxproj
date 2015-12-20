@@ -76,6 +76,8 @@
 		18C6BF4C1C22E0A300092E3A /* SharedMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF4B1C22E0A300092E3A /* SharedMapView.m */; };
 		18C6BF4F1C22E67D00092E3A /* ActualPriceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF4E1C22E67D00092E3A /* ActualPriceModel.m */; };
 		18C6BF521C22F3A500092E3A /* DriverInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF511C22F3A500092E3A /* DriverInfoModel.m */; };
+		18D7BC501C25406E00CB6C52 /* tuichudenglu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D7BC4E1C25406E00CB6C52 /* tuichudenglu@2x.png */; };
+		18D7BC511C25406E00CB6C52 /* tuichudenglu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D7BC4F1C25406E00CB6C52 /* tuichudenglu@3x.png */; };
 		6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434151BF2D8B5002E25DA /* UIView+Extension.m */; };
 		6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434761BF2F112002E25DA /* CommonUtility.m */; };
 		6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434791BF2F112002E25DA /* AMapTipAnnotation.m */; };
@@ -349,6 +351,8 @@
 		18C6BF4E1C22E67D00092E3A /* ActualPriceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActualPriceModel.m; sourceTree = "<group>"; };
 		18C6BF501C22F3A500092E3A /* DriverInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverInfoModel.h; sourceTree = "<group>"; };
 		18C6BF511C22F3A500092E3A /* DriverInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverInfoModel.m; sourceTree = "<group>"; };
+		18D7BC4E1C25406E00CB6C52 /* tuichudenglu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tuichudenglu@2x.png"; sourceTree = "<group>"; };
+		18D7BC4F1C25406E00CB6C52 /* tuichudenglu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tuichudenglu@3x.png"; sourceTree = "<group>"; };
 		261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6D5434121BF2D755002E25DA /* MaShangTong.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaShangTong.pch; sourceTree = "<group>"; };
 		6D5434141BF2D8B5002E25DA /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
@@ -986,6 +990,8 @@
 			isa = PBXGroup;
 			children = (
 				0E21A45A1C055FFF006A722A /* icon.png */,
+				18D7BC4E1C25406E00CB6C52 /* tuichudenglu@2x.png */,
+				18D7BC4F1C25406E00CB6C52 /* tuichudenglu@3x.png */,
 				0EDE8C9B1C07EC7D00356AF1 /* sijidingwei@2x.png */,
 				0EDE8C9C1C07EC7D00356AF1 /* sijidingwei@3x.png */,
 				6D5434A21BF2FA10002E25DA /* advertisementImage@2x.png */,
@@ -1336,6 +1342,7 @@
 				6D5435901BF2FA10002E25DA /* yue@2x.png in Resources */,
 				0ED1D9D81BF6CB9200804B14 /* VoucherCell.xib in Resources */,
 				0E4C93091C02F91B00118310 /* ProvincesAndCities.plist in Resources */,
+				18D7BC511C25406E00CB6C52 /* tuichudenglu@3x.png in Resources */,
 				6D5435691BF2FA10002E25DA /* shijian@3x.png in Resources */,
 				6D5435581BF2FA10002E25DA /* qichenew@2x.png in Resources */,
 				6D5435421BF2FA10002E25DA /* fangdajing@2x.png in Resources */,
@@ -1375,6 +1382,7 @@
 				6D54353F1BF2FA10002E25DA /* dingwei2@3x.png in Resources */,
 				6D5435781BF2FA10002E25DA /* wodeqianbao@2x.png in Resources */,
 				6D5435681BF2FA10002E25DA /* shijian@2x.png in Resources */,
+				18D7BC501C25406E00CB6C52 /* tuichudenglu@2x.png in Resources */,
 				6D5435831BF2FA10002E25DA /* xiaoxi@3x.png in Resources */,
 				6D54353E1BF2FA10002E25DA /* dingwei2@2x.png in Resources */,
 				6DD875D11BF21CC3006145E2 /* LaunchScreen.storyboard in Resources */,

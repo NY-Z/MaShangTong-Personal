@@ -547,6 +547,7 @@
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showSuccess:@"订单发送成功，请等待接单。。。"];
                 if (self.confirmBtnBlock) {
+                    model.route_id = json[@"route_id"];
                     self.confirmBtnBlock(model,json[@"route_id"]);
                 }
             });

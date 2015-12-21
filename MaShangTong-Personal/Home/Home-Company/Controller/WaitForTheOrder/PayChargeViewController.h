@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "ActualPriceModel.h"
+#import "PassengerMessageModel.h"
 
 @interface PayChargeViewController : UIViewController
 
 //@property (nonatomic,strong) NSArray *detailInfoArr;
 @property (nonatomic,strong) ActualPriceModel *actualPriceModel;
+
+@property (nonatomic,strong) PassengerMessageModel *passengerMessageModel;
 
 @end

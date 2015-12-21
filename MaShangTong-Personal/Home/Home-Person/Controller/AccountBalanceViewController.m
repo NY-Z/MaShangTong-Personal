@@ -12,6 +12,8 @@
 #import "DataSigner.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "AFNetworking.h"
+#import "WXApi.h"
+#import "WechatAuthSDK.h"
 
 @interface AccountBalanceViewController () <UIScrollViewDelegate>
 {
@@ -245,7 +247,7 @@
     switch (_selectPayBtn.tag) {
         case 1000:
         {
-            [self bizPay];
+            
             break;
         }
         case 2000:
@@ -255,7 +257,7 @@
         }
         case 3000:
         {
-            
+            [self bizPay];
             break;
         }
         default:
@@ -265,25 +267,30 @@
 
 - (void)bizPay
 {
-    
+    NSString *urlStr = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
+    [DownloadManager get:urlStr params:nil success:^(id json) {
+        
+        NSMutableString *retcode = [json objectForKey:@"retcode"];
+        if (retcode.intValue == 0){
+            NSMutableString *stamp  = [json objectForKey:@"timestamp"];
+            PayReq* req             = [[PayReq alloc] init];
+            req.partnerId           = [json objectForKey:@"partnerid"];
+            req.prepayId            = [json objectForKey:@"prepayid"];
+            req.nonceStr            = [json objectForKey:@"noncestr"];
+            req.timeStamp           = stamp.intValue;
+            req.package             = [json objectForKey:@"package"];
+            req.sign                = [json objectForKey:@"sign"];
+            [WXApi sendReq:req];
+            //日志输出
+            NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",[json objectForKey:@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
+        }
+    } failure:^(NSError *error) {
+        NYLog(@"%@",error.localizedDescription);
+    }];
 }
 
 -(void)payAlipay
 {
-#pragma mark -
-#pragma mark   ==============产生订单信息==============
-    
-#pragma mark -
-#pragma mark   ==============产生订单信息==============
-    
-    
-//    NSString *partner = @"2088021763249420";
-//    NSString *seller = @"dw_mast@163.com";
-//    NSString *privateKey = @"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAORTE8wVzYBhxz9t//UaG8/89s+hO6ZQgtm0vvAcGrE/IZaP/J0qZhfzzxg5cxhgfnsgr+gqr/Rm+lwKsCRlE/0co4EaldqsYHpJeeU5XQFuaAuzzBEcLjtf1wcSzQH55mVngYMp3Yn8epXZveLnYf0bXjBHYfC2bICnrKk3WCsBAgMBAAECgYBfJhvW7bMQ8C5nSYDj9HhoqYN1LTy9Z0nQTdlQGHYrLSLjKqfcGyImkyzXbIGBRB0RVKLZvohK8msc1jtnP1QfWj6MPGjejzVa9LDhKEnSneAJ1Fjn0cFSyroRn/zKk+zwnpeh4E4lyfJmJ8qafWNgDRlerLCkFFvi7hqYq2+Z0QJBAPSG0AIV3IC9/O+okMj7798s9LIcz5Dd1YPRoqDTpQY3SA6I+QQ2RtrA5cF0gfK3R75nQ6Lh2NFYfV1zeQ6ZtQUCQQDvCaZRCj46che5CQ6KBBMqSmsXvjIjJ3ybxryL3BzIkgYFcO27W4X7lS+7cbqkPky2ekcMrxqJxWdjx6+2rz7NAkEAhTRvWcN49DUK9a8Y+DOuLyA5SFHDjMIbjwyDECNbMXCp8ykQpge/P2l3f5QtOgA3t/Re9vsa9qfC20aNOrPm1QJAc1kbudWQi9GMowy8yFsJCIpavV1Zgl9GoUE4sODpvtvALhX9kkCrGek23GQYJbOufwvohzVkQAFTT/IHV8efLQJBALwKKdFnHQkl3gthQ5y6bbfvFajw+p4ApecR+KC/4TVZ4zrtlrCH6doKriOuzoxg6rbxdRXMtNELuBjTK8YOlBA=";
-    /*============================================================================*/
-    /*============================================================================*/
-    /*============================================================================*/
-    
     //partner和seller获取失败,提示
     if ([alipayPID length] == 0 ||
         [alipaySeller length] == 0 ||
@@ -319,7 +326,7 @@
     NSString *appScheme = @"MaShangTong";
     //将商品信息拼接成字符串
     NSString *orderSpec = [order description];
-
+    
     NYLog(@"orderSpec = %@",orderSpec);
     
     //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
@@ -333,7 +340,7 @@
                        orderSpec, signedString, @"RSA"];
         
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-
+            
             NYLog(@"reslut = %@",resultDic);
             NSString *resultStatusStr = [NSString stringWithFormat:@"%@",resultDic[@"resultStatus"]];
             if ([resultStatusStr isEqualToString:@"6001"]) {
@@ -371,9 +378,9 @@
         // [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
     }
-
-
-
+    
+    
+    
 }
 
 - (NSString *)generateTradeNO

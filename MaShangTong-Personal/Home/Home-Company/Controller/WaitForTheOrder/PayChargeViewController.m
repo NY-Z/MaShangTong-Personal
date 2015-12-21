@@ -236,12 +236,20 @@
     [params setValue:[NSString stringWithFormat:@"%.2f",[_actualPriceModel.total_price floatValue]] forKey:@"money"];
     [params setValue:@"2" forKey:@"type"];
     [params setValue:@"2" forKey:@"group_id"];
+    [params setValue:_passengerMessageModel.route_id forKey:@"route_id"];
     [MBProgressHUD showMessage:@"正在支付，请稍候"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         [MBProgressHUD hideHUD];
         if ([resultStr isEqualToString:@"1"]) {
             [MBProgressHUD showSuccess:@"支付成功"];
+            NYLog(@"%@",_passengerMessageModel.route_id);
+            [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=boarding" params:@{@"route_id":_passengerMessageModel.route_id,@"route_status":@"6"} success:^(id json) {
+                NYLog(@"%@",json);
+            } failure:^(NSError *error) {
+                
+            }];
+            
             for (UIViewController *vc in self.navigationController.viewControllers) {
                 if ([vc isKindOfClass:[CompanyHomeViewController class]]) {
                     [self.navigationController popToViewController:vc animated:YES];

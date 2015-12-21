@@ -78,6 +78,8 @@
 		18C6BF521C22F3A500092E3A /* DriverInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF511C22F3A500092E3A /* DriverInfoModel.m */; };
 		18D7BC501C25406E00CB6C52 /* tuichudenglu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D7BC4E1C25406E00CB6C52 /* tuichudenglu@2x.png */; };
 		18D7BC511C25406E00CB6C52 /* tuichudenglu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D7BC4F1C25406E00CB6C52 /* tuichudenglu@3x.png */; };
+		18EBA11E1C27E2FF004FDA55 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EBA1191C27E2FF004FDA55 /* libWeChatSDK.a */; };
+		18EBA11F1C27E2FF004FDA55 /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 18EBA11A1C27E2FF004FDA55 /* read_me.txt */; };
 		6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434151BF2D8B5002E25DA /* UIView+Extension.m */; };
 		6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434761BF2F112002E25DA /* CommonUtility.m */; };
 		6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434791BF2F112002E25DA /* AMapTipAnnotation.m */; };
@@ -353,6 +355,11 @@
 		18C6BF511C22F3A500092E3A /* DriverInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverInfoModel.m; sourceTree = "<group>"; };
 		18D7BC4E1C25406E00CB6C52 /* tuichudenglu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tuichudenglu@2x.png"; sourceTree = "<group>"; };
 		18D7BC4F1C25406E00CB6C52 /* tuichudenglu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tuichudenglu@3x.png"; sourceTree = "<group>"; };
+		18EBA1191C27E2FF004FDA55 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		18EBA11A1C27E2FF004FDA55 /* read_me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = read_me.txt; sourceTree = "<group>"; };
+		18EBA11B1C27E2FF004FDA55 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		18EBA11C1C27E2FF004FDA55 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		18EBA11D1C27E2FF004FDA55 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6D5434121BF2D755002E25DA /* MaShangTong.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaShangTong.pch; sourceTree = "<group>"; };
 		6D5434141BF2D8B5002E25DA /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
@@ -557,6 +564,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18EBA11E1C27E2FF004FDA55 /* libWeChatSDK.a in Frameworks */,
 				0EDE8CB61C081FEF00356AF1 /* CoreGraphics.framework in Frameworks */,
 				0EDE8CB41C081FDE00356AF1 /* QuartzCore.framework in Frameworks */,
 				0EDE8CB21C081FD600356AF1 /* AddressBook.framework in Frameworks */,
@@ -850,6 +858,18 @@
 				189EF1391C23A1CC002E7702 /* NYMyTripsTableViewCell.xib */,
 			);
 			name = "我的订单";
+			sourceTree = "<group>";
+		};
+		18EBA1181C27E2F6004FDA55 /* BizPay */ = {
+			isa = PBXGroup;
+			children = (
+				18EBA1191C27E2FF004FDA55 /* libWeChatSDK.a */,
+				18EBA11A1C27E2FF004FDA55 /* read_me.txt */,
+				18EBA11B1C27E2FF004FDA55 /* WechatAuthSDK.h */,
+				18EBA11C1C27E2FF004FDA55 /* WXApi.h */,
+				18EBA11D1C27E2FF004FDA55 /* WXApiObject.h */,
+			);
+			path = BizPay;
 			sourceTree = "<group>";
 		};
 		51DB1C8CF43367F3BCD54696 /* Pods */ = {
@@ -1226,6 +1246,7 @@
 			isa = PBXGroup;
 			children = (
 				6D5435BD1BF30EB3002E25DA /* AliPay */,
+				18EBA1181C27E2F6004FDA55 /* BizPay */,
 				6D5434651BF2E08A002E25DA /* AMapLBS */,
 				6D5434131BF2D8A2002E25DA /* Category */,
 				6D54349D1BF2F27E002E25DA /* Control */,
@@ -1408,6 +1429,7 @@
 				6D5435441BF2FA10002E25DA /* fanhui@2x.png in Resources */,
 				6D5435741BF2FA10002E25DA /* tuichuzhanghao@2x.png in Resources */,
 				6D5435401BF2FA10002E25DA /* dingwei@2x.png in Resources */,
+				18EBA11F1C27E2FF004FDA55 /* read_me.txt in Resources */,
 				6D5435821BF2FA10002E25DA /* xiaoxi@2x.png in Resources */,
 				6D54353D1BF2FA10002E25DA /* dingwei1@3x.png in Resources */,
 				6D5435481BF2FA10002E25DA /* gengduo@2x.png in Resources */,
@@ -1712,6 +1734,7 @@
 					"$(inherited)",
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/MaShangTong-Personal/BizPay",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1847,6 +1870,7 @@
 					"$(inherited)",
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/MaShangTong-Personal/BizPay",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.NY.Mast.Personal;
@@ -1893,6 +1917,7 @@
 					"$(inherited)",
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/MaShangTong-Personal/BizPay",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				ONLY_ACTIVE_ARCH = NO;

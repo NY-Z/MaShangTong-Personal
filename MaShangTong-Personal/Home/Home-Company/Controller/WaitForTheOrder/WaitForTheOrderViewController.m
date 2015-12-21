@@ -405,12 +405,8 @@
                     {
                         if (_lastState != DriverStateArriveDestination) {
                             _route_status = 4;
-                            [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
+                            [_iFlySpeechSynthesizer startSpeaking:@"司机师傅正在确认价格，请稍后"];
                             _iscalculateStart = 0;
-                            PayChargeViewController *pay = [[PayChargeViewController alloc] init];
-                            pay.actualPriceModel = _actualPriceModel;
-                            [self.navigationController pushViewController:pay animated:YES];
-                            [_timer setFireDate:[NSDate distantFuture]];
                         }
                         _lastState = DriverStateArriveDestination;
                         break;
@@ -419,6 +415,12 @@
                     {
                         if (_lastState != DriverStatePayOver) {
                             _route_status = 5;
+                            [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
+                            PayChargeViewController *pay = [[PayChargeViewController alloc] init];
+                            pay.actualPriceModel = _actualPriceModel;
+                            pay.passengerMessageModel = self.model;
+                            [self.navigationController pushViewController:pay animated:YES];
+                            [_timer setFireDate:[NSDate distantFuture]];
                         }
                         _lastState = DriverStatePayOver;
                         break;
@@ -683,6 +685,7 @@
 - (void)dealloc
 {
     NYLog(@"%s",__FUNCTION__);
+    [_timer setFireDate:[NSDate distantFuture]];
     if (_timer.valid) {
         [_timer invalidate];
     }

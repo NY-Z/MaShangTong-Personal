@@ -19,12 +19,13 @@
 #import "iflyMSC/IFlySpeechUtility.h"
 #import "iflyMSC/IFlySetting.h"
 #import "IQKeyboardManager.h"
+#import "WXApi.h"
 
 #import "WaitForTheOrderViewController.h"
 #import "PayChargeViewController.h"
 #import "CompanyHomeViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <WXApiDelegate>
 
 @end
 
@@ -32,11 +33,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    // 微信支付
+    [WXApi registerApp:WxAppId withDescription:@"demo 2.0"];
+    
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
     manager.shouldResignOnTouchOutside = YES;
     manager.shouldToolbarUsesTextFieldTintColor = YES;
-    manager.enableAutoToolbar = YES;
+    manager.enableAutoToolbar = NO;
     
     [MAMapServices sharedServices].apiKey = AMap_ApiKey;
     [AMapSearchServices sharedServices].apiKey = AMap_ApiKey;
@@ -85,8 +89,17 @@
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         NYLog(@"result = %@",resultDic);
     }];
+    [WXApi handleOpenURL:url delegate:self];
     
     return YES;
+}
+
+-(void) onResp:(BaseResp*)resp
+{
+    if([resp isKindOfClass:[PayResp class]]){
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        NSLog(@"%@",[NSNumber numberWithInt:resp.errCode]);
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

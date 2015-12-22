@@ -13,7 +13,6 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "AFNetworking.h"
 #import "WXApi.h"
-#import "WechatAuthSDK.h"
 
 @interface AccountBalanceViewController () <UIScrollViewDelegate>
 {

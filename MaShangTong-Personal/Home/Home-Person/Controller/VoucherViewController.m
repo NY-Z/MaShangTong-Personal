@@ -17,7 +17,7 @@
 @interface VoucherViewController () <UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
-    NSArray *_dataArr;
+    NSMutableArray *_dataArr;
 }
 @end
 
@@ -68,11 +68,21 @@
 
 - (void)configDataSource
 {
-    _dataArr = @[@{kValue:@"10",kCount:@"X 20"},
-                 @{kValue:@"15",kCount:@"X 20"},
-                 @{kValue:@"20",kCount:@"X 20"},
-                 @{kValue:@"30",kCount:@"X 20"},
-                 @{kValue:@"50",kCount:@"X 20"}];
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=show_ticket" params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]} success:^(id json) {
+        
+        NYLog(@"%@",json);
+        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+           _dataArr = json[@"info"];
+            [_tableView reloadData];
+        } else {
+            
+        }
+    } failure:^(NSError *error) {
+        
+        NYLog(@"%@",error.localizedDescription);
+        
+    }];
 }
 
 #pragma mark - UITableViewDelegate
@@ -96,8 +106,9 @@
     
     __weak typeof(&*self) weakSelf = self;
     
-    cell.valueLabel.text = _dataArr[indexPath.row][kValue];
-    cell.countLabel.text = _dataArr[indexPath.row][kCount];
+    NSDictionary *dic = _dataArr[indexPath.row];
+    cell.valueLabel.text = dic[@"price"];
+    cell.countLabel.text = @"X 1";
     
     cell.sendBtnBlock = ^(){
         

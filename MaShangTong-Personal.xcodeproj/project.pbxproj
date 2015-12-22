@@ -64,6 +64,9 @@
 		180378771C1D4C7900F4FDCB /* AirportPickupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180378761C1D4C7900F4FDCB /* AirportPickupModel.m */; };
 		1803787B1C1D6CB400F4FDCB /* AddEmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180378791C1D6CB400F4FDCB /* AddEmployeeViewController.m */; };
 		1803787C1C1D6CB400F4FDCB /* AddEmployeeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1803787A1C1D6CB400F4FDCB /* AddEmployeeViewController.xib */; };
+		181467F11C2978C200D71423 /* NYFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181467F01C2978C200D71423 /* NYFeedBackViewController.m */; };
+		187999831C29890A0011D43C /* NYForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187999811C29890A0011D43C /* NYForgetPasswordViewController.m */; };
+		187999841C29890A0011D43C /* NYForgetPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 187999821C29890A0011D43C /* NYForgetPasswordViewController.xib */; };
 		1879B14A1C15ACD6006FD947 /* CharteredBusRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879B1491C15ACD6006FD947 /* CharteredBusRule.m */; };
 		1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */; };
 		189EF12E1C239A46002E7702 /* NYCompanyBillViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF12D1C239A46002E7702 /* NYCompanyBillViewController.m */; };
@@ -78,8 +81,6 @@
 		18C6BF521C22F3A500092E3A /* DriverInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF511C22F3A500092E3A /* DriverInfoModel.m */; };
 		18D7BC501C25406E00CB6C52 /* tuichudenglu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D7BC4E1C25406E00CB6C52 /* tuichudenglu@2x.png */; };
 		18D7BC511C25406E00CB6C52 /* tuichudenglu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D7BC4F1C25406E00CB6C52 /* tuichudenglu@3x.png */; };
-		18EBA11E1C27E2FF004FDA55 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EBA1191C27E2FF004FDA55 /* libWeChatSDK.a */; };
-		18EBA11F1C27E2FF004FDA55 /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 18EBA11A1C27E2FF004FDA55 /* read_me.txt */; };
 		6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434151BF2D8B5002E25DA /* UIView+Extension.m */; };
 		6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434761BF2F112002E25DA /* CommonUtility.m */; };
 		6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5434791BF2F112002E25DA /* AMapTipAnnotation.m */; };
@@ -331,6 +332,11 @@
 		180378781C1D6CB400F4FDCB /* AddEmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEmployeeViewController.h; sourceTree = "<group>"; };
 		180378791C1D6CB400F4FDCB /* AddEmployeeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEmployeeViewController.m; sourceTree = "<group>"; };
 		1803787A1C1D6CB400F4FDCB /* AddEmployeeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddEmployeeViewController.xib; sourceTree = "<group>"; };
+		181467EF1C2978C200D71423 /* NYFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYFeedBackViewController.h; sourceTree = "<group>"; };
+		181467F01C2978C200D71423 /* NYFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYFeedBackViewController.m; sourceTree = "<group>"; };
+		187999801C29890A0011D43C /* NYForgetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYForgetPasswordViewController.h; sourceTree = "<group>"; };
+		187999811C29890A0011D43C /* NYForgetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYForgetPasswordViewController.m; sourceTree = "<group>"; };
+		187999821C29890A0011D43C /* NYForgetPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYForgetPasswordViewController.xib; sourceTree = "<group>"; };
 		1879B1481C15ACD6006FD947 /* CharteredBusRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharteredBusRule.h; sourceTree = "<group>"; };
 		1879B1491C15ACD6006FD947 /* CharteredBusRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharteredBusRule.m; sourceTree = "<group>"; };
 		1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialCarRuleModel.h; sourceTree = "<group>"; };
@@ -355,11 +361,8 @@
 		18C6BF511C22F3A500092E3A /* DriverInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverInfoModel.m; sourceTree = "<group>"; };
 		18D7BC4E1C25406E00CB6C52 /* tuichudenglu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tuichudenglu@2x.png"; sourceTree = "<group>"; };
 		18D7BC4F1C25406E00CB6C52 /* tuichudenglu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tuichudenglu@3x.png"; sourceTree = "<group>"; };
-		18EBA1191C27E2FF004FDA55 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
-		18EBA11A1C27E2FF004FDA55 /* read_me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = read_me.txt; sourceTree = "<group>"; };
-		18EBA11B1C27E2FF004FDA55 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
-		18EBA11C1C27E2FF004FDA55 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		18EBA11D1C27E2FF004FDA55 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		18EBA1221C2833A4004FDA55 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		18EBA1231C2833A4004FDA55 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6D5434121BF2D755002E25DA /* MaShangTong.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaShangTong.pch; sourceTree = "<group>"; };
 		6D5434141BF2D8B5002E25DA /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
@@ -564,7 +567,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18EBA11E1C27E2FF004FDA55 /* libWeChatSDK.a in Frameworks */,
 				0EDE8CB61C081FEF00356AF1 /* CoreGraphics.framework in Frameworks */,
 				0EDE8CB41C081FDE00356AF1 /* QuartzCore.framework in Frameworks */,
 				0EDE8CB21C081FD600356AF1 /* AddressBook.framework in Frameworks */,
@@ -593,6 +595,9 @@
 				0E4C93031C02E45C00118310 /* LoginViewController.h */,
 				0E4C93041C02E45C00118310 /* LoginViewController.m */,
 				0E4C93051C02E45C00118310 /* LoginViewController.xib */,
+				187999801C29890A0011D43C /* NYForgetPasswordViewController.h */,
+				187999811C29890A0011D43C /* NYForgetPasswordViewController.m */,
+				187999821C29890A0011D43C /* NYForgetPasswordViewController.xib */,
 				105791E21C106DC100E844FA /* PersonLoginAndRegis */,
 				105791E11C106DAF00E844FA /* DriverLoginAndRegis */,
 				0EDE8CBA1C08401000356AF1 /* UserModel */,
@@ -738,6 +743,8 @@
 			children = (
 				6D5435B31BF30A99002E25DA /* SettingViewController.h */,
 				6D5435B41BF30A99002E25DA /* SettingViewController.m */,
+				181467EF1C2978C200D71423 /* NYFeedBackViewController.h */,
+				181467F01C2978C200D71423 /* NYFeedBackViewController.m */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -858,18 +865,6 @@
 				189EF1391C23A1CC002E7702 /* NYMyTripsTableViewCell.xib */,
 			);
 			name = "我的订单";
-			sourceTree = "<group>";
-		};
-		18EBA1181C27E2F6004FDA55 /* BizPay */ = {
-			isa = PBXGroup;
-			children = (
-				18EBA1191C27E2FF004FDA55 /* libWeChatSDK.a */,
-				18EBA11A1C27E2FF004FDA55 /* read_me.txt */,
-				18EBA11B1C27E2FF004FDA55 /* WechatAuthSDK.h */,
-				18EBA11C1C27E2FF004FDA55 /* WXApi.h */,
-				18EBA11D1C27E2FF004FDA55 /* WXApiObject.h */,
-			);
-			path = BizPay;
 			sourceTree = "<group>";
 		};
 		51DB1C8CF43367F3BCD54696 /* Pods */ = {
@@ -1246,7 +1241,6 @@
 			isa = PBXGroup;
 			children = (
 				6D5435BD1BF30EB3002E25DA /* AliPay */,
-				18EBA1181C27E2F6004FDA55 /* BizPay */,
 				6D5434651BF2E08A002E25DA /* AMapLBS */,
 				6D5434131BF2D8A2002E25DA /* Category */,
 				6D54349D1BF2F27E002E25DA /* Control */,
@@ -1429,7 +1423,6 @@
 				6D5435441BF2FA10002E25DA /* fanhui@2x.png in Resources */,
 				6D5435741BF2FA10002E25DA /* tuichuzhanghao@2x.png in Resources */,
 				6D5435401BF2FA10002E25DA /* dingwei@2x.png in Resources */,
-				18EBA11F1C27E2FF004FDA55 /* read_me.txt in Resources */,
 				6D5435821BF2FA10002E25DA /* xiaoxi@2x.png in Resources */,
 				6D54353D1BF2FA10002E25DA /* dingwei1@3x.png in Resources */,
 				6D5435481BF2FA10002E25DA /* gengduo@2x.png in Resources */,
@@ -1439,6 +1432,7 @@
 				6D54358D1BF2FA10002E25DA /* yonghu@3x.png in Resources */,
 				6D5435941BF2FA10002E25DA /* zhuanhuan@2x.png in Resources */,
 				0E21A45B1C055FFF006A722A /* icon.png in Resources */,
+				187999841C29890A0011D43C /* NYForgetPasswordViewController.xib in Resources */,
 				0ED1D9D01BF6CB9200804B14 /* BuyVouchersCell.xib in Resources */,
 				6D5435341BF2FA10002E25DA /* che3Deselect@2x.png in Resources */,
 				6D5435361BF2FA10002E25DA /* che3Select@2x.png in Resources */,
@@ -1595,6 +1589,7 @@
 				6DD875C61BF21CC3006145E2 /* AppDelegate.m in Sources */,
 				6D5434951BF2F112002E25DA /* GeocodeAnnotation.m in Sources */,
 				189EF12E1C239A46002E7702 /* NYCompanyBillViewController.m in Sources */,
+				187999831C29890A0011D43C /* NYForgetPasswordViewController.m in Sources */,
 				6D54361E1BF30F21002E25DA /* DataVerifier.m in Sources */,
 				1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */,
 				6D5434921BF2F112002E25DA /* AnimatedAnnotation.m in Sources */,
@@ -1633,6 +1628,7 @@
 				6D5436221BF30F21002E25DA /* RSADataSigner.m in Sources */,
 				6D54361F1BF30F21002E25DA /* MD5DataSigner.m in Sources */,
 				6D97F79D1BF5CC590066257C /* DownloadManager.m in Sources */,
+				181467F11C2978C200D71423 /* NYFeedBackViewController.m in Sources */,
 				0EDE8C8E1C06AE6000356AF1 /* SpecialCarViewController.m in Sources */,
 				180378771C1D4C7900F4FDCB /* AirportPickupModel.m in Sources */,
 			);
@@ -1645,6 +1641,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6DD875CB1BF21CC3006145E2 /* Base */,
+				18EBA1221C2833A4004FDA55 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1653,6 +1650,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6DD875D01BF21CC3006145E2 /* Base */,
+				18EBA1231C2833A4004FDA55 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

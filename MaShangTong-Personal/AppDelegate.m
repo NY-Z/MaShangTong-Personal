@@ -20,6 +20,7 @@
 #import "iflyMSC/IFlySetting.h"
 #import "IQKeyboardManager.h"
 #import "WXApi.h"
+#import "UMFeedback.h"
 
 #import "WaitForTheOrderViewController.h"
 #import "PayChargeViewController.h"
@@ -34,7 +35,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // 微信支付
-    [WXApi registerApp:WxAppId withDescription:@"demo 2.0"];
+    [WXApi registerApp:(NSString *)WxAppId withDescription:@"demo 2.0"];
+    
+    [UMFeedback setAppkey:@"567679b067e58ec55c005520"];
     
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
@@ -89,7 +92,7 @@
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         NYLog(@"result = %@",resultDic);
     }];
-    [WXApi handleOpenURL:url delegate:self];
+   // [WXApi handleOpenURL:url delegate:self];
     
     return YES;
 }

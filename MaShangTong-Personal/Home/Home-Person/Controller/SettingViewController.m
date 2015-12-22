@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "SettingTableViewCell.h"
+#import "UMFeedback.h"
 
 @interface SettingViewController () <UITableViewDataSource,UITableViewDelegate>
 {
@@ -126,6 +127,20 @@
         }
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 2) {
+        switch (indexPath.row) {
+            case 0:
+                [self.navigationController pushViewController:[UMFeedback feedbackViewController] animated:YES];
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 #pragma mark - Action

@@ -8,6 +8,7 @@
 
 #import "SettingTableViewCell.h"
 #import "Masonry.h"
+#import "KLSwitch.h"
 
 @implementation SettingTableViewCell
 
@@ -24,12 +25,12 @@
             make.size.mas_equalTo(CGSizeMake(130, 30));
         }];
         
-        _rightSwitch = [[UISwitch alloc] init];
+        _rightSwitch = [[KLSwitch alloc] initWithFrame:CGRectMake(0, 0, 51, 20)];
         [_rightSwitch setOn:YES];
         [self.contentView addSubview:_rightSwitch];
         [_rightSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.contentView).offset(-10);
-            make.size.mas_equalTo(CGSizeMake(51, 31));
+            make.size.mas_equalTo(CGSizeMake(51, 20));
             make.centerY.equalTo(self.contentView);
         }];
         _rightSwitch.onTintColor = RGBColor(98, 190, 254, 1.f);

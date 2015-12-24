@@ -135,9 +135,9 @@
     for (UIView *view in _pageViewController.view.subviews) {
         if ([view isKindOfClass:[UIScrollView class]]) {
             UIScrollView *scrollView = (UIScrollView *)view;
-            scrollView.delegate = self;
-            scrollView.bounces = NO;
-            scrollView.pagingEnabled = NO;
+//            scrollView.delegate = self;
+//            scrollView.bounces = NO;
+//            scrollView.pagingEnabled = YES;
         }
     }
 }
@@ -179,20 +179,20 @@
             
         }];
     };
-    specialCar.addressBtnBlock = ^(){
-        _coverView.hidden = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            _cityPickBgView.y = SCREEN_HEIGHT-216;
-            _cityPickBgView.hidden = NO;
-        } completion:^(BOOL finished) {
-            
-        }];
-    };
+//    specialCar.addressBtnBlock = ^(){
+//        _coverView.hidden = NO;
+//        [UIView animateWithDuration:0.3 animations:^{
+//            _cityPickBgView.y = SCREEN_HEIGHT-216;
+//            _cityPickBgView.hidden = NO;
+//        } completion:^(BOOL finished) {
+//            
+//        }];
+//    };
     specialCar.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
-        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.sourceCoordinate.latitude, delegate.sourceCoordinate.longitude);
+        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
         [self.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:specialCar];
@@ -228,7 +228,7 @@
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
-        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.sourceCoordinate.latitude, delegate.sourceCoordinate.longitude);
+        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
         [self.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:charteredBus];
@@ -265,20 +265,20 @@
             
         }];
     };
-    airportPickup.addressBtnBlock = ^(){
-        _coverView.hidden = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            _cityPickBgView.y = SCREEN_HEIGHT-216;
-            _cityPickBgView.hidden = NO;
-        } completion:^(BOOL finished) {
-            
-        }];
-    };
+//    airportPickup.addressBtnBlock = ^(){
+//        _coverView.hidden = NO;
+//        [UIView animateWithDuration:0.3 animations:^{
+//            _cityPickBgView.y = SCREEN_HEIGHT-216;
+//            _cityPickBgView.hidden = NO;
+//        } completion:^(BOOL finished) {
+//            
+//        }];
+//    };
     airportPickup.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
-        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.sourceCoordinate.latitude, delegate.sourceCoordinate.longitude);
+        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
         [self.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:airportPickup];
@@ -307,6 +307,13 @@
         } completion:^(BOOL finished) {
             
         }];
+    };
+    airportDropOff.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
+        WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
+        waitOrderVc.model = model;
+        waitOrderVc.route_id = route_id;
+        waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
+        [self.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:airportDropOff];
 }
@@ -531,7 +538,7 @@
                            @{kPersonInfoTitle:@"设置",kPersonInfoImageName:@"shezhi"},
                            @{kPersonInfoTitle:@"退出登录",kPersonInfoImageName:@"tuichudenglu"}];
     //    _personInfoDataArr = @[@{kPersonInfoTitle:@"账户余额",kPersonInfoImageName:@"wodeqianbao"}];
-    self.view.backgroundColor = [UIColor cyanColor];
+    
     _personInfoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPersonInfoTableViewHeight*6) style:UITableViewStylePlain];
     _personInfoTableView.bounces = NO;
     _personInfoTableView.backgroundColor = [UIColor whiteColor];
@@ -572,6 +579,7 @@
     _date = @"现在用车";
     _hour = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][0];
     _minute = [[Helper stringFromDate:[NSDate date]] componentsSeparatedByString:@":"][1];
+    self.view.backgroundColor = RGBColor(238, 238, 238, 1.f);
     
     [self configNavigationBar];
     [self configDataArr];

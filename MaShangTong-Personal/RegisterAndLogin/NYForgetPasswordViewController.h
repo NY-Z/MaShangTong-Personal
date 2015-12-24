@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger ,ForgetPasswordType) {
+    ForgetPasswordTypeCompany = 2,
+    ForgetPasswordTypePerson =3,
+};
+
 @interface NYForgetPasswordViewController : UIViewController
+
+@property (nonatomic,assign) ForgetPasswordType type;
 
 @end

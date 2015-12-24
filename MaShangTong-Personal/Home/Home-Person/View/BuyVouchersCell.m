@@ -15,12 +15,12 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        NYStepper *stepper = [[NYStepper alloc] init];
-        [self.contentView addSubview:stepper];
-        [stepper mas_makeConstraints:^(MASConstraintMaker *make) {
+        _stepper = [[NYStepper alloc] initWithFrame:CGRectMake(0, 0, 101, 38)];
+        [self.contentView addSubview:_stepper];
+        [_stepper mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.contentView).offset(-8);
             make.centerY.equalTo(self.contentView);
-            make.size.mas_equalTo(CGSizeMake(61, 18));
+            make.size.mas_equalTo(CGSizeMake(101, 40));
         }];
     }
     return self;
@@ -29,12 +29,12 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {
-        NYStepper *stepper = [[NYStepper alloc] init];
-        [self.contentView addSubview:stepper];
-        [stepper mas_makeConstraints:^(MASConstraintMaker *make) {
+        _stepper = [[NYStepper alloc] initWithFrame:CGRectMake(0, 0, 101, 38)];
+        [self.contentView addSubview:_stepper];
+        [_stepper mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.contentView).offset(-8);
             make.centerY.equalTo(self.contentView);
-            make.size.mas_equalTo(CGSizeMake(61, 18));
+            make.size.mas_equalTo(CGSizeMake(101, 40));
         }];
     }
     return self;

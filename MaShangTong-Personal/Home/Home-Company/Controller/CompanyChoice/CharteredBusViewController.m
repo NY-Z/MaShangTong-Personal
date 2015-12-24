@@ -387,6 +387,7 @@
             [MBProgressHUD hideHUD];
             [MBProgressHUD showSuccess:@"订单发送成功，请等待接单。。。"];
             if (self.confirmBtnBlock) {
+                model.route_id = json[@"route_id"];
                 self.confirmBtnBlock(model,json[@"route_id"]);
             }
         } else if ([resultStr isEqualToString:@"0"]) {
@@ -397,6 +398,7 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 if (self.confirmBtnBlock) {
+                    model.route_id = json[@"route_id"];
                     self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
                 }
             }]];

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -11,10 +12,10 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wodeyouhuiquan.png" translatesAutoresizingMaskIntoConstraints="NO" id="FYy-de-Wbo">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wodeyouhuiquan.png" translatesAutoresizingMaskIntoConstraints="NO" id="FYy-de-Wbo">
                         <rect key="frame" x="8" y="-1" width="70" height="61"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="60" id="BIw-vF-uXj"/>
@@ -32,12 +33,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="购买数量" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X72-Qn-pk1">
-                        <rect key="frame" x="199" y="19" width="48" height="21"/>
+                        <rect key="frame" x="153" y="19" width="54" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="48" id="Jhr-a2-ACm"/>
+                            <constraint firstAttribute="width" constant="54" id="Jhr-a2-ACm"/>
                             <constraint firstAttribute="height" constant="21" id="qds-vr-QqC"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.59377872943878174" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -45,7 +46,7 @@
                 <constraints>
                     <constraint firstItem="FYy-de-Wbo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="A8x-LD-ih6"/>
                     <constraint firstAttribute="centerY" secondItem="FYy-de-Wbo" secondAttribute="centerY" id="LcE-ZK-jtM"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="X72-Qn-pk1" secondAttribute="trailing" constant="65" id="WG8-wA-PDh"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="X72-Qn-pk1" secondAttribute="trailing" constant="105" id="WG8-wA-PDh"/>
                     <constraint firstItem="FYy-de-Wbo" firstAttribute="centerY" secondItem="I4g-kS-RQA" secondAttribute="centerY" id="WeQ-0r-qmO"/>
                     <constraint firstAttribute="centerY" secondItem="X72-Qn-pk1" secondAttribute="centerY" id="hrZ-XB-8rM"/>
                     <constraint firstItem="I4g-kS-RQA" firstAttribute="leading" secondItem="FYy-de-Wbo" secondAttribute="trailing" constant="-33" id="wPF-NU-TZ3"/>

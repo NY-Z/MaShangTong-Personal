@@ -10,4 +10,6 @@
 
 @interface NYStepper : UIView
 
+@property (nonatomic,assign) NSInteger count;
+
 @end

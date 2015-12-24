@@ -176,7 +176,7 @@
     [addressBtn setTitle:@"上海" forState:UIControlStateNormal];
     [addressBtn setTitleColor:RGBColor(102, 102, 102, 1.f) forState:UIControlStateNormal];
     addressBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [addressBtn addTarget:self action:@selector(addressBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [addressBtn addTarget:self action:@selector(addressBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bgView addSubview:addressBtn];
     [addressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(timeLabel.mas_bottom).offset(30);
@@ -352,7 +352,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor cyanColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self requestTheRules];
     [self configViews];
     
@@ -482,14 +482,14 @@
     }
 }
 
-- (void)addressBtnClicked:(UIButton *)btn
-{
-    [numberTextField resignFirstResponder];
-    [remarkTextView resignFirstResponder];
-    if (self.addressBtnBlock) {
-        self.addressBtnBlock();
-    }
-}
+//- (void)addressBtnClicked:(UIButton *)btn
+//{
+//    [numberTextField resignFirstResponder];
+//    [remarkTextView resignFirstResponder];
+//    if (self.addressBtnBlock) {
+//        self.addressBtnBlock();
+//    }
+//}
 
 - (void)confirmBtnClicked:(UIButton *)btn
 {
@@ -542,6 +542,7 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 if (self.confirmBtnBlock) {
+                    model.route_id = json[@"route_id"];
                     self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
                 }
             }]];
@@ -569,6 +570,7 @@
             [MBProgressHUD showError:@"您的网络有问题，请重试"];
         } else if ([resultStr isEqualToString:@"1"]) {
             if (self.confirmBtnBlock) {
+                model.route_id = json[@"route_id"];
                 self.confirmBtnBlock(model,json[@"route_id"]);
             }
         }

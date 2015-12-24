@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class NYStepper;
 @interface BuyVouchersCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *valueLabel;
+@property (nonatomic,strong) NYStepper *stepper;
 
 @end

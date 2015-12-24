@@ -47,8 +47,10 @@
     _dataArr = [NSMutableArray array];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
+    [MBProgressHUD showMessage:@"正在加载"];
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"myTrips"] params:params success:^(id json) {
         NYLog(@"%@",json);
+        [MBProgressHUD hideHUD];
         @try {
             _dataArr = json[@"info"][@"detaile"];
             [_tableView reloadData];

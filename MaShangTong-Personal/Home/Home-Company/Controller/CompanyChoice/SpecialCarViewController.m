@@ -105,7 +105,6 @@
     [numberTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(numberLabel.mas_right).offset(18);
         make.top.equalTo(numberLabel);
-//        make.size.mas_equalTo(CGSizeMake(200, 20));
         make.right.equalTo(bgView).offset(-26);
         make.height.mas_equalTo(20);
     }];
@@ -348,6 +347,7 @@
             NYLog(@"%@",delegate.currentCity);
             [sourceBtn setTitle:regeocode.formattedAddress forState:UIControlStateNormal];
             delegate.sourceCoordinate = location.coordinate;
+            delegate.passengerCoordinate = location.coordinate;
         }
     }];
     /*
@@ -517,8 +517,6 @@
     }
     [params setObject:_destinationBtn.currentTitle forKey:@"end_name"];
     [params setObject:[NSString stringWithFormat:@"%f,%f",delegate.destinationCoordinate.longitude,delegate.destinationCoordinate.latitude] forKey:@"end_coordinates"];
-    
-    
     
     NSString *reservation_type = @"2";
     if ([_timeBtn.currentTitle isEqualToString:@"现在用车"]) {

@@ -9,6 +9,11 @@
 #import "SettingViewController.h"
 #import "SettingTableViewCell.h"
 #import "UMFeedback.h"
+#import "NYContactUsViewController.h"
+#import "NYAboutUsViewController.h"
+#import "NYTaxiGuideViewController.h"
+
+#import "KLSwitch.h"
 
 @interface SettingViewController () <UITableViewDataSource,UITableViewDelegate>
 {
@@ -134,9 +139,17 @@
     if (indexPath.section == 2) {
         switch (indexPath.row) {
             case 0:
-                [self.navigationController pushViewController:[UMFeedback feedbackViewController] animated:YES];
+                [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
                 break;
-                
+            case 1:
+                [self.navigationController pushViewController:[[NYTaxiGuideViewController alloc] init] animated:YES];
+                break;
+            case 2:
+                [self.navigationController pushViewController:[[NYContactUsViewController alloc] init] animated:YES];
+                break;
+            case 3:
+                [self.navigationController pushViewController:[[NYAboutUsViewController alloc] init] animated:YES];
+                break;
             default:
                 break;
         }

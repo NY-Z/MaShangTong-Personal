@@ -10,6 +10,7 @@
 #import "CompanyHomeViewController.h"
 #import "RegisCompanyViewController.h"
 #import "PersonRegisViewController.h"
+#import "NYForgetPasswordViewController.h"
 
 @interface LoginViewController ()
 
@@ -61,7 +62,8 @@
 // Btn
 - (IBAction)lostCodeBtnClick:(id)sender {
     
-    
+    NYForgetPasswordViewController *forgetPassword = [[NYForgetPasswordViewController alloc] init];
+    [self.navigationController pushViewController:forgetPassword animated:YES];
     
 }
 
@@ -134,6 +136,8 @@
         } else if ([isSuccessLog isEqualToString:@"2"]) {
             [MBProgressHUD hideHUD];
             [MBProgressHUD showError:@"该账号已在其他客户端注册"];
+        } else {
+            [MBProgressHUD showError:@"网络错误"];
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

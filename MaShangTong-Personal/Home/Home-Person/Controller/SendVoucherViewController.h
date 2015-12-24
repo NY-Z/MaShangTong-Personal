@@ -1,13 +1,15 @@
 //
 //  SendVoucherViewController.h
-//  MaShangTong
+//  MaShangTong-Personal
 //
-//  Created by niliu1h  on 15/10/22.
-//  Copyright (c) 2015年 NY. All rights reserved.
+//  Created by apple on 15/12/23.
+//  Copyright © 2015年 jeaner. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 @interface SendVoucherViewController : UIViewController
+
+@property (nonatomic,strong) NSString *voucherId;
 
 @end

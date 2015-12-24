@@ -11,6 +11,7 @@
 #import "AirportPickupModel.h"
 #import "AMapLocationKit.h"
 #import "AMapSearchAPI.h"
+#import "PassengerMessageModel.h"
 
 @interface AirportDropOffViewController () <UIScrollViewDelegate,UITextViewDelegate,AMapLocationManagerDelegate>
 {
@@ -488,11 +489,50 @@
     [params setObject:@"71" forKey:@"user_id"];
     
     [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
+    PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=usersigle" params:params success:^(id json) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            
+            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
             [MBProgressHUD hideHUD];
-            [MBProgressHUD showSuccess:@"订单发送成功，请等待接单。。。"];
+            if ([resultStr isEqualToString:@"-1"]) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    if (self.confirmBtnBlock) {
+                        model.route_id = json[@"route_id"];
+                        self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
+                    }
+                }]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [MBProgressHUD showMessage:@"正在取消订单"];
+                    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                        
+                        NYLog(@"%@",json);
+                        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                        [MBProgressHUD hideHUD];
+                        if ([resultStr isEqualToString:@"1"]) {
+                            [MBProgressHUD showSuccess:@"取消订单成功"];
+                        } else {
+                            [MBProgressHUD showError:@"取消订单失败"];
+                        }
+                    } failure:^(NSError *error) {
+                        [MBProgressHUD hideHUD];
+                        [MBProgressHUD showError:@"请求超时"];
+                        NYLog(@"%@",error.localizedDescription);
+                    }];
+                }]];
+                [self presentViewController:alert animated:YES completion:nil];
+            } else if ([resultStr isEqualToString:@"0"]) {
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"您的网络有问题，请重试"];
+            } else if ([resultStr isEqualToString:@"1"]) {
+                if (self.confirmBtnBlock) {
+                    model.route_id = json[@"route_id"];
+                    self.confirmBtnBlock(model,json[@"route_id"]);
+                }
+            }
+
+            
         });
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

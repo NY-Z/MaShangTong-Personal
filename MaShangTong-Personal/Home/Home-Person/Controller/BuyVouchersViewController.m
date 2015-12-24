@@ -9,6 +9,7 @@
 #import "BuyVouchersViewController.h"
 #import "BuyVouchersCell.h"
 #import "Masonry.h"
+#import "NYStepper.h"
 
 #define kValue @"voucherValue"
 #define kCount @"count"
@@ -38,11 +39,33 @@
 
 - (void)configDataSource
 {
-    _dataArr = @[@{kValue:@"10",kCount:@"X 20"},
-                 @{kValue:@"15",kCount:@"X 20"},
-                 @{kValue:@"20",kCount:@"X 20"},
-                 @{kValue:@"30",kCount:@"X 20"},
-                 @{kValue:@"50",kCount:@"X 20"}];
+    [MBProgressHUD showMessage:@"正在加载"];
+    
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=show_allTickets" params:nil success:^(id json) {
+        
+        @try {
+
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"1"]) {
+                _dataArr = json[@"info"];
+                [_tableView reloadData];
+                UIView *view = [self.view viewWithTag:100];
+                view.hidden = NO;
+                
+            } else {
+                [MBProgressHUD showError:@"加载错误，请重试"];
+            }
+            [MBProgressHUD hideHUD];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+    } failure:^(NSError *error) {
+        NYLog(@"%@",error.localizedDescription);
+    }];
 }
 
 - (void)configTableView
@@ -59,9 +82,11 @@
     
     UIButton *buyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [buyBtn setTitle:@"购买" forState:UIControlStateNormal];
+    buyBtn.tag = 100;
     [buyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [buyBtn setBackgroundColor:RGBColor(97, 189, 252, 1.f)];//
     buyBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    [buyBtn addTarget:self action:@selector(buyBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [footerBgView addSubview:buyBtn];
     [buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(footerBgView);
@@ -70,6 +95,7 @@
     }];
     
     _tableView.tableFooterView = footerBgView;
+    buyBtn.hidden = YES;
 }
 
 - (void)viewDidLoad {
@@ -103,7 +129,9 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"BuyVouchersCell" owner:nil options:nil ]lastObject];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    cell.valueLabel.text = _dataArr[indexPath.row][kValue];
+    NSDictionary *dic = _dataArr[indexPath.row];
+    cell.valueLabel.text = dic[@"price"];
+    cell.stepper.count = 0;
     return cell;
 }
 
@@ -111,6 +139,27 @@
 - (void)leftBarButtonItemClicked:(UIButton *)btn
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)buyBtnClicked:(UIButton *)btn
+{
+    NSInteger count = _dataArr.count;
+    NSMutableArray *idMulArr = [NSMutableArray array];
+    NSMutableArray *countMulArr = [NSMutableArray array];
+    for (NSInteger i = 0; i < count; i++) {
+        BuyVouchersCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        NSDictionary *idDic = _dataArr[i];
+        [idMulArr addObject:idDic[@"shop_id"]];
+        [countMulArr addObject:[NSString stringWithFormat:@"%li",cell.stepper.count]];
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
+    [params setObject:@{@"id":idMulArr,@"count":countMulArr} forKey:@"array"];
+    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=buy_tickets" params:params success:^(id json) {
+        NYLog(@"%@",json);
+    } failure:^(NSError *error) {
+        NYLog(@"%@",error.localizedDescription);
+    }];
 }
 
 @end

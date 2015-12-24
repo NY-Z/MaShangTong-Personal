@@ -63,7 +63,7 @@
     bottomBtn.titleLabel.font = [UIFont systemFontOfSize:11];
     [bottomBtn setTitleColor:RGBColor(165, 165, 165, 1.f) forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(addGroup:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:bottomBtn];
+    [self.view addSubview:bottomBtn];
 #warning 添加分组
     [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view);
@@ -95,17 +95,27 @@
 #pragma mark - DataSource
 - (void)configDataSource
 {
-//    _dataArr = @[@[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}],
-//                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}],
-//                 @[@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"},@{kHeader:@"",kName:@"张可可",kPhone:@"18835625511"}]];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
     [MBProgressHUD showMessage:@"加载员工信息"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
-        NYLog(@"%@",json);
-        [MBProgressHUD hideHUD];
-        _dataArr = json[@"info"];
-        [_tableView reloadData];
+        @try {
+            NYLog(@"%@",json);
+            [MBProgressHUD hideHUD];
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"1"]) {
+                _dataArr = [json[@"info"] mutableCopy];
+                [_tableView reloadData];
+            } else {
+                [MBProgressHUD showError:@"您暂时没有员工"];
+            }
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];
     }];
@@ -162,7 +172,6 @@
     
     EmployeeInfoModel *model = [[EmployeeInfoModel alloc] initWithDictionary:_dataArr[section] error:nil];
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(26, 0, SCREEN_WIDTH/2-26, 30)];
-//    textField.text = [NSString stringWithFormat:@"第 %ld 组",(long)section+1];
     textField.text = model.pid_name;
     textField.textColor = RGBColor(98, 190, 255, 1.f);
     textField.backgroundColor = RGBColor(238,238,238,1.f);
@@ -201,7 +210,9 @@
 
 - (void)addGroup:(UIButton *)btn
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    [_dataArr addObject:@{@"detail":[NSMutableArray array],@"pid_name":@""}];
+    [_tableView reloadData];
 }
 
 @end

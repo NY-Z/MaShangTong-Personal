@@ -33,5 +33,8 @@
 // 实际行驶距离
 @property (nonatomic,assign) NSInteger actualDistance;
 
+// 用户的位置
+@property (nonatomic,assign) CLLocationCoordinate2D passengerCoordinate;
+
 @end
 

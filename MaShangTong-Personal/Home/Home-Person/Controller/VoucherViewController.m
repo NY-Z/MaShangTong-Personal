@@ -54,7 +54,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configNavigationBar];
-    [self configDataSource];
     [self configTableView];
 }
 
@@ -64,24 +63,29 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBarHidden = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [self configDataSource];
 }
 
 - (void)configDataSource
 {
+    [MBProgressHUD showMessage:@"正在加载"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=show_ticket" params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]} success:^(id json) {
         
         NYLog(@"%@",json);
-        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-        if ([resultStr isEqualToString:@"1"]) {
+        
+        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+        if ([dataStr isEqualToString:@"1"]) {
            _dataArr = json[@"info"];
             [_tableView reloadData];
         } else {
-            
+            [MBProgressHUD showError:@"您没有代金券"];
         }
+        [MBProgressHUD hideHUD];
     } failure:^(NSError *error) {
-        
         NYLog(@"%@",error.localizedDescription);
-        
+        [MBProgressHUD showError:@"网络错误"];
+        [MBProgressHUD hideHUD];
     }];
 }
 
@@ -102,19 +106,19 @@
     VoucherCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"VoucherCell" owner:nil options:nil] lastObject];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     __weak typeof(&*self) weakSelf = self;
     
     NSDictionary *dic = _dataArr[indexPath.row];
     cell.valueLabel.text = dic[@"price"];
-    cell.countLabel.text = @"X 1";
+    cell.countLabel.text = [NSString stringWithFormat:@"X %@",dic[@"num"]];
     
     cell.sendBtnBlock = ^(){
-        
         SendVoucherViewController *sendVoucher = [[SendVoucherViewController alloc] init];
+        sendVoucher.voucherId = dic[@"shop_id"];
         [weakSelf.navigationController pushViewController:sendVoucher animated:YES];
-        
     };
     return cell;
 }

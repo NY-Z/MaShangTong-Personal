@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class KLSwitch;
 @interface SettingTableViewCell : UITableViewCell
 
 @property (nonatomic,strong) UILabel *leftTitleLabel;
-@property (nonatomic,strong) UISwitch *rightSwitch;
+@property (nonatomic,strong) KLSwitch *rightSwitch;
 
 @end

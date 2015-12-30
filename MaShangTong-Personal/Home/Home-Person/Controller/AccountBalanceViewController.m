@@ -266,26 +266,26 @@
 
 - (void)bizPay
 {
-    NSString *urlStr = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
-    [DownloadManager get:urlStr params:nil success:^(id json) {
-        
-        NSMutableString *retcode = [json objectForKey:@"retcode"];
-        if (retcode.intValue == 0){
-            NSMutableString *stamp  = [json objectForKey:@"timestamp"];
-            PayReq* req             = [[PayReq alloc] init];
-            req.partnerId           = [json objectForKey:@"partnerid"];
-            req.prepayId            = [json objectForKey:@"prepayid"];
-            req.nonceStr            = [json objectForKey:@"noncestr"];
-            req.timeStamp           = stamp.intValue;
-            req.package             = [json objectForKey:@"package"];
-            req.sign                = [json objectForKey:@"sign"];
-            [WXApi sendReq:req];
-            //日志输出
-            NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",[json objectForKey:@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
-        }
-    } failure:^(NSError *error) {
-        NYLog(@"%@",error.localizedDescription);
-    }];
+//    NSString *urlStr = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
+//    [DownloadManager get:urlStr params:nil success:^(id json) {
+//        
+//        NSMutableString *retcode = [json objectForKey:@"retcode"];
+//        if (retcode.intValue == 0){
+//            NSMutableString *stamp  = [json objectForKey:@"timestamp"];
+//            PayReq* req             = [[PayReq alloc] init];
+//            req.partnerId           = [json objectForKey:@"partnerid"];
+//            req.prepayId            = [json objectForKey:@"prepayid"];
+//            req.nonceStr            = [json objectForKey:@"noncestr"];
+//            req.timeStamp           = stamp.intValue;
+//            req.package             = [json objectForKey:@"package"];
+//            req.sign                = [json objectForKey:@"sign"];
+//            [WXApi sendReq:req];
+//            //日志输出
+//            NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",[json objectForKey:@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
+//        }
+//    } failure:^(NSError *error) {
+//        NYLog(@"%@",error.localizedDescription);
+//    }];
 }
 
 -(void)payAlipay

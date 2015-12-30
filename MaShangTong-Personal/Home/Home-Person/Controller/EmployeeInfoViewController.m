@@ -16,12 +16,14 @@
 #define kName @"name"
 #define kPhone @"phoneNum"
 
-@interface EmployeeInfoViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface EmployeeInfoViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UITextFieldDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArr;
     
     int sectionHide[3];
+    
+    NSString *_groupName;
 }
 @end
 
@@ -79,7 +81,7 @@
     _dataArr = [NSMutableArray array];
     
     [self configNavigationBar];
-//    [self configBottomBar];
+    [self configBottomBar];
     [self configTableView];
 }
 
@@ -88,6 +90,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     
     [self configDataSource];
 }
@@ -176,6 +179,9 @@
     textField.textColor = RGBColor(98, 190, 255, 1.f);
     textField.backgroundColor = RGBColor(238,238,238,1.f);
     textField.font = [UIFont systemFontOfSize:14];
+    textField.delegate = self;
+    textField.tag = 500+section;
+    textField.returnKeyType = UIReturnKeyDone;
     [bgView addSubview:textField];
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"zhishijiantou"]];
@@ -210,9 +216,67 @@
 
 - (void)addGroup:(UIButton *)btn
 {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"添加分组" message:@"请输入分组名称" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     
-    [_dataArr addObject:@{@"detail":[NSMutableArray array],@"pid_name":@""}];
-    [_tableView reloadData];
+    [NSString stringWithFormat:@"group%li",_dataArr.count+1];
+    
+//    NSLog(@"%li",buttonIndex);
+    if (buttonIndex == 1) {
+        UITextField *textFiled=[alertView textFieldAtIndex:0];
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
+        [params setValue:textFiled.text forKey:@"group_name"];
+        [params setValue:[NSString stringWithFormat:@"group%li",_dataArr.count+1] forKey:@"groupn"];
+        [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"add_team"] params:params success:^(id json) {
+            NYLog(@"%@",json);
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"0"]) {
+                [MBProgressHUD showError:@"添加失败"];
+                return ;
+            } else if ([dataStr isEqualToString:@"1"]) {
+                [_dataArr addObject:@{@"detail":[NSMutableArray array],@"pid_name":textFiled.text}];
+                [_tableView reloadData];
+            }
+        } failure:^(NSError *error) {
+            
+        }];
+    }
+}
+
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NYLog(@"%li",textField.tag);
+    NYLog(@"%@",textField.text);
+    NYLog(@"%s",__FUNCTION__);
+    _groupName = textField.text;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"done");
+#warning 修改组名
+    NYLog(@"%li",textField.tag);
+    NYLog(@"%@",textField.text);
+    NYLog(@"%s",__FUNCTION__);
+}
+
+- (void)dealloc
+{
+    NSLog(@"%s",__FUNCTION__);
 }
 
 @end

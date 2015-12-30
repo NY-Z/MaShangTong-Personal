@@ -36,6 +36,7 @@
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 #define APPID_IFly @"5657d35c"
 #define Mast_Url @"http://112.124.115.81/m.php?m=%@&a=%@"
+#define URL_HEADER @"http://112.124.115.81/m.php?m=%@&a=%@"
 
 #ifdef DEBUG // 处于开发阶段
 #define NYLog(...) NSLog(__VA_ARGS__)

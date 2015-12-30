@@ -53,7 +53,7 @@
 {
     if (self.mapView == nil)
     {
-        self.mapView = [[MAMapView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     }
 }
 

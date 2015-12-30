@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PassengerMessageModel.h"
+@class PassengerMessageModel;
 
 typedef NS_ENUM (NSInteger,DriverState) {
     DriverStateNone,

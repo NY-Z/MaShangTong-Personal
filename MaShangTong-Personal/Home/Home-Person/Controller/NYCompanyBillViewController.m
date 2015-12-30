@@ -9,6 +9,7 @@
 #import "NYCompanyBillViewController.h"
 #import "NYMyTripsModel.h"
 #import "NYMyTripsTableViewCell.h"
+#import "NYDetailOrderVC.h"
 
 @interface NYCompanyBillViewController () <UITableViewDataSource,UITableViewDelegate>
 {
@@ -29,7 +30,7 @@
     leftBtn.size = CGSizeMake(44, 44);
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     
-    self.navigationItem.title = @"我的行程";
+    self.navigationItem.title = @"我的订单";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:21],NSForegroundColorAttributeName:RGBColor(73, 185, 254, 1.f)}];
 }
 
@@ -76,6 +77,8 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 #pragma mark - UITableViewDataSorce
@@ -107,7 +110,9 @@
 {
     NSDictionary *dic = _dataArr[indexPath.row];
     NYMyTripsModel *model = [[NYMyTripsModel alloc] initWithDictionary:dic error:nil];
-    
+    NYDetailOrderVC *detailBill = [[NYDetailOrderVC alloc] init];
+    detailBill.route_id = model.route_id;
+    [self.navigationController pushViewController:detailBill animated:YES];
 }
 
 #pragma mark - Action

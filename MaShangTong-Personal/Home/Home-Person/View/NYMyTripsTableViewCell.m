@@ -25,8 +25,24 @@
 {
     _originNameLabel.text = model.origin_name;
     _endNameLabel.text = model.end_name;
-#warning ---
-    _reservationTypeLabel.text = model.route_id;
+    NSInteger reservaType = [model.reserva_type integerValue];
+    switch (reservaType) {
+        case 1:
+            _reservationTypeLabel.text = @"专车";
+            break;
+        case 2:
+            _reservationTypeLabel.text = @"包车";
+            break;
+        case 3:
+            _reservationTypeLabel.text = @"接机";
+            break;
+        case 4:
+            _reservationTypeLabel.text = @"送机";
+            break;
+        default:
+            break;
+    }
+    
 }
 
 @end

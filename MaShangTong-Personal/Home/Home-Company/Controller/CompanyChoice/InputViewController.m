@@ -22,6 +22,7 @@
     
     NSString *_currentCity;
 }
+
 @end
 
 @implementation InputViewController
@@ -127,18 +128,26 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
     }
-    AMapPOI *p = _poiResultArr[indexPath.row];
+    AMapTip *p = _poiResultArr[indexPath.row];
     cell.textLabel.text = p.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%f,%f",p.location.longitude,p.location.latitude];
+    cell.detailTextLabel.text = p.district;
     return cell;
 }
+
+/*
+ @property (nonatomic, copy) NSString *uid; //!< poi的id
+ @property (nonatomic, copy) NSString *name; //!< 名称
+ @property (nonatomic, copy) NSString *adcode; //!< 区域编码
+ @property (nonatomic, copy) NSString *district; //!< 所属区域
+ @property (nonatomic, copy) AMapGeoPoint *location; //!< 位置
+ */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [inputTextField resignFirstResponder];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    AMapPOI *p = _poiResultArr[indexPath.row];
+    AMapTip *p = _poiResultArr[indexPath.row];
     
     if (self.type == InputViewControllerTypeSpecialCarDestination && self.destAddress) {
         delegate.destinationCoordinate = CLLocationCoordinate2DMake(p.location.latitude, p.location.longitude);
@@ -171,10 +180,6 @@
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-//    AMapGeocodeSearchRequest *request = [[AMapGeocodeSearchRequest alloc] init];
-//    request.address = textField.text;
-//    request.city = _currentCity;
-//    [_search AMapGeocodeSearch:request];
     return YES;
 }
 
@@ -190,13 +195,18 @@
 - (void)textFieldDidChange:(NSNotification *)note
 {
     _tableView.scrollsToTop = YES;
-    AMapPOIKeywordsSearchRequest *keywordsRequest = [[AMapPOIKeywordsSearchRequest alloc] init];
-    keywordsRequest.keywords = inputTextField.text;
-    keywordsRequest.city = _currentCity;
-    keywordsRequest.sortrule = 1;
-    keywordsRequest.requireExtension = 1;
-    keywordsRequest.sortrule = 1;
-    [_search AMapPOIKeywordsSearch:keywordsRequest];
+//    AMapPOIKeywordsSearchRequest *keywordsRequest = [[AMapPOIKeywordsSearchRequest alloc] init];
+//    keywordsRequest.keywords = inputTextField.text;
+//    keywordsRequest.city = _currentCity;
+//    keywordsRequest.sortrule = 1;
+//    keywordsRequest.requireExtension = 1;
+//    keywordsRequest.sortrule = 1;
+//    [_search AMapPOIKeywordsSearch:keywordsRequest];
+    
+    AMapInputTipsSearchRequest *request = [[AMapInputTipsSearchRequest alloc] init];
+    request.keywords = inputTextField.text;
+    request.city = _currentCity;
+    [_search AMapInputTipsSearch:request];
 }
 
 - (void)dealloc
@@ -221,6 +231,40 @@
 }
 
 #pragma mark - POI-Search
+
+-(void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response
+{
+    NSMutableArray *tempArray = [NSMutableArray new];
+    if (response.tips.count == 0) {
+        NSLog(@"没有请求到数据");
+        return;
+    }
+    //对请求到的数据进行处理
+    for (AMapTip  *p in response.tips) {
+        //将查到的数据存到数组
+        [tempArray addObject:p];
+        
+    }
+    _poiResultArr = [NSMutableArray arrayWithArray:tempArray];
+    //    //函数回调刷新_searchTableView
+    //    NSLog(@"回调函数结果为：%d",self.reloadSearchTableView);
+    //    if (self.reloadSearchTableView) {
+    //        self.reloadSearchTableView();
+    //    }
+    [_tableView reloadData];
+    
+    [tempArray removeAllObjects];
+    
+}
+
+/*
+ @property (nonatomic, copy) NSString *uid; //!< poi的id
+ @property (nonatomic, copy) NSString *name; //!< 名称
+ @property (nonatomic, copy) NSString *adcode; //!< 区域编码
+ @property (nonatomic, copy) NSString *district; //!< 所属区域
+ @property (nonatomic, copy) AMapGeoPoint *location; //!< 位置
+ */
+
 //实现POI搜索对应的回调函数
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
 {

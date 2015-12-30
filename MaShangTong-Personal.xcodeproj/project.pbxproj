@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E18DFF91C31140C00D77CEC /* NYDetailOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E18DFF71C31140C00D77CEC /* NYDetailOrderVC.m */; };
+		0E18DFFA1C31140C00D77CEC /* NYDetailOrderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18DFF81C31140C00D77CEC /* NYDetailOrderVC.xib */; };
+		0E18E00A1C313D0D00D77CEC /* TaxiGuideImageView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */; };
 		0E21A45B1C055FFF006A722A /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E21A45A1C055FFF006A722A /* icon.png */; };
 		0E21A4611C059862006A722A /* ValuationRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E21A4601C059862006A722A /* ValuationRuleModel.m */; };
 		0E4C92F91C02E3AC00118310 /* RegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C92F71C02E3AC00118310 /* RegisViewController.m */; };
@@ -74,14 +77,12 @@
 		187DE84E1C2AA96C00E0A5C4 /* SettingContractUs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DE84C1C2AA96C00E0A5C4 /* SettingContractUs@2x.png */; };
 		187DE84F1C2AA96C00E0A5C4 /* SettingContractUs@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DE84D1C2AA96C00E0A5C4 /* SettingContractUs@3x.png */; };
 		187DE8521C2AAC2500E0A5C4 /* NYAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187DE8511C2AAC2500E0A5C4 /* NYAboutUsViewController.m */; };
-		187DE8541C2AAF2900E0A5C4 /* TaxiGuideImageView@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 187DE8531C2AAF2900E0A5C4 /* TaxiGuideImageView@2x.jpg */; };
 		187DE8581C2AC74F00E0A5C4 /* KLSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 187DE8571C2AC74F00E0A5C4 /* KLSwitch.m */; };
 		1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */; };
 		189EF12E1C239A46002E7702 /* NYCompanyBillViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF12D1C239A46002E7702 /* NYCompanyBillViewController.m */; };
 		189EF1351C23A11A002E7702 /* NYMyTripsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF1341C23A11A002E7702 /* NYMyTripsModel.m */; };
 		189EF13A1C23A1CC002E7702 /* NYMyTripsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF1381C23A1CC002E7702 /* NYMyTripsTableViewCell.m */; };
 		189EF13B1C23A1CC002E7702 /* NYMyTripsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 189EF1391C23A1CC002E7702 /* NYMyTripsTableViewCell.xib */; };
-		189EF13E1C23B229002E7702 /* NYCompanyDetailBillViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189EF13D1C23B229002E7702 /* NYCompanyDetailBillViewController.m */; };
 		18B149E91C20F55300C60449 /* EmployeeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B149E81C20F55300C60449 /* EmployeeInfoModel.m */; };
 		18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BB20E31C1986F0005123DA /* Default-568h@2x.png */; };
 		18C6BF4C1C22E0A300092E3A /* SharedMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C6BF4B1C22E0A300092E3A /* SharedMapView.m */; };
@@ -250,6 +251,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E18DFF61C31140C00D77CEC /* NYDetailOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYDetailOrderVC.h; sourceTree = "<group>"; };
+		0E18DFF71C31140C00D77CEC /* NYDetailOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYDetailOrderVC.m; sourceTree = "<group>"; };
+		0E18DFF81C31140C00D77CEC /* NYDetailOrderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYDetailOrderVC.xib; sourceTree = "<group>"; };
+		0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TaxiGuideImageView@2x.png"; sourceTree = "<group>"; };
 		0E21A45A1C055FFF006A722A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		0E21A45F1C059862006A722A /* ValuationRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleModel.h; sourceTree = "<group>"; };
 		0E21A4601C059862006A722A /* ValuationRuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleModel.m; sourceTree = "<group>"; };
@@ -355,7 +360,6 @@
 		187DE84D1C2AA96C00E0A5C4 /* SettingContractUs@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SettingContractUs@3x.png"; sourceTree = "<group>"; };
 		187DE8501C2AAC2500E0A5C4 /* NYAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAboutUsViewController.h; sourceTree = "<group>"; };
 		187DE8511C2AAC2500E0A5C4 /* NYAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAboutUsViewController.m; sourceTree = "<group>"; };
-		187DE8531C2AAF2900E0A5C4 /* TaxiGuideImageView@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "TaxiGuideImageView@2x.jpg"; sourceTree = "<group>"; };
 		187DE8561C2AC74F00E0A5C4 /* KLSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLSwitch.h; sourceTree = "<group>"; };
 		187DE8571C2AC74F00E0A5C4 /* KLSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLSwitch.m; sourceTree = "<group>"; };
 		1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialCarRuleModel.h; sourceTree = "<group>"; };
@@ -367,8 +371,6 @@
 		189EF1371C23A1CC002E7702 /* NYMyTripsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYMyTripsTableViewCell.h; sourceTree = "<group>"; };
 		189EF1381C23A1CC002E7702 /* NYMyTripsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYMyTripsTableViewCell.m; sourceTree = "<group>"; };
 		189EF1391C23A1CC002E7702 /* NYMyTripsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYMyTripsTableViewCell.xib; sourceTree = "<group>"; };
-		189EF13C1C23B229002E7702 /* NYCompanyDetailBillViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCompanyDetailBillViewController.h; sourceTree = "<group>"; };
-		189EF13D1C23B229002E7702 /* NYCompanyDetailBillViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCompanyDetailBillViewController.m; sourceTree = "<group>"; };
 		18B149E71C20F55300C60449 /* EmployeeInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeInfoModel.h; sourceTree = "<group>"; };
 		18B149E81C20F55300C60449 /* EmployeeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeInfoModel.m; sourceTree = "<group>"; };
 		18BB20E31C1986F0005123DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -847,8 +849,9 @@
 			children = (
 				189EF12C1C239A46002E7702 /* NYCompanyBillViewController.h */,
 				189EF12D1C239A46002E7702 /* NYCompanyBillViewController.m */,
-				189EF13C1C23B229002E7702 /* NYCompanyDetailBillViewController.h */,
-				189EF13D1C23B229002E7702 /* NYCompanyDetailBillViewController.m */,
+				0E18DFF61C31140C00D77CEC /* NYDetailOrderVC.h */,
+				0E18DFF71C31140C00D77CEC /* NYDetailOrderVC.m */,
+				0E18DFF81C31140C00D77CEC /* NYDetailOrderVC.xib */,
 			);
 			name = "我的订单";
 			sourceTree = "<group>";
@@ -1035,7 +1038,7 @@
 		6D5434A11BF2FA10002E25DA /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				187DE8531C2AAF2900E0A5C4 /* TaxiGuideImageView@2x.jpg */,
+				0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */,
 				187DE84C1C2AA96C00E0A5C4 /* SettingContractUs@2x.png */,
 				187DE84D1C2AA96C00E0A5C4 /* SettingContractUs@3x.png */,
 				0E21A45A1C055FFF006A722A /* icon.png */,
@@ -1399,11 +1402,11 @@
 				6D5435281BF2FA10002E25DA /* bianji@2x.png in Resources */,
 				6D5435951BF2FA10002E25DA /* zhuanhuan@3x.png in Resources */,
 				6D5435881BF2FA10002E25DA /* xiazai@2x.png in Resources */,
-				187DE8541C2AAF2900E0A5C4 /* TaxiGuideImageView@2x.jpg in Resources */,
 				6D54353A1BF2FA10002E25DA /* dail@2x.png in Resources */,
 				6D54352C1BF2FA10002E25DA /* che1Deselect@2x.png in Resources */,
 				6D54353B1BF2FA10002E25DA /* dail@3x.png in Resources */,
 				6D54356C1BF2FA10002E25DA /* sijizhaomu@2x.png in Resources */,
+				0E18DFFA1C31140C00D77CEC /* NYDetailOrderVC.xib in Resources */,
 				6D54355B1BF2FA10002E25DA /* quan@3x.png in Resources */,
 				6D54354A1BF2FA10002E25DA /* gerenzhongxin@2x.png in Resources */,
 				0EDE8C9E1C07EC7D00356AF1 /* sijidingwei@3x.png in Resources */,
@@ -1475,6 +1478,7 @@
 				6D5435361BF2FA10002E25DA /* che3Select@2x.png in Resources */,
 				6D54357F1BF2FA10002E25DA /* xiala@3x.png in Resources */,
 				6D54352B1BF2FA10002E25DA /* chahao@3x.png in Resources */,
+				0E18E00A1C313D0D00D77CEC /* TaxiGuideImageView@2x.png in Resources */,
 				6D5435541BF2FA10002E25DA /* payBtnSelect@2x.png in Resources */,
 				6D5435251BF2FA10002E25DA /* baojifuben@3x.png in Resources */,
 				6D54351D1BF2FA10002E25DA /* advertisementImage@3x.png in Resources */,
@@ -1605,7 +1609,6 @@
 				10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */,
 				6D5434A01BF2F299002E25DA /* NYStepper.m in Sources */,
 				0EF9E64B1BF86A4A002B6915 /* MBProgressHUD+MJ.m in Sources */,
-				189EF13E1C23B229002E7702 /* NYCompanyDetailBillViewController.m in Sources */,
 				0EDE8C9A1C07E87C00356AF1 /* NavPointAnnotation.m in Sources */,
 				0E4C930C1C02F94300118310 /* ProvincesAndCitiesTableViewController.m in Sources */,
 				6D5436201BF30F21002E25DA /* NSDataEx.m in Sources */,
@@ -1644,6 +1647,7 @@
 				0EDE8C891C06AE6000356AF1 /* AirPortViewController.m in Sources */,
 				0EDE8C711C06A4FE00356AF1 /* PassengerMessageModel.m in Sources */,
 				18C6BF4C1C22E0A300092E3A /* SharedMapView.m in Sources */,
+				0E18DFF91C31140C00D77CEC /* NYDetailOrderVC.m in Sources */,
 				0ED1D9CF1BF6CB9200804B14 /* BuyVouchersCell.m in Sources */,
 				0EDE8CBD1C08402C00356AF1 /* UserModel.m in Sources */,
 				6D5434161BF2D8B5002E25DA /* UIView+Extension.m in Sources */,
@@ -1768,7 +1772,7 @@
 					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1904,7 +1908,7 @@
 					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1951,7 +1955,7 @@
 					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

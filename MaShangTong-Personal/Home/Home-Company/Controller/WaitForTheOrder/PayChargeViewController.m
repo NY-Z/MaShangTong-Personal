@@ -46,7 +46,7 @@
     }];
     
     UILabel *nameLabel = [[UILabel alloc] init];
-    nameLabel.text = @"徐师傅";
+    nameLabel.text = @"*师傅";
     nameLabel.textAlignment = 0;
     nameLabel.textColor = RGBColor(14, 14, 14, 1.f);
     nameLabel.font = [UIFont systemFontOfSize:19];
@@ -61,7 +61,7 @@
     }];
     
     UILabel *propertyLabel = [[UILabel alloc] init];
-    propertyLabel.text = @"沪F88888    友联出租";
+    propertyLabel.text = @"";
     propertyLabel.textAlignment = 0;
     propertyLabel.textColor = RGBColor(148, 148, 148, 1.f);
     propertyLabel.font = [UIFont systemFontOfSize:12];
@@ -76,7 +76,7 @@
     }];
     
     UILabel *dealCountLabel = [[UILabel alloc] init];
-    dealCountLabel.text = @"26666单";
+    dealCountLabel.text = @"";
     dealCountLabel.textAlignment = 0;
     dealCountLabel.textColor = RGBColor(148, 148, 148, 1.f);
     dealCountLabel.font = [UIFont systemFontOfSize:12];
@@ -143,7 +143,6 @@
         }];
     }
     
-    //    _detailInfoArr = @[@"14元",@"0元",@"2公里",@"0.3kg"];
     NSArray *detailInfoArr = @[_actualPriceModel.total_price,@"0",_actualPriceModel.mileage,@"0.0kg"];
     for (NSInteger i = 0; i < 4; i++) {
         UILabel *label = [[UILabel alloc] init];
@@ -249,7 +248,6 @@
             } failure:^(NSError *error) {
                 
             }];
-            
             for (UIViewController *vc in self.navigationController.viewControllers) {
                 if ([vc isKindOfClass:[CompanyHomeViewController class]]) {
                     [self.navigationController popToViewController:vc animated:YES];

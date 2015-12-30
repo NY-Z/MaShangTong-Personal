@@ -193,7 +193,7 @@
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
-        [self.navigationController pushViewController:waitOrderVc animated:YES];
+        [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:specialCar];
     
@@ -229,7 +229,7 @@
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
-        [self.navigationController pushViewController:waitOrderVc animated:YES];
+        [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:charteredBus];
     
@@ -279,7 +279,7 @@
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
-        [self.navigationController pushViewController:waitOrderVc animated:YES];
+        [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:airportPickup];
     
@@ -313,7 +313,7 @@
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
-        [self.navigationController pushViewController:waitOrderVc animated:YES];
+        [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:airportDropOff];
 }
@@ -849,7 +849,11 @@
             else {
                 RegisViewController *regis = [[RegisViewController alloc] init];
                 [UIApplication sharedApplication].keyWindow.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
+                _pageViewController = nil;
+                _dataArr = nil;
                 [USER_DEFAULT setValue:@"0" forKey:@"group_id"];
+                [USER_DEFAULT setValue:@"0" forKey:@"isLogin"];
+                [USER_DEFAULT synchronize];
             }
             [MBProgressHUD hideHUD];
         }
@@ -1060,6 +1064,11 @@
 - (void)rightBarButtonItemClicked:(UIButton *)btn
 {
     
+}
+
+- (void)dealloc
+{
+    NSLog(@"%s",__FUNCTION__);
 }
 
 @end

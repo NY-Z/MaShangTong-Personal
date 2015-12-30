@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface DriverInfoCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *originNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 @end

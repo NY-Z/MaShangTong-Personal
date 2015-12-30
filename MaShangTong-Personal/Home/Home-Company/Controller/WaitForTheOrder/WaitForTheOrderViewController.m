@@ -15,7 +15,8 @@
 #import "PayChargeViewController.h"
 #import "ActualPriceModel.h"
 #import "DriverInfoModel.h"
-
+#import "DriverInfoCell.h"
+#import "PassengerMessageModel.h"
 
 @interface WaitForTheOrderViewController () <MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,IFlySpeechSynthesizerDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
 {
@@ -72,6 +73,12 @@
     _mapView = [[SharedMapView sharedInstance] mapView];
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
+    [_mapView setZoomLevel:16 animated:YES];
+    _mapView.showsBuildings = NO;
+    _mapView.rotateEnabled = NO;
+    _mapView.customizeUserLocationAccuracyCircleRepresentation = YES;
+    _mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
+    _mapView.size = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:_mapView];
 }
 
@@ -97,11 +104,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.barTintColor = RGBColor(84, 175, 255, 1.f);
     [_mapView setCenterCoordinate:_passengerCoordinate animated:YES];
-    [_mapView setZoomLevel:14 animated:YES];
+    [_mapView setZoomLevel:16 animated:YES];
+    
+    NSLog(@"%@",NSStringFromCGRect(self.view.bounds));
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -116,9 +126,18 @@
     
     self.mapView.delegate = nil;
     
+    self.naviManager = nil;
+    
     [[SharedMapView sharedInstance] popMapViewStatus];
     
-    NSLog(@"%@",self.mapView);
+    [self.mapView removeFromSuperview];
+    
+    self.mapView = nil;
+    
+    [self.iFlySpeechSynthesizer stopSpeaking];
+    
+    self.iFlySpeechSynthesizer.delegate = nil;
+    
 }
 
 - (void)configDriverInfo {
@@ -143,7 +162,7 @@
     }];
     
     UILabel *nameLabel = [[UILabel alloc] init];
-    nameLabel.text = @"徐师傅";
+    nameLabel.text = @"";
     nameLabel.tag = 100;
     nameLabel.font = [UIFont systemFontOfSize:20];
     [bgView addSubview:nameLabel];
@@ -154,7 +173,7 @@
     }];
     
     UILabel *licenseLabel = [[UILabel alloc] init];
-    licenseLabel.text = @"沪F88888";
+    licenseLabel.text = @"";
     licenseLabel.tag = 200;
     licenseLabel.textColor = RGBColor(179, 179, 179, 1);
     licenseLabel.font = [UIFont systemFontOfSize:12];
@@ -166,7 +185,7 @@
     }];
     
     UILabel *companyLabel = [[UILabel alloc] init];
-    companyLabel.text = @"友联出租";
+    companyLabel.text = @"";
     companyLabel.tag = 300;
     companyLabel.font = [UIFont systemFontOfSize:12];
     companyLabel.textColor = RGBColor(179, 179, 179, 1);
@@ -190,7 +209,7 @@
     }
     
     UILabel *billLabel = [[UILabel alloc] init];
-    billLabel.text = @"26666单";
+    billLabel.text = @"";
     billLabel.tag = 400;
     billLabel.textColor = RGBColor(179, 179, 179, 1);
     billLabel.font = [UIFont systemFontOfSize:12];
@@ -501,7 +520,7 @@
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         [_mapView setCenterCoordinate:userLocation.coordinate animated:YES];
-        [_mapView setZoomLevel:14 animated:YES];
+        [_mapView setZoomLevel:16 animated:YES];
     });
     _passengerCoordinate = userLocation.coordinate;
     _speed = userLocation.location.speed;
@@ -609,12 +628,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"DriverInfoCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    static NSString *reuseId = @"DriverInfoCell";
+    DriverInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"DriverInfoCell" owner:nil options:nil] lastObject];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    cell.originNameLabel.text = infoModel.origin_name;
+    cell.endNameLabel.text = infoModel.end_name;
+    cell.dateLabel.text = infoModel.create_time;
     return cell;
 }
 
@@ -643,6 +664,7 @@
 
 - (void)rightLabelTaped:(UITapGestureRecognizer *)tap
 {
+    __weak typeof(self) weakSelf = self;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您确定要取消行程吗？" preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
@@ -652,7 +674,12 @@
             [MBProgressHUD hideHUD];
             if ([resultStr isEqualToString:@"1"]) {
                 [MBProgressHUD showSuccess:@"取消订单成功"];
-                [self.navigationController popViewControllerAnimated:YES];
+                [_timer setFireDate:[NSDate distantFuture]];
+                if (_timer.valid) {
+                    [_timer invalidate];
+                }
+                _timer = nil;
+                [weakSelf.navigationController popViewControllerAnimated:YES];
             } else {
                 [MBProgressHUD showError:@"取消订单失败"];
             }
@@ -685,11 +712,6 @@
 - (void)dealloc
 {
     NYLog(@"%s",__FUNCTION__);
-    [_timer setFireDate:[NSDate distantFuture]];
-    if (_timer.valid) {
-        [_timer invalidate];
-    }
-    _timer = nil;
 }
 
 @end

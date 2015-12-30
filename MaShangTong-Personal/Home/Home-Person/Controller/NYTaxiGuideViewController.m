@@ -41,13 +41,13 @@
     _scrollView.autoresizesSubviews = NO;
     [self.view addSubview:_scrollView];
     
-    UIImage *image = [UIImage imageNamed:@"TaxiGuideImageView.jpg"];
+    UIImage *image = [UIImage imageNamed:@"TaxiGuideImageView"];
     CGSize size = image.size;
 
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, size.height);
+    imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*size.height/SCREEN_HEIGHT);
     [_scrollView addSubview:imageView];
-    _scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, size.height);
+    _scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH*size.height/SCREEN_HEIGHT);
 }
 
 - (void)viewDidAppear:(BOOL)animated

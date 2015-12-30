@@ -49,7 +49,7 @@
 
 - (void)configDataSource
 {
-    _dataArr = @[@[@"音效",@"震动"],@[@"记住导航软件选择",@"默认开启导航"],@[@"意见反馈",@"打车指南",@"联系我们",@"关于我们"]];
+    _dataArr = @[@[@"记住导航软件选择",@"默认开启导航"],@[@"意见反馈",@"打车指南",@"联系我们",@"关于我们"]];
 }
 
 - (void)viewDidLoad {
@@ -123,20 +123,25 @@
     }
     cell.leftTitleLabel.text = _dataArr[indexPath.section][indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    if (indexPath.section == 0 || indexPath.section == 1) {
+    if (indexPath.section == 0) {
         cell.rightSwitch.hidden = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
-        if (indexPath.section == 1 && indexPath.row == 0) {
+        if (indexPath.section == 0 && indexPath.row == 0) {
             cell.rightSwitch.hidden = YES;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else {
+            
         }
+    } else {
+        cell.rightSwitch.hidden = YES;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2) {
+    if (indexPath.section == 1) {
         switch (indexPath.row) {
             case 0:
                 [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];

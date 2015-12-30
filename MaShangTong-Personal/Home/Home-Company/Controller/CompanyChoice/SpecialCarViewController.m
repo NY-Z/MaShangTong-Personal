@@ -336,7 +336,7 @@
         }
         
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-
+        
         if (regeocode)
         {
             if (regeocode.city) {
@@ -627,9 +627,20 @@
     AMapPath *path = response.route.paths[0];
     self.naviRoute = [MANaviRoute naviRouteForPath:path withNaviType:type];
     
+    NSInteger distance = 0;
+    for (AMapStep *step in path.steps) {
+        distance += step.distance;
+    }
+    
     ValuationRuleModel *model = [[ValuationRuleModel alloc] initWithDictionary:_specialCarArr[_selectedBtn.tag-200] error:nil];
     
-    NSString *price = [NSString stringWithFormat:@"%.0f",path.distance*([model.mileage floatValue])/1000+[model.step floatValue]];
+    NSString *price = @"";
+    if (distance <= 10000) {
+        price = [NSString stringWithFormat:@"%.0f",(distance*[model.mileage floatValue])/1000+[model.step floatValue]];
+    } else {
+        NSInteger moreDistance = distance-10000;
+        price = [NSString stringWithFormat:@"%.0f",10*[model.mileage floatValue]+[model.step floatValue]+moreDistance*[model.long_mileage floatValue]/1000];
+    }
     
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %li 元", (long)[[price componentsSeparatedByString:@"."][0] integerValue]]];
     [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, [price componentsSeparatedByString:@"."][0].length)];

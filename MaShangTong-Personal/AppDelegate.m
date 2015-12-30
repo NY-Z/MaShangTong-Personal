@@ -26,6 +26,7 @@
 #import "PayChargeViewController.h"
 #import "CompanyHomeViewController.h"
 
+
 @interface AppDelegate () <WXApiDelegate>
 
 @end
@@ -79,7 +80,6 @@
         self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
     }
     [self.window makeKeyAndVisible];
-
     return YES;
 }
 
@@ -88,7 +88,7 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
     
-    //跳转支付宝钱包进行支付，处理支付结果
+    //跳转支付宝钱包进行支付，处理支付结果c
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         NYLog(@"result = %@",resultDic);
     }];

@@ -524,7 +524,7 @@
     if ([_timeBtn.currentTitle isEqualToString:@"现在用车"]) {
         reservation_type = @"1";
     }
-
+    [params setObject:reservation_type forKey:@"reservation_type"];
     [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
 

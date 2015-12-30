@@ -47,22 +47,18 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下单时间:2015年9月12日" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yJr-LF-RJc">
-                        <rect key="frame" x="78" y="70" width="154" height="21"/>
+                        <rect key="frame" x="78" y="70" width="234" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="154" id="VVh-6q-RwM"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.46274509803921571" green="0.46274509803921571" blue="0.46274509803921571" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:32:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mF-Of-DsF">
-                        <rect key="frame" x="240" y="70" width="63" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="63" id="97J-XC-z3X"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.43137254901960786" green="0.43137254901960786" blue="0.43137254901960786" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="VVh-6q-RwM"/>
+                            </mask>
+                        </variation>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="advertisementImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="zEt-jp-Ic9">
                         <rect key="frame" x="0.0" y="99" width="320" height="80"/>
@@ -82,18 +78,16 @@
                     <constraint firstItem="WhS-Cr-yYO" firstAttribute="height" secondItem="1kt-jx-ngg" secondAttribute="height" id="8hK-22-p8h"/>
                     <constraint firstAttribute="bottomMargin" secondItem="zEt-jp-Ic9" secondAttribute="bottom" constant="-8" id="KXB-h2-7wN"/>
                     <constraint firstItem="JEt-ZF-7AY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="QfC-E8-tAW"/>
-                    <constraint firstItem="yJr-LF-RJc" firstAttribute="height" secondItem="2mF-Of-DsF" secondAttribute="height" id="S5A-tJ-u27"/>
                     <constraint firstItem="0LU-ts-3tm" firstAttribute="centerX" secondItem="JEt-ZF-7AY" secondAttribute="centerX" id="SQo-SO-Vqx"/>
                     <constraint firstItem="YPV-7n-igE" firstAttribute="centerX" secondItem="JEt-ZF-7AY" secondAttribute="centerX" id="V5D-XH-gN8"/>
                     <constraint firstItem="yJr-LF-RJc" firstAttribute="height" secondItem="1kt-jx-ngg" secondAttribute="height" id="VfP-SV-22z"/>
                     <constraint firstItem="YPV-7n-igE" firstAttribute="top" secondItem="0LU-ts-3tm" secondAttribute="bottom" constant="9" id="Xj6-ER-HWA"/>
-                    <constraint firstItem="yJr-LF-RJc" firstAttribute="centerY" secondItem="2mF-Of-DsF" secondAttribute="centerY" id="ZUZ-ri-5iv"/>
                     <constraint firstItem="JEt-ZF-7AY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="40" id="alt-4w-H8w"/>
                     <constraint firstItem="yJr-LF-RJc" firstAttribute="leading" secondItem="YPV-7n-igE" secondAttribute="trailing" constant="8" id="cVO-ws-nGZ"/>
                     <constraint firstItem="0LU-ts-3tm" firstAttribute="centerY" secondItem="1kt-jx-ngg" secondAttribute="centerY" constant="0.5" id="dDZ-i5-zhR"/>
                     <constraint firstItem="yJr-LF-RJc" firstAttribute="centerY" secondItem="YPV-7n-igE" secondAttribute="centerY" constant="-0.5" id="dIN-Xz-qc9"/>
                     <constraint firstItem="1kt-jx-ngg" firstAttribute="leading" secondItem="0LU-ts-3tm" secondAttribute="trailing" constant="8" id="eMR-wk-u4h"/>
-                    <constraint firstItem="2mF-Of-DsF" firstAttribute="leading" secondItem="yJr-LF-RJc" secondAttribute="trailing" constant="8" id="hvg-Yg-tPB"/>
+                    <constraint firstItem="yJr-LF-RJc" firstAttribute="trailing" secondItem="1kt-jx-ngg" secondAttribute="trailing" id="fli-NG-Ihg"/>
                     <constraint firstItem="0LU-ts-3tm" firstAttribute="top" secondItem="JEt-ZF-7AY" secondAttribute="bottom" constant="9" id="il2-U9-7qo"/>
                     <constraint firstAttribute="trailingMargin" secondItem="zEt-jp-Ic9" secondAttribute="trailing" constant="-8" id="jmb-wF-W75"/>
                     <constraint firstItem="WhS-Cr-yYO" firstAttribute="leading" secondItem="JEt-ZF-7AY" secondAttribute="trailing" constant="8" id="pX6-f5-nhi"/>
@@ -102,6 +96,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="dateLabel" destination="yJr-LF-RJc" id="tzR-1j-5An"/>
                 <outlet property="endNameLabel" destination="1kt-jx-ngg" id="rFx-k1-VXq"/>
                 <outlet property="originNameLabel" destination="WhS-Cr-yYO" id="Bzh-bP-eys"/>
             </connections>

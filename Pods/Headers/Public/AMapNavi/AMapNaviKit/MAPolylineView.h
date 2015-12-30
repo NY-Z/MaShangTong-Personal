@@ -1,1 +1,1 @@
-../../../../AMapNavi/AMapNaviKit.framework/Versions/1.3.2.70b9c1e/Headers/MAPolylineView.h
+../../../../AMapNavi/AMapNaviKit.framework/Versions/1.4.0.a708ac1/Headers/MAPolylineView.h

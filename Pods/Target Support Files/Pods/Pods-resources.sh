@@ -58,8 +58,8 @@ install_resource()
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.3.2.70b9c1e/Resources/AMap.bundle"
-  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.3.2.70b9c1e/Resources/AMapNavi.bundle"
+  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.4.0.a708ac1/Resources/AMap.bundle"
+  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.4.0.a708ac1/Resources/AMapNavi.bundle"
   install_resource "AlipaySDK-2.0/AlipaySDK.bundle"
   install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
   install_resource "UMengFeedback/UMFeedback_iOS_2.3.4/UMengFeedback_SDK/zh-Hans.lproj/UMFeedbackLocalizable.strings"
@@ -93,8 +93,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.4/UMSocial_Sdk_4.4/zh-Hans.lproj"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.3.2.70b9c1e/Resources/AMap.bundle"
-  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.3.2.70b9c1e/Resources/AMapNavi.bundle"
+  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.4.0.a708ac1/Resources/AMap.bundle"
+  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.4.0.a708ac1/Resources/AMapNavi.bundle"
   install_resource "AlipaySDK-2.0/AlipaySDK.bundle"
   install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
   install_resource "UMengFeedback/UMFeedback_iOS_2.3.4/UMengFeedback_SDK/zh-Hans.lproj/UMFeedbackLocalizable.strings"
@@ -128,8 +128,8 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "UMengSocial/Umeng_SDK_Social_iOS_ARM64_4.4/UMSocial_Sdk_4.4/zh-Hans.lproj"
 fi
 if [[ "$CONFIGURATION" == "ad hoc" ]]; then
-  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.3.2.70b9c1e/Resources/AMap.bundle"
-  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.3.2.70b9c1e/Resources/AMapNavi.bundle"
+  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.4.0.a708ac1/Resources/AMap.bundle"
+  install_resource "AMapNavi/AMapNaviKit.framework/Versions/1.4.0.a708ac1/Resources/AMapNavi.bundle"
   install_resource "AlipaySDK-2.0/AlipaySDK.bundle"
   install_resource "IQKeyboardManager/IQKeyBoardManager/Resources/IQKeyboardManager.bundle"
   install_resource "UMengFeedback/UMFeedback_iOS_2.3.4/UMengFeedback_SDK/zh-Hans.lproj/UMFeedbackLocalizable.strings"

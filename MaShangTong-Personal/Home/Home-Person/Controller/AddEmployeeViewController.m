@@ -96,20 +96,23 @@
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     EmployeeInfoModel *model = [[EmployeeInfoModel alloc] initWithDictionary:_pickerArr[row] error:nil];
-    if (model.detail[0]) {
-        EmployeeInfoDetailModel *detailModel = model.detail[0];
-        return detailModel.pid_name;
-    } else {
-        return nil;
-    }
+    
+//    if (model.detail.count != 0) {
+//        EmployeeInfoDetailModel *detailModel = model.detail[0];
+//        NSLog(@"%@",detailModel.pid_name);
+//        return detailModel.pid_name;
+//    } else {
+//        return nil;
+//    }
+    return model.pid_name;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     EmployeeInfoModel *model = [[EmployeeInfoModel alloc] initWithDictionary:_pickerArr[row] error:nil];
-    EmployeeInfoDetailModel *detailModel = model.detail[0];
+//    EmployeeInfoDetailModel *detailModel = model.detail[0];
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
-    cell.detailTextLabel.text = detailModel.pid_name;
+    cell.detailTextLabel.text = model.pid_name;
 }
 
 #pragma mark - UITableViewDataSource

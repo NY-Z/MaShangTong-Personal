@@ -16,5 +16,6 @@
 @property (nonatomic,strong) NSString <Optional> *origin_name;
 @property (nonatomic,strong) NSString <Optional> *route_id;
 @property (nonatomic,strong) NSString <Optional> *trip_distance;
+@property (nonatomic,strong) NSString <Optional> *reserva_type;
 
 @end

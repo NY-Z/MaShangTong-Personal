@@ -61,13 +61,15 @@
 -(void)sendOrder
 {
     NSLog(@"%@",_route_id);
+    [MBProgressHUD showMessage:@"请稍候"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"userTrips_detail"] params:@{@"route_id":_route_id} success:^(id json) {
         NYLog(@"%@",json);
+        [MBProgressHUD hideHUD];
         _dataDic = json[@"info"];
         [self creatMoneyLabelStr];
         [self displayData];
     } failure:^(NSError *error) {
-        
+        [MBProgressHUD hideHUD];
     }];
 }
 //展示数据

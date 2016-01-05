@@ -246,7 +246,7 @@
 {
     NYLog(@"%@",_selectPayBtn.currentTitle);
     if (![_payChargeTextField.text floatValue]) {
-        [MBProgressHUD showError:@"请输入余额"];
+        [MBProgressHUD showError:@"请输入您要充值的余额"];
         return;
     }
     switch (_selectPayBtn.tag) {
@@ -272,95 +272,35 @@
 
 - (void)bizPay
 {
-    NSString *urlStr = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
-    [DownloadManager get:urlStr params:nil success:^(id json) {
+    NSLog(@"%@",_payChargeTextField.text);
+//    [DownloadManager post:@"http://112.124.115.81/api/wechatPay/pay.php" params:@{@"money":@"1",@"ip":@"192.168.0.20"} success:^(id json) {
+//        NSLog(@"%@",json);
+//    } failure:^(NSError *error) {
+//        NSLog(@"%@",error.localizedDescription);
+//    }];
+//    [DownloadManager get:@"http://112.124.115.81/api/wechatPay/pay.php?money=1&ip=192.168.0.2" params:nil success:^(id json) {
+//        NSLog(@"%@",json);
+//
+//    } failure:^(NSError *error) {
+//        NSLog(@"%@",error.localizedDescription);
+//
+//    }];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:_payChargeTextField.text forKey:@"money"];
+    [params setValue:@"192.168.0.20" forKey:@"ip"];
+    [params setValue:@"码尚通企业端余额充值" forKey:@"detail"];
+    [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         
-        NSMutableString *retcode = [json objectForKey:@"retcode"];
-        if (retcode.intValue == 0){
-            NSMutableString *stamp  = [json objectForKey:@"timestamp"];
-            PayReq* req             = [[PayReq alloc] init];
-            req.partnerId           = [json objectForKey:@"partnerid"];
-            req.prepayId            = [json objectForKey:@"prepayid"];
-            req.nonceStr            = [json objectForKey:@"noncestr"];
-            req.timeStamp           = stamp.intValue;
-            req.package             = [json objectForKey:@"package"];
-            req.sign                = [json objectForKey:@"sign"];
-            [WXApi sendReq:req];
-            //日志输出
-            NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",[json objectForKey:@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
-        }
-    } failure:^(NSError *error) {
-        NYLog(@"%@",error.localizedDescription);
+        NSLog(@"%@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil]);
+    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+        
+        
+        
     }];
 }
-
-- (NSString *)deviceIPAdress {
-    NSString *address = @"an error occurred when obtaining ip address";
-    struct ifaddrs *interfaces = NULL;
-    struct ifaddrs *temp_addr = NULL;
-    int success = 0;
-    
-    success = getifaddrs(&interfaces);
-    
-    if (success == 0) { // 0 表示获取成功
-        temp_addr = interfaces;
-        while (temp_addr != NULL) {
-            if( temp_addr->ifa_addr->sa_family == AF_INET) {
-                // Check if interface is en0 which is the wifi connection on the iPhone
-                if ([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
-                    // Get NSString from C String
-                    address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-                }
-            }
-            temp_addr = temp_addr->ifa_next;
-        }
-    }
-    
-    freeifaddrs(interfaces);
-    
-    NSLog(@"手机的IP是:%@", address);
-    return address;
-}
-
-- (NSString *)md5HexDigest:(NSString *)input{
-    
-    const char *cStr = [input UTF8String];
-    unsigned char result[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(cStr, (unsigned int)strlen(cStr), result);
-    return [NSString stringWithFormat: @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-            result[0], result[1], result[2], result[3],
-            result[4], result[5], result[6], result[7],
-            result[8], result[9], result[10], result[11],
-            result[12], result[13], result[14], result[15]];
-}
-
-- (NSString*)dictionaryToJson:(NSDictionary *)dic
-
-{
-    
-    NSError *parseError = nil;
-    
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
-    
-    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-}
-
--(void)onResp:(BaseResp*)resp{
-    if ([resp isKindOfClass:[PayResp class]]){
-        PayResp*response=(PayResp*)resp;
-        switch(response.errCode){
-            case WXSuccess:
-                //服务器端查询支付通知或查询API返回的结果再提示成功
-                NSLog(@"支付成功");
-                break;
-            default:
-                NSLog(@"支付失败，retcode=%d",resp.errCode);
-                break;
-        }
-    }
-}
-
 
 -(void)payAlipay
 {
@@ -439,21 +379,11 @@
                 } else {
                     [MBProgressHUD showError:@"充值失败"];
                 }
-                
             } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-                
                 NYLog(@"%@",error.localizedDescription);
-                
             }];
-            
         }];
-        
-        // [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        
     }
-    
-    
-    
 }
 
 - (NSString *)generateTradeNO

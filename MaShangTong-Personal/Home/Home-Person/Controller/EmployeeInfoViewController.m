@@ -66,7 +66,6 @@
     [bottomBtn setTitleColor:RGBColor(165, 165, 165, 1.f) forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(addGroup:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bottomBtn];
-#warning 添加分组
     [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view);
         make.left.equalTo(self.view);
@@ -102,24 +101,23 @@
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
     [MBProgressHUD showMessage:@"加载员工信息"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
+        [MBProgressHUD hideHUD];
         @try {
-            NYLog(@"%@",json);
-            [MBProgressHUD hideHUD];
             NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
             if ([dataStr isEqualToString:@"1"]) {
                 _dataArr = [json[@"info"] mutableCopy];
                 [_tableView reloadData];
             } else {
-                [MBProgressHUD showError:@"您暂时没有员工"];
+                [MBProgressHUD showError:@"您暂时没有员工,请添加分组"];
             }
         }
         @catch (NSException *exception) {
-            
+            [MBProgressHUD showError:@"数据错误，请重试"];
         }
         @finally {
-            
         }
     } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"网络错误"];
     }];
 }
@@ -202,6 +200,10 @@
 
 - (void)rightBarButtonItemClicked:(UIButton *)btn
 {
+    if (_dataArr.count == 0) {
+        [MBProgressHUD showError:@"请先添加分组"];
+        return;
+    }
     AddEmployeeViewController *addEmployee = [[AddEmployeeViewController alloc] init];
     addEmployee.pickerArr = _dataArr;
     [self.navigationController pushViewController:addEmployee animated:YES];
@@ -216,6 +218,10 @@
 
 - (void)addGroup:(UIButton *)btn
 {
+    if (_dataArr.count == 3) {
+        [MBProgressHUD showError:@"只能添加三组"];
+        return;
+    }
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"添加分组" message:@"请输入分组名称" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
@@ -224,7 +230,6 @@
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
     [NSString stringWithFormat:@"group%li",_dataArr.count+1];
     
 //    NSLog(@"%li",buttonIndex);

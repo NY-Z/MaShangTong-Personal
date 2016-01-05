@@ -96,7 +96,6 @@
         NYLog(@"result = %@",resultDic);
     }];
     [WXApi handleOpenURL:url delegate:self];
-    
     return YES;
 }
 

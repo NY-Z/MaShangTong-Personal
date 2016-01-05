@@ -74,7 +74,6 @@
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
     [_mapView setZoomLevel:16 animated:YES];
-//    _mapView.showsBuildings = NO;
     _mapView.rotateEnabled = NO;
     _mapView.customizeUserLocationAccuracyCircleRepresentation = YES;
     _mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;

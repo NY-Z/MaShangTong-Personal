@@ -96,14 +96,6 @@
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     EmployeeInfoModel *model = [[EmployeeInfoModel alloc] initWithDictionary:_pickerArr[row] error:nil];
-    
-//    if (model.detail.count != 0) {
-//        EmployeeInfoDetailModel *detailModel = model.detail[0];
-//        NSLog(@"%@",detailModel.pid_name);
-//        return detailModel.pid_name;
-//    } else {
-//        return nil;
-//    }
     return model.pid_name;
 }
 
@@ -189,14 +181,14 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *name = ((UITextField *)[[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].contentView viewWithTag:300]).text;
-    if (![Helper justNickname:name]) {
+    if (name.length < 3) {
         [MBProgressHUD showError:@"请输入姓名"];
         return;
     }
     [params setValue:name forKey:@"user_name"];
     NSString *account = ((UITextField *)[[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].contentView viewWithTag:300]).text;
     if (![Helper justMobile:account]) {
-        [MBProgressHUD showError:@"请输入账号"];
+        [MBProgressHUD showError:@"请输入正确的账号"];
         return;
     }
     [params setValue:account forKey:@"mobile"];
@@ -224,10 +216,11 @@
             [MBProgressHUD showSuccess:@"添加成功"];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
-            [MBProgressHUD showError:@"添加失败"];
+            [MBProgressHUD showError:json[@"data"]];
         }
     } failure:^(NSError *error) {
-        
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"网络错误，请重试"];
     }];
 }
 

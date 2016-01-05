@@ -71,21 +71,18 @@
 {
     [MBProgressHUD showMessage:@"正在加载"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=show_ticket" params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]} success:^(id json) {
-        
-        NYLog(@"%@",json);
-        
+        [MBProgressHUD hideHUD];
         NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
         if ([dataStr isEqualToString:@"1"]) {
-           _dataArr = json[@"info"];
+            _dataArr = json[@"info"];
             [_tableView reloadData];
         } else {
             [MBProgressHUD showError:@"您没有代金券"];
         }
-        [MBProgressHUD hideHUD];
     } failure:^(NSError *error) {
         NYLog(@"%@",error.localizedDescription);
-        [MBProgressHUD showError:@"网络错误"];
         [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"网络错误"];
     }];
 }
 

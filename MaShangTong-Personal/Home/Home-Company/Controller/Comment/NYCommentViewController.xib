@@ -37,7 +37,7 @@
                         <constraint firstAttribute="width" constant="100" id="nlF-yO-2hf"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="*******" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nBE-vX-Ppd">
@@ -47,7 +47,7 @@
                         <constraint firstAttribute="height" constant="18" id="xRq-To-xaU"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="****单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14X-5K-u8c">
@@ -57,7 +57,7 @@
                         <constraint firstAttribute="width" constant="100" id="uL1-mV-Cmg"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CDW-2L-e40" customClass="StarView">
@@ -108,7 +108,7 @@
                 <constraint firstItem="PmS-TU-8xd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="100" id="vY8-KT-Gln"/>
                 <constraint firstItem="CDW-2L-e40" firstAttribute="leading" secondItem="nBE-vX-Ppd" secondAttribute="leading" id="vxZ-uN-Zqp"/>
             </constraints>
-            <point key="canvasLocation" x="395" y="299"/>
+            <point key="canvasLocation" x="578" y="300"/>
         </view>
     </objects>
     <resources>

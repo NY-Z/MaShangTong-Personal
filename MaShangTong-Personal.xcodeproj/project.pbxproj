@@ -22,6 +22,16 @@
 		0E4C93091C02F91B00118310 /* ProvincesAndCities.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E4C93081C02F91B00118310 /* ProvincesAndCities.plist */; };
 		0E4C930C1C02F94300118310 /* ProvincesAndCitiesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C930B1C02F94300118310 /* ProvincesAndCitiesTableViewController.m */; };
 		0E71B7C41BF6E8CD00D95618 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71B7C31BF6E8CD00D95618 /* Helper.m */; };
+		0E98D0C21C33CF9600E09CEA /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E98D0C11C33CF9600E09CEA /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0E98D0C41C33CFAA00E09CEA /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E98D0C31C33CFAA00E09CEA /* libxml2.tbd */; };
+		0EC717711C351EEA00399EC4 /* NYCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7176F1C351EEA00399EC4 /* NYCommentViewController.m */; };
+		0EC717721C351EEA00399EC4 /* NYCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EC717701C351EEA00399EC4 /* NYCommentViewController.xib */; };
+		0EC717751C35210000399EC4 /* StarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC717741C35210000399EC4 /* StarView.m */; };
+		0EC717781C35212A00399EC4 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC717771C35212A00399EC4 /* MyUtil.m */; };
+		0EC7177D1C3523E700399EC4 /* StarsBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EC717791C3523E700399EC4 /* StarsBackground@2x.png */; };
+		0EC7177E1C3523E700399EC4 /* StarsBackground@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EC7177A1C3523E700399EC4 /* StarsBackground@3x.png */; };
+		0EC7177F1C3523E700399EC4 /* StarsForeground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EC7177B1C3523E700399EC4 /* StarsForeground@2x.png */; };
+		0EC717801C3523E700399EC4 /* StarsForeground@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EC7177C1C3523E700399EC4 /* StarsForeground@3x.png */; };
 		0ED1D9CF1BF6CB9200804B14 /* BuyVouchersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C01BF6CB9200804B14 /* BuyVouchersCell.m */; };
 		0ED1D9D01BF6CB9200804B14 /* BuyVouchersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C11BF6CB9200804B14 /* BuyVouchersCell.xib */; };
 		0ED1D9D21BF6CB9200804B14 /* EmployeeInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1D9C51BF6CB9200804B14 /* EmployeeInfoCell.m */; };
@@ -274,6 +284,20 @@
 		0E4C930B1C02F94300118310 /* ProvincesAndCitiesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProvincesAndCitiesTableViewController.m; sourceTree = "<group>"; };
 		0E71B7C21BF6E8CD00D95618 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		0E71B7C31BF6E8CD00D95618 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
+		0E98D0C01C33CF9600E09CEA /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
+		0E98D0C11C33CF9600E09CEA /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
+		0E98D0C31C33CFAA00E09CEA /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		0EC7176E1C351EEA00399EC4 /* NYCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCommentViewController.h; sourceTree = "<group>"; };
+		0EC7176F1C351EEA00399EC4 /* NYCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCommentViewController.m; sourceTree = "<group>"; };
+		0EC717701C351EEA00399EC4 /* NYCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYCommentViewController.xib; sourceTree = "<group>"; };
+		0EC717731C35210000399EC4 /* StarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarView.h; sourceTree = "<group>"; };
+		0EC717741C35210000399EC4 /* StarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarView.m; sourceTree = "<group>"; };
+		0EC717761C35212A00399EC4 /* MyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyUtil.h; sourceTree = "<group>"; };
+		0EC717771C35212A00399EC4 /* MyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUtil.m; sourceTree = "<group>"; };
+		0EC717791C3523E700399EC4 /* StarsBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StarsBackground@2x.png"; sourceTree = "<group>"; };
+		0EC7177A1C3523E700399EC4 /* StarsBackground@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StarsBackground@3x.png"; sourceTree = "<group>"; };
+		0EC7177B1C3523E700399EC4 /* StarsForeground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StarsForeground@2x.png"; sourceTree = "<group>"; };
+		0EC7177C1C3523E700399EC4 /* StarsForeground@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StarsForeground@3x.png"; sourceTree = "<group>"; };
 		0ED1D9BF1BF6CB9200804B14 /* BuyVouchersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyVouchersCell.h; sourceTree = "<group>"; };
 		0ED1D9C01BF6CB9200804B14 /* BuyVouchersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyVouchersCell.m; sourceTree = "<group>"; };
 		0ED1D9C11BF6CB9200804B14 /* BuyVouchersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuyVouchersCell.xib; sourceTree = "<group>"; };
@@ -586,6 +610,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E98D0C41C33CFAA00E09CEA /* libxml2.tbd in Frameworks */,
 				0EDE8CB61C081FEF00356AF1 /* CoreGraphics.framework in Frameworks */,
 				0EDE8CB41C081FDE00356AF1 /* QuartzCore.framework in Frameworks */,
 				0EDE8CB21C081FD600356AF1 /* AddressBook.framework in Frameworks */,
@@ -622,6 +647,29 @@
 				0EDE8CBA1C08401000356AF1 /* UserModel */,
 			);
 			path = RegisterAndLogin;
+			sourceTree = "<group>";
+		};
+		0E98D0BF1C33CF9600E09CEA /* XMLSupport */ = {
+			isa = PBXGroup;
+			children = (
+				0E98D0C01C33CF9600E09CEA /* GDataXMLNode.h */,
+				0E98D0C11C33CF9600E09CEA /* GDataXMLNode.m */,
+			);
+			path = XMLSupport;
+			sourceTree = "<group>";
+		};
+		0EC7176D1C351EA800399EC4 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				0EC717761C35212A00399EC4 /* MyUtil.h */,
+				0EC717771C35212A00399EC4 /* MyUtil.m */,
+				0EC717731C35210000399EC4 /* StarView.h */,
+				0EC717741C35210000399EC4 /* StarView.m */,
+				0EC7176E1C351EEA00399EC4 /* NYCommentViewController.h */,
+				0EC7176F1C351EEA00399EC4 /* NYCommentViewController.m */,
+				0EC717701C351EEA00399EC4 /* NYCommentViewController.xib */,
+			);
+			path = Comment;
 			sourceTree = "<group>";
 		};
 		0EDE8C721C06ADF800356AF1 /* WaitForTheOrder */ = {
@@ -976,6 +1024,7 @@
 			children = (
 				0EDE8C761C06AE6000356AF1 /* CompanyChoice */,
 				0EDE8C721C06ADF800356AF1 /* WaitForTheOrder */,
+				0EC7176D1C351EA800399EC4 /* Comment */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1038,6 +1087,10 @@
 		6D5434A11BF2FA10002E25DA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0EC717791C3523E700399EC4 /* StarsBackground@2x.png */,
+				0EC7177A1C3523E700399EC4 /* StarsBackground@3x.png */,
+				0EC7177B1C3523E700399EC4 /* StarsForeground@2x.png */,
+				0EC7177C1C3523E700399EC4 /* StarsForeground@3x.png */,
 				0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */,
 				187DE84C1C2AA96C00E0A5C4 /* SettingContractUs@2x.png */,
 				187DE84D1C2AA96C00E0A5C4 /* SettingContractUs@3x.png */,
@@ -1277,6 +1330,7 @@
 		6DD875C01BF21CC3006145E2 /* MaShangTong-Personal */ = {
 			isa = PBXGroup;
 			children = (
+				0E98D0BF1C33CF9600E09CEA /* XMLSupport */,
 				6D5435BD1BF30EB3002E25DA /* AliPay */,
 				6D5434651BF2E08A002E25DA /* AMapLBS */,
 				187DE8551C2AC74C00E0A5C4 /* ThirdLibs */,
@@ -1312,6 +1366,7 @@
 		DA04B6042898E0DBDA637427 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E98D0C31C33CFAA00E09CEA /* libxml2.tbd */,
 				0EDE8CB51C081FEF00356AF1 /* CoreGraphics.framework */,
 				0EDE8CB31C081FDE00356AF1 /* QuartzCore.framework */,
 				0EDE8CB11C081FD600356AF1 /* AddressBook.framework */,
@@ -1415,6 +1470,7 @@
 				6D54357B1BF2FA10002E25DA /* wodexingcheng@3x.png in Resources */,
 				6D54352D1BF2FA10002E25DA /* che1Deselect@3x.png in Resources */,
 				6D5435511BF2FA10002E25DA /* LOGO@3x.png in Resources */,
+				0EC7177D1C3523E700399EC4 /* StarsBackground@2x.png in Resources */,
 				6D54355D1BF2FA10002E25DA /* quanquan@3x.png in Resources */,
 				6D54358B1BF2FA10002E25DA /* xiugaimima@3x.png in Resources */,
 				6D5435601BF2FA10002E25DA /* sendBtnDeselect@2x.png in Resources */,
@@ -1447,6 +1503,7 @@
 				0E4C92FA1C02E3AC00118310 /* RegisViewController.xib in Resources */,
 				6D5435391BF2FA10002E25DA /* daijinquan@3x.png in Resources */,
 				0ED1D9D51BF6CB9200804B14 /* SendVoucherCell.xib in Resources */,
+				0EC7177E1C3523E700399EC4 /* StarsBackground@3x.png in Resources */,
 				189EF13B1C23A1CC002E7702 /* NYMyTripsTableViewCell.xib in Resources */,
 				6D5435911BF2FA10002E25DA /* yue@3x.png in Resources */,
 				6D54356A1BF2FA10002E25DA /* sijitouxiang@2x.png in Resources */,
@@ -1466,6 +1523,7 @@
 				6D5435821BF2FA10002E25DA /* xiaoxi@2x.png in Resources */,
 				6D54353D1BF2FA10002E25DA /* dingwei1@3x.png in Resources */,
 				6D5435481BF2FA10002E25DA /* gengduo@2x.png in Resources */,
+				0EC7177F1C3523E700399EC4 /* StarsForeground@2x.png in Resources */,
 				6D5435891BF2FA10002E25DA /* xiazai@3x.png in Resources */,
 				6D54358E1BF2FA10002E25DA /* yuangongxinxi@2x.png in Resources */,
 				6D5435731BF2FA10002E25DA /* tuangoushangcheng@3x.png in Resources */,
@@ -1498,11 +1556,13 @@
 				18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */,
 				6D54356F1BF2FA10002E25DA /* tianjiayuangong@3x.png in Resources */,
 				6D5435301BF2FA10002E25DA /* che2Deselect@2x.png in Resources */,
+				0EC717721C351EEA00399EC4 /* NYCommentViewController.xib in Resources */,
 				6D54357C1BF2FA10002E25DA /* wodeyouhuiquan@2x.png in Resources */,
 				6D5435651BF2FA10002E25DA /* shanchu@3x.png in Resources */,
 				6D5435611BF2FA10002E25DA /* sendBtnDeselect@3x.png in Resources */,
 				187DE84E1C2AA96C00E0A5C4 /* SettingContractUs@2x.png in Resources */,
 				6D5435381BF2FA10002E25DA /* daijinquan@2x.png in Resources */,
+				0EC717801C3523E700399EC4 /* StarsForeground@3x.png in Resources */,
 				6DD875CE1BF21CC3006145E2 /* Assets.xcassets in Resources */,
 				6D54356D1BF2FA10002E25DA /* sijizhaomu@3x.png in Resources */,
 				6D54356B1BF2FA10002E25DA /* sijitouxiang@3x.png in Resources */,
@@ -1613,12 +1673,16 @@
 				0E4C930C1C02F94300118310 /* ProvincesAndCitiesTableViewController.m in Sources */,
 				6D5436201BF30F21002E25DA /* NSDataEx.m in Sources */,
 				6D5436231BF30F21002E25DA /* RSADataVerifier.m in Sources */,
+				0EC717711C351EEA00399EC4 /* NYCommentViewController.m in Sources */,
 				0ED1D9D41BF6CB9200804B14 /* SendVoucherCell.m in Sources */,
 				6D54361C1BF30F21002E25DA /* base64.m in Sources */,
+				0E98D0C21C33CF9600E09CEA /* GDataXMLNode.m in Sources */,
 				0ED1D9D61BF6CB9200804B14 /* SettingTableViewCell.m in Sources */,
 				0EDE8C871C06AE6000356AF1 /* AirportDropOffViewController.m in Sources */,
 				6D5434911BF2F112002E25DA /* AMapTipAnnotation.m in Sources */,
+				0EC717751C35210000399EC4 /* StarView.m in Sources */,
 				1803787B1C1D6CB400F4FDCB /* AddEmployeeViewController.m in Sources */,
+				0EC717781C35212A00399EC4 /* MyUtil.m in Sources */,
 				0ED1D9D21BF6CB9200804B14 /* EmployeeInfoCell.m in Sources */,
 				189EF13A1C23A1CC002E7702 /* NYMyTripsTableViewCell.m in Sources */,
 				18B149E91C20F55300C60449 /* EmployeeInfoModel.m in Sources */,
@@ -1770,6 +1834,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
+					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
@@ -1906,6 +1971,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
+					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
@@ -1953,6 +2019,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
+					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;

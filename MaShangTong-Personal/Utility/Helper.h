@@ -6,6 +6,8 @@
 
 @interface Helper : NSObject
 
++ (NSString *)deviceIPAdress;
+
 +(NSDate*) convertDateFromString:(NSString*)uiDate;
 
 + (NSDate *)dateFromString:(NSString *)dateString;

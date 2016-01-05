@@ -25,6 +25,7 @@
 #import "WaitForTheOrderViewController.h"
 #import "PayChargeViewController.h"
 #import "CompanyHomeViewController.h"
+#import "NYCommentViewController.h"
 
 
 @interface AppDelegate () <WXApiDelegate>
@@ -79,6 +80,8 @@
         RegisViewController *regis = [[RegisViewController alloc] init];
         self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
     }
+//    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[NYCommentViewController alloc] init]];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -92,7 +95,7 @@
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         NYLog(@"result = %@",resultDic);
     }];
-   // [WXApi handleOpenURL:url delegate:self];
+    [WXApi handleOpenURL:url delegate:self];
     
     return YES;
 }

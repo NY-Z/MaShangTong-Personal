@@ -74,7 +74,7 @@
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
     [_mapView setZoomLevel:16 animated:YES];
-    _mapView.showsBuildings = NO;
+//    _mapView.showsBuildings = NO;
     _mapView.rotateEnabled = NO;
     _mapView.customizeUserLocationAccuracyCircleRepresentation = YES;
     _mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
@@ -373,7 +373,6 @@
                         if (_lastState != DriverStateOrderReceive) {
                             _route_status = 1;
                             self.navigationItem.title = @"等待接驾";
-                            self.tableView.hidden = NO;
                             [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
                             NSMutableDictionary *param = [NSMutableDictionary dictionary];
                             [param setValue:self.route_id forKey:@"route_id"];
@@ -389,7 +388,7 @@
                                 licenseLabel.text = infoModel.license_plate;
                                 companyLabel.text = @"";
                                 billLabell.text = [NSString stringWithFormat:@"%@单",infoModel.num];
-                                
+                                self.tableView.hidden = NO;
                             } failure:^(NSError *error) {
                                 
                             }];

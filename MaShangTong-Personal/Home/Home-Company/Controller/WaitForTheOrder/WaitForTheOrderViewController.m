@@ -436,19 +436,21 @@
                             PayChargeViewController *pay = [[PayChargeViewController alloc] init];
                             pay.actualPriceModel = _actualPriceModel;
                             pay.passengerMessageModel = self.model;
+                            pay.route_id = self.route_id;
+                            pay.driverInfoModel = infoModel;
                             [self.navigationController pushViewController:pay animated:YES];
                             [_timer setFireDate:[NSDate distantFuture]];
                         }
                         _lastState = DriverStatePayOver;
                         break;
                     }
-                    case 6:
-                    {
-                        if (_lastState != DriverStateComplete) {
-                            _route_status = 6;
-                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
-                        }
-                    }
+//                    case 6:
+//                    {
+//                        if (_lastState != DriverStateComplete) {
+//                            _route_status = 6;
+//                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
+//                        }
+//                    }
                     default:
                         break;
                 }
@@ -595,7 +597,17 @@
     for (id ann in self.mapView.annotations) {
         if ([ann isKindOfClass:[MAUserLocation class]]) {
             MAUserLocation *userLocation = (MAUserLocation *)ann;
-            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%ld:%ld",((float)path.distance)/1000,(long)_driveringTime/60,(long)_driveringTime%60];
+            NSInteger minute = (long)_driveringTime/60;
+            NSInteger second = (long)_driveringTime%60;
+            NSMutableString *minuteStr = [NSMutableString stringWithFormat:@"%ld",minute];
+            NSMutableString *secondStr = [NSMutableString stringWithFormat:@"%ld",second];
+            if (minuteStr.length == 1) {
+                minuteStr = [NSMutableString stringWithFormat:@"0%@",minuteStr];
+            }
+            if (secondStr.length == 1) {
+                secondStr = [NSMutableString stringWithFormat:@"0%@",secondStr];
+            }
+            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%@:%@",((float)path.distance)/1000,minuteStr,secondStr];
             userLocation.title = annTitle;
         }
     }

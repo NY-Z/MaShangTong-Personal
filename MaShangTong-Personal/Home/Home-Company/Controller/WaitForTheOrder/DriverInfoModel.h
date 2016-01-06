@@ -20,5 +20,6 @@
 @property (nonatomic,strong) NSString <Optional> *origin_coordinates;
 @property (nonatomic,strong) NSString <Optional> *origin_name;
 @property (nonatomic,strong) NSString <Optional> *owner_name;
+@property (nonatomic,strong) NSString <Optional> *averagePoint;
 
 @end

@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class DriverInfoModel;
+
 @interface NYCommentViewController : UIViewController
+
+@property (nonatomic,strong) DriverInfoModel *driverInfoModel;
+@property (nonatomic,strong) NSString *route_id;
 
 @end

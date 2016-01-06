@@ -12,6 +12,7 @@
 #import "NYContactUsViewController.h"
 #import "NYAboutUsViewController.h"
 #import "NYTaxiGuideViewController.h"
+#import "NYSuggestionViewController.h"
 
 #import "KLSwitch.h"
 
@@ -144,7 +145,8 @@
     if (indexPath.section == 1) {
         switch (indexPath.row) {
             case 0:
-                [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
+//                [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
+                [self.navigationController pushViewController:[[NYSuggestionViewController alloc] init] animated:YES];
                 break;
             case 1:
                 [self.navigationController pushViewController:[[NYTaxiGuideViewController alloc] init] animated:YES];

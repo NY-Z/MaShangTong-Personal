@@ -20,10 +20,10 @@ PODS:
   - AMapLocation (1.0.1)
   - AMapNavi (1.4.0)
   - AMapSearch (3.0.1)
-  - IQKeyboardManager (3.3.4)
+  - IQKeyboardManager (3.3.5)
   - JPush (1.8.8)
   - JSONModel (1.1.2)
-  - Masonry (0.6.3)
+  - Masonry (0.6.4)
   - MBProgressHUD (0.9.2)
   - OpenSSL-Classic (1.0.1.j)
   - SDWebImage (3.7.3):
@@ -54,10 +54,10 @@ SPEC CHECKSUMS:
   AMapLocation: d33782bd102563aae1824cb4fae8b4495376f016
   AMapNavi: 096aef30201ca092c40a60f35795ad949824c8d4
   AMapSearch: 431b082417bd3da0c2fe594c4822b664607891e9
-  IQKeyboardManager: ac803e61e5b50efae6b3aeedd95a02c7c7d3b2b3
+  IQKeyboardManager: 128bcb96b3ec03ff87942cdd7fa7f44491aa3d08
   JPush: d1a4a90294389d2c6bd2ca987df8140dd4ffcbd2
   JSONModel: 216584d0311b053ff714f1d6cb700dbf890847bc
-  Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   OpenSSL-Classic: 85156ce2b08cbc9a491ff68efcf7d2c7ead388ec
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84

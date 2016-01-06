@@ -273,33 +273,95 @@
 - (void)bizPay
 {
     NSLog(@"%@",_payChargeTextField.text);
-//    [DownloadManager post:@"http://112.124.115.81/api/wechatPay/pay.php" params:@{@"money":@"1",@"ip":@"192.168.0.20"} success:^(id json) {
-//        NSLog(@"%@",json);
-//    } failure:^(NSError *error) {
-//        NSLog(@"%@",error.localizedDescription);
-//    }];
-//    [DownloadManager get:@"http://112.124.115.81/api/wechatPay/pay.php?money=1&ip=192.168.0.2" params:nil success:^(id json) {
-//        NSLog(@"%@",json);
-//
-//    } failure:^(NSError *error) {
-//        NSLog(@"%@",error.localizedDescription);
-//
-//    }];
+    
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_payChargeTextField.text forKey:@"money"];
     [params setValue:@"192.168.0.20" forKey:@"ip"];
     [params setValue:@"码尚通企业端余额充值" forKey:@"detail"];
     [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         
-        NSLog(@"%@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-        NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil]);
+        NSLog(@"%@",responseObject);
+        //获取到prepayid后进行第二次签名
+        NSString    *package, *time_stamp, *nonce_str;
+        //设置支付参数
+        time_t now;
+        time(&now);
+        time_stamp  = [NSString stringWithFormat:@"%ld", now];
+        nonce_str = [self md5HexDigest:time_stamp];
+        //重新按提交格式组包，微信客户端暂只支持package=Sign=WXPay格式，须考虑升级后支持携带package具体参数的情况
+        package         = @"Sign=WXPay";
+        //第二次签名参数列表
+        NSMutableDictionary *signParams = [NSMutableDictionary dictionary];
+        [signParams setObject: @"wx3760bac068655ead"  forKey:@"appid"];
+        [signParams setObject: @"1294532301"  forKey:@"partnerid"];
+        [signParams setObject: nonce_str    forKey:@"noncestr"];
+        [signParams setObject: @"Sign=WXPay"      forKey:@"package"];
+        [signParams setObject: time_stamp   forKey:@"timestamp"];
+        [signParams setObject: responseObject[@"info"][@"prepay_id"] forKey:@"prepayid"];
+        [signParams setObject:@"F36DA743251B99E9D7779D2209F6E3F6" forKey:@"key"];
+        NSString *sign  = [self createMd5Sign:signParams];
+        [signParams setObject: sign forKey:@"sign"];
+        NSMutableString *stamp  = [signParams objectForKey:@"timestamp"];
+        NSLog(@"%@",signParams);
+        PayReq *req = [[PayReq alloc] init];
+        req.openID  = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"appid"]];
+        req.partnerId = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"partnerid"]];
+        req.prepayId  = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"prepayid"]];
+        req.nonceStr  = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"noncestr"]];
+        req.timeStamp  = (UInt32)stamp.intValue;
+        req.package = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"package"]];
+        req.sign = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"sign"]];
+        [WXApi sendReq:req];
+        
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
         
         
         
     }];
+}
+
+-(NSString*) createMd5Sign:(NSMutableDictionary*)dict
+{
+    NSMutableString *contentString  =[NSMutableString string];
+    NSArray *keys = [dict allKeys];
+    //按字母顺序排序
+    NSArray *sortedArray = [keys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 compare:obj2 options:NSNumericSearch];
+    }];
+    //拼接字符串
+    for (NSString *categoryId in sortedArray) {
+        if (   ![[dict objectForKey:categoryId] isEqualToString:@""]
+            && ![categoryId isEqualToString:@"sign"]
+            && ![categoryId isEqualToString:@"key"]
+            )
+        {
+            [contentString appendFormat:@"%@=%@&", categoryId, [dict objectForKey:categoryId]];
+        }
+        
+    }
+    //添加key字段
+    [contentString appendFormat:@"key=%@", @"F36DA743251B99E9D7779D2209F6E3F6"];
+    //得到MD5 sign签名
+    NSString *md5Sign =[self md5HexDigest:contentString];
+    
+    //输出Debug Info
+    
+    return md5Sign;
+}
+
+- (NSString *)md5HexDigest:(NSString *)input{
+    
+    const char *cStr = [input UTF8String];
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5( cStr, (unsigned int)strlen(cStr), digest );
+    
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02X", digest[i]];
+    
+    return output;
 }
 
 -(void)payAlipay

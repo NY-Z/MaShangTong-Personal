@@ -155,7 +155,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [params setObject:@{@"id":idMulArr,@"count":countMulArr} forKey:@"array"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=buy_tickets" params:params success:^(id json) {
+    
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"buy_tickets"] params:params success:^(id json) {
         NYLog(@"%@",json);
     } failure:^(NSError *error) {
         NYLog(@"%@",error.localizedDescription);

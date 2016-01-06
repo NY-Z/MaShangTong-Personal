@@ -37,8 +37,6 @@
 //创建图片视图
 - (void)createImageView
 {
-    self.backgroundColor = [UIColor blackColor];
-    
     width = self.width;
     height = self.height;
     //背景图片
@@ -46,7 +44,6 @@
     [self addSubview:bgImageView];
     
     //前景图片
-//    _fgImageView = [MyUtil createImageViewFrame:CGRectMake(0, 0, width, height) imageName:@"StarsForeground"];
     _fgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     _fgImageView.image = [self imageToImage];
     //设置停靠模式
@@ -57,11 +54,8 @@
 
 -(void)setRating:(float)rating
 {
-//    _fgImageView.frame = CGRectMake(0, 0, width*rating/5.0f, height);
-//    _fgImageView.size = CGSizeMake(width*rating/5.0f, height);
-
-    NSLog(@"%@",NSStringFromCGRect(_fgImageView.frame));
-    NSLog(@"%@",NSStringFromCGSize(_fgImageView.image.size));
+    _fgImageView.frame = CGRectMake(0, 0, width*rating/5.0f, height);
+    _fgImageView.size = CGSizeMake(width*rating/5.0f, height);
 }
 
 - (UIImage *)imageToImage

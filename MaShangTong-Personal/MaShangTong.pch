@@ -52,6 +52,6 @@ const static NSString *alipayRSA = @"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgE
 
 /* ----------------------微信支付---------------------- */
 
-const static NSString *WxAppId = @"wxb4ba3c02aa476ea1";
+const static NSString *WxAppId = @"wx3760bac068655ead";
 
 #endif

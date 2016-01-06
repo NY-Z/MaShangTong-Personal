@@ -70,6 +70,8 @@
 		0EDE8CB61C081FEF00356AF1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EDE8CB51C081FEF00356AF1 /* CoreGraphics.framework */; };
 		0EDE8CB91C08257300356AF1 /* MANaviRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE8CB81C08257300356AF1 /* MANaviRoute.m */; };
 		0EDE8CBD1C08402C00356AF1 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE8CBC1C08402C00356AF1 /* UserModel.m */; };
+		0EEF3F101C3D504F001D8F30 /* NYSuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEF3F0E1C3D504F001D8F30 /* NYSuggestionViewController.m */; };
+		0EEF3F111C3D504F001D8F30 /* NYSuggestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEF3F0F1C3D504F001D8F30 /* NYSuggestionViewController.xib */; };
 		0EF9E64B1BF86A4A002B6915 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9E64A1BF86A4A002B6915 /* MBProgressHUD+MJ.m */; };
 		105791E61C106DF600E844FA /* PersonRegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105791E41C106DF600E844FA /* PersonRegisViewController.m */; };
 		105791E71C106DF600E844FA /* PersonRegisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105791E51C106DF600E844FA /* PersonRegisViewController.xib */; };
@@ -355,6 +357,9 @@
 		0EDE8CB81C08257300356AF1 /* MANaviRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviRoute.m; sourceTree = "<group>"; };
 		0EDE8CBB1C08402C00356AF1 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		0EDE8CBC1C08402C00356AF1 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		0EEF3F0D1C3D504F001D8F30 /* NYSuggestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYSuggestionViewController.h; sourceTree = "<group>"; };
+		0EEF3F0E1C3D504F001D8F30 /* NYSuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYSuggestionViewController.m; sourceTree = "<group>"; };
+		0EEF3F0F1C3D504F001D8F30 /* NYSuggestionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYSuggestionViewController.xib; sourceTree = "<group>"; };
 		0EF9E6491BF86A4A002B6915 /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		0EF9E64A1BF86A4A002B6915 /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
 		0EF9E6511BF977BD002B6915 /* libcommonCrypto.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcommonCrypto.tbd; path = usr/lib/system/libcommonCrypto.tbd; sourceTree = SDKROOT; };
@@ -817,6 +822,9 @@
 				187DE84A1C2AA5D200E0A5C4 /* NYContactUsViewController.m */,
 				187DE8501C2AAC2500E0A5C4 /* NYAboutUsViewController.h */,
 				187DE8511C2AAC2500E0A5C4 /* NYAboutUsViewController.m */,
+				0EEF3F0D1C3D504F001D8F30 /* NYSuggestionViewController.h */,
+				0EEF3F0E1C3D504F001D8F30 /* NYSuggestionViewController.m */,
+				0EEF3F0F1C3D504F001D8F30 /* NYSuggestionViewController.xib */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -1473,6 +1481,7 @@
 				0EC7177D1C3523E700399EC4 /* StarsBackground@2x.png in Resources */,
 				6D54355D1BF2FA10002E25DA /* quanquan@3x.png in Resources */,
 				6D54358B1BF2FA10002E25DA /* xiugaimima@3x.png in Resources */,
+				0EEF3F111C3D504F001D8F30 /* NYSuggestionViewController.xib in Resources */,
 				6D5435601BF2FA10002E25DA /* sendBtnDeselect@2x.png in Resources */,
 				6D5435871BF2FA10002E25DA /* xiasanjiao@3x.png in Resources */,
 				6D5435321BF2FA10002E25DA /* che2Select@2x.png in Resources */,
@@ -1699,6 +1708,7 @@
 				6D5434951BF2F112002E25DA /* GeocodeAnnotation.m in Sources */,
 				189EF12E1C239A46002E7702 /* NYCompanyBillViewController.m in Sources */,
 				187999831C29890A0011D43C /* NYForgetPasswordViewController.m in Sources */,
+				0EEF3F101C3D504F001D8F30 /* NYSuggestionViewController.m in Sources */,
 				6D54361E1BF30F21002E25DA /* DataVerifier.m in Sources */,
 				1882C4E31C1C142D000DEAE7 /* SpecialCarRuleModel.m in Sources */,
 				6D5434921BF2F112002E25DA /* AnimatedAnnotation.m in Sources */,

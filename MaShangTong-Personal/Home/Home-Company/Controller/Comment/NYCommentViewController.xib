@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NYCommentViewController">
             <connections>
+                <outlet property="commitBtn" destination="qiK-WG-GyI" id="QXs-DO-GkT"/>
+                <outlet property="contentTextView" destination="5Ay-mK-3hB" id="EHU-MO-Nzk"/>
+                <outlet property="driverBillCountLabel" destination="14X-5K-u8c" id="tl1-3a-yKh"/>
+                <outlet property="driverLicenseLabel" destination="nBE-vX-Ppd" id="8tW-KO-qwv"/>
+                <outlet property="driverNameLabel" destination="kbh-4W-pkx" id="k8T-2Z-xaI"/>
+                <outlet property="driverRateStarView" destination="CDW-2L-e40" id="fWY-ev-p7A"/>
                 <outlet property="rateStarImageView" destination="1XN-4Y-23z" id="h5U-tO-Pxf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -51,9 +56,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="****单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14X-5K-u8c">
-                    <rect key="frame" x="347" y="142" width="100" height="18"/>
+                    <rect key="frame" x="347" y="142" width="100" height="12"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="18" id="nGa-gr-XfE"/>
+                        <constraint firstAttribute="height" constant="12" id="nGa-gr-XfE"/>
                         <constraint firstAttribute="width" constant="100" id="uL1-mV-Cmg"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -87,11 +92,32 @@
                         <constraint firstAttribute="height" constant="45" id="vfu-7N-5Sc"/>
                     </constraints>
                 </view>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5Ay-mK-3hB">
+                    <rect key="frame" x="80" y="324" width="440" height="126"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qiK-WG-GyI">
+                    <rect key="frame" x="265" y="460" width="70" height="70"/>
+                    <color key="backgroundColor" red="0.27058823529411763" green="0.67843137254901964" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="hNn-8z-7hl"/>
+                        <constraint firstAttribute="height" constant="70" id="zP7-RD-O3M"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="提交"/>
+                    <connections>
+                        <action selector="commitBtnClicked:" destination="-1" eventType="touchUpInside" id="A4S-90-9m6"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="14X-5K-u8c" firstAttribute="top" secondItem="CDW-2L-e40" secondAttribute="top" id="1T3-es-EPJ"/>
                 <constraint firstItem="IwI-Mr-sGW" firstAttribute="top" secondItem="PmS-TU-8xd" secondAttribute="bottom" constant="80" id="6sf-7q-G7c"/>
+                <constraint firstItem="qiK-WG-GyI" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="7cJ-vo-VXT"/>
+                <constraint firstItem="5Ay-mK-3hB" firstAttribute="leading" secondItem="IwI-Mr-sGW" secondAttribute="leading" id="8X8-Y5-bU7"/>
                 <constraint firstItem="1XN-4Y-23z" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="9on-x5-ypd"/>
                 <constraint firstItem="0HL-HY-lgd" firstAttribute="centerY" secondItem="IwI-Mr-sGW" secondAttribute="centerY" id="CGz-l5-xbl"/>
                 <constraint firstItem="kbh-4W-pkx" firstAttribute="leading" secondItem="PmS-TU-8xd" secondAttribute="trailing" constant="15" id="Exu-sv-uN7"/>
@@ -99,12 +125,16 @@
                 <constraint firstItem="kbh-4W-pkx" firstAttribute="top" secondItem="PmS-TU-8xd" secondAttribute="top" id="Nt9-mE-XeU"/>
                 <constraint firstItem="CDW-2L-e40" firstAttribute="top" secondItem="nBE-vX-Ppd" secondAttribute="bottom" id="P0U-52-eHO"/>
                 <constraint firstItem="1XN-4Y-23z" firstAttribute="top" secondItem="IwI-Mr-sGW" secondAttribute="bottom" constant="24" id="TyP-Nw-Gfz"/>
+                <constraint firstAttribute="bottom" secondItem="qiK-WG-GyI" secondAttribute="bottom" constant="70" id="USu-gm-X7L"/>
                 <constraint firstItem="nBE-vX-Ppd" firstAttribute="top" secondItem="kbh-4W-pkx" secondAttribute="bottom" id="XzT-RZ-wHg"/>
                 <constraint firstItem="0HL-HY-lgd" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Yx1-DN-Uk3"/>
                 <constraint firstItem="IwI-Mr-sGW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="80" id="Zmw-9F-vWx"/>
                 <constraint firstItem="nBE-vX-Ppd" firstAttribute="leading" secondItem="kbh-4W-pkx" secondAttribute="leading" id="ckZ-QM-W16"/>
                 <constraint firstItem="PmS-TU-8xd" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="-60" id="dmU-Yx-enW"/>
                 <constraint firstItem="14X-5K-u8c" firstAttribute="leading" secondItem="CDW-2L-e40" secondAttribute="trailing" constant="10" id="gbK-Py-1Vd"/>
+                <constraint firstItem="qiK-WG-GyI" firstAttribute="top" secondItem="5Ay-mK-3hB" secondAttribute="bottom" constant="10" id="hO4-EX-DBY"/>
+                <constraint firstItem="5Ay-mK-3hB" firstAttribute="top" secondItem="1XN-4Y-23z" secondAttribute="bottom" constant="10" id="jTh-Hu-x6e"/>
+                <constraint firstItem="5Ay-mK-3hB" firstAttribute="trailing" secondItem="IwI-Mr-sGW" secondAttribute="trailing" id="mUf-8a-fDS"/>
                 <constraint firstItem="PmS-TU-8xd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="100" id="vY8-KT-Gln"/>
                 <constraint firstItem="CDW-2L-e40" firstAttribute="leading" secondItem="nBE-vX-Ppd" secondAttribute="leading" id="vxZ-uN-Zqp"/>
             </constraints>

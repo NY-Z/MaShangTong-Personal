@@ -8,5 +8,6 @@
 
 //设置星级
 - (void)setRating:(float)rating;
+@property (nonatomic,assign) float rate;
 
 @end

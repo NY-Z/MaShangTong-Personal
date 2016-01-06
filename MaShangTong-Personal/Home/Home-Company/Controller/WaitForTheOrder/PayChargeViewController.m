@@ -8,7 +8,7 @@
 
 #import "PayChargeViewController.h"
 #import "AccountBalanceViewController.h"
-#import "CompanyHomeViewController.h"
+#import "NYCommentViewController.h"
 
 @interface PayChargeViewController () <UIScrollViewDelegate>
 {
@@ -29,76 +29,70 @@
     }];
     
     UIView *contentView = [[UIView alloc] init];
+    contentView.tag = 250;
     [_scrollView addSubview:contentView];
     [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(_scrollView);
         make.width.equalTo(_scrollView);
     }];
     
-    UIImageView *headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dail"]];
+    UIImageView *headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sijitouxiang"]];
     [contentView addSubview:headerImageView];
     [headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.left.equalTo(contentView).offset(30);
         make.top.equalTo(contentView).offset(8);
         make.size.mas_equalTo(CGSizeMake(55, 55));
-        
     }];
     
     UILabel *nameLabel = [[UILabel alloc] init];
-    nameLabel.text = @"*师傅";
+    nameLabel.text = _driverInfoModel.owner_name;
     nameLabel.textAlignment = 0;
     nameLabel.textColor = RGBColor(14, 14, 14, 1.f);
     nameLabel.font = [UIFont systemFontOfSize:19];
     [contentView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.left.equalTo(headerImageView.mas_right).offset(8);
         make.top.equalTo(headerImageView);
         make.height.mas_equalTo(18);
         make.right.equalTo(contentView).offset(-70);
-        
     }];
     
     UILabel *propertyLabel = [[UILabel alloc] init];
-    propertyLabel.text = @"";
+    propertyLabel.text = _driverInfoModel.license_plate;
     propertyLabel.textAlignment = 0;
     propertyLabel.textColor = RGBColor(148, 148, 148, 1.f);
     propertyLabel.font = [UIFont systemFontOfSize:12];
     [contentView addSubview:propertyLabel];
     [propertyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.left.equalTo(nameLabel);
         make.top.equalTo(nameLabel.mas_bottom).offset(5);
         make.right.equalTo(nameLabel);
         make.height.equalTo(nameLabel);
-        
     }];
     
     UILabel *dealCountLabel = [[UILabel alloc] init];
-    dealCountLabel.text = @"";
+    dealCountLabel.text = _driverInfoModel.num;
     dealCountLabel.textAlignment = 0;
     dealCountLabel.textColor = RGBColor(148, 148, 148, 1.f);
     dealCountLabel.font = [UIFont systemFontOfSize:12];
     [contentView addSubview:dealCountLabel];
     [dealCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.top.equalTo(propertyLabel.mas_bottom).offset(5);
         make.left.equalTo(propertyLabel);
         make.right.equalTo(propertyLabel);
         make.height.equalTo(propertyLabel);
-        
     }];
     
-    UIImageView *telImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
+    UIImageView *telImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dail"]];
     [contentView addSubview:telImageView];
     [telImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
         make.right.equalTo(contentView).offset(-30);
-        make.centerY.mas_equalTo(propertyLabel.centerY);
         make.size.mas_equalTo(CGSizeMake(35, 35));
-        
+        make.bottom.equalTo(headerImageView);
     }];
+    telImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *telTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(telTaped)];
+    [telImageView addGestureRecognizer:telTap];
     
     UIView *barrierOneView = [[UIView alloc] init];
     barrierOneView.backgroundColor = RGBColor(207, 207, 207, 1.f);
@@ -125,13 +119,14 @@
         make.size.mas_equalTo(CGSizeMake(70, 18));
     }];
     
-    NSArray *labelTitleArr = @[@"车费合计",@"优惠合计",@"公里数",@"碳排放减少"];
-    for (NSInteger i = 0; i < 4; i++) {
+    NSArray *labelTitleArr = @[@"车费合计",@"公里数",@"碳排放减少"];
+    for (NSInteger i = 0; i < labelTitleArr.count; i++) {
         UILabel *label = [[UILabel alloc] init];
         label.text = labelTitleArr[i];
         label.textAlignment = 0;
         label.textColor = RGBColor(71, 71, 71, 1.f);
         label.font = [UIFont systemFontOfSize:12];
+        label.tag = 250+i;
         [contentView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             
@@ -143,31 +138,31 @@
         }];
     }
     
-    NSArray *detailInfoArr = @[_actualPriceModel.total_price,@"0",_actualPriceModel.mileage,@"0.0kg"];
-    for (NSInteger i = 0; i < 4; i++) {
+    NSArray *detailInfoArr = @[@"0元",@"0km",@"0.0kg"];
+    for (NSInteger i = 0; i < detailInfoArr.count; i++) {
         UILabel *label = [[UILabel alloc] init];
         label.text = detailInfoArr[i];
         label.textAlignment = 2;
         label.textColor = RGBColor(71, 71, 71, 1.f);
         label.font = [UIFont systemFontOfSize:12];
+        label.tag = 600+i;
         [contentView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            
             make.right.equalTo(barrierOneView);
             make.top.equalTo(barrierOneView).offset(25+28*i);
             make.height.mas_equalTo(15);
             make.width.mas_equalTo(70);
-            
         }];
     }
     
     UIButton *confirmPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [confirmPayBtn setTitle:[NSString stringWithFormat:@"确认支付%.1f元",[detailInfoArr[0] floatValue]] forState:UIControlStateNormal];
+    [confirmPayBtn setTitle:[NSString stringWithFormat:@"确认支付%.2f元",[detailInfoArr[0] floatValue]] forState:UIControlStateNormal];
     [confirmPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [confirmPayBtn setBackgroundColor:RGBColor(84, 175, 255, 1.f)];
     confirmPayBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [confirmPayBtn addTarget:self action:@selector(confirmPayBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [contentView addSubview:confirmPayBtn];
+    confirmPayBtn.tag = 900;
     confirmPayBtn.layer.cornerRadius = 3.f;
     [confirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
@@ -183,48 +178,57 @@
     }];
 }
 
+- (void)configNavigationBar
+{
+    self.navigationItem.title = @"支付车费";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
     
-    UILabel *navTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
-    navTitleLabel.text = @"支付车费";
-    navTitleLabel.font = [UIFont systemFontOfSize:15];
-    navTitleLabel.textColor = RGBColor(78, 175, 252, 1.f);
-    navTitleLabel.textAlignment = 1;
-    self.navigationItem.titleView = navTitleLabel;
-    
-    UIButton *navRightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [navRightBtn setTitle:@"投诉" forState:UIControlStateNormal];
-    [navRightBtn setTitleColor:RGBColor(168, 168, 168, 1.f) forState:UIControlStateNormal];
-    navRightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [navRightBtn addTarget:self action:@selector(navRightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightBtn];
-    
-    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    [leftBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    leftBtn.size = CGSizeMake(44, 44);
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self configNavigationBar];
     [self initViews];
+    [self configData];
 }
 
-#pragma mark - NavigationBarAction
-- (void)navRightBtnClicked:(UIButton *)btn
+- (void)configData
 {
-    
-}
-
-- (void)backBtnClicked:(UIButton *)btn
-{
-    [self.navigationController popViewControllerAnimated:YES];
+    [MBProgressHUD showMessage:@"请稍候"];
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"check_bill"] params:@{@"route_id":_passengerMessageModel.route_id} success:^(id json) {
+        [MBProgressHUD hideHUD];
+        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+        if ([dataStr isEqualToString:@"1"]) {
+            UIView *contentView = (UIView *)[_scrollView viewWithTag:250];
+            
+            UIButton *btn = (UIButton *)[contentView viewWithTag:900];
+            [btn setTitle:[NSString stringWithFormat:@"确认支付%@元",json[@"info"][@"total_price"]] forState:UIControlStateNormal];
+            
+            NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%@元",json[@"info"][@"total_price"]],[NSString stringWithFormat:@"%@km",json[@"info"][@"mileage"]],[NSString stringWithFormat:@"%@kg",json[@"info"][@"carbon_emission"]]];
+            for (NSInteger i = 0; i < detailInfoArr.count; i++) {
+                UILabel *label = (UILabel *)[contentView viewWithTag:600+i];
+                label.text = detailInfoArr[i];
+            }
+        } else {
+            [MBProgressHUD showError:@"网络错误"];
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"网络错误"];
+        NSLog(@"%@",error.localizedDescription);
+    }];
 }
 
 #pragma mark - BtnAction
@@ -248,11 +252,11 @@
             } failure:^(NSError *error) {
                 
             }];
-            for (UIViewController *vc in self.navigationController.viewControllers) {
-                if ([vc isKindOfClass:[CompanyHomeViewController class]]) {
-                    [self.navigationController popToViewController:vc animated:YES];
-                }
-            }
+            
+            NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+            comment.driverInfoModel = self.driverInfoModel;
+            comment.route_id = self.route_id;
+            [self.navigationController pushViewController:comment animated:YES];
             return ;
         } else if ([resultStr isEqualToString:@"0"]) {
             [MBProgressHUD showError:@"支付失败，请重试"];
@@ -264,6 +268,20 @@
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"支付失败，请重试"];
     }];
+}
+
+#pragma mark - Gesture
+- (void)telTaped
+{
+    if (!_driverInfoModel) {
+        return;
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:_driverInfoModel.mobile message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",_driverInfoModel.mobile]]];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

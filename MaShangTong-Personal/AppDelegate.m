@@ -26,6 +26,7 @@
 #import "PayChargeViewController.h"
 #import "CompanyHomeViewController.h"
 #import "NYCommentViewController.h"
+#import "PayChargeViewController.h"
 
 
 @interface AppDelegate () <WXApiDelegate>

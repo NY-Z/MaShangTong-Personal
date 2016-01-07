@@ -83,6 +83,7 @@
     UIButton *buyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [buyBtn setTitle:@"购买" forState:UIControlStateNormal];
     buyBtn.tag = 100;
+    buyBtn.layer.cornerRadius = 3;
     [buyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [buyBtn setBackgroundColor:RGBColor(97, 189, 252, 1.f)];//
     buyBtn.titleLabel.font = [UIFont systemFontOfSize:12];
@@ -148,17 +149,34 @@
     NSMutableArray *countMulArr = [NSMutableArray array];
     for (NSInteger i = 0; i < count; i++) {
         BuyVouchersCell *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        if (cell.stepper.count == 0) {
+            continue;
+        }
         NSDictionary *idDic = _dataArr[i];
         [idMulArr addObject:idDic[@"shop_id"]];
         [countMulArr addObject:[NSString stringWithFormat:@"%li",cell.stepper.count]];
     }
+    if (countMulArr.count == 0) {
+        [MBProgressHUD showError:@"请先选择您要购买的代金券"];
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [params setObject:@{@"id":idMulArr,@"count":countMulArr} forKey:@"array"];
-    
+    [MBProgressHUD showMessage:@"购买中"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"buy_tickets"] params:params success:^(id json) {
-        NYLog(@"%@",json);
+        [MBProgressHUD hideHUD];
+        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+        if ([dataStr isEqualToString:@"0"]) {
+            [MBProgressHUD showError:@"购买失败，请重试"];
+            return ;
+        } else if ([dataStr isEqualToString:@"1"]) {
+            [MBProgressHUD showSuccess:@"购买成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"网络错误，请重试"];
         NYLog(@"%@",error.localizedDescription);
     }];
 }

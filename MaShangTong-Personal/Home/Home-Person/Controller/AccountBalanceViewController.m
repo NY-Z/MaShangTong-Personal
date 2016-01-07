@@ -20,11 +20,13 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 
-@interface AccountBalanceViewController () <UIScrollViewDelegate>
+@interface AccountBalanceViewController () <UIScrollViewDelegate,WXApiDelegate>
 {
     UIScrollView *_scrollView;
     UIButton *_selectPayBtn;
     UITextField *_payChargeTextField;
+    
+    NSString *_wxPayMoney;
 }
 
 @property (nonatomic,strong) UILabel *moneyLabel;
@@ -192,7 +194,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _wxPayMoney = @"";
     [self configNavigationBar];
     [self configViews];
     
@@ -270,13 +272,38 @@
     }
 }
 
+#pragma mark - WxApiDelegate
+-(void) onResp:(BaseResp*)resp
+{
+    if ([resp isKindOfClass:[PayResp class]]){
+        PayResp*response=(PayResp*)resp;
+        switch(response.errCode){
+            case WXSuccess:
+            {
+                //服务器端查询支付通知或查询API返回的结果再提示成功
+                NSLog(@"支付成功");
+                NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                [params setValue:userId forKey:@"user_id"];
+                [params setValue:_wxPayMoney forKey:@"money"];
+                [params setValue:@"1" forKey:@"type"];
+                [self informTheServerWithParams:params];
+                break;
+            }
+            default:
+                NSLog(@"支付失败，retcode=%d",resp.errCode);
+                break;
+        }
+    }
+}
+
 - (void)bizPay
 {
-    NSLog(@"%@",_payChargeTextField.text);
-    
+    [MBProgressHUD showMessage:@"请稍候"];
+    _wxPayMoney = [NSString stringWithFormat:@"%.0f",[_payChargeTextField.text floatValue]*100];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:_payChargeTextField.text forKey:@"money"];
+    [params setValue:_wxPayMoney forKey:@"money"];
     [params setValue:@"192.168.0.20" forKey:@"ip"];
     [params setValue:@"码尚通企业端余额充值" forKey:@"detail"];
     [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
@@ -313,11 +340,11 @@
         req.package = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"package"]];
         req.sign = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"sign"]];
         [WXApi sendReq:req];
+        [MBProgressHUD hideHUD];
         
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-        
-        
-        
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"网络错误"];
     }];
 }
 
@@ -338,7 +365,6 @@
         {
             [contentString appendFormat:@"%@=%@&", categoryId, [dict objectForKey:categoryId]];
         }
-        
     }
     //添加key字段
     [contentString appendFormat:@"key=%@", @"F36DA743251B99E9D7779D2209F6E3F6"];
@@ -428,24 +454,30 @@
             [params setValue:order.amount forKey:@"money"];
             [params setValue:@"1" forKey:@"type"];
             
-            AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-            [mgr POST:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-                
-                NYLog(@"%@",responseObject);
-                
-                NSString *statusStr = [NSString stringWithFormat:@"%@",responseObject[@"result"]];
-                
-                if ([statusStr isEqualToString:@"1"]) {
-                    [MBProgressHUD showSuccess:@"充值成功"];
-                    [self showAccountBalance];
-                } else {
-                    [MBProgressHUD showError:@"充值失败"];
-                }
-            } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-                NYLog(@"%@",error.localizedDescription);
-            }];
+            [self informTheServerWithParams:params];
         }];
     }
+}
+
+- (void)informTheServerWithParams:(NSDictionary *)params
+{
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    [mgr POST:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        
+        NYLog(@"%@",responseObject);
+        
+        NSString *statusStr = [NSString stringWithFormat:@"%@",responseObject[@"result"]];
+        
+        if ([statusStr isEqualToString:@"1"]) {
+            [MBProgressHUD showSuccess:@"充值成功"];
+            [self showAccountBalance];
+        } else {
+            [self informTheServerWithParams:params];
+            [MBProgressHUD showError:@"充值失败"];
+        }
+    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+        NYLog(@"%@",error.localizedDescription);
+    }];
 }
 
 - (NSString *)generateTradeNO

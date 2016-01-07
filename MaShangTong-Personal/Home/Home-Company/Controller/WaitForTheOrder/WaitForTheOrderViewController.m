@@ -36,6 +36,8 @@
     DriverInfoModel *infoModel;
     
     NSInteger _route_status;
+    
+    ReservationType _reservationType;
 }
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) UITableView *tableView;
@@ -337,7 +339,7 @@
     _lastState = 0;
     _iscalculateStart = 0;
     _actualDistance = 0;
-//    _route_id = 0;
+    //    _route_id = 0;
     [self configNavigationBar];
     [self initMapView];
     [self initIFlySpeech];
@@ -356,7 +358,9 @@
     [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=near_cars" params:params success:^(id json) {
         
         @try {
-            
+            if (!json) {
+                return ;
+            }
             NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
             if ([resultStr isEqualToString:@"0"]) {
                 return ;
@@ -391,6 +395,17 @@
                             } failure:^(NSError *error) {
                                 
                             }];
+                            // 记录是哪种行程
+                            NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
+                            if ([reservaTypeStr isEqualToString:@"1"]) {
+                                _reservationType = ReservationTypeSpecialCar;
+                            } else if ([reservaTypeStr isEqualToString:@"2"]) {
+                                _reservationType = ReservationTypeCharteredBus;
+                            } else if ([reservaTypeStr isEqualToString:@"3"]) {
+                                _reservationType = ReservationTypeAirportPickUp;
+                            } else if ([reservaTypeStr isEqualToString:@"4"]) {
+                                _reservationType = ReservationTypeAirportDropOff;
+                            }
                         }
                         _lastState = DriverStateOrderReceive;
                         break;
@@ -444,13 +459,13 @@
                         _lastState = DriverStatePayOver;
                         break;
                     }
-//                    case 6:
-//                    {
-//                        if (_lastState != DriverStateComplete) {
-//                            _route_status = 6;
-//                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
-//                        }
-//                    }
+                        //                    case 6:
+                        //                    {
+                        //                        if (_lastState != DriverStateComplete) {
+                        //                            _route_status = 6;
+                        //                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
+                        //                        }
+                        //                    }
                     default:
                         break;
                 }
@@ -475,42 +490,65 @@
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
-//        [MBProgressHUD showError:@"请求超时"];
-        NYLog(@"%@",error.localizedDescription);
     }];
-    
-    if (_iscalculateStart) {
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        if (_speed == -1) {
-            _speed = 0;
-        }
-        NSString *isLowSpeed = @"0";
-        if (_speed <= 3.4) {
-            isLowSpeed = @"1";
-        }
-        [params setValue:[NSString stringWithFormat:@"%f",_speed] forKey:@"distance"];
-        [params setValue:self.route_id forKey:@"route_id"];
-        [params setValue:[NSString stringWithFormat:@"%li",(long)_route_status] forKey:@"route_status"];
-        [params setValue:isLowSpeed forKey:@"time"];
-        [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=speed_price" params:params success:^(id json) {
-            @try {
-                if (!json) {
-                    return ;
+    if (_reservationType == ReservationTypeAirportDropOff || _reservationType == ReservationTypeAirportPickUp) {
+
+    }
+    if (_iscalculateStart && _reservationType == ReservationTypeSpecialCar) {
+        switch (_reservationType) {
+            // 专车
+            case ReservationTypeSpecialCar:
+            {
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                if (_speed == -1) {
+                    _speed = 0;
                 }
-                _actualPriceModel = [[ActualPriceModel alloc] initWithDictionary:json[@"info"] error:nil];
-                distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[_actualPriceModel.mileage floatValue]];
-                speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[_actualPriceModel.low_time integerValue]];
-                _totalPrice = [NSString stringWithFormat:@"%.2f",[_actualPriceModel.total_price floatValue]];
-                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
-                [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
-                priceLabel.attributedText = attri;
+                NSString *isLowSpeed = @"0";
+                if (_speed <= 3.4) {
+                    isLowSpeed = @"1";
+                }
+                [params setValue:[NSString stringWithFormat:@"%f",_speed] forKey:@"distance"];
+                [params setValue:self.route_id forKey:@"route_id"];
+                [params setValue:[NSString stringWithFormat:@"%li",(long)_route_status] forKey:@"route_status"];
+                [params setValue:isLowSpeed forKey:@"time"];
+                [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=speed_price" params:params success:^(id json) {
+                    @try {
+                        if (!json) {
+                            return ;
+                        }
+                        _actualPriceModel = [[ActualPriceModel alloc] initWithDictionary:json[@"info"] error:nil];
+                        distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[_actualPriceModel.mileage floatValue]];
+                        speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[_actualPriceModel.low_time integerValue]];
+                        _totalPrice = [NSString stringWithFormat:@"%.2f元",[_actualPriceModel.total_price floatValue]];
+                        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
+                        [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
+                        priceLabel.attributedText = attri;
+                    }
+                    @catch (NSException *exception) {
+                        
+                    }
+                } failure:^(NSError *error) {
+                    
+                }];
+                break;
             }
-            @catch (NSException *exception) {
+            // 包车
+            case ReservationTypeCharteredBus:
+            {
                 
+                speedLabel.hidden = YES;
+                break;
             }
-        } failure:^(NSError *error) {
-            
-        }];
+            // 接机，送机
+            case ReservationTypeAirportPickUp | ReservationTypeAirportDropOff:
+            {
+                distanceLabel.hidden = YES;
+                speedLabel.hidden = YES;
+                break;
+            }
+            default:
+                break;
+        }
     }
 }
 

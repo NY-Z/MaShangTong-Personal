@@ -323,7 +323,7 @@
 - (void)requestTheRules
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:@"3" forKey:@"reserva_type"];
+    [params setValue:@"4" forKey:@"reserva_type"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
         _airportPickupRuleArr = json[@"info"][@"rule"];
     } failure:^(NSError *error) {

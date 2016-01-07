@@ -70,6 +70,7 @@
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [MBProgressHUD showMessage:@"请稍候"];
     [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=get_ticket" params:params success:^(id json) {
+        [MBProgressHUD hideHUD];
         @try {
             NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
             if ([dataStr isEqualToString:@"1"]) {
@@ -81,7 +82,6 @@
             } else {
                 [MBProgressHUD showError:@"该电话号码未注册"];
             }
-            [MBProgressHUD hideHUD];
         }
         @catch (NSException *exception) {
             

@@ -631,11 +631,11 @@
 #pragma mark - NSNotification
 - (void)hengheng:(NSNotification *)notification
 {
-    AMapPOI *p = notification.object;
-    APP_DELEGATE.sourceCoordinate = CLLocationCoordinate2DMake(p.location.latitude, p.location.longitude);
-    NSRange range = [p.name rangeOfString:@"上海"];
+    NSDictionary *sourceDic = notification.object;
+    APP_DELEGATE.sourceCoordinate = CLLocationCoordinate2DMake([[sourceDic[@"detailTitleLabel"] componentsSeparatedByString:@","][1] floatValue], [[sourceDic[@"detailTitleLabel"] componentsSeparatedByString:@","][0] floatValue]);
+    NSRange range = [sourceDic[@"titleLabel"] rangeOfString:@"上海"];
     if (range.location != NSNotFound) {
-        NSMutableString *str = [p.name mutableCopy];
+        NSMutableString *str = [sourceDic[@"titleLabel"] mutableCopy];
         [str replaceCharactersInRange:range withString:@""];
         p.name = [str copy];
     }

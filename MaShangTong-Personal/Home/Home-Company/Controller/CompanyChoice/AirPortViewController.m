@@ -83,25 +83,24 @@
 
 - (void)configDataSource
 {
-//    _dataArr = @[@{kTitleLabelText:@"虹桥机场T1航站楼",kDetailLabelText:@"121.346199,31.194177"},
-//                 @{kTitleLabelText:@"虹桥机场T2航站楼",kDetailLabelText:@"121.327896,31.192555"},
-//                 @{kTitleLabelText:@"浦东机场T1航站楼",kDetailLabelText:@"121.803360,31.149280"},
-//                 @{kTitleLabelText:@"浦东机场T2航站楼",kDetailLabelText:@"121.809733,31.151115"},
-//                 @{kTitleLabelText:@"虹桥高铁",kDetailLabelText:@"121.321492,31.194196"}];
-    _dataArr = [NSMutableArray array];
-    _search = [[AMapSearchAPI alloc] init];
-    _search.delegate = self;
+    _dataArr = [@[@{kTitleLabelText:@"虹桥机场T1航站楼",kDetailLabelText:@"121.347171,31.195094"},
+                 @{kTitleLabelText:@"虹桥机场T2航站楼",kDetailLabelText:@"121.327692,31.194433"},
+                 @{kTitleLabelText:@"浦东机场T1航站楼",kDetailLabelText:@"121.802336,31.149280"},
+                 @{kTitleLabelText:@"浦东机场T2航站楼",kDetailLabelText:@"121.809733,31.151115"},
+                 @{kTitleLabelText:@"虹桥高铁",kDetailLabelText:@"121.31884575,31.19525566"}] mutableCopy];
+//    _dataArr = [NSMutableArray array];
+//    _search = [[AMapSearchAPI alloc] init];
+//    _search.delegate = self;
     
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        AMapPOIKeywordsSearchRequest *keywordsRequest = [[AMapPOIKeywordsSearchRequest alloc] init];
-        keywordsRequest.keywords = @"飞机场";
-        keywordsRequest.city = @"上海";
-        keywordsRequest.sortrule = 1;
-        keywordsRequest.requireExtension = 1;
-        keywordsRequest.sortrule = 1;
-        [_search AMapPOIKeywordsSearch:keywordsRequest];
-    });
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        AMapPOIKeywordsSearchRequest *keywordsRequest = [[AMapPOIKeywordsSearchRequest alloc] init];
+//        keywordsRequest.keywords = @"飞机场";
+//        keywordsRequest.city = @"上海";
+//        keywordsRequest.sortrule = 1;
+//        keywordsRequest.requireExtension = 1;
+//        keywordsRequest.sortrule = 1;
+//        [_search AMapPOIKeywordsSearch:keywordsRequest];
+//    });
 }
 
 - (void)viewDidLoad {
@@ -129,32 +128,36 @@
         cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    AMapPOI *p = _dataArr[indexPath.row];
-    cell.textLabel.text = p.name;
+    NSDictionary *dic = _dataArr[indexPath.row];
+    cell.textLabel.text = dic[kTitleLabelText];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AMapPOI *p = _dataArr[indexPath.row];
+    NSDictionary *dic = _dataArr[indexPath.row];
     if (self.type == AirPortViewControllerTypePickUp) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"xuanzejichang" object:p];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"xuanzejichang" object:dic];
     } else if (self.type == AirPortViewControllerTypeDropOff) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AirPortDropOffChooseFlight" object:p];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AirPortDropOffChooseFlight" object:dic];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - AMapSearchDelegate
-- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
-{
-    if(response.pois.count == 0)
-    {
-        return;
-    }
-    [_dataArr addObjectsFromArray:response.pois];
-    [_tableView reloadData];
-}
+//- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
+//{
+//    if(response.pois.count == 0)
+//    {
+//        return;
+//    }
+//    for (AMapPOI *p in response.pois) {
+//        NSLog(@"%@",p.name);
+//        NSLog(@"%@",p.location);
+//    }
+//    [_dataArr addObjectsFromArray:response.pois];
+//    [_tableView reloadData];
+//}
 
 #pragma mark - Action
 - (void)cancelBtnClicked:(UIButton *)btn

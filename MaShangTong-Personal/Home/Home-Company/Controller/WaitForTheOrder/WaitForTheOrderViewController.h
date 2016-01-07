@@ -19,6 +19,13 @@ typedef NS_ENUM (NSInteger,DriverState) {
     DriverStateComplete,
 };
 
+typedef NS_ENUM(NSInteger,ReservationType) {
+    ReservationTypeSpecialCar,
+    ReservationTypeCharteredBus,
+    ReservationTypeAirportPickUp,
+    ReservationTypeAirportDropOff,
+};
+
 @interface WaitForTheOrderViewController : UIViewController
 
 @property (nonatomic,strong) PassengerMessageModel *model;

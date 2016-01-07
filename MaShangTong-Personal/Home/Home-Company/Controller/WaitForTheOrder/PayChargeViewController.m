@@ -220,10 +220,8 @@
                 label.text = detailInfoArr[i];
             }
         } else {
-            [MBProgressHUD showError:@"网络错误"];
+            [self configData];
         }
-        
-        
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"网络错误"];
@@ -252,7 +250,6 @@
             } failure:^(NSError *error) {
                 
             }];
-            
             NYCommentViewController *comment = [[NYCommentViewController alloc] init];
             comment.driverInfoModel = self.driverInfoModel;
             comment.route_id = self.route_id;

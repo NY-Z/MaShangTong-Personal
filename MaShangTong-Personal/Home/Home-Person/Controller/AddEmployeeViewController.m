@@ -181,7 +181,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *name = ((UITextField *)[[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].contentView viewWithTag:300]).text;
-    if (name.length < 3) {
+    if (name.length > 0) {
         [MBProgressHUD showError:@"请输入姓名"];
         return;
     }
@@ -209,7 +209,7 @@
     NSLog(@"%@",[USER_DEFAULT valueForKey:@"user_id"]);
     NSLog(@"%@",[USER_DEFAULT objectForKey:@"user_id"]);
     [MBProgressHUD showMessage:@"正在添加"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=team_enter" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"team_enter"] params:params success:^(id json) {
         [MBProgressHUD hideHUD];
         NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
         if ([dataStr isEqualToString:@"1"]) {

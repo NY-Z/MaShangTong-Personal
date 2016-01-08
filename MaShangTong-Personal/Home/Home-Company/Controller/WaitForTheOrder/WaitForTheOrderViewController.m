@@ -297,7 +297,8 @@
     
     priceLabel = [[UILabel alloc] init];
     priceLabel.attributedText = attri;
-    priceLabel.frame = CGRectMake(90, 0, 80, 40);
+    priceLabel.frame = CGRectMake(0, 0, 80, 40);
+    priceLabel.textAlignment = 2;
     [_chargingBgView addSubview:priceLabel];
     
     distanceLabel = [[UILabel alloc] init];
@@ -332,7 +333,7 @@
 }
 
 #pragma mark - ViewDidLoad
-- (void)viewDidLoad {   // http://112.124.115.81/m.php?m=OrderApi&a=dri_info
+- (void)viewDidLoad {
     [super viewDidLoad];
     _calculaterWitch = 0;
     _driveringTime = 0;
@@ -355,7 +356,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_route_id forKey:@"route_id"];
     
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=near_cars" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"near_cars"] params:params success:^(id json) {
         
         @try {
             if (!json) {
@@ -379,8 +380,7 @@
                             [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
                             NSMutableDictionary *param = [NSMutableDictionary dictionary];
                             [param setValue:self.route_id forKey:@"route_id"];
-                            [DownloadManager post:@"http://112.124.115.81/m.php?m=orderApi&a=dri_info" params:param success:^(id json) {
-                                
+                            [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"orderApi",@"dri_info"] params:param success:^(id json) {
                                 infoModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
                                 UIView *tableHeaderView = self.tableView.tableHeaderView;
                                 UILabel *nameLabel = (UILabel *)[tableHeaderView viewWithTag:100];
@@ -511,7 +511,7 @@
                 [params setValue:self.route_id forKey:@"route_id"];
                 [params setValue:[NSString stringWithFormat:@"%li",(long)_route_status] forKey:@"route_status"];
                 [params setValue:isLowSpeed forKey:@"time"];
-                [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=speed_price" params:params success:^(id json) {
+                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"speed_price"] params:params success:^(id json) {
                     @try {
                         if (!json) {
                             return ;
@@ -712,35 +712,66 @@
 
 - (void)rightLabelTaped:(UITapGestureRecognizer *)tap
 {
-    __weak typeof(self) weakSelf = self;
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您确定要取消行程吗？" preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        [MBProgressHUD showMessage:@"正在取消订单"];
-        [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
-            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-            [MBProgressHUD hideHUD];
-            if ([resultStr isEqualToString:@"1"]) {
-                [MBProgressHUD showSuccess:@"取消订单成功"];
-                [_timer setFireDate:[NSDate distantFuture]];
-                if (_timer.valid) {
-                    [_timer invalidate];
+    if (_lastState == DriverStateNone) {
+        __weak typeof(self) weakSelf = self;
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您确定要取消行程吗？" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            [MBProgressHUD showMessage:@"正在取消订单"];
+            [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
+                NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                [MBProgressHUD hideHUD];
+                if ([resultStr isEqualToString:@"1"]) {
+                    [MBProgressHUD showSuccess:@"取消订单成功"];
+                    [_timer setFireDate:[NSDate distantFuture]];
+                    if (_timer.valid) {
+                        [_timer invalidate];
+                    }
+                    _timer = nil;
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                } else {
+                    [MBProgressHUD showError:@"取消订单失败"];
                 }
-                _timer = nil;
-                [weakSelf.navigationController popViewControllerAnimated:YES];
-            } else {
-                [MBProgressHUD showError:@"取消订单失败"];
-            }
-        } failure:^(NSError *error) {
+            } failure:^(NSError *error) {
+                
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"请求失败，请重试"];
+                NYLog(@"%@",error.localizedDescription);
+            }];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        __weak typeof(self) weakSelf = self;
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"司机师傅已接单，是否确定取消行程？" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showError:@"请求失败，请重试"];
-            NYLog(@"%@",error.localizedDescription);
-            
-        }];
-    }]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
+            [MBProgressHUD showMessage:@"正在取消订单"];
+            [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
+                NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                [MBProgressHUD hideHUD];
+                if ([resultStr isEqualToString:@"1"]) {
+                    [MBProgressHUD showSuccess:@"取消订单成功"];
+                    [_timer setFireDate:[NSDate distantFuture]];
+                    if (_timer.valid) {
+                        [_timer invalidate];
+                    }
+                    _timer = nil;
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                } else {
+                    [MBProgressHUD showError:@"取消订单失败"];
+                }
+            } failure:^(NSError *error) {
+                
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"请求失败，请重试"];
+                NYLog(@"%@",error.localizedDescription);
+                
+            }];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 #pragma mark - telImageTaped

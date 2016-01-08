@@ -324,7 +324,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"4" forKey:@"reserva_type"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"order_car"] params:params success:^(id json) {
         _airportPickupRuleArr = json[@"info"][@"rule"];
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];
@@ -490,7 +490,7 @@
     
     [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=usersigle" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"] params:params success:^(id json) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
             NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
@@ -505,7 +505,7 @@
                 }]];
                 [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [MBProgressHUD showMessage:@"正在取消订单"];
-                    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
                         
                         NYLog(@"%@",json);
                         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
@@ -536,7 +536,7 @@
         });
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
-        [MBProgressHUD showError:@"订单发送失败，请重试。。。"];
+        [MBProgressHUD showError:@"订单发送失败，请重试"];
     }];
 }
 
@@ -594,27 +594,25 @@
 
 - (void)chooseFlight:(NSNotification *)noti
 {
-    AMapPOI *p = noti.object;
-    NSRange range = [p.name rangeOfString:@"上海"];
-    if (range.location != NSNotFound) {
-        NSMutableString *str = [p.name mutableCopy];
-        [str replaceCharactersInRange:range withString:@""];
-        p.name = [str copy];
-    }
-    [self.destinationBtn setTitle:p.name forState:UIControlStateNormal];
-    
-    if (_airportPickupRuleArr.count == 0) {
-        return;
-    }
-    for (NSDictionary *dic in _airportPickupRuleArr) {
-        AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
-        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
-            
-            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
-            [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
-            priceLabel.attributedText = attri;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSDictionary *dic = noti.object;
+        NSString *destinationName = dic[@"titleLabel"];
+        NSString *destinationCoordinate = dic[@"detailTitleLabel"];
+        [self.destinationBtn setTitle:destinationName forState:UIControlStateNormal];
+        APP_DELEGATE.destinationCoordinate = CLLocationCoordinate2DMake([[destinationCoordinate componentsSeparatedByString:@","][1] floatValue], [[destinationCoordinate componentsSeparatedByString:@","][0] floatValue]);
+        if (_airportPickupRuleArr.count == 0) {
+            return;
         }
-    }
+        for (NSDictionary *dic in _airportPickupRuleArr) {
+            AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+            if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+                
+                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
+                [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
+                priceLabel.attributedText = attri;
+            }
+        }
+    });
 }
 
 #pragma mark - dealloc

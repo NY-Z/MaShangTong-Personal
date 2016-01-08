@@ -210,7 +210,7 @@
     [params setValue:userId forKey:@"user_id"];
     [params setValue:@"4" forKey:@"type"];
     [params setValue:@"2" forKey:@"group_id"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json) {
         
         NYLog(@"%@",json);
         _moneyLabel.text = [NSString stringWithFormat:@"￥ %@",json[@"money"]];
@@ -462,7 +462,7 @@
 - (void)informTheServerWithParams:(NSDictionary *)params
 {
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    [mgr POST:@"http://112.124.115.81/m.php?m=UserApi&a=recharge" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    [mgr POST:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         
         NYLog(@"%@",responseObject);
         

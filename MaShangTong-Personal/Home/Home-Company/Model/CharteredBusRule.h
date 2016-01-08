@@ -14,5 +14,6 @@
 @property (nonatomic,strong) NSString <Optional> *once_price;
 @property (nonatomic,strong) NSString <Optional> *rule_type;
 @property (nonatomic,strong) NSString <Optional> *times;
+@property (nonatomic,strong) NSString <Optional> *contain_mileage;
 
 @end

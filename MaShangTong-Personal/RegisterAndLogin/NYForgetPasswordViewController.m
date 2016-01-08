@@ -157,13 +157,14 @@
     [params setValue:@"2" forKey:@"group_id"];
     [params setValue:_confirmTextField.text forKey:@"password"];
     [MBProgressHUD showMessage:@"正在修改"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=forget_password" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"forget_password"] params:params success:^(id json) {
         
         @try {
             NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
             [MBProgressHUD hideHUD];
             if ([dataStr isEqualToString:@"1"]) {
                 [MBProgressHUD showSuccess:@"密码修改成功，请重新登录"];
+                [self.navigationController popViewControllerAnimated:YES];
             } else if ([dataStr isEqualToString:@"0"]) {
                 [MBProgressHUD showSuccess:@"密码修改失败，请重试"];
             } else {

@@ -36,7 +36,7 @@
 
 - (void)configTableView
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
@@ -49,15 +49,20 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [MBProgressHUD showMessage:@"正在加载"];
-    [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"myTrips"] params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"myTrips"] params:params success:^(id json) {
         NYLog(@"%@",json);
         [MBProgressHUD hideHUD];
         @try {
             _dataArr = json[@"info"][@"detaile"];
             [_tableView reloadData];
+            NSDate *date = [NSDate date];
+            NSLog(@"%@",date);
         }
         @catch (NSException *exception) {
             [MBProgressHUD showError:@"网络错误,请重试"];
+        }
+        @finally {
+            
         }
     } failure:^(NSError *error) {
         

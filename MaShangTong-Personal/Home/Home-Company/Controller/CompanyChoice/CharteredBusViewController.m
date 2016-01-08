@@ -18,13 +18,14 @@
     UITextView *remarkTextView;
     UIButton *_selectedBtn;
     UITextField *numberTextField;
-    UILabel *priceLabel;
     UIButton *_durationBtn;
     NSMutableArray *_charteredBusRuleArr;
+    NSMutableArray *_charteredBusDescArr;
     
     AMapSearchAPI *_search;
 }
 
+@property (nonatomic,strong) UILabel *priceLabel;
 @property (nonatomic) MANaviRoute * naviRoute;
 
 @end
@@ -88,7 +89,7 @@
         }];
     }
     
-    NSArray *titleBtn = @[@"4小时（包含45.0公里）",@"现在用车",@"您要从哪儿出发？"];
+    NSArray *titleBtn = @[@"",@"现在用车",@"您要从哪儿出发？"];
     for (NSInteger i = 0; i < 3; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -103,7 +104,6 @@
         
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(bgView).offset(116);
-            //            make.width.mas_equalTo(200);
             make.right.equalTo(bgView).offset(-26);
             make.top.equalTo(bgView).offset(16+i*40);
             make.height.mas_equalTo(20);
@@ -148,7 +148,7 @@
         make.left.equalTo(bgView);
     }];
     
-    NSArray *titleArr = @[@"电动轿车",@"电动中巴车",@"电动大巴车"];
+    NSArray *titleArr = @[@"舒适电动轿车",@"商务电动轿车",@"豪华电动轿车"];
     NSArray *imageArr = @[@"che1Deselect",@"che2Deselect",@"che3Deselect"];
     NSArray *selectImageArr = @[@"che1Select",@"che2Select",@"che3Select"];
     for (NSInteger i = 0; i < titleArr.count; i++) {
@@ -196,13 +196,13 @@
         make.edges.equalTo(remarkBgView).insets(UIEdgeInsetsMake(10, 20, 10, 20));
     }];
     
-    priceLabel = [[UILabel alloc] init];
-    priceLabel.font = [UIFont systemFontOfSize:15];
-    priceLabel.text = @"约     元";
-    priceLabel.textColor = RGBColor(154, 154, 154, 1.f);
-    priceLabel.textAlignment = 1;
-    [contentView addSubview:priceLabel];
-    [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    _priceLabel = [[UILabel alloc] init];
+    _priceLabel.font = [UIFont systemFontOfSize:15];
+    _priceLabel.text = @"约     元";
+    _priceLabel.textColor = RGBColor(154, 154, 154, 1.f);
+    _priceLabel.textAlignment = 1;
+    [contentView addSubview:_priceLabel];
+    [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(remarkBgView.mas_bottom).offset(0);
         make.left.equalTo(contentView);
         make.right.equalTo(contentView);
@@ -215,8 +215,8 @@
     [confirmBtn addTarget:self action:@selector(confirmBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [contentView addSubview:confirmBtn];
     [confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(priceLabel.mas_bottom).offset(8);
-        make.centerX.equalTo(priceLabel);
+        make.top.equalTo(_priceLabel.mas_bottom).offset(8);
+        make.centerX.equalTo(_priceLabel);
         make.height.mas_equalTo(40);
         make.width.mas_equalTo(SCREEN_WIDTH*5/6);
     }];
@@ -241,16 +241,23 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"2" forKey:@"reserva_type"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=OrderApi&a=order_car" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"chartered_bus_rule"] params:params success:^(id json) {
         NYLog(@"%@",json);
-        _charteredBusRuleArr = json[@"info"][@"rule"];
-        NSString *once_price = [NSString stringWithFormat:@"约 %@ 元",json[@"info"][@"rule"][0][@"once_price"]];
-        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:once_price];
-        [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, ((NSString *)json[@"info"][@"rule"][0][@"once_price"]).length)];
-        priceLabel.attributedText = attri;
-        
+        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+        if ([dataStr isEqualToString:@"0"] || !json) {
+            [self requestTheRules];
+            return ;
+        } else {
+            _charteredBusRuleArr = json[@"rule"];
+            _charteredBusDescArr = json[@"desc"];
+            [self.durationBtn setTitle:_charteredBusDescArr[0] forState:UIControlStateNormal];
+            NSString *once_price = [NSString stringWithFormat:@"约 %@ 元",json[@"rule"][_selectedBtn.tag-200][@"once_price"]];
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:once_price];
+            [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, ((NSString *)json[@"rule"][0][@"once_price"]).length)];
+            _priceLabel.attributedText = attri;
+        }
     } failure:^(NSError *error) {
-        [MBProgressHUD showError:@"网络错误"];
+        
     }];
 }
 
@@ -305,7 +312,7 @@
         case 100:
         {
             if (self.timeBtnBlock) {
-                self.timeBtnBlock();
+                self.timeBtnBlock(_charteredBusDescArr);
             }
             break;
         }
@@ -342,11 +349,34 @@
         [MBProgressHUD showError:@"网络延迟"];
         return;
     }
-    CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_charteredBusRuleArr[btn.tag-200] error:nil];
+    NSInteger currentSelectIndex = 0;
+    for (NSInteger i = 0; i < _charteredBusDescArr.count; i++) {
+        if ([_durationBtn.currentTitle isEqualToString:_charteredBusDescArr[i]]) {
+            
+            currentSelectIndex = i*3;
+        }
+    }
+    CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_charteredBusRuleArr[(btn.tag-200)+currentSelectIndex] error:nil];
     NSString *oncePrice = charteredBusRule.once_price;
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",oncePrice]];
     [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, oncePrice.length)];
-    [priceLabel setAttributedText:attri];
+    [_priceLabel setAttributedText:attri];
+}
+
+- (void)changeThePrice
+{
+    NSInteger currentSelectIndex = 0;
+    for (NSInteger i = 0; i < _charteredBusDescArr.count; i++) {
+        if ([_durationBtn.currentTitle isEqualToString:_charteredBusDescArr[i]]) {
+            
+            currentSelectIndex = i*3;
+        }
+    }
+    CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_charteredBusRuleArr[(_selectedBtn.tag-200)+currentSelectIndex] error:nil];
+    NSString *oncePrice = charteredBusRule.once_price;
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",oncePrice]];
+    [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, oncePrice.length)];
+    [_priceLabel setAttributedText:attri];
 }
 
 - (void)confirmBtnClicked:(UIButton *)btn
@@ -378,14 +408,14 @@
     [params setObject:remarkTextView.text forKey:@"leave_message"];
     [params setObject:@"2" forKey:@"reserva_type"];
     
-    NSString *urlStr = @"http://112.124.115.81/m.php?m=OrderApi&a=usersigle";
+    NSString *urlStr = [NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"];
     [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
     [DownloadManager post:urlStr params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         if ([resultStr isEqualToString:@"1"]) {
             [MBProgressHUD hideHUD];
-            [MBProgressHUD showSuccess:@"订单发送成功，请等待接单。。。"];
+            [MBProgressHUD showSuccess:@"订单发送成功，请等待接单"];
             if (self.confirmBtnBlock) {
                 model.route_id = json[@"route_id"];
                 self.confirmBtnBlock(model,json[@"route_id"]);
@@ -404,7 +434,7 @@
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [MBProgressHUD showMessage:@"正在取消订单"];
-                [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=cacelorder" params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
                     
                     NYLog(@"%@",json);
                     NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
@@ -427,7 +457,7 @@
         NYLog(@"post = %@",error);
         
         [MBProgressHUD hideHUD];
-        [MBProgressHUD showError:@"订单发送失败，请重试。。。"];
+        [MBProgressHUD showError:@"订单发送失败，请重试"];
     }];
 }
 

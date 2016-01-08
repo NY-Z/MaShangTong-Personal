@@ -69,7 +69,7 @@
     [params setValue:self.voucherId forKey:@"shop_id"];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [MBProgressHUD showMessage:@"请稍候"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=get_ticket" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"get_ticket"] params:params success:^(id json) {
         [MBProgressHUD hideHUD];
         @try {
             NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];

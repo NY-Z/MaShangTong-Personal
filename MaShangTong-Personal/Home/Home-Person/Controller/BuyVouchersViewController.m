@@ -41,10 +41,8 @@
 {
     [MBProgressHUD showMessage:@"正在加载"];
     
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=show_allTickets" params:nil success:^(id json) {
-        
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"show_allTickets"] params:nil success:^(id json) {
         @try {
-
             NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
             if ([dataStr isEqualToString:@"1"]) {
                 _dataArr = json[@"info"];

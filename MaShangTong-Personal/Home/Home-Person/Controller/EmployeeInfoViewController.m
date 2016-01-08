@@ -100,7 +100,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
     [MBProgressHUD showMessage:@"加载员工信息"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=emInfo" params:params success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"emInfo"] params:params success:^(id json) {
         [MBProgressHUD hideHUD];
         @try {
             NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];

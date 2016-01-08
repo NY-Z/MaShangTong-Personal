@@ -69,6 +69,7 @@
             return ;
         } else if ([dataStr isEqualToString:@"1"]) {
             [MBProgressHUD showSuccess:@"感谢您的反馈信息"];
+            [self.navigationController popViewControllerAnimated:YES];
         }
         
     } failure:^(NSError *error) {

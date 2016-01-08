@@ -135,12 +135,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dic = _dataArr[indexPath.row];
-    if (self.type == AirPortViewControllerTypePickUp) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"xuanzejichang" object:dic];
-    } else if (self.type == AirPortViewControllerTypeDropOff) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AirPortDropOffChooseFlight" object:dic];
-    }
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSDictionary *dic = _dataArr[indexPath.row];
+        if (self.type == AirPortViewControllerTypePickUp) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"xuanzejichang" object:dic];
+        } else if (self.type == AirPortViewControllerTypeDropOff) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"AirPortDropOffChooseFlight" object:dic];
+        }
+    });
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

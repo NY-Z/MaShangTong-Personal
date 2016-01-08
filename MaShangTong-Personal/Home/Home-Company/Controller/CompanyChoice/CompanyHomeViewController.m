@@ -108,17 +108,19 @@
     [leftBtn addTarget:self action:@selector(leftBarButtonItemClicked:) forControlEvents:UIControlEventTouchUpInside];
     [myNavigationBar addSubview:leftBtn];
     
+    /*
     // RightBarButtonItem
     UIView *rightBgView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-44, 31, 22, 22)];
     rightBgView.backgroundColor = RGBColor(160, 160, 160, 1.f);
-    //    [myNavigationBar addSubview:rightBgView];
+    [myNavigationBar addSubview:rightBgView];
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [rightBtn setImage:[UIImage imageNamed:@"qichenew"] forState:UIControlStateNormal];
     rightBtn.frame = CGRectMake(SCREEN_WIDTH-38, 38, 18, 18);
     [rightBtn addTarget:self action:@selector(rightBarButtonItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-    //    [myNavigationBar addSubview:rightBtn];
+    [myNavigationBar addSubview:rightBtn];
 #warning rightBtn
     self.navigationBar = myNavigationBar;
+     */
 }
 
 - (void)configPageViewController
@@ -132,14 +134,14 @@
     }];
     [self.view addSubview:_pageViewController.view];
     
-    for (UIView *view in _pageViewController.view.subviews) {
-        if ([view isKindOfClass:[UIScrollView class]]) {
-            UIScrollView *scrollView = (UIScrollView *)view;
+//    for (UIView *view in _pageViewController.view.subviews) {
+//        if ([view isKindOfClass:[UIScrollView class]]) {
+//            UIScrollView *scrollView = (UIScrollView *)view;
 //            scrollView.delegate = self;
 //            scrollView.bounces = NO;
 //            scrollView.pagingEnabled = YES;
-        }
-    }
+//        }
+//    }
 }
 
 - (void)configDataArr
@@ -198,7 +200,10 @@
     [_dataArr addObject:specialCar];
     
     CharteredBusViewController *charteredBus = [[CharteredBusViewController alloc] init];
-    charteredBus.timeBtnBlock = ^(){
+    charteredBus.timeBtnBlock = ^(NSArray *descArr){
+        
+        [weakSelf configTransportTimePicker:descArr];
+        
         _coverView.hidden = NO;
         [UIView animateWithDuration:0.3 animations:^{
             _timePickerBgView.y = SCREEN_HEIGHT-216;
@@ -376,7 +381,7 @@
     _pickBgView.hidden = YES;
 }
 
-- (void)configTransportTimePicker
+- (void)configTransportTimePicker:(NSArray *)descArr
 {
     _timePickerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 216)];
     _timePickerBgView.backgroundColor = [UIColor whiteColor];
@@ -408,7 +413,7 @@
     //        make.top.equalTo(_timePickerBgView);
     //    }];
     
-    for (NSInteger i = 0; i < 2; i++) {
+    for (NSInteger i = 0; i < descArr.count+1; i++) {
         UIView *view = [[UILabel alloc] init];
         view.backgroundColor = RGBColor(214, 214, 214, 1.f);
         [_timePickerBgView addSubview:view];
@@ -420,10 +425,9 @@
         }];
     }
     
-    NSArray *durationArr = @[@"4小时（包含45.0公里）"];
-    for (NSInteger i = 0; i < durationArr.count; i++) {
+    for (NSInteger i = 0; i < descArr.count; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setTitle:durationArr[i] forState:UIControlStateNormal];
+        [btn setTitle:descArr[i] forState:UIControlStateNormal];
         [btn setTitleColor:RGBColor(178, 178, 178, 1.f) forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -588,7 +592,7 @@
     [self configCoverView];
     
     [self configDatePicker];
-    [self configTransportTimePicker];
+//    [self configTransportTimePicker];
     [self configCityPicker];
     [self configPersonInfo];
 }
@@ -1027,6 +1031,7 @@
     } else {
         CharteredBusViewController *vc = (CharteredBusViewController *)viewcontroller;
         [vc.durationBtn setTitle:btn.currentTitle forState:UIControlStateNormal];
+        [vc changeThePrice];
     }
 }
 

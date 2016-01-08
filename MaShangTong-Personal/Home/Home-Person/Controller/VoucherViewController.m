@@ -70,7 +70,7 @@
 - (void)configDataSource
 {
     [MBProgressHUD showMessage:@"正在加载"];
-    [DownloadManager post:@"http://112.124.115.81/m.php?m=UserApi&a=show_ticket" params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]} success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"show_ticket"] params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]} success:^(id json) {
         [MBProgressHUD hideHUD];
         NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
         if ([dataStr isEqualToString:@"1"]) {

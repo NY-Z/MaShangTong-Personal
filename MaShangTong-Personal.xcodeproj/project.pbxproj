@@ -10,6 +10,7 @@
 		0E18DFF91C31140C00D77CEC /* NYDetailOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E18DFF71C31140C00D77CEC /* NYDetailOrderVC.m */; };
 		0E18DFFA1C31140C00D77CEC /* NYDetailOrderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18DFF81C31140C00D77CEC /* NYDetailOrderVC.xib */; };
 		0E18E00A1C313D0D00D77CEC /* TaxiGuideImageView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */; };
+		0E20D40D1C44C58400BF6177 /* NYCompanyProtocalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E20D40C1C44C58400BF6177 /* NYCompanyProtocalViewController.m */; };
 		0E21A45B1C055FFF006A722A /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E21A45A1C055FFF006A722A /* icon.png */; };
 		0E21A4611C059862006A722A /* ValuationRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E21A4601C059862006A722A /* ValuationRuleModel.m */; };
 		0E4C92F91C02E3AC00118310 /* RegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C92F71C02E3AC00118310 /* RegisViewController.m */; };
@@ -267,6 +268,8 @@
 		0E18DFF71C31140C00D77CEC /* NYDetailOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYDetailOrderVC.m; sourceTree = "<group>"; };
 		0E18DFF81C31140C00D77CEC /* NYDetailOrderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYDetailOrderVC.xib; sourceTree = "<group>"; };
 		0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TaxiGuideImageView@2x.png"; sourceTree = "<group>"; };
+		0E20D40B1C44C58400BF6177 /* NYCompanyProtocalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCompanyProtocalViewController.h; sourceTree = "<group>"; };
+		0E20D40C1C44C58400BF6177 /* NYCompanyProtocalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCompanyProtocalViewController.m; sourceTree = "<group>"; };
 		0E21A45A1C055FFF006A722A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		0E21A45F1C059862006A722A /* ValuationRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleModel.h; sourceTree = "<group>"; };
 		0E21A4601C059862006A722A /* ValuationRuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleModel.m; sourceTree = "<group>"; };
@@ -762,6 +765,8 @@
 				0E4C93001C02E44800118310 /* RegisCompanyViewController.xib */,
 				0E4C930A1C02F94300118310 /* ProvincesAndCitiesTableViewController.h */,
 				0E4C930B1C02F94300118310 /* ProvincesAndCitiesTableViewController.m */,
+				0E20D40B1C44C58400BF6177 /* NYCompanyProtocalViewController.h */,
+				0E20D40C1C44C58400BF6177 /* NYCompanyProtocalViewController.m */,
 			);
 			name = DriverLoginAndRegis;
 			sourceTree = "<group>";
@@ -1682,6 +1687,7 @@
 				0E4C930C1C02F94300118310 /* ProvincesAndCitiesTableViewController.m in Sources */,
 				6D5436201BF30F21002E25DA /* NSDataEx.m in Sources */,
 				6D5436231BF30F21002E25DA /* RSADataVerifier.m in Sources */,
+				0E20D40D1C44C58400BF6177 /* NYCompanyProtocalViewController.m in Sources */,
 				0EC717711C351EEA00399EC4 /* NYCommentViewController.m in Sources */,
 				0ED1D9D41BF6CB9200804B14 /* SendVoucherCell.m in Sources */,
 				6D54361C1BF30F21002E25DA /* base64.m in Sources */,

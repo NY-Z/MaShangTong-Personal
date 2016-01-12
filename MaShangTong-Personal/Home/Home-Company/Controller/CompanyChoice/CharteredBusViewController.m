@@ -395,6 +395,10 @@
     NSUInteger interval = [self transformToDateFormatterWithDateString:_timeBtn.currentTitle];
     [params setObject:[NSString stringWithFormat:@"%lu",(unsigned long)interval] forKey:@"reservation_time"];
     
+    if ([_sourceBtn.currentTitle isEqualToString:@"您要从哪儿出发？"]) {
+        [MBProgressHUD showError:@"您要从哪儿出发？"];
+        return;
+    }
     [params setObject:_sourceBtn.currentTitle forKey:@"origin_name"];
     [params setObject:[NSString stringWithFormat:@"%f,%f",delegate.sourceCoordinate.longitude,delegate.sourceCoordinate.latitude] forKey:@"origin_coordinates"];
     

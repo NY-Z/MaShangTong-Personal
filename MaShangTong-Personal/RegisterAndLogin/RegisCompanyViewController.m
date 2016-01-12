@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "ProvincesAndCitiesTableViewController.h"
 #import "CompanyHomeViewController.h"
+#import "NYCompanyProtocalViewController.h"
 #import <AFNetworking.h>
 
 @interface RegisCompanyViewController () <UITextFieldDelegate>
@@ -104,6 +105,10 @@
     self.codeTextField.secureTextEntry = YES;
     self.businessTextField.delegate = self;
     self.verificationBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
+    
+    self.protocalLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *protocalTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(protocalTaped)];
+    [self.protocalLabel addGestureRecognizer:protocalTap];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -302,8 +307,12 @@
 
 - (IBAction)selectBtnClicked:(id)sender {
     
-    UIButton *btn = (UIButton *)sender;
-    btn.selected = !btn.selected;
+    _selectBtn.selected = !_selectBtn.selected;
+}
+
+- (void)protocalTaped
+{
+    [self.navigationController pushViewController:[[NYCompanyProtocalViewController alloc] init] animated:YES];
 }
 
 #pragma mark - dealloc

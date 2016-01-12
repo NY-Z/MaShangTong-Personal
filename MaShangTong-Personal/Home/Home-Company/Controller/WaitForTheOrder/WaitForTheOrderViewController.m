@@ -56,6 +56,7 @@
 @property (nonatomic,assign) DriverState lastState;
 @property (nonatomic,strong) UIView *chargingBgView;
 @property (nonatomic,strong) ActualPriceModel *actualPriceModel;
+@property (nonatomic,strong) AMapPath *driverPath;
 
 @end
 
@@ -298,7 +299,7 @@
     priceLabel = [[UILabel alloc] init];
     priceLabel.attributedText = attri;
     priceLabel.frame = CGRectMake(0, 0, 80, 40);
-    priceLabel.textAlignment = 2;
+    priceLabel.textAlignment = NSTextAlignmentRight;
     [_chargingBgView addSubview:priceLabel];
     
     distanceLabel = [[UILabel alloc] init];
@@ -326,6 +327,7 @@
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:price];
     [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:24],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, price.length)];
     [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],NSForegroundColorAttributeName : RGBColor(157, 157, 157, 1.f)} range:NSMakeRange(price.length, 1)];
+    priceLabel.textAlignment = NSTextAlignmentRight;
     priceLabel.attributedText = attri;
     
     distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[json[@"distance"] floatValue]/1000];
@@ -459,13 +461,13 @@
                         _lastState = DriverStatePayOver;
                         break;
                     }
-                        //                    case 6:
-                        //                    {
-                        //                        if (_lastState != DriverStateComplete) {
-                        //                            _route_status = 6;
-                        //                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
-                        //                        }
-                        //                    }
+//                    case 6:
+//                    {
+//                        if (_lastState != DriverStateComplete) {
+//                            _route_status = 6;
+//                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
+//                        }
+//                    }
                     default:
                         break;
                 }
@@ -491,6 +493,7 @@
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
     }];
+    
     if (_reservationType == ReservationTypeAirportDropOff || _reservationType == ReservationTypeAirportPickUp) {
 
     }
@@ -527,6 +530,9 @@
                     @catch (NSException *exception) {
                         
                     }
+                    @finally {
+                        
+                    }
                 } failure:^(NSError *error) {
                     
                 }];
@@ -535,7 +541,6 @@
             // 包车
             case ReservationTypeCharteredBus:
             {
-                
                 speedLabel.hidden = YES;
                 break;
             }
@@ -631,24 +636,8 @@
     
     AMapPath *path = response.route.paths[0];
     self.naviRoute = [MANaviRoute naviRouteForPath:path withNaviType:type];
+    _driverPath = path;
     
-    for (id ann in self.mapView.annotations) {
-        if ([ann isKindOfClass:[MAUserLocation class]]) {
-            MAUserLocation *userLocation = (MAUserLocation *)ann;
-            NSInteger minute = (long)_driveringTime/60;
-            NSInteger second = (long)_driveringTime%60;
-            NSMutableString *minuteStr = [NSMutableString stringWithFormat:@"%ld",minute];
-            NSMutableString *secondStr = [NSMutableString stringWithFormat:@"%ld",second];
-            if (minuteStr.length == 1) {
-                minuteStr = [NSMutableString stringWithFormat:@"0%@",minuteStr];
-            }
-            if (secondStr.length == 1) {
-                secondStr = [NSMutableString stringWithFormat:@"0%@",secondStr];
-            }
-            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%@:%@",((float)path.distance)/1000,minuteStr,secondStr];
-            userLocation.title = annTitle;
-        }
-    }
 }
 
 #pragma mark - IFlySpeechSynthesizerDelegate

@@ -134,21 +134,24 @@
         make.height.equalTo(bankCardBtn);
     }];
     
-    UIButton *wxBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [wxBtn setTitle:@"微信充值   " forState:UIControlStateNormal];
-    [wxBtn setTitleColor:RGBColor(141, 141, 141, 1.f) forState:UIControlStateNormal];
-    wxBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [wxBtn setImage:[UIImage imageNamed:@"payBtnDeselect"] forState:UIControlStateNormal];
-    [wxBtn setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateSelected];
-    [wxBtn addTarget:self action:@selector(payBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    wxBtn.tag = 3000;
-    [contentView addSubview:wxBtn];
-    [wxBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(alipayBtn.mas_bottom);
-        make.left.equalTo(alipayBtn);
-        make.right.equalTo(alipayBtn);
-        make.height.equalTo(alipayBtn);
-    }];
+    
+    if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]) {
+        UIButton *wxBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [wxBtn setTitle:@"微信充值   " forState:UIControlStateNormal];
+        [wxBtn setTitleColor:RGBColor(141, 141, 141, 1.f) forState:UIControlStateNormal];
+        wxBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [wxBtn setImage:[UIImage imageNamed:@"payBtnDeselect"] forState:UIControlStateNormal];
+        [wxBtn setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateSelected];
+        [wxBtn addTarget:self action:@selector(payBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        wxBtn.tag = 3000;
+        [contentView addSubview:wxBtn];
+        [wxBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(alipayBtn.mas_bottom);
+            make.left.equalTo(alipayBtn);
+            make.right.equalTo(alipayBtn);
+            make.height.equalTo(alipayBtn);
+        }];
+    }
     
     _payChargeTextField = [[UITextField alloc] init];
     _payChargeTextField.borderStyle = UITextBorderStyleRoundedRect;
@@ -159,7 +162,7 @@
     _payChargeTextField.placeholder = @"充值价格";
     [contentView addSubview:_payChargeTextField];
     [_payChargeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(wxBtn.mas_bottom).offset(12);
+        make.top.equalTo(alipayBtn.mas_bottom).offset(66);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(33);
         make.centerX.equalTo(contentView);
@@ -197,7 +200,6 @@
     _wxPayMoney = @"";
     [self configNavigationBar];
     [self configViews];
-    
 }
 
 - (void)showAccountBalance

@@ -27,6 +27,7 @@
 #import "CompanyHomeViewController.h"
 #import "NYCommentViewController.h"
 #import "PayChargeViewController.h"
+#import <AFNetworking.h>
 
 
 @interface AppDelegate () <WXApiDelegate>
@@ -102,10 +103,45 @@
 
 -(void) onResp:(BaseResp*)resp
 {
-    if([resp isKindOfClass:[PayResp class]]){
-        //支付返回结果，实际支付结果需要去微信服务器端查询
-        NSLog(@"%@",[NSNumber numberWithInt:resp.errCode]);
+    if ([resp isKindOfClass:[PayResp class]]){
+        PayResp*response=(PayResp*)resp;
+        switch(response.errCode){
+            case WXSuccess:
+            {
+                NSLog(@"支付成功");
+                NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                [params setValue:userId forKey:@"user_id"];
+                [params setValue:APP_DELEGATE.payMoney forKey:@"money"];
+                [params setValue:@"1" forKey:@"type"];
+                [params setValue:@"2" forKey:@"group_id"];
+                [self informTheServerWithParams:params];
+                break;
+            }
+            default:
+                NSLog(@"支付失败，retcode=%d",resp.errCode);
+                break;
+        }
     }
+}
+
+- (void)informTheServerWithParams:(NSDictionary *)params
+{
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    [mgr POST:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        
+        NYLog(@"%@",responseObject);
+        
+        NSString *statusStr = [NSString stringWithFormat:@"%@",responseObject[@"result"]];
+        
+        if ([statusStr isEqualToString:@"1"]) {
+            [MBProgressHUD showSuccess:@"充值成功"];
+        } else {
+            [self informTheServerWithParams:params];
+        }
+    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+        NYLog(@"%@",error.localizedDescription);
+    }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

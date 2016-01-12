@@ -272,33 +272,9 @@
     }
 }
 
-#pragma mark - WxApiDelegate
--(void) onResp:(BaseResp*)resp
-{
-    if ([resp isKindOfClass:[PayResp class]]){
-        PayResp*response=(PayResp*)resp;
-        switch(response.errCode){
-            case WXSuccess:
-            {
-                //服务器端查询支付通知或查询API返回的结果再提示成功
-                NSLog(@"支付成功");
-                NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
-                NSMutableDictionary *params = [NSMutableDictionary dictionary];
-                [params setValue:userId forKey:@"user_id"];
-                [params setValue:_wxPayMoney forKey:@"money"];
-                [params setValue:@"1" forKey:@"type"];
-                [self informTheServerWithParams:params];
-                break;
-            }
-            default:
-                NSLog(@"支付失败，retcode=%d",resp.errCode);
-                break;
-        }
-    }
-}
-
 - (void)bizPay
 {
+    
     [MBProgressHUD showMessage:@"请稍候"];
     _wxPayMoney = [NSString stringWithFormat:@"%.0f",[_payChargeTextField.text floatValue]*100];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -340,6 +316,7 @@
         req.package = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"package"]];
         req.sign = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"sign"]];
         [WXApi sendReq:req];
+        APP_DELEGATE.payMoney = [NSString stringWithFormat:@"%.0f",[_payChargeTextField.text floatValue]];
         [MBProgressHUD hideHUD];
         
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
@@ -470,10 +447,8 @@
         
         if ([statusStr isEqualToString:@"1"]) {
             [MBProgressHUD showSuccess:@"充值成功"];
-            [self showAccountBalance];
         } else {
             [self informTheServerWithParams:params];
-            [MBProgressHUD showError:@"充值失败"];
         }
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
         NYLog(@"%@",error.localizedDescription);

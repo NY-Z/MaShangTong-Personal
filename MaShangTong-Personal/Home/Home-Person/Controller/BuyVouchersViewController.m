@@ -169,7 +169,6 @@
             [MBProgressHUD showError:@"购买失败，请重试"];
             return ;
         } else if ([dataStr isEqualToString:@"1"]) {
-            [MBProgressHUD showSuccess:@"购买成功"];
             [self.navigationController popViewControllerAnimated:YES];
         }
     } failure:^(NSError *error) {

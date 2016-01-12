@@ -36,5 +36,7 @@
 // 用户的位置
 @property (nonatomic,assign) CLLocationCoordinate2D passengerCoordinate;
 
+@property (nonatomic,strong) NSString *payMoney;
+
 @end
 

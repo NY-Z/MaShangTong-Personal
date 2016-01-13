@@ -190,11 +190,12 @@
 //            
 //        }];
 //    };
-    specialCar.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
+    specialCar.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id,ValuationRuleModel *specialCarRuleModel) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
+        waitOrderVc.specialCarRuleModel = specialCarRuleModel;
         [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:specialCar];
@@ -229,7 +230,7 @@
             
         }];
     };
-    charteredBus.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
+    charteredBus.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id,CharteredBusRule *charteredBusRule) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
@@ -239,7 +240,6 @@
     [_dataArr addObject:charteredBus];
     
     AirportPickupViewController *airportPickup = [[AirportPickupViewController alloc] init];
-    __weak typeof(airportPickup) weakAirportPickup = airportPickup;
     airportPickup.flightBtnBlock = ^(){
         FlightNoViewController *flightNo = [[FlightNoViewController alloc] init];
         [weakSelf presentViewController:flightNo animated:YES completion:^{
@@ -270,19 +270,11 @@
             
         }];
     };
-//    airportPickup.addressBtnBlock = ^(){
-//        _coverView.hidden = NO;
-//        [UIView animateWithDuration:0.3 animations:^{
-//            _cityPickBgView.y = SCREEN_HEIGHT-216;
-//            _cityPickBgView.hidden = NO;
-//        } completion:^(BOOL finished) {
-//            
-//        }];
-//    };
-    airportPickup.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
+    airportPickup.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id,AirportPickupModel *airportModel) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
+        waitOrderVc.airportModel = airportModel;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
         [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };

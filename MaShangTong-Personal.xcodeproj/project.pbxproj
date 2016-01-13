@@ -13,6 +13,8 @@
 		0E20D40D1C44C58400BF6177 /* NYCompanyProtocalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E20D40C1C44C58400BF6177 /* NYCompanyProtocalViewController.m */; };
 		0E21A45B1C055FFF006A722A /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E21A45A1C055FFF006A722A /* icon.png */; };
 		0E21A4611C059862006A722A /* ValuationRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E21A4601C059862006A722A /* ValuationRuleModel.m */; };
+		0E3FB0171C45E183002834BB /* NYCalculateSpecialCarPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FB0161C45E183002834BB /* NYCalculateSpecialCarPrice.m */; };
+		0E3FB01A1C462904002834BB /* NYCalculateCharteredBusPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FB0191C462904002834BB /* NYCalculateCharteredBusPrice.m */; };
 		0E4C92F91C02E3AC00118310 /* RegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C92F71C02E3AC00118310 /* RegisViewController.m */; };
 		0E4C92FA1C02E3AC00118310 /* RegisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E4C92F81C02E3AC00118310 /* RegisViewController.xib */; };
 		0E4C92FD1C02E40800118310 /* BaseNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C92FC1C02E40800118310 /* BaseNavViewController.m */; };
@@ -273,6 +275,10 @@
 		0E21A45A1C055FFF006A722A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		0E21A45F1C059862006A722A /* ValuationRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleModel.h; sourceTree = "<group>"; };
 		0E21A4601C059862006A722A /* ValuationRuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleModel.m; sourceTree = "<group>"; };
+		0E3FB0151C45E183002834BB /* NYCalculateSpecialCarPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCalculateSpecialCarPrice.h; sourceTree = "<group>"; };
+		0E3FB0161C45E183002834BB /* NYCalculateSpecialCarPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCalculateSpecialCarPrice.m; sourceTree = "<group>"; };
+		0E3FB0181C462904002834BB /* NYCalculateCharteredBusPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCalculateCharteredBusPrice.h; sourceTree = "<group>"; };
+		0E3FB0191C462904002834BB /* NYCalculateCharteredBusPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCalculateCharteredBusPrice.m; sourceTree = "<group>"; };
 		0E4C92F61C02E3AC00118310 /* RegisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisViewController.h; sourceTree = "<group>"; };
 		0E4C92F71C02E3AC00118310 /* RegisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisViewController.m; sourceTree = "<group>"; };
 		0E4C92F81C02E3AC00118310 /* RegisViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisViewController.xib; sourceTree = "<group>"; };
@@ -724,6 +730,10 @@
 				18C6BF4E1C22E67D00092E3A /* ActualPriceModel.m */,
 				18C6BF501C22F3A500092E3A /* DriverInfoModel.h */,
 				18C6BF511C22F3A500092E3A /* DriverInfoModel.m */,
+				0E3FB0151C45E183002834BB /* NYCalculateSpecialCarPrice.h */,
+				0E3FB0161C45E183002834BB /* NYCalculateSpecialCarPrice.m */,
+				0E3FB0181C462904002834BB /* NYCalculateCharteredBusPrice.h */,
+				0E3FB0191C462904002834BB /* NYCalculateCharteredBusPrice.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1678,6 +1688,7 @@
 				6D5436211BF30F21002E25DA /* openssl_wrapper.m in Sources */,
 				6D5435B71BF30A99002E25DA /* AccountBalanceViewController.m in Sources */,
 				6D5435B91BF30A99002E25DA /* EmployeeInfoViewController.m in Sources */,
+				0E3FB01A1C462904002834BB /* NYCalculateCharteredBusPrice.m in Sources */,
 				6DD875C91BF21CC3006145E2 /* ViewController.m in Sources */,
 				6D54349C1BF2F112002E25DA /* ReGeocodeAnnotation.m in Sources */,
 				10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */,
@@ -1706,6 +1717,7 @@
 				187DE8441C2A760800E0A5C4 /* SendVoucherViewController.m in Sources */,
 				6D5434901BF2F112002E25DA /* CommonUtility.m in Sources */,
 				0EDE8C751C06AE3400356AF1 /* WaitForTheOrderViewController.m in Sources */,
+				0E3FB0171C45E183002834BB /* NYCalculateSpecialCarPrice.m in Sources */,
 				6D5434971BF2F112002E25DA /* LocalTileOverlay.m in Sources */,
 				18C6BF521C22F3A500092E3A /* DriverInfoModel.m in Sources */,
 				187DE84B1C2AA5D200E0A5C4 /* NYContactUsViewController.m in Sources */,

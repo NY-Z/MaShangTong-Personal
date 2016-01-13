@@ -8,17 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "PassengerMessageModel.h"
+@class CharteredBusRule;
 
 @interface CharteredBusViewController : UIViewController
-{
-    @public
-//    UILabel *priceLabel;
-}
 
 @property (nonatomic,strong) void (^durationBtnBlock) ();
 @property (nonatomic,strong) void (^timeBtnBlock) (NSArray *descArr);
 @property (nonatomic,strong) void (^sourceBtnBlock) ();
-@property (nonatomic,strong) void (^confirmBtnBlock) (PassengerMessageModel *model,NSString *route_id);
+@property (nonatomic,strong) void (^confirmBtnBlock) (PassengerMessageModel *model,NSString *route_id,CharteredBusRule *charteredBusRule);
 
 @property (nonatomic,strong) UIButton *timeBtn;
 @property (nonatomic,strong) UIButton *sourceBtn;

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 @class PassengerMessageModel;
+@class ValuationRuleModel;
+@class CharteredBusRule;
+@class AirportPickupModel;
 
 typedef NS_ENUM (NSInteger,DriverState) {
     DriverStateNone,
@@ -32,5 +35,10 @@ typedef NS_ENUM(NSInteger,ReservationType) {
 @property (nonatomic,strong) NSString *route_id;
 @property (nonatomic,assign) DriverState driverState;
 @property (nonatomic,assign) CLLocationCoordinate2D passengerCoordinate;
+
+
+@property (nonatomic,strong) ValuationRuleModel *specialCarRuleModel;
+@property (nonatomic,strong) CharteredBusRule *charteredBusRule;
+@property (nonatomic,strong) AirportPickupModel *airportModel;
 
 @end

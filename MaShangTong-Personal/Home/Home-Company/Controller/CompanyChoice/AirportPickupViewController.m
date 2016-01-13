@@ -533,6 +533,14 @@
     
     [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
+    AirportPickupModel *airportModel;
+    for (NSDictionary *dic in _airportPickupRuleArr) {
+        
+        if ([dic[@"car_type_id"] isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [dic[@"airport_name"] containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+            airportModel = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+        }
+    }
+    
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"] params:params success:^(id json) {
         
         NSLog(@"%@",json);
@@ -543,7 +551,8 @@
             [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 if (self.confirmBtnBlock) {
                     model.route_id = json[@"route_id"];
-                    self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
+#warning 计价从何而来
+                    self.confirmBtnBlock(model,json[@"route"][@"route_id"],airportModel);
                 }
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -571,7 +580,7 @@
         } else if ([resultStr isEqualToString:@"1"]) {
             if (self.confirmBtnBlock) {
                 model.route_id = json[@"route_id"];
-                self.confirmBtnBlock(model,json[@"route_id"]);
+                self.confirmBtnBlock(model,json[@"route_id"],airportModel);
             }
         }
         
@@ -582,31 +591,6 @@
     }];
     
 }
-
-/*
- route_id 行程表的自增id
- user_id  用户id
- create_time 订单的创建时间
- origin_name  起始地点
- origin_coordinates 起始经纬度
- end_name  目标地点
- end_coordinates  目标经纬度
- reservation_type   预约的类型 1立即 2预定时间
- reservation_time  预约时间
- reservation_duration   预约时长
- car_type_id  车型信息
- orders_time  接单时间
- boarding_time  上车时间
- end_time  到达时间
- pay_time  支付时间
- duration_times 预约时长
- mobile_phone  联系方式
- driver_id  司机的id用户的id
- leave_message  留言   text
- reserva_type    预定用车类型  0是转车1是包车2是接机3送机
- flight_number  航班号 varchar
- route_status  行程状态 0是默认待接单
- */
 
 - (NSUInteger)transformToDateFormatterWithDateString:(NSString *)dateStr
 {

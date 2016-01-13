@@ -544,17 +544,20 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showSuccess:@"订单发送成功，请等待接单"];
+                ValuationRuleModel *specialCarRuleModel = [[ValuationRuleModel alloc] initWithDictionary:_specialCarArr[_selectedBtn.tag-200] error:nil];
                 if (self.confirmBtnBlock) {
                     model.route_id = json[@"route_id"];
-                    self.confirmBtnBlock(model,json[@"route_id"]);
+                    self.confirmBtnBlock(model,json[@"route_id"],specialCarRuleModel);
                 }
             });
         } else if ([resultStr isEqualToString:@"-1"]) {
             [MBProgressHUD hideHUD];
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                ValuationRuleModel *specialCarRuleModel = [[ValuationRuleModel alloc] initWithDictionary:_specialCarArr[_selectedBtn.tag-200] error:nil];
+                #warning 这个计价规则从哪来？
                 if (self.confirmBtnBlock) {
-                    self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
+                    self.confirmBtnBlock(model,json[@"route"][@"route_id"],specialCarRuleModel);
                 }
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -590,31 +593,6 @@
         [MBProgressHUD showError:@"订单发送失败，请重试"];
     }];
 }
-
-/*
- route_id 行程表的自增id
- user_id  用户id
- create_time 订单的创建时间
- origin_name  起始地点
- origin_coordinates起始经纬度
- end_name  目标地点
- end_coordinates  目标经纬度
- reservation_type   预约的类型 1立即 2预定时间
- reservation_time  预约时间
- reservation_duration   预约时长
- car_type_id  车型信息
- orders_time  接单时间
- boarding_time  上车时间
- end_time  到达时间
- pay_time  支付时间
- duration_times 预约时长
- mobile_phone  联系方式
- driver_id  司机的id用户的id
- leave_message  留言   text
- reserva_type    预定用车类型  0是转车1是包车2是接机3送机
- flight_number  航班号 varchar
- route_status  行程状态 0是默认待接单
- */
 
 - (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response
 {

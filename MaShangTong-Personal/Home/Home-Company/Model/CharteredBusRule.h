@@ -15,5 +15,7 @@
 @property (nonatomic,strong) NSString <Optional> *rule_type;
 @property (nonatomic,strong) NSString <Optional> *times;
 @property (nonatomic,strong) NSString <Optional> *contain_mileage;
+@property (nonatomic,strong) NSString <Optional> *over_mileage_money;
+@property (nonatomic,strong) NSString <Optional> *over_time_money;
 
 @end

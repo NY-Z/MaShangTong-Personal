@@ -17,6 +17,10 @@
 #import "DriverInfoModel.h"
 #import "DriverInfoCell.h"
 #import "PassengerMessageModel.h"
+#import "ValuationRuleModel.h"
+#import "AirportPickupModel.h"
+#import "NYCalculateSpecialCarPrice.h"
+#import "NYCalculateCharteredBusPrice.h"
 
 @interface WaitForTheOrderViewController () <MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,IFlySpeechSynthesizerDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
 {
@@ -57,10 +61,39 @@
 @property (nonatomic,strong) UIView *chargingBgView;
 @property (nonatomic,strong) ActualPriceModel *actualPriceModel;
 @property (nonatomic,strong) AMapPath *driverPath;
+@property (nonatomic,strong) NYCalculateSpecialCarPrice *calculateSpecialCar;
+@property (nonatomic,strong) NYCalculateCharteredBusPrice *calculateCharteredBus;
 
 @end
 
 @implementation WaitForTheOrderViewController
+
+- (NYCalculateSpecialCarPrice *)calculatePrice
+{
+    if (_calculateSpecialCar == nil) {
+        _calculateSpecialCar = [NYCalculateSpecialCarPrice sharedPrice];
+        _calculateSpecialCar.model = _specialCarRuleModel;
+    }
+    return _calculateSpecialCar;
+}
+
+- (NYCalculateCharteredBusPrice *)calculateCharteredBus
+{
+    if (_calculateCharteredBus == nil) {
+        _calculateCharteredBus = [NYCalculateCharteredBusPrice shareCharteredBusPrice];
+        _calculateCharteredBus.rule = _charteredBusRule;
+    }
+    return _calculateCharteredBus;
+}
+
+- (NYCalculateCharteredBusPrice *)calculateCharteredBus
+{
+    if (_calculateCharteredBus == nil) {
+        _calculateCharteredBus = [NYCalculateCharteredBusPrice shareCharteredBusPrice];
+        _calculateCharteredBus.rule = _charteredBusRule;
+    }
+    return _calculateCharteredBus;
+}
 
 - (void)initIFlySpeech
 {
@@ -298,7 +331,7 @@
     
     priceLabel = [[UILabel alloc] init];
     priceLabel.attributedText = attri;
-    priceLabel.frame = CGRectMake(0, 0, 80, 40);
+    priceLabel.frame = CGRectMake(0, 0, 186, 40);
     priceLabel.textAlignment = NSTextAlignmentRight;
     [_chargingBgView addSubview:priceLabel];
     
@@ -342,7 +375,7 @@
     _lastState = 0;
     _iscalculateStart = 0;
     _actualDistance = 0;
-    //    _route_id = 0;
+    
     [self configNavigationBar];
     [self initMapView];
     [self initIFlySpeech];
@@ -497,7 +530,7 @@
     if (_reservationType == ReservationTypeAirportDropOff || _reservationType == ReservationTypeAirportPickUp) {
 
     }
-    if (_iscalculateStart && _reservationType == ReservationTypeSpecialCar) {
+    if (_iscalculateStart) {
         switch (_reservationType) {
             // 专车
             case ReservationTypeSpecialCar:
@@ -514,34 +547,49 @@
                 [params setValue:self.route_id forKey:@"route_id"];
                 [params setValue:[NSString stringWithFormat:@"%li",(long)_route_status] forKey:@"route_status"];
                 [params setValue:isLowSpeed forKey:@"time"];
-                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"speed_price"] params:params success:^(id json) {
-                    @try {
-                        if (!json) {
-                            return ;
-                        }
-                        _actualPriceModel = [[ActualPriceModel alloc] initWithDictionary:json[@"info"] error:nil];
-                        distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[_actualPriceModel.mileage floatValue]];
-                        speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[_actualPriceModel.low_time integerValue]];
-                        _totalPrice = [NSString stringWithFormat:@"%.2f元",[_actualPriceModel.total_price floatValue]];
-                        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
-                        [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
-                        priceLabel.attributedText = attri;
-                    }
-                    @catch (NSException *exception) {
-                        
-                    }
-                    @finally {
-                        
-                    }
-                } failure:^(NSError *error) {
-                    
-                }];
+                
+                NSArray *priceArr = [_calculateSpecialCar calculatePriceWithParams:params];
+                distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[0] floatValue]];
+                speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[priceArr[1] integerValue]/60];
+                _totalPrice = [NSString stringWithFormat:@"%.2f元",[priceArr[2] floatValue]];
+                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
+                [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
+                priceLabel.attributedText = attri;
+#warning 告诉服务器当前价格
+//                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"speed_price"] params:params success:^(id json) {
+//                    @try {
+//                        if (!json) {
+//                            return ;
+//                        }
+//                        _actualPriceModel = [[ActualPriceModel alloc] initWithDictionary:json[@"info"] error:nil];
+//                        distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[_actualPriceModel.mileage floatValue]];
+//                        speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[_actualPriceModel.low_time integerValue]];
+//                        _totalPrice = [NSString stringWithFormat:@"%.2f元",[_actualPriceModel.total_price floatValue]];
+//                        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
+//                        [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
+//                        priceLabel.attributedText = attri;
+//                    }
+//                    @catch (NSException *exception) {
+//                        
+//                    }
+//                    @finally {
+//                        
+//                    }
+//                } failure:^(NSError *error) {
+//                    
+//                }];
                 break;
             }
             // 包车
             case ReservationTypeCharteredBus:
             {
                 speedLabel.hidden = YES;
+                if (_speed == -1) {
+                    _speed = 0;
+                }
+                NSArray *priceArr = [_calculateCharteredBus calculatePriceWithSpeed:_speed];
+                distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[1] floatValue]];
+                priceLabel.text = [NSString stringWithFormat:@"%.0f元",[priceArr[0] floatValue]];
                 break;
             }
             // 接机，送机
@@ -549,6 +597,7 @@
             {
                 distanceLabel.hidden = YES;
                 speedLabel.hidden = YES;
+                priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
                 break;
             }
             default:
@@ -637,7 +686,6 @@
     AMapPath *path = response.route.paths[0];
     self.naviRoute = [MANaviRoute naviRouteForPath:path withNaviType:type];
     _driverPath = path;
-    
 }
 
 #pragma mark - IFlySpeechSynthesizerDelegate

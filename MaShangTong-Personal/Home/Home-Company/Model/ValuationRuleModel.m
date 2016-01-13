@@ -9,15 +9,7 @@
 #import "ValuationRuleModel.h"
 
 @implementation ValuationRuleModel
-/*
- @property (nonatomic,strong) NSString <Optional> *car_type_id;
- @property (nonatomic,strong) NSString <Optional> *long_mileage;
- @property (nonatomic,strong) NSString <Optional> *low_speed;
- @property (nonatomic,strong) NSString <Optional> *mileage;
- @property (nonatomic,strong) NSString <Optional> *night;
- @property (nonatomic,strong) NSString <Optional> *rule_type;
- @property (nonatomic,strong) NSString <Optional> *step;
- */
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {

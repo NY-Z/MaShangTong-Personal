@@ -365,6 +365,15 @@
 
 - (void)changeThePrice
 {
+    CharteredBusRule *charteredBusRule = [self checkWhitchRule];
+    NSString *oncePrice = charteredBusRule.once_price;
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",oncePrice]];
+    [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, oncePrice.length)];
+    [_priceLabel setAttributedText:attri];
+}
+
+- (CharteredBusRule *)checkWhitchRule
+{
     NSInteger currentSelectIndex = 0;
     for (NSInteger i = 0; i < _charteredBusDescArr.count; i++) {
         if ([_durationBtn.currentTitle isEqualToString:_charteredBusDescArr[i]]) {
@@ -372,11 +381,7 @@
             currentSelectIndex = i*3;
         }
     }
-    CharteredBusRule *charteredBusRule = [[CharteredBusRule alloc] initWithDictionary:_charteredBusRuleArr[(_selectedBtn.tag-200)+currentSelectIndex] error:nil];
-    NSString *oncePrice = charteredBusRule.once_price;
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",oncePrice]];
-    [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, oncePrice.length)];
-    [_priceLabel setAttributedText:attri];
+    return [[CharteredBusRule alloc] initWithDictionary:_charteredBusRuleArr[(_selectedBtn.tag-200)+currentSelectIndex] error:nil];
 }
 
 - (void)confirmBtnClicked:(UIButton *)btn
@@ -415,6 +420,7 @@
     NSString *urlStr = [NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"];
     [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
+    CharteredBusRule *charteredBusRule = [self checkWhitchRule];
     [DownloadManager post:urlStr params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         if ([resultStr isEqualToString:@"1"]) {
@@ -422,7 +428,7 @@
             [MBProgressHUD showSuccess:@"订单发送成功，请等待接单"];
             if (self.confirmBtnBlock) {
                 model.route_id = json[@"route_id"];
-                self.confirmBtnBlock(model,json[@"route_id"]);
+                self.confirmBtnBlock(model,json[@"route_id"],charteredBusRule);
             }
         } else if ([resultStr isEqualToString:@"0"]) {
             [MBProgressHUD hideHUD];
@@ -431,9 +437,10 @@
             [MBProgressHUD hideHUD];
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+#warning 计价规则从哪来？
                 if (self.confirmBtnBlock) {
                     model.route_id = json[@"route_id"];
-                    self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
+                    self.confirmBtnBlock(model,json[@"route"][@"route_id"],charteredBusRule);
                 }
             }]];
             [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -464,31 +471,6 @@
         [MBProgressHUD showError:@"订单发送失败，请重试"];
     }];
 }
-
-/*
- route_id 行程表的自增id
- user_id  用户id
- create_time 订单的创建时间
- origin_name  起始地点
- origin_coordinates起始经纬度
- end_name  目标地点
- end_coordinates  目标经纬度
- reservation_type   预约的类型 1立即 2预定时间
- reservation_time  预约时间
- reservation_duration   预约时长
- car_type_id  车型信息
- orders_time  接单时间
- boarding_time  上车时间
- end_time  到达时间
- pay_time  支付时间
- duration_times 预约时长
- mobile_phone  联系方式
- driver_id  司机的id用户的id
- leave_message  留言   text
- reserva_type    预定用车类型  0是转车1是包车2是接机3送机
- flight_number  航班号 varchar
- route_status  行程状态 0是默认待接单
- */
 
 - (NSUInteger)transformToDateFormatterWithDateString:(NSString *)dateStr
 {

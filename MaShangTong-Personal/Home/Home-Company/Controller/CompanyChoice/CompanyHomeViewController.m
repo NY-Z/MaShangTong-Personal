@@ -235,6 +235,7 @@
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
+        waitOrderVc.charteredBusRule = charteredBusRule;
         [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:charteredBus];

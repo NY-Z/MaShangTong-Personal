@@ -13,6 +13,7 @@
 @interface PayChargeViewController () <UIScrollViewDelegate>
 {
     UIScrollView *_scrollView;
+    NSDictionary *_billCheck;
 }
 @end
 
@@ -209,6 +210,8 @@
         [MBProgressHUD hideHUD];
         NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
         if ([dataStr isEqualToString:@"1"]) {
+            _billCheck = json;
+            
             UIView *contentView = (UIView *)[_scrollView viewWithTag:250];
             
             UIButton *btn = (UIButton *)[contentView viewWithTag:900];
@@ -234,7 +237,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
-    [params setValue:[NSString stringWithFormat:@"%.2f",[_actualPriceModel.total_price floatValue]] forKey:@"money"];
+    [params setValue:[NSString stringWithFormat:@"%.2f",[_billCheck[@"info"][@"total_price"] floatValue]] forKey:@"money"];
     [params setValue:@"2" forKey:@"type"];
     [params setValue:@"2" forKey:@"group_id"];
     [params setValue:_passengerMessageModel.route_id forKey:@"route_id"];
@@ -258,8 +261,6 @@
         } else if ([resultStr isEqualToString:@"0"]) {
             [MBProgressHUD showError:@"支付失败，请重试"];
             return;
-        } else if ([resultStr isEqualToString:@""]) {
-            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

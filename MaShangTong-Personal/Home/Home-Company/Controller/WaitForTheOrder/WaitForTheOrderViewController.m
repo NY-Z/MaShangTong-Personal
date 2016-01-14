@@ -68,22 +68,13 @@
 
 @implementation WaitForTheOrderViewController
 
-- (NYCalculateSpecialCarPrice *)calculatePrice
+- (NYCalculateSpecialCarPrice *)calculateSpecialCar
 {
     if (_calculateSpecialCar == nil) {
         _calculateSpecialCar = [NYCalculateSpecialCarPrice sharedPrice];
         _calculateSpecialCar.model = _specialCarRuleModel;
     }
     return _calculateSpecialCar;
-}
-
-- (NYCalculateCharteredBusPrice *)calculateCharteredBus
-{
-    if (_calculateCharteredBus == nil) {
-        _calculateCharteredBus = [NYCalculateCharteredBusPrice shareCharteredBusPrice];
-        _calculateCharteredBus.rule = _charteredBusRule;
-    }
-    return _calculateCharteredBus;
 }
 
 - (NYCalculateCharteredBusPrice *)calculateCharteredBus
@@ -527,9 +518,6 @@
         [MBProgressHUD hideHUD];
     }];
     
-    if (_reservationType == ReservationTypeAirportDropOff || _reservationType == ReservationTypeAirportPickUp) {
-
-    }
     if (_iscalculateStart) {
         switch (_reservationType) {
             // 专车
@@ -548,14 +536,22 @@
                 [params setValue:[NSString stringWithFormat:@"%li",(long)_route_status] forKey:@"route_status"];
                 [params setValue:isLowSpeed forKey:@"time"];
                 
-                NSArray *priceArr = [_calculateSpecialCar calculatePriceWithParams:params];
-                distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[0] floatValue]];
-                speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[priceArr[1] integerValue]/60];
-                _totalPrice = [NSString stringWithFormat:@"%.2f元",[priceArr[2] floatValue]];
+                NSMutableDictionary *priceDic = [[self.calculateSpecialCar calculatePriceWithParams:params] mutableCopy];
+                distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceDic[@"mileage"] floatValue]];
+                speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[priceDic[@"low_time"] integerValue]/60];
+                _totalPrice = [NSString stringWithFormat:@"%.2f元",[priceDic[@"total_price"] floatValue]];
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
                 priceLabel.attributedText = attri;
 #warning 告诉服务器当前价格
+                [priceDic setValue:_specialCarRuleModel.step forKey:@"start_price"];
+                [priceDic setValue:_route_id forKey:@"route_id"];
+
+                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:priceDic success:^(id json) {
+                    
+                } failure:^(NSError *error) {
+                    
+                }];
 //                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"speed_price"] params:params success:^(id json) {
 //                    @try {
 //                        if (!json) {
@@ -587,7 +583,7 @@
                 if (_speed == -1) {
                     _speed = 0;
                 }
-                NSArray *priceArr = [_calculateCharteredBus calculatePriceWithSpeed:_speed];
+                NSArray *priceArr = [self.calculateCharteredBus calculatePriceWithSpeed:_speed];
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[1] floatValue]];
                 priceLabel.text = [NSString stringWithFormat:@"%.0f元",[priceArr[0] floatValue]];
                 break;

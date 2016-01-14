@@ -15,9 +15,6 @@
 {
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFJSONRequestSerializer serializer];
-    [mgr.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    mgr.requestSerializer.timeoutInterval = 10.f;
-    [mgr.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     [mgr GET:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (success) {
             success(responseObject);
@@ -33,9 +30,6 @@
 {
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFJSONRequestSerializer serializer];
-    [mgr.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    mgr.requestSerializer.timeoutInterval = 10.f;
-    [mgr.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     [mgr POST:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (success) {
             success(responseObject);

@@ -16,6 +16,6 @@
 
 + (instancetype)sharedPrice;
 
-- (NSArray *)calculatePriceWithParams:(NSDictionary *)params;
+- (NSDictionary *)calculatePriceWithParams:(NSDictionary *)params;
 
 @end

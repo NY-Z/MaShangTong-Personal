@@ -16,6 +16,7 @@
 @property (nonatomic,strong) void (^destinationBtnBlock)();
 @property (nonatomic,strong) void (^addressBtnBlock) ();
 @property (nonatomic,strong) void (^confirmBtnBlock) (PassengerMessageModel *model,NSString *route_id,ValuationRuleModel *specialCarRuleModel);
+@property (nonatomic,strong) void (^priceLabelBlock) (NSDictionary *dic);
 
 @property (nonatomic,strong) UIButton *timeBtn;
 @property (nonatomic,strong) UIButton *destinationBtn;

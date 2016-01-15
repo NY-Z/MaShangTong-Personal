@@ -23,6 +23,7 @@
     UILabel *priceLabel;
 }
 @property (nonatomic,strong) AMapLocationManager *locationManager;
+@property (nonatomic,strong) NSString *airportPrice;
 @end
 
 @implementation AirportDropOffViewController
@@ -284,6 +285,9 @@
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约     元"];
     [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, 2)];
     priceLabel.attributedText = attri;
+    priceLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *priceLabelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceLabelTaped)];
+    [priceLabel addGestureRecognizer:priceLabelTap];
     
     UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [confirmBtn setTitle:@"确认用车" forState:UIControlStateNormal];
@@ -452,7 +456,8 @@
     for (NSDictionary *dic in _airportPickupRuleArr) {
         AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
         if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
-            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
+            _airportPrice = model.once_price;
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",_airportPrice]];
             [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
             priceLabel.attributedText = attri;
         }
@@ -540,31 +545,6 @@
     }];
 }
 
-/*
- route_id 行程表的自增id
- user_id  用户id
- create_time 订单的创建时间
- origin_name  起始地点
- origin_coordinates 起始经纬度
- end_name  目标地点
- end_coordinates  目标经纬度
- reservation_type   预约的类型 1立即 2预定时间
- reservation_time  预约时间
- reservation_duration   预约时长
- car_type_id  车型信息
- orders_time  接单时间
- boarding_time  上车时间
- end_time  到达时间
- pay_time  支付时间
- duration_times 预约时长
- mobile_phone  联系方式
- driver_id  司机的id用户的id
- leave_message  留言   text
- reserva_type    预定用车类型  0是转车1是包车2是接机3送机
- flight_number  航班号 varchar
- route_status  行程状态 0是默认待接单
- */
-
 - (NSUInteger)transformToDateFormatterWithDateString:(NSString *)dateStr
 {
     NSDate *date = [NSDate date];
@@ -584,6 +564,14 @@
     NSTimeInterval interval = [[formatter dateFromString:newDateStr] timeIntervalSince1970];
     NYLog(@"%f",[[formatter dateFromString:newDateStr] timeIntervalSince1970]);
     return interval;
+}
+
+#pragma mark - Gesture
+- (void)priceLabelTaped
+{
+    if (self.priceLabelBlock) {
+        self.priceLabelBlock(@{@"name":_sourceBtn.currentTitle,@"price":_airportPrice,@"car_type_id":[NSString stringWithFormat:@"%li",_selectedBtn.tag-199]});
+    }
 }
 
 #pragma mark - 通知
@@ -606,8 +594,8 @@
         for (NSDictionary *dic in _airportPickupRuleArr) {
             AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
             if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
-                
-                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
+                _airportPrice = model.once_price;
+                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",_airportPrice]];
                 [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
                 priceLabel.attributedText = attri;
             }

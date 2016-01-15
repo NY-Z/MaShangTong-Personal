@@ -19,6 +19,7 @@
 @property (nonatomic,strong) void (^sourceBtnBlock) ();
 @property (nonatomic,strong) void (^addressBtnBlock) ();
 @property (nonatomic,strong) void (^confirmBtnBlock) (PassengerMessageModel *model,NSString *route_id,AirportPickupModel *airportModel);
+@property (nonatomic,strong) void (^priceLabelBlock) (NSDictionary *ruleDic);
 
 // Test
 //@property (nonatomic,strong) UIButton *sourceBtn;

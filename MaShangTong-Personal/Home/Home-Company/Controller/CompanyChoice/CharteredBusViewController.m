@@ -208,6 +208,9 @@
         make.right.equalTo(contentView);
         make.height.mas_equalTo(60);
     }];
+    [_priceLabel setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *priceLabelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceLabelTaped)];
+    [_priceLabel addGestureRecognizer:priceLabelTap];
     
     UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [confirmBtn setTitle:@"确认用车" forState:UIControlStateNormal];
@@ -352,7 +355,6 @@
     NSInteger currentSelectIndex = 0;
     for (NSInteger i = 0; i < _charteredBusDescArr.count; i++) {
         if ([_durationBtn.currentTitle isEqualToString:_charteredBusDescArr[i]]) {
-            
             currentSelectIndex = i*3;
         }
     }
@@ -491,6 +493,20 @@
     NSTimeInterval interval = [[formatter dateFromString:newDateStr] timeIntervalSince1970];
     NYLog(@"%f",[[formatter dateFromString:newDateStr] timeIntervalSince1970]);
     return interval;
+}
+
+#pragma mark - Gesture
+- (void)priceLabelTaped
+{
+    if (self.priceLabelBlock) {
+        NSInteger currentSelectIndex = 0;
+        for (NSInteger i = 0; i < _charteredBusDescArr.count; i++) {
+            if ([_durationBtn.currentTitle isEqualToString:_charteredBusDescArr[i]]) {
+                currentSelectIndex = i*3;
+            }
+        }
+        self.priceLabelBlock(_charteredBusRuleArr[(_selectedBtn.tag-200)+currentSelectIndex]);
+    }
 }
 
 #pragma mark - Notification

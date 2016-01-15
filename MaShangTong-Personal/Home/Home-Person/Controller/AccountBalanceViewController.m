@@ -116,6 +116,7 @@
         make.width.mas_equalTo(180);
         make.height.mas_equalTo(44);
     }];
+    bankCardBtn.hidden = YES;
     _selectPayBtn = bankCardBtn;
     
     UIButton *alipayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -173,7 +174,6 @@
     [rechargeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [rechargeBtn setBackgroundColor:RGBColor(98, 190, 254, 1.f)];
     rechargeBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    rechargeBtn.layer.cornerRadius = 3.f;
     [rechargeBtn addTarget:self action:@selector(rechargeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [contentView addSubview:rechargeBtn];
     [rechargeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -182,7 +182,7 @@
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(30);
     }];
-    
+    rechargeBtn.layer.cornerRadius = 5.f;
     [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(rechargeBtn.mas_bottom).offset(20);
     }];

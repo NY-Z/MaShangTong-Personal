@@ -381,142 +381,137 @@
     _driveringTime ++;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_route_id forKey:@"route_id"];
-    
-    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"near_cars"] params:params success:^(id json) {
-        
-        @try {
-            if (!json) {
-                return ;
-            }
-            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-            if ([resultStr isEqualToString:@"0"]) {
-                return ;
-            }
-            NSString *routeStatus = [NSString stringWithFormat:@"%@",json[@"data"][@"route_status"]];
-            if ([routeStatus isEqualToString:@"0"]) {
-                return;
-            } else {
-                isDriverCatch = 1;
-                switch ([routeStatus integerValue]) {
-                    case 1:
-                    {
-                        if (_lastState != DriverStateOrderReceive) {
-                            _route_status = 1;
-                            self.navigationItem.title = @"等待接驾";
-                            [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
-                            NSMutableDictionary *param = [NSMutableDictionary dictionary];
-                            [param setValue:self.route_id forKey:@"route_id"];
-                            [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"orderApi",@"dri_info"] params:param success:^(id json) {
-                                infoModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
-                                UIView *tableHeaderView = self.tableView.tableHeaderView;
-                                UILabel *nameLabel = (UILabel *)[tableHeaderView viewWithTag:100];
-                                UILabel *licenseLabel = (UILabel *)[tableHeaderView viewWithTag:200];
-                                UILabel *companyLabel = (UILabel *)[tableHeaderView viewWithTag:300];
-                                UILabel *billLabell = (UILabel *)[tableHeaderView viewWithTag:400];
-                                nameLabel.text = infoModel.owner_name;
-                                licenseLabel.text = infoModel.license_plate;
-                                companyLabel.text = @"";
-                                billLabell.text = [NSString stringWithFormat:@"%@单",infoModel.num];
-                                self.tableView.hidden = NO;
-                            } failure:^(NSError *error) {
-                                
-                            }];
-                            // 记录是哪种行程
-                            NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
-                            if ([reservaTypeStr isEqualToString:@"1"]) {
-                                _reservationType = ReservationTypeSpecialCar;
-                            } else if ([reservaTypeStr isEqualToString:@"2"]) {
-                                _reservationType = ReservationTypeCharteredBus;
-                            } else if ([reservaTypeStr isEqualToString:@"3"]) {
-                                _reservationType = ReservationTypeAirportPickUp;
-                            } else if ([reservaTypeStr isEqualToString:@"4"]) {
-                                _reservationType = ReservationTypeAirportDropOff;
-                            }
-                        }
-                        _lastState = DriverStateOrderReceive;
-                        break;
-                    }
-                    case 2:
-                    {
-                        if (_lastState != DriverStateReachAppointment) {
-                            _route_status = 2;
-                            [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已到达约定地点"];
-                        }
-                        _lastState = DriverStateReachAppointment;
-                        break;
-                    }
-                    case 3:
-                    {
-                        if (_lastState != DriverStateBeginCharge) {
-                            _route_status = 3;
-                            self.navigationItem.title = @"行程中";
-                            [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已开始计费"];
-                            _chargingBgView.y = SCREEN_HEIGHT-70-34;
-                            _chargingBgView.hidden = NO;
-                            _calculaterWitch = 1;
-                            _iscalculateStart = 1;
-                        }
-                        _lastState = DriverStateBeginCharge;
-                        break;
-                    }
-                    case 4:
-                    {
-                        if (_lastState != DriverStateArriveDestination) {
-                            _route_status = 4;
-                            [_iFlySpeechSynthesizer startSpeaking:@"司机师傅正在确认价格，请稍后"];
-                            _iscalculateStart = 0;
-                        }
-                        _lastState = DriverStateArriveDestination;
-                        break;
-                    }
-                    case 5:
-                    {
-                        if (_lastState != DriverStatePayOver) {
-                            _route_status = 5;
-                            [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
-                            PayChargeViewController *pay = [[PayChargeViewController alloc] init];
-                            pay.actualPriceModel = _actualPriceModel;
-                            pay.passengerMessageModel = self.model;
-                            pay.route_id = self.route_id;
-                            pay.driverInfoModel = infoModel;
-                            [self.navigationController pushViewController:pay animated:YES];
-                            [_timer setFireDate:[NSDate distantFuture]];
-                        }
-                        _lastState = DriverStatePayOver;
-                        break;
-                    }
-//                    case 6:
-//                    {
-//                        if (_lastState != DriverStateComplete) {
-//                            _route_status = 6;
-//                            [_iFlySpeechSynthesizer startSpeaking:@"支付已完成，欢迎本次乘车"];
-//                        }
-//                    }
-                    default:
-                        break;
-                }
-                NSString *locationStr = json[@"data"][@"location"];
-                if ([locationStr isEqualToString:@""]) {
-                    return;
-                }
-                CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);
-                _driverCoordinate = location;
-                if (_navPoint) {
-                    [self.mapView removeAnnotation:_navPoint];
-                    _navPoint = nil;
-                }
-                _navPoint = [[NavPointAnnotation alloc] init];
-                _navPoint.coordinate = location;
-                _navPoint.title = @"司机位置";
-                [self.mapView addAnnotation:_navPoint];
-            }
-        }
-        @catch (NSException *exception) {
+    // 10s请求一次订单状态
+    if (_driveringTime % 10 == 0) {
+        [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"near_cars"] params:params success:^(id json) {
             
-        }
-    } failure:^(NSError *error) {
-        [MBProgressHUD hideHUD];
-    }];
+            @try {
+                if (!json) {
+                    return ;
+                }
+                NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                if ([resultStr isEqualToString:@"0"]) {
+                    return ;
+                }
+                NSString *routeStatus = [NSString stringWithFormat:@"%@",json[@"data"][@"route_status"]];
+                if ([routeStatus isEqualToString:@"0"]) {
+                    return;
+                } else {
+                    isDriverCatch = 1;
+                    switch ([routeStatus integerValue]) {
+                        case 1:
+                        {
+                            if (_lastState != DriverStateOrderReceive) {
+                                _route_status = 1;
+                                self.navigationItem.title = @"等待接驾";
+                                [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
+                                NSMutableDictionary *param = [NSMutableDictionary dictionary];
+                                [param setValue:self.route_id forKey:@"route_id"];
+                                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"orderApi",@"dri_info"] params:param success:^(id json) {
+                                    infoModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
+                                    UIView *tableHeaderView = self.tableView.tableHeaderView;
+                                    UILabel *nameLabel = (UILabel *)[tableHeaderView viewWithTag:100];
+                                    UILabel *licenseLabel = (UILabel *)[tableHeaderView viewWithTag:200];
+                                    UILabel *companyLabel = (UILabel *)[tableHeaderView viewWithTag:300];
+                                    UILabel *billLabell = (UILabel *)[tableHeaderView viewWithTag:400];
+                                    nameLabel.text = infoModel.owner_name;
+                                    licenseLabel.text = infoModel.license_plate;
+                                    companyLabel.text = @"";
+                                    billLabell.text = [NSString stringWithFormat:@"%@单",infoModel.num];
+                                    self.tableView.hidden = NO;
+                                } failure:^(NSError *error) {
+                                    
+                                }];
+                                // 记录是哪种行程
+                                NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
+                                if ([reservaTypeStr isEqualToString:@"1"]) {
+                                    _reservationType = ReservationTypeSpecialCar;
+                                } else if ([reservaTypeStr isEqualToString:@"2"]) {
+                                    _reservationType = ReservationTypeCharteredBus;
+                                } else if ([reservaTypeStr isEqualToString:@"3"]) {
+                                    _reservationType = ReservationTypeAirportPickUp;
+                                } else if ([reservaTypeStr isEqualToString:@"4"]) {
+                                    _reservationType = ReservationTypeAirportDropOff;
+                                }
+                            }
+                            _lastState = DriverStateOrderReceive;
+                            break;
+                        }
+                        case 2:
+                        {
+                            if (_lastState != DriverStateReachAppointment) {
+                                _route_status = 2;
+                                [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已到达约定地点"];
+                            }
+                            _lastState = DriverStateReachAppointment;
+                            break;
+                        }
+                        case 3:
+                        {
+                            if (_lastState != DriverStateBeginCharge) {
+                                _route_status = 3;
+                                self.navigationItem.title = @"行程中";
+                                [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已开始计费"];
+                                _chargingBgView.y = SCREEN_HEIGHT-70-34;
+                                _chargingBgView.hidden = NO;
+                                _calculaterWitch = 1;
+                                _iscalculateStart = 1;
+                            }
+                            _lastState = DriverStateBeginCharge;
+                            break;
+                        }
+                        case 4:
+                        {
+                            if (_lastState != DriverStateArriveDestination) {
+                                _route_status = 4;
+                                [_iFlySpeechSynthesizer startSpeaking:@"司机师傅正在确认价格，请稍后"];
+                                _iscalculateStart = 0;
+                            }
+                            _lastState = DriverStateArriveDestination;
+                            break;
+                        }
+                        case 5:
+                        {
+                            if (_lastState != DriverStatePayOver) {
+                                _route_status = 5;
+                                [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
+                                PayChargeViewController *pay = [[PayChargeViewController alloc] init];
+                                pay.actualPriceModel = _actualPriceModel;
+                                pay.passengerMessageModel = self.model;
+                                pay.route_id = self.route_id;
+                                pay.driverInfoModel = infoModel;
+                                [self.navigationController pushViewController:pay animated:YES];
+                                [_timer setFireDate:[NSDate distantFuture]];
+                            }
+                            _lastState = DriverStatePayOver;
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    NSString *locationStr = json[@"data"][@"location"];
+                    if ([locationStr isEqualToString:@""]) {
+                        return;
+                    }
+                    CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);
+                    _driverCoordinate = location;
+                    if (_navPoint) {
+                        [self.mapView removeAnnotation:_navPoint];
+                        _navPoint = nil;
+                    }
+                    _navPoint = [[NavPointAnnotation alloc] init];
+                    _navPoint.coordinate = location;
+                    _navPoint.title = @"司机位置";
+                    [self.mapView addAnnotation:_navPoint];
+                }
+            }
+            @catch (NSException *exception) {
+                
+            }
+        } failure:^(NSError *error) {
+            [MBProgressHUD hideHUD];
+        }];
+    }
     
     if (_iscalculateStart) {
         switch (_reservationType) {
@@ -543,37 +538,15 @@
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
                 priceLabel.attributedText = attri;
-#warning 告诉服务器当前价格
                 [priceDic setValue:_specialCarRuleModel.step forKey:@"start_price"];
                 [priceDic setValue:_route_id forKey:@"route_id"];
-
-                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:priceDic success:^(id json) {
-                    
-                } failure:^(NSError *error) {
-                    
-                }];
-//                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"speed_price"] params:params success:^(id json) {
-//                    @try {
-//                        if (!json) {
-//                            return ;
-//                        }
-//                        _actualPriceModel = [[ActualPriceModel alloc] initWithDictionary:json[@"info"] error:nil];
-//                        distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[_actualPriceModel.mileage floatValue]];
-//                        speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[_actualPriceModel.low_time integerValue]];
-//                        _totalPrice = [NSString stringWithFormat:@"%.2f元",[_actualPriceModel.total_price floatValue]];
-//                        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
-//                        [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
-//                        priceLabel.attributedText = attri;
-//                    }
-//                    @catch (NSException *exception) {
-//                        
-//                    }
-//                    @finally {
-//                        
-//                    }
-//                } failure:^(NSError *error) {
-//                    
-//                }];
+                if (_driveringTime % 60) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:priceDic success:^(id json) {
+                        
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                }
                 break;
             }
             // 包车
@@ -586,6 +559,13 @@
                 NSArray *priceArr = [self.calculateCharteredBus calculatePriceWithSpeed:_speed];
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[1] floatValue]];
                 priceLabel.text = [NSString stringWithFormat:@"%.0f元",[priceArr[0] floatValue]];
+                if (_driveringTime%60 == 0) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:priceDic success:^(id json) {
+                        
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                }
                 break;
             }
             // 接机，送机
@@ -594,6 +574,13 @@
                 distanceLabel.hidden = YES;
                 speedLabel.hidden = YES;
                 priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
+                if (_driveringTime%60 == 0) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:priceDic success:^(id json) {
+                        
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                }
                 break;
             }
             default:

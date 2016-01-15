@@ -16,6 +16,7 @@
 @property (nonatomic,strong) void (^timeBtnBlock) (NSArray *descArr);
 @property (nonatomic,strong) void (^sourceBtnBlock) ();
 @property (nonatomic,strong) void (^confirmBtnBlock) (PassengerMessageModel *model,NSString *route_id,CharteredBusRule *charteredBusRule);
+@property (nonatomic,strong) void (^priceLabelBlock)(NSDictionary *ruleDic);
 
 @property (nonatomic,strong) UIButton *timeBtn;
 @property (nonatomic,strong) UIButton *sourceBtn;

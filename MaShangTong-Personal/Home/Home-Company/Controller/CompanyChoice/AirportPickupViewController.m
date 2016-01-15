@@ -27,6 +27,7 @@
 
 @property (nonatomic,strong) AMapSearchAPI *search;
 @property (nonatomic) MANaviRoute * naviRoute;
+@property (nonatomic,strong) NSString *airportPrice;
 
 @end
 
@@ -332,6 +333,9 @@
         make.right.equalTo(contentView);
         make.height.mas_equalTo(60);
     }];
+    priceLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *priceLabelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceLabelTaped)];
+    [priceLabel addGestureRecognizer:priceLabelTap];
     
     UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [confirmBtn setTitle:@"确认用车" forState:UIControlStateNormal];
@@ -474,8 +478,8 @@
     for (NSDictionary *dic in _airportPickupRuleArr) {
         AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
         if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
-            
-            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
+            _airportPrice = model.once_price;
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",_airportPrice]];
             [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
             priceLabel.attributedText = attri;
         }
@@ -612,6 +616,14 @@
     return interval;
 }
 
+#pragma mark - Gesture
+- (void)priceLabelTaped
+{
+    if (self.priceLabelBlock) {
+        self.priceLabelBlock(@{@"name":sourceBtn.currentTitle,@"price":_airportPrice,@"car_type_id":[NSString stringWithFormat:@"%li",_selectedBtn.tag-199]});
+    }
+}
+
 #pragma mark - NSNotification
 - (void)hengheng:(NSNotification *)notification
 {
@@ -627,7 +639,7 @@
         for (NSDictionary *dic in _airportPickupRuleArr) {
             AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
             if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
-                
+                _airportPrice = model.once_price;
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
                 [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
                 priceLabel.attributedText = attri;

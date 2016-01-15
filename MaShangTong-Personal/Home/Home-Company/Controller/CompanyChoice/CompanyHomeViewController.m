@@ -23,6 +23,8 @@
 #import "WaitForTheOrderViewController.h"
 #import "NYCompanyBillViewController.h"
 #import "RegisViewController.h"
+#import "EstimateViewController.h"
+#import "RuleViewController.h"
 
 #define kPersonInfoTitle @"personInfoTitle"
 #define kPersonInfoImageName @"personInfoImageName"
@@ -190,6 +192,24 @@
 //            
 //        }];
 //    };
+    specialCar.priceLabelBlock = ^(NSDictionary *dic){
+        EstimateViewController *estimate = [[EstimateViewController alloc] init];
+        estimate.estimateDic = dic;
+        estimate.type = RuleTypeSpecialCar;
+        estimate.ruleLabelClick = ^(NSArray *ruleArr){
+            [self dismissViewControllerAnimated:YES completion:^{
+                RuleViewController *ruleVc = [[RuleViewController alloc] init];
+                ruleVc.car_type = dic[@"rule"][@"car_type_id"];
+                ruleVc.step = dic[@"rule"][@"step"];
+                ruleVc.mileage = dic[@"rule"][@"mileage"];
+                ruleVc.long_mileage = dic[@"rule"][@"long_mileage"];
+                ruleVc.distance = [dic[@"distance"] floatValue];
+                ruleVc.type = TypeSpecialCar;
+                [weakSelf.navigationController pushViewController:ruleVc animated:YES];
+            }];
+        };
+        [weakSelf presentViewController:estimate animated:YES completion:nil];
+    };
     specialCar.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id,ValuationRuleModel *specialCarRuleModel) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
@@ -229,6 +249,24 @@
         [weakSelf presentViewController:input animated:YES completion:^{
             
         }];
+    };
+    charteredBus.priceLabelBlock = ^(NSDictionary *ruleDic){
+        EstimateViewController *estimate = [[EstimateViewController alloc] init];
+        estimate.type = RuleTypeCharteredBus;
+        estimate.estimateDic = ruleDic;
+        estimate.ruleLabelClick = ^(NSArray *ruleArr){
+            [self dismissViewControllerAnimated:YES completion:^{
+                RuleViewController *ruleVc = [[RuleViewController alloc] init];
+                ruleVc.car_type = ruleArr[0];
+                ruleVc.step = ruleArr[1];
+                ruleVc.mileage = ruleArr[2];
+                ruleVc.long_mileage = ruleArr[3];
+                ruleVc.distance = [ruleArr[4] floatValue];
+                ruleVc.type = TypeCharteredBus;
+                [weakSelf.navigationController pushViewController:ruleVc animated:YES];
+            }];
+        };
+        [self presentViewController:estimate animated:YES completion:nil];
     };
     charteredBus.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id,CharteredBusRule *charteredBusRule) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
@@ -271,6 +309,24 @@
             
         }];
     };
+    airportPickup.priceLabelBlock = ^(NSDictionary *priceDic){
+        EstimateViewController *estimate = [[EstimateViewController alloc] init];
+        estimate.type = RuleTypeAirportPickup;
+        estimate.estimateDic = priceDic;
+        estimate.ruleLabelClick = ^(NSArray *ruleArr){
+            [self dismissViewControllerAnimated:YES completion:^{
+                RuleViewController *ruleVc = [[RuleViewController alloc] init];
+                ruleVc.type = TypeAirportPickup;
+                ruleVc.car_type = priceDic[@"car_type_id"];
+                ruleVc.step = priceDic[@"price"];
+                ruleVc.mileage = @"0";
+                ruleVc.distance = 0;
+                ruleVc.long_mileage = @"0";
+                [weakSelf.navigationController pushViewController:ruleVc animated:YES];
+            }];
+        };
+        [self presentViewController:estimate animated:YES completion:nil];
+    };
     airportPickup.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id,AirportPickupModel *airportModel) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
@@ -305,6 +361,24 @@
         } completion:^(BOOL finished) {
             
         }];
+    };
+    airportDropOff.priceLabelBlock = ^(NSDictionary *priceDic){
+        EstimateViewController *estimate = [[EstimateViewController alloc] init];
+        estimate.type = RuleTypeAirportDropoff;
+        estimate.estimateDic = priceDic;
+        estimate.ruleLabelClick = ^(NSArray *ruleArr){
+            [self dismissViewControllerAnimated:YES completion:^{
+                RuleViewController *ruleVc = [[RuleViewController alloc] init];
+                ruleVc.type = RuleTypeAirportDropoff;
+                ruleVc.car_type = priceDic[@"car_type_id"];
+                ruleVc.step = priceDic[@"price"];
+                ruleVc.mileage = @"0";
+                ruleVc.distance = 0;
+                ruleVc.long_mileage = @"0";
+                [weakSelf.navigationController pushViewController:ruleVc animated:YES];
+            }];
+        };
+        [self presentViewController:estimate animated:YES completion:nil];
     };
     airportDropOff.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];

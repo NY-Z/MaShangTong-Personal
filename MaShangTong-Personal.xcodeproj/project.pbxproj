@@ -44,6 +44,10 @@
 		0ED1D9D61BF6CB9200804B14 /* SettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1D9CB1BF6CB9200804B14 /* SettingTableViewCell.m */; };
 		0ED1D9D71BF6CB9200804B14 /* VoucherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1D9CD1BF6CB9200804B14 /* VoucherCell.m */; };
 		0ED1D9D81BF6CB9200804B14 /* VoucherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ED1D9CE1BF6CB9200804B14 /* VoucherCell.xib */; };
+		0EDE519A1C48BD6D001803C5 /* EstimateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE51951C48BD6D001803C5 /* EstimateViewController.m */; };
+		0EDE519B1C48BD6D001803C5 /* EstimateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EDE51961C48BD6D001803C5 /* EstimateViewController.xib */; };
+		0EDE519C1C48BD6D001803C5 /* RuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE51981C48BD6D001803C5 /* RuleViewController.m */; };
+		0EDE519D1C48BD6D001803C5 /* RuleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EDE51991C48BD6D001803C5 /* RuleViewController.xib */; };
 		0EDE8C711C06A4FE00356AF1 /* PassengerMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE8C701C06A4FE00356AF1 /* PassengerMessageModel.m */; };
 		0EDE8C751C06AE3400356AF1 /* WaitForTheOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE8C741C06AE3400356AF1 /* WaitForTheOrderViewController.m */; };
 		0EDE8C871C06AE6000356AF1 /* AirportDropOffViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE8C781C06AE6000356AF1 /* AirportDropOffViewController.m */; };
@@ -323,6 +327,12 @@
 		0ED1D9CC1BF6CB9200804B14 /* VoucherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoucherCell.h; sourceTree = "<group>"; };
 		0ED1D9CD1BF6CB9200804B14 /* VoucherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoucherCell.m; sourceTree = "<group>"; };
 		0ED1D9CE1BF6CB9200804B14 /* VoucherCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoucherCell.xib; sourceTree = "<group>"; };
+		0EDE51941C48BD6D001803C5 /* EstimateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EstimateViewController.h; sourceTree = "<group>"; };
+		0EDE51951C48BD6D001803C5 /* EstimateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EstimateViewController.m; sourceTree = "<group>"; };
+		0EDE51961C48BD6D001803C5 /* EstimateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EstimateViewController.xib; sourceTree = "<group>"; };
+		0EDE51971C48BD6D001803C5 /* RuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RuleViewController.h; sourceTree = "<group>"; };
+		0EDE51981C48BD6D001803C5 /* RuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RuleViewController.m; sourceTree = "<group>"; };
+		0EDE51991C48BD6D001803C5 /* RuleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RuleViewController.xib; sourceTree = "<group>"; };
 		0EDE8C6F1C06A4FE00356AF1 /* PassengerMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassengerMessageModel.h; sourceTree = "<group>"; };
 		0EDE8C701C06A4FE00356AF1 /* PassengerMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassengerMessageModel.m; sourceTree = "<group>"; };
 		0EDE8C731C06AE3400356AF1 /* WaitForTheOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitForTheOrderViewController.h; sourceTree = "<group>"; };
@@ -686,6 +696,19 @@
 			path = Comment;
 			sourceTree = "<group>";
 		};
+		0EDE51931C48BD6D001803C5 /* 估价明细 */ = {
+			isa = PBXGroup;
+			children = (
+				0EDE51941C48BD6D001803C5 /* EstimateViewController.h */,
+				0EDE51951C48BD6D001803C5 /* EstimateViewController.m */,
+				0EDE51961C48BD6D001803C5 /* EstimateViewController.xib */,
+				0EDE51971C48BD6D001803C5 /* RuleViewController.h */,
+				0EDE51981C48BD6D001803C5 /* RuleViewController.m */,
+				0EDE51991C48BD6D001803C5 /* RuleViewController.xib */,
+			);
+			path = "估价明细";
+			sourceTree = "<group>";
+		};
 		0EDE8C721C06ADF800356AF1 /* WaitForTheOrder */ = {
 			isa = PBXGroup;
 			children = (
@@ -705,6 +728,7 @@
 				1805CDCB1C201F2C0045BC1C /* 包车 */,
 				1805CDCC1C201F400045BC1C /* 接机 */,
 				1805CDCD1C201F580045BC1C /* 送机 */,
+				0EDE51931C48BD6D001803C5 /* 估价明细 */,
 			);
 			path = CompanyChoice;
 			sourceTree = "<group>";
@@ -1531,6 +1555,7 @@
 				189EF13B1C23A1CC002E7702 /* NYMyTripsTableViewCell.xib in Resources */,
 				6D5435911BF2FA10002E25DA /* yue@3x.png in Resources */,
 				6D54356A1BF2FA10002E25DA /* sijitouxiang@2x.png in Resources */,
+				0EDE519B1C48BD6D001803C5 /* EstimateViewController.xib in Resources */,
 				187DE8451C2A760800E0A5C4 /* SendVoucherViewController.xib in Resources */,
 				6D54358A1BF2FA10002E25DA /* xiugaimima@2x.png in Resources */,
 				6D5435471BF2FA10002E25DA /* faxian@3x.png in Resources */,
@@ -1583,6 +1608,7 @@
 				0EC717721C351EEA00399EC4 /* NYCommentViewController.xib in Resources */,
 				6D54357C1BF2FA10002E25DA /* wodeyouhuiquan@2x.png in Resources */,
 				6D5435651BF2FA10002E25DA /* shanchu@3x.png in Resources */,
+				0EDE519D1C48BD6D001803C5 /* RuleViewController.xib in Resources */,
 				6D5435611BF2FA10002E25DA /* sendBtnDeselect@3x.png in Resources */,
 				187DE84E1C2AA96C00E0A5C4 /* SettingContractUs@2x.png in Resources */,
 				6D5435381BF2FA10002E25DA /* daijinquan@2x.png in Resources */,
@@ -1720,6 +1746,7 @@
 				0E3FB0171C45E183002834BB /* NYCalculateSpecialCarPrice.m in Sources */,
 				6D5434971BF2F112002E25DA /* LocalTileOverlay.m in Sources */,
 				18C6BF521C22F3A500092E3A /* DriverInfoModel.m in Sources */,
+				0EDE519A1C48BD6D001803C5 /* EstimateViewController.m in Sources */,
 				187DE84B1C2AA5D200E0A5C4 /* NYContactUsViewController.m in Sources */,
 				187DE8521C2AAC2500E0A5C4 /* NYAboutUsViewController.m in Sources */,
 				6DD875C61BF21CC3006145E2 /* AppDelegate.m in Sources */,
@@ -1734,6 +1761,7 @@
 				6D54361D1BF30F21002E25DA /* DataSigner.m in Sources */,
 				6D5434961BF2F112002E25DA /* LineDashPolyline.m in Sources */,
 				0E4C93011C02E44800118310 /* RegisCompanyViewController.m in Sources */,
+				0EDE519C1C48BD6D001803C5 /* RuleViewController.m in Sources */,
 				187DE8481C2AA45F00E0A5C4 /* NYTaxiGuideViewController.m in Sources */,
 				0E4C92F91C02E3AC00118310 /* RegisViewController.m in Sources */,
 				0EDE8C891C06AE6000356AF1 /* AirPortViewController.m in Sources */,

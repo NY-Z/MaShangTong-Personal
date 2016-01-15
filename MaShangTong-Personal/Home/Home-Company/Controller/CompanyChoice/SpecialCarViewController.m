@@ -39,9 +39,19 @@
 
 @property (nonatomic) MANaviRoute * naviRoute;
 
+@property (nonatomic,strong) NSDictionary *estimatePriceDic;
+
 @end
 
 @implementation SpecialCarViewController
+
+- (NSDictionary *)estimatePriceDic
+{
+    if (_estimatePriceDic == nil) {
+        _estimatePriceDic = [NSDictionary dictionary];
+    }
+    return _estimatePriceDic;
+}
 
 - (void)showAlertViewWithMessage:(NSString *)message
 {
@@ -302,6 +312,9 @@
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:@"约    元"];
     [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, 2)];
     priceLabel.attributedText = attri;
+    priceLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *priceLabelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceLabelTaped)];
+    [priceLabel addGestureRecognizer:priceLabelTap];
     
     UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [confirmBtn setTitle:@"确认用车" forState:UIControlStateNormal];
@@ -609,7 +622,8 @@
         distance += step.distance;
     }
     
-    ValuationRuleModel *model = [[ValuationRuleModel alloc] initWithDictionary:_specialCarArr[_selectedBtn.tag-200] error:nil];
+    NSDictionary *modelDic = _specialCarArr[_selectedBtn.tag-200];
+    ValuationRuleModel *model = [[ValuationRuleModel alloc] initWithDictionary:modelDic error:nil];
     
     NSString *price = @"";
     if (distance <= 10000) {
@@ -622,6 +636,8 @@
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %li 元", (long)[[price componentsSeparatedByString:@"."][0] integerValue]]];
     [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, [price componentsSeparatedByString:@"."][0].length)];
     priceLabel.attributedText = attri;
+    
+    _estimatePriceDic = @{@"rule":modelDic,@"estimatePrice":[NSString stringWithFormat:@"%.2f",price.floatValue],@"distance":[NSString stringWithFormat:@"%li",distance],@"step":model.step};
 }
 
 #pragma mark - Touches
@@ -635,6 +651,14 @@
 {
     [remarkTextView resignFirstResponder];
     [numberTextField resignFirstResponder];
+}
+
+#pragma mark - Gesture
+- (void)priceLabelTaped
+{
+    if (self.priceLabelBlock) {
+        self.priceLabelBlock(_estimatePriceDic);
+    }
 }
 
 #pragma mark - Notification

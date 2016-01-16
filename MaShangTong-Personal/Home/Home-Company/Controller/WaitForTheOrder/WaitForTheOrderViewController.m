@@ -17,7 +17,6 @@
 #import "DriverInfoModel.h"
 #import "DriverInfoCell.h"
 #import "PassengerMessageModel.h"
-#import "ValuationRuleModel.h"
 #import "AirportPickupModel.h"
 #import "NYCalculateSpecialCarPrice.h"
 #import "NYCalculateCharteredBusPrice.h"
@@ -137,7 +136,7 @@
     [_mapView setCenterCoordinate:_passengerCoordinate animated:YES];
     [_mapView setZoomLevel:16 animated:YES];
     
-    NSLog(@"%@",NSStringFromCGRect(self.view.bounds));
+    NYLog(@"%@",NSStringFromCGRect(self.view.bounds));
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -540,7 +539,7 @@
                 priceLabel.attributedText = attri;
                 [priceDic setValue:_specialCarRuleModel.step forKey:@"start_price"];
                 [priceDic setValue:_route_id forKey:@"route_id"];
-                if (_driveringTime % 60) {
+                if (_driveringTime % 60 == 0) {
                     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:priceDic success:^(id json) {
                         
                     } failure:^(NSError *error) {
@@ -560,7 +559,7 @@
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[1] floatValue]];
                 priceLabel.text = [NSString stringWithFormat:@"%.0f元",[priceArr[0] floatValue]];
                 if (_driveringTime%60 == 0) {
-                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:priceDic success:^(id json) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":priceArr[0],@"mileage":priceArr[1]} success:^(id json) {
                         
                     } failure:^(NSError *error) {
                         
@@ -575,7 +574,7 @@
                 speedLabel.hidden = YES;
                 priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
                 if (_driveringTime%60 == 0) {
-                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:priceDic success:^(id json) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":_airportModel.once_price} success:^(id json) {
                         
                     } failure:^(NSError *error) {
                         

@@ -217,7 +217,7 @@
             UIButton *btn = (UIButton *)[contentView viewWithTag:900];
             [btn setTitle:[NSString stringWithFormat:@"确认支付%.2f元",[json[@"info"][@"total_price"] floatValue]] forState:UIControlStateNormal];
             
-            NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%.2f元",[json[@"info"][@"total_price"] floatValue]],[NSString stringWithFormat:@"%@km",json[@"info"][@"mileage"]],[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]]];
+            NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%.2f元",[json[@"info"][@"total_price"] floatValue]],[NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"mileage"] floatValue]],[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]]];
             for (NSInteger i = 0; i < detailInfoArr.count; i++) {
                 UILabel *label = (UILabel *)[contentView viewWithTag:600+i];
                 label.text = detailInfoArr[i];
@@ -228,7 +228,7 @@
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"网络错误"];
-        NSLog(@"%@",error.localizedDescription);
+        NYLog(@"%@",error.localizedDescription);
     }];
 }
 

@@ -15,6 +15,7 @@
 #import "MANaviRoute.h"
 #import "MAMapKit.h"
 #import "SpecialCarRuleModel.h"
+#import "UserModel.h"
 
 @interface SpecialCarViewController () <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate,AMapLocationManagerDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
 {
@@ -696,6 +697,7 @@
 #pragma mark - dealloc
 - (void)dealloc
 {
+    NYLog(@"%s",__FUNCTION__);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

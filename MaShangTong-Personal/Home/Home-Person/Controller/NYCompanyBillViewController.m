@@ -56,7 +56,7 @@
             _dataArr = json[@"info"][@"detaile"];
             [_tableView reloadData];
             NSDate *date = [NSDate date];
-            NSLog(@"%@",date);
+            NYLog(@"%@",date);
         }
         @catch (NSException *exception) {
             [MBProgressHUD showError:@"网络错误,请重试"];
@@ -124,6 +124,11 @@
 - (void)leftBarButtonItemClicked:(UIButton *)btn
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)dealloc
+{
+    NYLog(@"%s",__FUNCTION__);
 }
 
 @end

@@ -11,6 +11,7 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "MANaviRoute.h"
 #import "CharteredBusRule.h"
+#import "UserModel.h"
 
 @interface CharteredBusViewController () <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate,AMapSearchDelegate>
 {
@@ -523,6 +524,7 @@
 #pragma mark - dealloc
 - (void)dealloc
 {
+    NYLog(@"%s",__FUNCTION__);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

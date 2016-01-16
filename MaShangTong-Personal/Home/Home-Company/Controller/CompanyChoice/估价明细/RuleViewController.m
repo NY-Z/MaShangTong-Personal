@@ -81,7 +81,7 @@
             
             //里程价展示
             if (self.distance <= 10) {
-                NSLog(@"%@",self.mileage);
+                NYLog(@"%@",self.mileage);
                 _milesLabel.text = [NSString stringWithFormat:@"%@元/km",self.mileage];
                 _long_milesLabel.hidden = YES;
             }
@@ -125,7 +125,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"%s",__FUNCTION__);
+    NYLog(@"%s",__FUNCTION__);
 }
 
 @end

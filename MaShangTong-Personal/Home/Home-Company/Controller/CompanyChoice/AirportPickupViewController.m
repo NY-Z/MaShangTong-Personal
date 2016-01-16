@@ -11,6 +11,7 @@
 #import "AMapSearchAPI.h"
 #import "MANaviRoute.h"
 #import "AirportPickupModel.h"
+#import "UserModel.h"
 
 @interface AirportPickupViewController () <UIScrollViewDelegate,UITextViewDelegate,AMapSearchDelegate>
 {
@@ -547,7 +548,7 @@
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"] params:params success:^(id json) {
         
-        NSLog(@"%@",json);
+        NYLog(@"%@",json);
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         [MBProgressHUD hideHUD];
         if ([resultStr isEqualToString:@"-1"]) {
@@ -666,6 +667,7 @@
 #pragma mark - dealloc
 - (void)dealloc
 {
+    NYLog(@"%s",__FUNCTION__);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

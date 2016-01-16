@@ -32,7 +32,7 @@
 
 @interface CompanyHomeViewController () <UIPageViewControllerDataSource,UIPageViewControllerDelegate,UIScrollViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITableViewDataSource,UITableViewDelegate>
 {
-    UIPageViewController *_pageViewController;
+//    UIPageViewController *_pageViewController;
     NSMutableArray *_dataArr;
     
     UIButton *_selectBtn;
@@ -67,6 +67,7 @@
 
 
 @property (nonatomic,strong) UIView *navigationBar;
+@property (nonatomic,strong) UIPageViewController *pageViewController;
 
 @end
 
@@ -1140,7 +1141,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"%s",__FUNCTION__);
+    NYLog(@"%s",__FUNCTION__);
 }
 
 @end

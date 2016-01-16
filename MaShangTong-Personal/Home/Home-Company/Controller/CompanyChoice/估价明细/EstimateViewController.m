@@ -138,7 +138,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"%s",__FUNCTION__);
+    NYLog(@"%s",__FUNCTION__);
 }
 
 @end

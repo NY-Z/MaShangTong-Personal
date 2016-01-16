@@ -12,6 +12,7 @@
 #import "AMapLocationKit.h"
 #import "AMapSearchAPI.h"
 #import "PassengerMessageModel.h"
+#import "UserModel.h"
 
 @interface AirportDropOffViewController () <UIScrollViewDelegate,UITextViewDelegate,AMapLocationManagerDelegate>
 {
@@ -606,6 +607,7 @@
 #pragma mark - dealloc
 - (void)dealloc
 {
+    NYLog(@"%s",__FUNCTION__);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

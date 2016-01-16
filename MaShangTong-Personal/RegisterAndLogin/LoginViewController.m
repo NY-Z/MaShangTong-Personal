@@ -11,6 +11,7 @@
 #import "RegisCompanyViewController.h"
 #import "PersonRegisViewController.h"
 #import "NYForgetPasswordViewController.h"
+#import "UserModel.h"
 
 @interface LoginViewController ()
 
@@ -28,7 +29,11 @@
     self.navigationItem.title = @"登录";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20],NSForegroundColorAttributeName:RGBColor(97, 190, 254, 1.f)}];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:0 target:nil action:nil];
+    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(leftBarButtonItemClicked) forControlEvents:UIControlEventTouchUpInside];
+    leftBtn.size = CGSizeMake(44, 44);
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
 }
 
 - (void)viewDidLoad {
@@ -147,6 +152,11 @@
     }];
 }
 
+- (void)leftBarButtonItemClicked
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 #pragma mark - Touches
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -159,6 +169,10 @@
 {
     [self.numberTextField resignFirstResponder];
     [self.codeTextField resignFirstResponder];
+}
+
+- (void)dealloc {
+    NYLog(@"%s",__FUNCTION__);
 }
 
 @end

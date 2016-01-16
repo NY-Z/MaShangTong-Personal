@@ -68,7 +68,7 @@
 - (void)rateStarImageViewTaped:(UITapGestureRecognizer *)tap
 {
     CGPoint point = [tap locationInView:_rateStarImageView];
-    NSLog(@"%@",NSStringFromCGPoint(point));
+    NYLog(@"%@",NSStringFromCGPoint(point));
     [_rateStarImageView setRating:point.x*5/(_rateStarImageView.width)];
     _rateStarImageView.rate = point.x*5/(_rateStarImageView.width);
 }

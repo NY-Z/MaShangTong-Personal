@@ -178,4 +178,9 @@
     }];
 }
 
+- (void)dealloc
+{
+    NYLog(@"%s",__FUNCTION__);
+}
+
 @end

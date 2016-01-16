@@ -8,12 +8,10 @@
 
 #import "SettingViewController.h"
 #import "SettingTableViewCell.h"
-#import "UMFeedback.h"
 #import "NYContactUsViewController.h"
 #import "NYAboutUsViewController.h"
 #import "NYTaxiGuideViewController.h"
 #import "NYSuggestionViewController.h"
-
 #import "KLSwitch.h"
 
 @interface SettingViewController () <UITableViewDataSource,UITableViewDelegate>
@@ -167,6 +165,11 @@
 - (void)leftBarButtonItemClicked:(UIButton *)btn
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)dealloc
+{
+    NYLog(@"%s",__FUNCTION__);
 }
 
 @end

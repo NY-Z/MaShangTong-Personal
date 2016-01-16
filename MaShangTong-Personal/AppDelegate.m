@@ -20,15 +20,12 @@
 #import "iflyMSC/IFlySetting.h"
 #import "IQKeyboardManager.h"
 #import "WXApi.h"
-#import "UMFeedback.h"
 
 #import "WaitForTheOrderViewController.h"
 #import "PayChargeViewController.h"
 #import "CompanyHomeViewController.h"
 #import "NYCommentViewController.h"
 #import "PayChargeViewController.h"
-#import <AFNetworking.h>
-
 
 @interface AppDelegate () <WXApiDelegate>
 
@@ -45,9 +42,7 @@
     
     // 微信支付
     [WXApi registerApp:(NSString *)WxAppId withDescription:@"demo 2.0"];
-    
-    [UMFeedback setAppkey:@"567679b067e58ec55c005520"];
-    
+        
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
     manager.shouldResignOnTouchOutside = YES;
@@ -113,7 +108,7 @@
         switch(response.errCode){
             case WXSuccess:
             {
-                NSLog(@"支付成功");
+                NYLog(@"支付成功");
                 NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
                 [params setValue:userId forKey:@"user_id"];
@@ -124,7 +119,7 @@
                 break;
             }
             default:
-                NSLog(@"支付失败，retcode=%d",resp.errCode);
+                NYLog(@"支付失败，retcode=%d",resp.errCode);
                 break;
         }
     }

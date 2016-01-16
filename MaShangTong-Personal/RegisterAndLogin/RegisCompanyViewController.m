@@ -86,6 +86,15 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (_timer.valid) {
+        [_timer invalidate];
+    }
+    _timer = nil;
+}
+
 - (void)handleTheWidget
 {
     self.firstLabel.layer.cornerRadius = 11;
@@ -223,19 +232,21 @@
         
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
-        [MBProgressHUD showError:@"请求超时"];
-        NYLog(@"%@",error.localizedDescription);
+        [MBProgressHUD showError:@"您的网络有点问题，请重新注册"];
         
     }];
     
 }
 
 - (IBAction)provinceBtnClicked:(id)sender {
+    __weak typeof(_provinceBtn) weakProvince = _provinceBtn;
+    __weak typeof(_cityBtn) weakCity = _cityBtn;
+    
     ProvincesAndCitiesTableViewController *province = [[ProvincesAndCitiesTableViewController alloc] init];
     province.type  = ProvinceTypeProvince;
     province.transProvince = ^(NSString *province) {
-        [_provinceBtn setTitle:province forState:UIControlStateNormal];
-        [_cityBtn setTitle:@"城市" forState:UIControlStateNormal];
+        [weakProvince setTitle:province forState:UIControlStateNormal];
+        [weakCity setTitle:@"城市" forState:UIControlStateNormal];
     };
     [self.navigationController pushViewController:province animated:YES];
 }
@@ -245,11 +256,12 @@
         [MBProgressHUD showError:@"请先选择城市"];
         return;
     }
+    __weak typeof(_cityBtn) weakCity = _cityBtn;
     ProvincesAndCitiesTableViewController *city = [[ProvincesAndCitiesTableViewController alloc] init];
     city.type  = ProvinceTypeCity;
     city.province = _provinceBtn.currentTitle;
     city.transCity = ^(NSString *city) {
-        [_cityBtn setTitle:city forState:UIControlStateNormal];
+        [weakCity setTitle:city forState:UIControlStateNormal];
     };
     [self.navigationController pushViewController:city animated:YES];
 }
@@ -283,7 +295,6 @@
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager POST:@"http://sms.1xinxi.cn/asmx/smsservice.aspx" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NYLog(@"%@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
         [self initTimer];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -318,9 +329,6 @@
 #pragma mark - dealloc
 - (void)dealloc
 {
-    if (_timer.valid) {
-        [_timer invalidate];
-    }
-    _timer = nil;
+    NYLog(@"%s",__FUNCTION__);
 }
 @end

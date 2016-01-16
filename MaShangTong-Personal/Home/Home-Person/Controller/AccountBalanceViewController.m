@@ -14,7 +14,7 @@
 #import "AFNetworking.h"
 #import "WXApi.h"
 #import "GDataXMLNode.h"
-
+#import "UserModel.h"
 #import <CommonCrypto/CommonDigest.h>
 
 #include <ifaddrs.h>
@@ -286,7 +286,7 @@
     [params setValue:@"码尚通企业端余额充值" forKey:@"detail"];
     [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         
-        NSLog(@"%@",responseObject);
+        NYLog(@"%@",responseObject);
         //获取到prepayid后进行第二次签名
         NSString    *package, *time_stamp, *nonce_str;
         //设置支付参数
@@ -308,7 +308,7 @@
         NSString *sign  = [self createMd5Sign:signParams];
         [signParams setObject: sign forKey:@"sign"];
         NSMutableString *stamp  = [signParams objectForKey:@"timestamp"];
-        NSLog(@"%@",signParams);
+        NYLog(@"%@",signParams);
         PayReq *req = [[PayReq alloc] init];
         req.openID  = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"appid"]];
         req.partnerId = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"partnerid"]];
@@ -471,6 +471,11 @@
         [resultStr appendString:oneStr];
     }
     return resultStr;
+}
+
+- (void)dealloc
+{
+    NYLog(@"%s",__FUNCTION__);
 }
 
 @end

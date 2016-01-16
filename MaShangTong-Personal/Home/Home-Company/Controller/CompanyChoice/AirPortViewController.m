@@ -86,8 +86,12 @@
     _dataArr = [@[@{kTitleLabelText:@"虹桥机场T1航站楼",kDetailLabelText:@"121.347171,31.195094"},
                  @{kTitleLabelText:@"虹桥机场T2航站楼",kDetailLabelText:@"121.327692,31.194433"},
                  @{kTitleLabelText:@"浦东机场T1航站楼",kDetailLabelText:@"121.802336,31.149280"},
-                 @{kTitleLabelText:@"浦东机场T2航站楼",kDetailLabelText:@"121.809733,31.151115"},
-                 @{kTitleLabelText:@"虹桥高铁",kDetailLabelText:@"121.31884575,31.19525566"}] mutableCopy];
+                 @{kTitleLabelText:@"浦东机场T2航站楼",kDetailLabelText:@"121.809733,31.151115"}] mutableCopy];
+    
+    // 虹桥高铁
+    // ,@{kTitleLabelText:@"虹桥高铁",kDetailLabelText:@"121.31884575,31.19525566"}
+    
+    
 //    _dataArr = [NSMutableArray array];
 //    _search = [[AMapSearchAPI alloc] init];
 //    _search.delegate = self;
@@ -154,8 +158,8 @@
 //        return;
 //    }
 //    for (AMapPOI *p in response.pois) {
-//        NSLog(@"%@",p.name);
-//        NSLog(@"%@",p.location);
+//        NYLog(@"%@",p.name);
+//        NYLog(@"%@",p.location);
 //    }
 //    [_dataArr addObjectsFromArray:response.pois];
 //    [_tableView reloadData];

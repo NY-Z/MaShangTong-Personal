@@ -232,7 +232,7 @@
 {
     [NSString stringWithFormat:@"group%li",_dataArr.count+1];
     
-//    NSLog(@"%li",buttonIndex);
+//    NYLog(@"%li",buttonIndex);
     if (buttonIndex == 1) {
         UITextField *textFiled=[alertView textFieldAtIndex:0];
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -272,7 +272,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    NSLog(@"done");
+    NYLog(@"done");
 #warning 修改组名
     NYLog(@"%li",textField.tag);
     NYLog(@"%@",textField.text);
@@ -281,7 +281,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"%s",__FUNCTION__);
+    NYLog(@"%s",__FUNCTION__);
 }
 
 @end

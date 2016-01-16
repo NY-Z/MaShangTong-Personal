@@ -132,4 +132,9 @@
     [self.navigationController pushViewController:buyVouchers animated:YES];
 }
 
+- (void)dealloc
+{
+    NYLog(@"%s",__FUNCTION__);
+}
+
 @end

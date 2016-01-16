@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "ValuationRuleModel.h"
-#import "UserModel.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

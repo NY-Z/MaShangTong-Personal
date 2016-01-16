@@ -158,7 +158,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 3) {
-        NSLog(@"%@",indexPath);
+        NYLog(@"%@",indexPath);
         _pickerView.y = SCREEN_HEIGHT-64-216;
         _pickerView.hidden = NO;
         
@@ -206,8 +206,8 @@
     }
     [params setValue:group forKey:@"pid_name"];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
-    NSLog(@"%@",[USER_DEFAULT valueForKey:@"user_id"]);
-    NSLog(@"%@",[USER_DEFAULT objectForKey:@"user_id"]);
+    NYLog(@"%@",[USER_DEFAULT valueForKey:@"user_id"]);
+    NYLog(@"%@",[USER_DEFAULT objectForKey:@"user_id"]);
     [MBProgressHUD showMessage:@"正在添加"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"team_enter"] params:params success:^(id json) {
         [MBProgressHUD hideHUD];

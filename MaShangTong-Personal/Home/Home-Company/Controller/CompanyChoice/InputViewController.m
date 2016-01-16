@@ -236,7 +236,7 @@
 {
     NSMutableArray *tempArray = [NSMutableArray new];
     if (response.tips.count == 0) {
-        NSLog(@"没有请求到数据");
+        NYLog(@"没有请求到数据");
         return;
     }
     //对请求到的数据进行处理
@@ -247,7 +247,7 @@
     }
     _poiResultArr = [NSMutableArray arrayWithArray:tempArray];
     //    //函数回调刷新_searchTableView
-    //    NSLog(@"回调函数结果为：%d",self.reloadSearchTableView);
+    //    NYLog(@"回调函数结果为：%d",self.reloadSearchTableView);
     //    if (self.reloadSearchTableView) {
     //        self.reloadSearchTableView();
     //    }

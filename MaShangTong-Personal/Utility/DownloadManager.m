@@ -7,7 +7,6 @@
 //
 
 #import "DownloadManager.h"
-#import <AFNetworking.h>
 
 @implementation DownloadManager
 

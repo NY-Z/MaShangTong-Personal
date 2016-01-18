@@ -472,8 +472,8 @@
     [params setObject:_sourceBtn.currentTitle forKey:@"origin_name"];
     [params setObject:[NSString stringWithFormat:@"%f,%f",delegate.sourceCoordinate.longitude,delegate.sourceCoordinate.latitude] forKey:@"origin_coordinates"];
     
-    if ([_destinationBtn.currentTitle isEqualToString:@"你要去哪儿"]) {
-        [self showAlertViewWithMessage:@"你要去哪儿？"];
+    if ([_destinationBtn.currentTitle isEqualToString:@"您的目的地"]) {
+        [self showAlertViewWithMessage:@"您的目的地"];
         return;
     }
     [params setObject:_destinationBtn.currentTitle forKey:@"end_name"];
@@ -492,7 +492,7 @@
     [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
     [params setObject:@"4" forKey:@"reserva_type"];
-    [params setObject:@"71" forKey:@"user_id"];
+    [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     
     [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];

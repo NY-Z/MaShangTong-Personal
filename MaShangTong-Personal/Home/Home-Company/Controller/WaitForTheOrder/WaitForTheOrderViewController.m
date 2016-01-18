@@ -59,7 +59,8 @@
 @property (nonatomic,assign) DriverState lastState;
 @property (nonatomic,strong) UIView *chargingBgView;
 @property (nonatomic,strong) ActualPriceModel *actualPriceModel;
-@property (nonatomic,strong) AMapPath *driverPath;
+//@property (nonatomic,strong) AMapPath *driverPath;
+@property (nonatomic,assign) NSInteger distance;
 @property (nonatomic,strong) NYCalculateSpecialCarPrice *calculateSpecialCar;
 @property (nonatomic,strong) NYCalculateCharteredBusPrice *calculateCharteredBus;
 
@@ -365,6 +366,7 @@
     _lastState = 0;
     _iscalculateStart = 0;
     _actualDistance = 0;
+    _distance = 0;
     
     [self configNavigationBar];
     [self initMapView];
@@ -512,6 +514,24 @@
         }];
     }
     
+    for (id ann in self.mapView.annotations) {
+        if ([ann isKindOfClass:[MAUserLocation class]]) {
+            MAUserLocation *userLocation = (MAUserLocation *)ann;
+            NSInteger minute = (long)_driveringTime/60;
+            NSInteger second = (long)_driveringTime%60;
+            NSMutableString *minuteStr = [NSMutableString stringWithFormat:@"%ld",minute];
+            NSMutableString *secondStr = [NSMutableString stringWithFormat:@"%ld",second];
+            if (minuteStr.length == 1) {
+                minuteStr = [NSMutableString stringWithFormat:@"0%@",minuteStr];
+            }
+            if (secondStr.length == 1) {
+                secondStr = [NSMutableString stringWithFormat:@"0%@",secondStr];
+            }
+            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%@:%@",((float)_distance)/1000,minuteStr,secondStr];
+            userLocation.title = annTitle;
+        }
+    }
+    
     if (_iscalculateStart) {
         switch (_reservationType) {
             // 专车
@@ -557,7 +577,10 @@
                 }
                 NSArray *priceArr = [self.calculateCharteredBus calculatePriceWithSpeed:_speed];
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[1] floatValue]];
-                priceLabel.text = [NSString stringWithFormat:@"%.0f元",[priceArr[0] floatValue]];
+                _totalPrice = [NSString stringWithFormat:@"%.0f元",[priceArr[0] floatValue]];
+                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
+                [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
+                priceLabel.attributedText = attri;
                 if (_driveringTime%60 == 0) {
                     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":priceArr[0],@"mileage":priceArr[1]} success:^(id json) {
                         
@@ -568,11 +591,32 @@
                 break;
             }
             // 接机，送机
-            case ReservationTypeAirportPickUp | ReservationTypeAirportDropOff:
+            case ReservationTypeAirportPickUp:
             {
                 distanceLabel.hidden = YES;
                 speedLabel.hidden = YES;
-                priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
+                _totalPrice = [NSString stringWithFormat:@"%.0f元",_airportModel.once_price.floatValue];
+                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
+                [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
+                priceLabel.attributedText = attri;
+                if (_driveringTime%60 == 0) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":_airportModel.once_price} success:^(id json) {
+                        
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                }
+                break;
+            }
+            case ReservationTypeAirportDropOff:
+            {
+                distanceLabel.hidden = YES;
+                speedLabel.hidden = YES;
+//                priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
+                _totalPrice = [NSString stringWithFormat:@"%.0f元",_airportModel.once_price.floatValue];
+                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
+                [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
+                priceLabel.attributedText = attri;
                 if (_driveringTime%60 == 0) {
                     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":_airportModel.once_price} success:^(id json) {
                         
@@ -605,22 +649,23 @@
     
     if (isDriverCatch) {
         [mapView setSelectedAnnotations:@[userLocation]];
-        AMapDrivingRouteSearchRequest *request = [[AMapDrivingRouteSearchRequest alloc] init];
-        request.origin = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
-        if (!_calculaterWitch) {
-            request.destination = [AMapGeoPoint locationWithLatitude:_driverCoordinate.latitude longitude:_driverCoordinate.longitude];
-        } else {
-            PassengerMessageModel *model = _model;
-            request.destination = [AMapGeoPoint locationWithLatitude:[[model.end_coordinates componentsSeparatedByString:@","][1] floatValue] longitude:[[model.end_coordinates componentsSeparatedByString:@","][0] floatValue]];
+        if (_driveringTime %10 == 0) {
+            AMapDrivingRouteSearchRequest *request = [[AMapDrivingRouteSearchRequest alloc] init];
+            request.origin = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
+            if (!_calculaterWitch) {
+                request.destination = [AMapGeoPoint locationWithLatitude:_driverCoordinate.latitude longitude:_driverCoordinate.longitude];
+            } else {
+                PassengerMessageModel *model = _model;
+                request.destination = [AMapGeoPoint locationWithLatitude:[[model.end_coordinates componentsSeparatedByString:@","][1] floatValue] longitude:[[model.end_coordinates componentsSeparatedByString:@","][0] floatValue]];
+            }
+            request.strategy = 0;//结合交通实际情况
+            request.requireExtension = YES;
+            if (!_search) {
+                _search = [[AMapSearchAPI alloc] init];
+                _search.delegate = self;
+            }
+            [_search AMapDrivingRouteSearch:request];
         }
-        
-        request.strategy = 0;//结合交通实际情况
-        request.requireExtension = YES;
-        if (!_search) {
-            _search = [[AMapSearchAPI alloc] init];
-            _search.delegate = self;
-        }
-        [_search AMapDrivingRouteSearch:request];
     }
 }
 
@@ -667,7 +712,11 @@
     
     AMapPath *path = response.route.paths[0];
     self.naviRoute = [MANaviRoute naviRouteForPath:path withNaviType:type];
-    _driverPath = path;
+    NSInteger distance = 0;
+    for (AMapStep *step in path.steps) {
+        distance += step.distance;
+    }
+    _distance = distance;
 }
 
 #pragma mark - IFlySpeechSynthesizerDelegate

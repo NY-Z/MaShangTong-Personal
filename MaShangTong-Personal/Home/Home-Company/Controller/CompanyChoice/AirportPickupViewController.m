@@ -518,8 +518,8 @@
     [params setObject:sourceBtn.currentTitle forKey:@"origin_name"];
     [params setObject:[NSString stringWithFormat:@"%f,%f",delegate.sourceCoordinate.longitude,delegate.sourceCoordinate.latitude] forKey:@"origin_coordinates"];
     
-    if ([_destinationBtn.currentTitle isEqualToString:@"你要去哪儿"]) {
-        [self showAlertViewWithMessage:@"你要去哪儿？"];
+    if ([_destinationBtn.currentTitle isEqualToString:@"您的目的地"]) {
+        [self showAlertViewWithMessage:@"您的目的地"];
         return;
     }
     [params setObject:_destinationBtn.currentTitle forKey:@"end_name"];

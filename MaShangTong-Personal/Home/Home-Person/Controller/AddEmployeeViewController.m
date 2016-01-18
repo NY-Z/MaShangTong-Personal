@@ -181,7 +181,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *name = ((UITextField *)[[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].contentView viewWithTag:300]).text;
-    if (name.length > 0) {
+    if ([Helper justNickname:name]) {
         [MBProgressHUD showError:@"请输入姓名"];
         return;
     }

@@ -192,6 +192,11 @@
     return bgView;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
 #pragma mark - Action
 - (void)leftBarButtonItemClicked:(UIButton *)btn
 {
@@ -273,7 +278,6 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NYLog(@"done");
-#warning 修改组名
     NYLog(@"%li",textField.tag);
     NYLog(@"%@",textField.text);
     NYLog(@"%s",__FUNCTION__);

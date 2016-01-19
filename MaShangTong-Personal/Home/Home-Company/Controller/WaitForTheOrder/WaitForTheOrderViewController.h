@@ -40,5 +40,6 @@ typedef NS_ENUM(NSInteger,ReservationType) {
 @property (nonatomic,strong) ValuationRuleModel *specialCarRuleModel;
 @property (nonatomic,strong) CharteredBusRule *charteredBusRule;
 @property (nonatomic,strong) AirportPickupModel *airportModel;
+@property (nonatomic,assign) ReservationType type;
 
 @end

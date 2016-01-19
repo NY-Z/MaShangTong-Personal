@@ -625,7 +625,9 @@
     
     NSDictionary *modelDic = _specialCarArr[_selectedBtn.tag-200];
     ValuationRuleModel *model = [[ValuationRuleModel alloc] initWithDictionary:modelDic error:nil];
-    
+    if (!model) {
+        return;
+    }
     NSString *price = @"";
     if (distance <= 10000) {
         price = [NSString stringWithFormat:@"%.0f",(distance*[model.mileage floatValue])/1000+[model.step floatValue]];

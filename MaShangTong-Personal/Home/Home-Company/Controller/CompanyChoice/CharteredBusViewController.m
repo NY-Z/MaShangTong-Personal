@@ -12,8 +12,9 @@
 #import "MANaviRoute.h"
 #import "CharteredBusRule.h"
 #import "UserModel.h"
+#import <AMapLocationKit/AMapLocationKit.h>
 
-@interface CharteredBusViewController () <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate,AMapSearchDelegate>
+@interface CharteredBusViewController () <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate,AMapSearchDelegate,AMapLocationManagerDelegate>
 {
     UIScrollView *_scrollView;
     UITextView *remarkTextView;
@@ -28,6 +29,7 @@
 
 @property (nonatomic,strong) UILabel *priceLabel;
 @property (nonatomic) MANaviRoute * naviRoute;
+@property (nonatomic,strong) AMapLocationManager *locationManager;
 
 @end
 
@@ -230,12 +232,45 @@
     }];
 }
 
+- (void)configLocation
+{
+    self.locationManager = [[AMapLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+    [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        
+        if (error)
+        {
+            if (error.code == AMapLocationErrorLocateFailed)
+            {
+                return;
+            }
+        }
+        
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        
+        if (regeocode)
+        {
+            if (regeocode.city) {
+                delegate.currentCity = regeocode.city;
+            } else {
+                delegate.currentCity = regeocode.province;
+            }
+            NYLog(@"%@",delegate.currentCity);
+            [_sourceBtn setTitle:regeocode.formattedAddress forState:UIControlStateNormal];
+            delegate.sourceCoordinate = location.coordinate;
+            delegate.passengerCoordinate = location.coordinate;
+        }
+    }];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     _charteredBusRuleArr = [NSMutableArray array];
     
     [self configViews];
+    [self configLocation];
     [self requestTheRules];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haha:) name:@"CharteredBusViewControllerSourceBtn" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TransportTimeChanged:) name:@"TransportTimeChanged" object:nil];

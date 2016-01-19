@@ -181,8 +181,15 @@
 
 - (void)configNavigationBar
 {
-    self.navigationItem.title = @"支付车费";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor whiteColor]}];
+//    self.navigationItem.title = @"支付车费";
+//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    UILabel *navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.size = CGSizeMake(200, 22);
+    navTitleLabel.font = [UIFont systemFontOfSize:21];
+    navTitleLabel.textColor = RGBColor(73, 185, 254, 1.f);
+    navTitleLabel.textAlignment = 1;
+    navTitleLabel.text = @"支付车费";
+    self.navigationItem.titleView = navTitleLabel;
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }

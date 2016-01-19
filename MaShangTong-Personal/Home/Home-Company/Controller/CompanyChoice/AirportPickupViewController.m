@@ -103,7 +103,7 @@
     [_flightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(flightLabel);
         make.left.equalTo(flightLabel.mas_right).offset(18);
-//        make.size.mas_equalTo(CGSizeMake(200, 20));
+        //        make.size.mas_equalTo(CGSizeMake(200, 20));
         make.height.mas_equalTo(20);
         make.right.equalTo(bgView).offset(-26);
     }];
@@ -117,7 +117,7 @@
     [promptLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_flightBtn.mas_bottom);
         make.left.equalTo(_flightBtn);
-//        make.size.mas_equalTo(CGSizeMake(200, 10));
+        //        make.size.mas_equalTo(CGSizeMake(200, 10));
         make.height.mas_equalTo(10);
         make.right.equalTo(bgView).offset(-26);
     }];
@@ -142,7 +142,7 @@
     [numberTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_flightBtn);
         make.top.equalTo(numberLabel);
-//        make.size.mas_equalTo(CGSizeMake(200, 20));
+        //        make.size.mas_equalTo(CGSizeMake(200, 20));
         make.height.mas_equalTo(20);
         make.right.equalTo(bgView).offset(-26);
     }];
@@ -167,7 +167,7 @@
     [timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(numberTextField);
         make.top.equalTo(timeLabel);
-//        make.size.mas_equalTo(CGSizeMake(200, 20));
+        //        make.size.mas_equalTo(CGSizeMake(200, 20));
         make.height.mas_equalTo(20);
         make.right.equalTo(bgView).offset(-26);
     }];
@@ -178,7 +178,7 @@
     [addressBtn setTitle:@"上海" forState:UIControlStateNormal];
     [addressBtn setTitleColor:RGBColor(102, 102, 102, 1.f) forState:UIControlStateNormal];
     addressBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-//    [addressBtn addTarget:self action:@selector(addressBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    //    [addressBtn addTarget:self action:@selector(addressBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bgView addSubview:addressBtn];
     [addressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(timeLabel.mas_bottom).offset(30);
@@ -196,14 +196,14 @@
     [sourceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(addressBtn.mas_top).offset(0);
         make.left.equalTo(timeBtn);
-//        make.size.mas_equalTo(CGSizeMake(200, 20));
+        //        make.size.mas_equalTo(CGSizeMake(200, 20));
         make.right.equalTo(bgView).offset(-26);
         make.height.mas_equalTo(20);
     }];
     sourceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
     // Test
-//    self.sourceBtn = sourceBtn;
+    //    self.sourceBtn = sourceBtn;
     
     UIImageView *sourcesImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"zhishijiantou"]];
     [bgView addSubview:sourcesImageView];
@@ -223,7 +223,7 @@
     [_destinationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(addressBtn.mas_bottom).offset(0);
         make.left.equalTo(timeBtn);
-//        make.size.mas_equalTo(CGSizeMake(200, 20));
+        //        make.size.mas_equalTo(CGSizeMake(200, 20));
         make.height.mas_equalTo(20);
         make.right.equalTo(bgView).offset(-26);
     }];
@@ -273,7 +273,7 @@
         make.height.equalTo(@42);
         make.left.equalTo(bgView);
     }];
-
+    
     NSArray *titleArr = @[@"舒适电动轿车",@"商务电动轿车",@"豪华电动轿车"];
     NSArray *imageArr = @[@"che1Deselect",@"che2Deselect",@"che3Deselect"];
     NSArray *selectImageArr = @[@"che1Select",@"che2Select",@"che3Select"];
@@ -478,9 +478,9 @@
     }
     for (NSDictionary *dic in _airportPickupRuleArr) {
         AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
-        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]] && model.airport_name.length == 4) {
             _airportPrice = model.once_price;
-            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",_airportPrice]];
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
             [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
             priceLabel.attributedText = attri;
         }
@@ -510,10 +510,10 @@
         return;
     }
     [params setObject:numberTextField.text forKey:@"mobile_phone"];
-
+    
     NSUInteger interval = [self transformToDateFormatterWithDateString:_timeBtn.currentTitle];
     [params setObject:[NSString stringWithFormat:@"%lu",(unsigned long)interval] forKey:@"reservation_time"];
-
+    
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [params setObject:sourceBtn.currentTitle forKey:@"origin_name"];
     [params setObject:[NSString stringWithFormat:@"%f,%f",delegate.sourceCoordinate.longitude,delegate.sourceCoordinate.latitude] forKey:@"origin_coordinates"];
@@ -532,7 +532,7 @@
     [params setObject:reservation_type forKey:@"reservation_type"];
     [params setObject:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199] forKey:@"car_type_id"];
     [params setObject:remarkTextView.text forKey:@"leave_message"];
-
+    
     [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [params setObject:@"3" forKey:@"reserva_type"];
     
@@ -540,9 +540,9 @@
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
     AirportPickupModel *airportModel;
     for (NSDictionary *dic in _airportPickupRuleArr) {
-        
-        if ([dic[@"car_type_id"] isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [dic[@"airport_name"] containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
-            airportModel = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+        airportModel = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+        if ([airportModel.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [airportModel.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]] && airportModel.airport_name.length == 4) {
+            break;
         }
     }
     
@@ -588,7 +588,6 @@
                 self.confirmBtnBlock(model,json[@"route_id"],airportModel);
             }
         }
-        
     } failure:^(NSError *error) {
         
         [MBProgressHUD hideHUD];
@@ -639,7 +638,7 @@
         }
         for (NSDictionary *dic in _airportPickupRuleArr) {
             AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
-            if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+            if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[sourceBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]] && model.airport_name.length == 4) {
                 _airportPrice = model.once_price;
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",model.once_price]];
                 [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];

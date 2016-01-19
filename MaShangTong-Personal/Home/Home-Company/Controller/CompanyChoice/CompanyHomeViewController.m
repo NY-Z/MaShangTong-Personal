@@ -217,6 +217,7 @@
         waitOrderVc.route_id = route_id;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
         waitOrderVc.specialCarRuleModel = specialCarRuleModel;
+        waitOrderVc.type = ReservationTypeSpecialCar;
         [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:specialCar];
@@ -275,6 +276,7 @@
         waitOrderVc.route_id = route_id;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
         waitOrderVc.charteredBusRule = charteredBusRule;
+        waitOrderVc.type = ReservationTypeCharteredBus;
         [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:charteredBus];
@@ -334,6 +336,7 @@
         waitOrderVc.route_id = route_id;
         waitOrderVc.airportModel = airportModel;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
+        waitOrderVc.type = ReservationTypeAirportPickUp;
         [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:airportPickup];
@@ -381,11 +384,14 @@
         };
         [self presentViewController:estimate animated:YES completion:nil];
     };
-    airportDropOff.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id) {
+    airportDropOff.confirmBtnBlock = ^(PassengerMessageModel *model,NSString *route_id,AirportPickupModel *airportModel) {
         WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
         waitOrderVc.model = model;
         waitOrderVc.route_id = route_id;
+        waitOrderVc.airportModel = airportModel;
         waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
+        waitOrderVc.type = ReservationTypeAirportDropOff;
+        
         [weakSelf.navigationController pushViewController:waitOrderVc animated:YES];
     };
     [_dataArr addObject:airportDropOff];

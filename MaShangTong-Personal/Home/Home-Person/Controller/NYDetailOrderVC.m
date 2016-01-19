@@ -68,6 +68,25 @@
         _dataDic = json[@"info"];
         [self creatMoneyLabelStr];
         [self displayData];
+        
+        switch ([json[@"info"][@"reserva_type"] integerValue]) {
+            case 1:
+                _carTypeLabel.text = @"用车类型：专车";
+                break;
+            case 2:
+                _carTypeLabel.text = @"用车类型：包车";
+                break;
+            case 3:
+                _carTypeLabel.text = @"用车类型：接机";
+                break;
+            case 4:
+                _carTypeLabel.text = @"用车类型：送机";
+                break;
+
+            default:
+                break;
+        }
+
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
     }];
@@ -80,7 +99,7 @@
     _mileageLabel.text = [NSString stringWithFormat:@"%@公里", [self returnStrIfStringIsNil:_dataDic[@"mileage"]]];
     _carbonLabel.text = [NSString stringWithFormat:@"%@千克",[self returnStrIfStringIsNil:_dataDic[@"carbon_emission"]]];
     
-    _carTypeLabel.text = @"用车类型：包车";
+    
     _orginPointLabel.text = [NSString stringWithFormat:@"服务起点：%@", _dataDic[@"origin_name"] ];
     _endPointLabel.text = [NSString stringWithFormat:@"服务终点：%@",_dataDic[@"end_name"]];
     _timeLabel.text = [NSString stringWithFormat:@"下单时间：%@",_dataDic[@"create_time"]];

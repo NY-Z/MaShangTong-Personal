@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+@class AirportPickupModel;
+@class PassengerMessageModel;
 
 @interface AirportDropOffViewController : UIViewController
 
 @property (nonatomic,strong) void (^sourceBtnBlock) ();
 @property (nonatomic,strong) void (^destinationBlock) ();
 @property (nonatomic,strong) void (^timeBtnBlock) ();
-@property (nonatomic,strong) void (^confirmBtnBlock) ();
+@property (nonatomic,strong) void (^confirmBtnBlock) (PassengerMessageModel *model,NSString *route_id,AirportPickupModel *airportModel);
 @property (nonatomic,strong) void (^priceLabelBlock) (NSDictionary *ruleDic);
 
 @property (nonatomic,strong) UIButton *timeBtn;

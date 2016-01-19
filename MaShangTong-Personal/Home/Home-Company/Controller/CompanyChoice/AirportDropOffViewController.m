@@ -456,7 +456,7 @@
     }
     for (NSDictionary *dic in _airportPickupRuleArr) {
         AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
-        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+        if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]] && model.airport_name.length == 4) {
             _airportPrice = model.once_price;
             NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",_airportPrice]];
             [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];
@@ -485,6 +485,11 @@
     }
     [params setObject:numberTextField.text forKey:@"mobile_phone"];
 
+    NSString *reservation_type = @"2";
+    if ([_timeBtn.currentTitle isEqualToString:@"现在用车"]) {
+        reservation_type = @"1";
+    }
+    [params setObject:reservation_type forKey:@"reservation_type"];
     
     NSUInteger interval = [self transformToDateFormatterWithDateString:_timeBtn.currentTitle];
     [params setObject:[NSString stringWithFormat:@"%lu",(unsigned long)interval] forKey:@"reservation_time"];
@@ -496,9 +501,16 @@
     
     [MBProgressHUD showMessage:@"正在发送订单,请稍候"];
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
+    
+    AirportPickupModel *airportModel;
+    for (NSDictionary *dic in _airportPickupRuleArr) {
+        airportModel = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
+        if ([airportModel.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [airportModel.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]] && airportModel.airport_name.length == 4) {
+            break;
+        }
+    }
+    
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"] params:params success:^(id json) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
             NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
             [MBProgressHUD hideHUD];
             if ([resultStr isEqualToString:@"-1"]) {
@@ -506,7 +518,7 @@
                 [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     if (self.confirmBtnBlock) {
                         model.route_id = json[@"route_id"];
-                        self.confirmBtnBlock(model,json[@"route"][@"route_id"]);
+                        self.confirmBtnBlock(model,json[@"route"][@"route_id"],airportModel);
                     }
                 }]];
                 [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -534,12 +546,9 @@
             } else if ([resultStr isEqualToString:@"1"]) {
                 if (self.confirmBtnBlock) {
                     model.route_id = json[@"route_id"];
-                    self.confirmBtnBlock(model,json[@"route_id"]);
+                    self.confirmBtnBlock(model,json[@"route_id"],airportModel);
                 }
             }
-
-            
-        });
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"订单发送失败，请重试"];
@@ -594,7 +603,7 @@
         }
         for (NSDictionary *dic in _airportPickupRuleArr) {
             AirportPickupModel *model = [[AirportPickupModel alloc] initWithDictionary:dic error:nil];
-            if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]]) {
+            if ([model.car_type_id isEqualToString:[NSString stringWithFormat:@"%li",(long)_selectedBtn.tag-199]] && [model.airport_name containsString:[_destinationBtn.currentTitle substringWithRange:NSMakeRange(0, 2)]] && model.airport_name.length == 4) {
                 _airportPrice = model.once_price;
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %@ 元",_airportPrice]];
                 [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, model.once_price.length)];

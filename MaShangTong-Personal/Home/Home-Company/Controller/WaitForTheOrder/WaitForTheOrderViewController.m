@@ -20,6 +20,7 @@
 #import "AirportPickupModel.h"
 #import "NYCalculateSpecialCarPrice.h"
 #import "NYCalculateCharteredBusPrice.h"
+#import "StarView.h"
 
 @interface WaitForTheOrderViewController () <MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,IFlySpeechSynthesizerDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
 {
@@ -40,7 +41,7 @@
     
     NSInteger _route_status;
     
-    ReservationType _reservationType;
+//    ReservationType _reservationType;
 }
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) UITableView *tableView;
@@ -222,17 +223,26 @@
         make.size.mas_equalTo(CGSizeMake(60, 18));
     }];
     
-    for (NSInteger i = 0; i < 5; i++) {
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pingfen"]];
-        [bgView addSubview:imageView];
-        
-        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(nameLabel).with.offset(10*i);
-            make.top.equalTo(licenseLabel).with.offset(20);
-            make.size.mas_equalTo(CGSizeMake(10, 10));
-        }];
-    }
+//    for (NSInteger i = 0; i < 5; i++) {
+//        
+//        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pingfen"]];
+//        [bgView addSubview:imageView];
+//        
+//        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(nameLabel).with.offset(10*i);
+//            make.top.equalTo(licenseLabel).with.offset(20);
+//            make.size.mas_equalTo(CGSizeMake(10, 10));
+//        }];
+//    }
+    
+    StarView *starView = [[StarView alloc] initWithFrame:CGRectMake(0, 0, 50, 10)];
+    starView.size = CGSizeMake(50, 10);
+    [bgView addSubview:starView];
+    [starView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(nameLabel).with.offset(0);
+        make.top.equalTo(licenseLabel).with.offset(20);
+        make.size.mas_equalTo(CGSizeMake(50, 10));
+    }];
     
     UILabel *billLabel = [[UILabel alloc] init];
     billLabel.text = @"";
@@ -415,6 +425,8 @@
                                     UILabel *licenseLabel = (UILabel *)[tableHeaderView viewWithTag:200];
                                     UILabel *companyLabel = (UILabel *)[tableHeaderView viewWithTag:300];
                                     UILabel *billLabell = (UILabel *)[tableHeaderView viewWithTag:400];
+                                    StarView *starView = (StarView *)[tableHeaderView viewWithTag:500];
+                                    [starView setRating:infoModel.averagePoint.floatValue];
                                     nameLabel.text = infoModel.owner_name;
                                     licenseLabel.text = infoModel.license_plate;
                                     companyLabel.text = @"";
@@ -424,16 +436,16 @@
                                     
                                 }];
                                 // 记录是哪种行程
-                                NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
-                                if ([reservaTypeStr isEqualToString:@"1"]) {
-                                    _reservationType = ReservationTypeSpecialCar;
-                                } else if ([reservaTypeStr isEqualToString:@"2"]) {
-                                    _reservationType = ReservationTypeCharteredBus;
-                                } else if ([reservaTypeStr isEqualToString:@"3"]) {
-                                    _reservationType = ReservationTypeAirportPickUp;
-                                } else if ([reservaTypeStr isEqualToString:@"4"]) {
-                                    _reservationType = ReservationTypeAirportDropOff;
-                                }
+//                                NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
+//                                if ([reservaTypeStr isEqualToString:@"1"]) {
+//                                    _reservationType = ReservationTypeSpecialCar;
+//                                } else if ([reservaTypeStr isEqualToString:@"2"]) {
+//                                    _reservationType = ReservationTypeCharteredBus;
+//                                } else if ([reservaTypeStr isEqualToString:@"3"]) {
+//                                    _reservationType = ReservationTypeAirportPickUp;
+//                                } else if ([reservaTypeStr isEqualToString:@"4"]) {
+//                                    _reservationType = ReservationTypeAirportDropOff;
+//                                }
                             }
                             _lastState = DriverStateOrderReceive;
                             break;
@@ -533,7 +545,7 @@
     }
     
     if (_iscalculateStart) {
-        switch (_reservationType) {
+        switch (_type) {
             // 专车
             case ReservationTypeSpecialCar:
             {

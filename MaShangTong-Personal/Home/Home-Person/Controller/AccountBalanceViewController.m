@@ -222,7 +222,6 @@
             [USER_DEFAULT setObject:[NSKeyedArchiver archivedDataWithRootObject:userModel] forKey:@"user_info"];
             [USER_DEFAULT synchronize];
         });
-        
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"请求超时，请重试"];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E03210D1C4F59F100B53973 /* PassengerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E03210C1C4F59F100B53973 /* PassengerModel.m */; };
 		0E18DFF91C31140C00D77CEC /* NYDetailOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E18DFF71C31140C00D77CEC /* NYDetailOrderVC.m */; };
 		0E18DFFA1C31140C00D77CEC /* NYDetailOrderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18DFF81C31140C00D77CEC /* NYDetailOrderVC.xib */; };
 		0E18E00A1C313D0D00D77CEC /* TaxiGuideImageView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */; };
@@ -270,6 +271,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E03210B1C4F59F100B53973 /* PassengerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassengerModel.h; sourceTree = "<group>"; };
+		0E03210C1C4F59F100B53973 /* PassengerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassengerModel.m; sourceTree = "<group>"; };
 		0E18DFF61C31140C00D77CEC /* NYDetailOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYDetailOrderVC.h; sourceTree = "<group>"; };
 		0E18DFF71C31140C00D77CEC /* NYDetailOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYDetailOrderVC.m; sourceTree = "<group>"; };
 		0E18DFF81C31140C00D77CEC /* NYDetailOrderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYDetailOrderVC.xib; sourceTree = "<group>"; };
@@ -931,6 +934,8 @@
 		1882C4E01C1C1417000DEAE7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0E03210B1C4F59F100B53973 /* PassengerModel.h */,
+				0E03210C1C4F59F100B53973 /* PassengerModel.m */,
 				1882C4E11C1C142D000DEAE7 /* SpecialCarRuleModel.h */,
 				1882C4E21C1C142D000DEAE7 /* SpecialCarRuleModel.m */,
 				180378751C1D4C7900F4FDCB /* AirportPickupModel.h */,
@@ -1792,6 +1797,7 @@
 				6DD875C31BF21CC3006145E2 /* main.m in Sources */,
 				6D5435BB1BF30A99002E25DA /* SettingViewController.m in Sources */,
 				6D5436221BF30F21002E25DA /* RSADataSigner.m in Sources */,
+				0E03210D1C4F59F100B53973 /* PassengerModel.m in Sources */,
 				187DE8581C2AC74F00E0A5C4 /* KLSwitch.m in Sources */,
 				6D54361F1BF30F21002E25DA /* MD5DataSigner.m in Sources */,
 				6D97F79D1BF5CC590066257C /* DownloadManager.m in Sources */,

@@ -21,6 +21,7 @@
 #import "NYCalculateSpecialCarPrice.h"
 #import "NYCalculateCharteredBusPrice.h"
 #import "StarView.h"
+#import <UIImageView+WebCache.h>
 
 @interface WaitForTheOrderViewController () <MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,IFlySpeechSynthesizerDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
 {
@@ -64,6 +65,7 @@
 @property (nonatomic,assign) NSInteger distance;
 @property (nonatomic,strong) NYCalculateSpecialCarPrice *calculateSpecialCar;
 @property (nonatomic,strong) NYCalculateCharteredBusPrice *calculateCharteredBus;
+@property (nonatomic,assign) float driveDistance;
 
 @end
 
@@ -181,6 +183,7 @@
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 74)];
     
     UIImageView *headerView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sijitouxiang"]];
+    headerView.tag = 50;
     [bgView addSubview:headerView];
     [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(bgView).with.offset(10);
@@ -237,6 +240,8 @@
     
     StarView *starView = [[StarView alloc] initWithFrame:CGRectMake(0, 0, 50, 10)];
     starView.size = CGSizeMake(50, 10);
+//    [starView setRating:0];
+    starView.tag = 500;
     [bgView addSubview:starView];
     [starView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(nameLabel).with.offset(0);
@@ -371,19 +376,22 @@
 #pragma mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _calculaterWitch = 0;
-    _driveringTime = 0;
-    _lastState = 0;
-    _iscalculateStart = 0;
-    _actualDistance = 0;
-    _distance = 0;
-    
-    [self configNavigationBar];
-    [self initMapView];
-    [self initIFlySpeech];
-    [self configDriverInfo];
-    [self initChargingBgView];
-    [self initTimer];
+    @autoreleasepool {
+        _calculaterWitch = 0;
+        _driveringTime = 0;
+        _lastState = 0;
+        _iscalculateStart = 0;
+        _actualDistance = 0;
+        _distance = 0;
+        
+        [self configNavigationBar];
+        [self initMapView];
+        [self initIFlySpeech];
+        [self configDriverInfo];
+        [self initChargingBgView];
+//        [self initTimer];
+    }
+    [self perform]
 }
 
 #pragma mark - Timer
@@ -393,7 +401,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_route_id forKey:@"route_id"];
     // 10s请求一次订单状态
-    if (_driveringTime % 10 == 0) {
+    if (_driveringTime % 13 == 0) {
         [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"near_cars"] params:params success:^(id json) {
             
             @try {
@@ -416,25 +424,7 @@
                                 _route_status = 1;
                                 self.navigationItem.title = @"等待接驾";
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
-                                NSMutableDictionary *param = [NSMutableDictionary dictionary];
-                                [param setValue:self.route_id forKey:@"route_id"];
-                                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"orderApi",@"dri_info"] params:param success:^(id json) {
-                                    infoModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
-                                    UIView *tableHeaderView = self.tableView.tableHeaderView;
-                                    UILabel *nameLabel = (UILabel *)[tableHeaderView viewWithTag:100];
-                                    UILabel *licenseLabel = (UILabel *)[tableHeaderView viewWithTag:200];
-                                    UILabel *companyLabel = (UILabel *)[tableHeaderView viewWithTag:300];
-                                    UILabel *billLabell = (UILabel *)[tableHeaderView viewWithTag:400];
-                                    StarView *starView = (StarView *)[tableHeaderView viewWithTag:500];
-                                    [starView setRating:infoModel.averagePoint.floatValue];
-                                    nameLabel.text = infoModel.owner_name;
-                                    licenseLabel.text = infoModel.license_plate;
-                                    companyLabel.text = @"";
-                                    billLabell.text = [NSString stringWithFormat:@"%@单",infoModel.num];
-                                    self.tableView.hidden = NO;
-                                } failure:^(NSError *error) {
-                                    
-                                }];
+                                [self configRouteInfo];
                                 // 记录是哪种行程
 //                                NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
 //                                if ([reservaTypeStr isEqualToString:@"1"]) {
@@ -455,6 +445,8 @@
                             if (_lastState != DriverStateReachAppointment) {
                                 _route_status = 2;
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已到达约定地点"];
+                                
+                                [self configRouteInfo];
                             }
                             _lastState = DriverStateReachAppointment;
                             break;
@@ -463,6 +455,7 @@
                         {
                             if (_lastState != DriverStateBeginCharge) {
                                 _route_status = 3;
+                                [self configRouteInfo];
                                 self.navigationItem.title = @"行程中";
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已开始计费"];
                                 _chargingBgView.y = SCREEN_HEIGHT-70-34;
@@ -477,6 +470,7 @@
                         {
                             if (_lastState != DriverStateArriveDestination) {
                                 _route_status = 4;
+                                [self configRouteInfo];
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅正在确认价格，请稍后"];
                                 _iscalculateStart = 0;
                             }
@@ -487,11 +481,15 @@
                         {
                             if (_lastState != DriverStatePayOver) {
                                 _route_status = 5;
+                                [self configRouteInfo];
                                 [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
                                 PayChargeViewController *pay = [[PayChargeViewController alloc] init];
                                 pay.actualPriceModel = _actualPriceModel;
                                 pay.passengerMessageModel = self.model;
                                 pay.route_id = self.route_id;
+                                if (!infoModel) {
+                                    infoModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"driverInfo"]];
+                                }
                                 pay.driverInfoModel = infoModel;
                                 [self.navigationController pushViewController:pay animated:YES];
                                 [_timer setFireDate:[NSDate distantFuture]];
@@ -544,15 +542,16 @@
         }
     }
     
+    if (_speed == -1) {
+        _speed = 0;
+    }
+    
     if (_iscalculateStart) {
         switch (_type) {
             // 专车
             case ReservationTypeSpecialCar:
             {
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
-                if (_speed == -1) {
-                    _speed = 0;
-                }
                 NSString *isLowSpeed = @"0";
                 if (_speed <= 3.4) {
                     isLowSpeed = @"1";
@@ -584,9 +583,6 @@
             case ReservationTypeCharteredBus:
             {
                 speedLabel.hidden = YES;
-                if (_speed == -1) {
-                    _speed = 0;
-                }
                 NSArray *priceArr = [self.calculateCharteredBus calculatePriceWithSpeed:_speed];
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[1] floatValue]];
                 _totalPrice = [NSString stringWithFormat:@"%.0f元",[priceArr[0] floatValue]];
@@ -594,7 +590,7 @@
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
                 priceLabel.attributedText = attri;
                 if (_driveringTime%60 == 0) {
-                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":priceArr[0],@"mileage":priceArr[1]} success:^(id json) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":priceArr[0],@"mileage":priceArr[1],@"carbon_emission":priceArr[2]} success:^(id json) {
                         
                     } failure:^(NSError *error) {
                         
@@ -602,17 +598,17 @@
                 }
                 break;
             }
-            // 接机，送机
+            // 接机
             case ReservationTypeAirportPickUp:
             {
-                distanceLabel.hidden = YES;
+                _driveDistance += _speed;
                 speedLabel.hidden = YES;
                 _totalPrice = [NSString stringWithFormat:@"%.0f元",_airportModel.once_price.floatValue];
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
                 priceLabel.attributedText = attri;
                 if (_driveringTime%60 == 0) {
-                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":_airportModel.once_price} success:^(id json) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":_airportModel.once_price,@"carbon_emission":[NSString stringWithFormat:@"%f",_driveDistance*0.00013]} success:^(id json) {
                         
                     } failure:^(NSError *error) {
                         
@@ -622,7 +618,7 @@
             }
             case ReservationTypeAirportDropOff:
             {
-                distanceLabel.hidden = YES;
+                _driveDistance += _speed;
                 speedLabel.hidden = YES;
 //                priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
                 _totalPrice = [NSString stringWithFormat:@"%.0f元",_airportModel.once_price.floatValue];
@@ -630,7 +626,7 @@
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
                 priceLabel.attributedText = attri;
                 if (_driveringTime%60 == 0) {
-                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":_airportModel.once_price} success:^(id json) {
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":_airportModel.once_price,@"carbon_emission":[NSString stringWithFormat:@"%f",_driveDistance*0.00013]} success:^(id json) {
                         
                     } failure:^(NSError *error) {
                         
@@ -641,6 +637,37 @@
             default:
                 break;
         }
+    }
+}
+
+- (void)configRouteInfo
+{
+    if (!infoModel) {
+        NSMutableDictionary *param = [NSMutableDictionary dictionary];
+        [param setValue:self.route_id forKey:@"route_id"];
+        [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"orderApi",@"dri_info"] params:param success:^(id json) {
+            infoModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
+                [USER_DEFAULT setObject:[NSKeyedArchiver archivedDataWithRootObject:infoModel] forKey:@"driverInfo"];
+                [USER_DEFAULT synchronize];
+            UIView *tableHeaderView = self.tableView.tableHeaderView;
+            UIImageView *headerImageView = (UIImageView *)[tableHeaderView viewWithTag:50];
+            if (![infoModel.head_image isEqualToString:@"http://112.124.115.81/"]) {
+                [headerImageView sd_setImageWithURL:[NSURL URLWithString:infoModel.head_image] placeholderImage:[UIImage imageNamed:@"sijitouxiang"]];
+            }
+            UILabel *nameLabel = (UILabel *)[tableHeaderView viewWithTag:100];
+            UILabel *licenseLabel = (UILabel *)[tableHeaderView viewWithTag:200];
+            UILabel *companyLabel = (UILabel *)[tableHeaderView viewWithTag:300];
+            UILabel *billLabel = (UILabel *)[tableHeaderView viewWithTag:400];
+            StarView *starView = (StarView *)[tableHeaderView viewWithTag:500];
+            [starView setRating:infoModel.averagePoint.floatValue];
+            nameLabel.text = infoModel.owner_name;
+            licenseLabel.text = infoModel.license_plate;
+            companyLabel.text = @"";
+            billLabel.text = [NSString stringWithFormat:@"%@单",infoModel.num];
+            self.tableView.hidden = NO;
+        } failure:^(NSError *error) {
+            
+        }];
     }
 }
 
@@ -870,6 +897,7 @@
 
 - (void)dealloc
 {
+    [self.mapView removeAnnotations:self.mapView.annotations];
     NYLog(@"%s",__FUNCTION__);
 }
 

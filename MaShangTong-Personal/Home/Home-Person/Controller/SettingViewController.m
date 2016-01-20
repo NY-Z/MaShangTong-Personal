@@ -47,8 +47,8 @@
 }
 
 - (void)configDataSource
-{
-    _dataArr = @[@[@"记住导航软件选择",@"默认开启导航"],@[@"意见反馈",@"打车指南",@"联系我们",@"关于我们"]];
+{   // @[@"记住导航软件选择",@"默认开启导航"],
+    _dataArr = @[@[@"意见反馈",@"打车指南",@"联系我们",@"关于我们"]];
 }
 
 - (void)viewDidLoad {
@@ -88,14 +88,6 @@
     return 22;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return @"消息提示";
-    }
-    return nil;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 22)];
@@ -109,7 +101,7 @@
         [headerBgView addSubview:headerLabel];
         return headerBgView;
     }
-    return headerBgView;
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -122,28 +114,27 @@
     }
     cell.leftTitleLabel.text = _dataArr[indexPath.section][indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    if (indexPath.section == 0) {
-        cell.rightSwitch.hidden = NO;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        if (indexPath.section == 0 && indexPath.row == 0) {
-            cell.rightSwitch.hidden = YES;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        } else {
-            
-        }
-    } else {
+//    if (indexPath.section == 0) {
+//        cell.rightSwitch.hidden = NO;
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//        if (indexPath.section == 0 && indexPath.row == 0) {
+//            cell.rightSwitch.hidden = YES;
+//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//        } else {
+//            
+//        }
+//    } else {
         cell.rightSwitch.hidden = YES;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
+//    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
         switch (indexPath.row) {
             case 0:
-//                [self presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:nil];
                 [self.navigationController pushViewController:[[NYSuggestionViewController alloc] init] animated:YES];
                 break;
             case 1:

@@ -8,7 +8,7 @@
 
 #import <JSONModel/JSONModel.h>
 
-@interface DriverInfoModel : JSONModel
+@interface DriverInfoModel : JSONModel <NSCoding>
 
 @property (nonatomic,strong) NSString <Optional> *create_time;
 @property (nonatomic,strong) NSString <Optional> *driver_id;
@@ -21,5 +21,6 @@
 @property (nonatomic,strong) NSString <Optional> *origin_name;
 @property (nonatomic,strong) NSString <Optional> *owner_name;
 @property (nonatomic,strong) NSString <Optional> *averagePoint;
+@property (nonatomic,strong) NSString <Optional> *head_image;
 
 @end

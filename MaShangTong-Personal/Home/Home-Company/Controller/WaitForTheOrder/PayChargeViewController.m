@@ -9,6 +9,7 @@
 #import "PayChargeViewController.h"
 #import "AccountBalanceViewController.h"
 #import "NYCommentViewController.h"
+#import <UIImageView+WebCache.h>
 
 @interface PayChargeViewController () <UIScrollViewDelegate>
 {
@@ -38,6 +39,9 @@
     }];
     
     UIImageView *headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sijitouxiang"]];
+    if (![_driverInfoModel.head_image isEqualToString:@"http://112.124.115.81/"]) {
+        [headerImageView sd_setImageWithURL:[NSURL URLWithString:_driverInfoModel.head_image]];
+    }
     [contentView addSubview:headerImageView];
     [headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(contentView).offset(30);

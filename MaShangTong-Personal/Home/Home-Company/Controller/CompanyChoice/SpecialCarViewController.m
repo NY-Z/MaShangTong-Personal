@@ -568,7 +568,6 @@
             [MBProgressHUD hideHUD];
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                #warning 这个计价规则从哪来？
                 if (self.confirmBtnBlock) {
                     self.confirmBtnBlock(model,json[@"route"][@"route_id"],specialCarRuleModel);
                 }
@@ -585,7 +584,6 @@
                     } else {
                         [MBProgressHUD showError:@"取消订单失败"];
                     }
-                        
                     
                 } failure:^(NSError *error) {
                     [MBProgressHUD hideHUD];

@@ -104,7 +104,8 @@
         RegisViewController *regis = [[RegisViewController alloc] init];
         self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
     }
-//    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[NYCommentViewController alloc] init]];
+
+    NSLog(@"%@",NSHomeDirectory());
     
     [self.window makeKeyAndVisible];
     return YES;

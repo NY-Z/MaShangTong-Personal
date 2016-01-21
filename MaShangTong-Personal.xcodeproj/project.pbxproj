@@ -14,6 +14,8 @@
 		0E20D40D1C44C58400BF6177 /* NYCompanyProtocalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E20D40C1C44C58400BF6177 /* NYCompanyProtocalViewController.m */; };
 		0E21A45B1C055FFF006A722A /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E21A45A1C055FFF006A722A /* icon.png */; };
 		0E21A4611C059862006A722A /* ValuationRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E21A4601C059862006A722A /* ValuationRuleModel.m */; };
+		0E38A5371C50E8990040236C /* NYComplaintViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E38A5351C50E8990040236C /* NYComplaintViewController.m */; };
+		0E38A5381C50E8990040236C /* NYComplaintViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E38A5361C50E8990040236C /* NYComplaintViewController.xib */; };
 		0E3FB0171C45E183002834BB /* NYCalculateSpecialCarPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FB0161C45E183002834BB /* NYCalculateSpecialCarPrice.m */; };
 		0E3FB01A1C462904002834BB /* NYCalculateCharteredBusPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FB0191C462904002834BB /* NYCalculateCharteredBusPrice.m */; };
 		0E4C92F91C02E3AC00118310 /* RegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C92F71C02E3AC00118310 /* RegisViewController.m */; };
@@ -147,8 +149,6 @@
 		10D2F5601C507AC20033F0B3 /* MyCouponTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D2F50C1C507AC20033F0B3 /* MyCouponTableViewCell.m */; };
 		10D2F5611C507AC20033F0B3 /* MyCouponTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D2F50D1C507AC20033F0B3 /* MyCouponTableViewCell.xib */; };
 		10D2F5621C507AC20033F0B3 /* MyMoney.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D2F50F1C507AC20033F0B3 /* MyMoney.m */; };
-		10D2F5631C507AC20033F0B3 /* MyNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D2F5111C507AC20033F0B3 /* MyNewsTableViewCell.m */; };
-		10D2F5641C507AC20033F0B3 /* MyNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D2F5121C507AC20033F0B3 /* MyNewsTableViewCell.xib */; };
 		10D2F5651C507AC20033F0B3 /* MyOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D2F5141C507AC20033F0B3 /* MyOrderTableViewCell.m */; };
 		10D2F5661C507AC20033F0B3 /* MyOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D2F5151C507AC20033F0B3 /* MyOrderTableViewCell.xib */; };
 		10D2F5671C507AC20033F0B3 /* MyStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D2F5171C507AC20033F0B3 /* MyStoreTableViewCell.m */; };
@@ -369,6 +369,9 @@
 		0E21A45A1C055FFF006A722A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		0E21A45F1C059862006A722A /* ValuationRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleModel.h; sourceTree = "<group>"; };
 		0E21A4601C059862006A722A /* ValuationRuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleModel.m; sourceTree = "<group>"; };
+		0E38A5341C50E8990040236C /* NYComplaintViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYComplaintViewController.h; sourceTree = "<group>"; };
+		0E38A5351C50E8990040236C /* NYComplaintViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYComplaintViewController.m; sourceTree = "<group>"; };
+		0E38A5361C50E8990040236C /* NYComplaintViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYComplaintViewController.xib; sourceTree = "<group>"; };
 		0E3FB0151C45E183002834BB /* NYCalculateSpecialCarPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCalculateSpecialCarPrice.h; sourceTree = "<group>"; };
 		0E3FB0161C45E183002834BB /* NYCalculateSpecialCarPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCalculateSpecialCarPrice.m; sourceTree = "<group>"; };
 		0E3FB0181C462904002834BB /* NYCalculateCharteredBusPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCalculateCharteredBusPrice.h; sourceTree = "<group>"; };
@@ -584,9 +587,6 @@
 		10D2F50D1C507AC20033F0B3 /* MyCouponTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCouponTableViewCell.xib; sourceTree = "<group>"; };
 		10D2F50E1C507AC20033F0B3 /* MyMoney.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMoney.h; sourceTree = "<group>"; };
 		10D2F50F1C507AC20033F0B3 /* MyMoney.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMoney.m; sourceTree = "<group>"; };
-		10D2F5101C507AC20033F0B3 /* MyNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNewsTableViewCell.h; sourceTree = "<group>"; };
-		10D2F5111C507AC20033F0B3 /* MyNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNewsTableViewCell.m; sourceTree = "<group>"; };
-		10D2F5121C507AC20033F0B3 /* MyNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyNewsTableViewCell.xib; sourceTree = "<group>"; };
 		10D2F5131C507AC20033F0B3 /* MyOrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderTableViewCell.h; sourceTree = "<group>"; };
 		10D2F5141C507AC20033F0B3 /* MyOrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderTableViewCell.m; sourceTree = "<group>"; };
 		10D2F5151C507AC20033F0B3 /* MyOrderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderTableViewCell.xib; sourceTree = "<group>"; };
@@ -881,6 +881,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E38A5331C50E8660040236C /* Complaint */ = {
+			isa = PBXGroup;
+			children = (
+				0E38A5341C50E8990040236C /* NYComplaintViewController.h */,
+				0E38A5351C50E8990040236C /* NYComplaintViewController.m */,
+				0E38A5361C50E8990040236C /* NYComplaintViewController.xib */,
+			);
+			name = Complaint;
+			sourceTree = "<group>";
+		};
 		0E4C92F51C02E38E00118310 /* RegisterAndLogin */ = {
 			isa = PBXGroup;
 			children = (
@@ -1207,9 +1217,6 @@
 				10D2F50D1C507AC20033F0B3 /* MyCouponTableViewCell.xib */,
 				10D2F50E1C507AC20033F0B3 /* MyMoney.h */,
 				10D2F50F1C507AC20033F0B3 /* MyMoney.m */,
-				10D2F5101C507AC20033F0B3 /* MyNewsTableViewCell.h */,
-				10D2F5111C507AC20033F0B3 /* MyNewsTableViewCell.m */,
-				10D2F5121C507AC20033F0B3 /* MyNewsTableViewCell.xib */,
 				10D2F5131C507AC20033F0B3 /* MyOrderTableViewCell.h */,
 				10D2F5141C507AC20033F0B3 /* MyOrderTableViewCell.m */,
 				10D2F5151C507AC20033F0B3 /* MyOrderTableViewCell.xib */,
@@ -1485,6 +1492,7 @@
 		6D54341D1BF2D92F002E25DA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0E38A5331C50E8660040236C /* Complaint */,
 				0EDE8C761C06AE6000356AF1 /* CompanyChoice */,
 				0EDE8C721C06ADF800356AF1 /* WaitForTheOrder */,
 				0EC7176D1C351EA800399EC4 /* Comment */,
@@ -1928,7 +1936,6 @@
 				0ED1D9D81BF6CB9200804B14 /* VoucherCell.xib in Resources */,
 				0E4C93091C02F91B00118310 /* ProvincesAndCities.plist in Resources */,
 				18D7BC511C25406E00CB6C52 /* tuichudenglu@3x.png in Resources */,
-				10D2F5641C507AC20033F0B3 /* MyNewsTableViewCell.xib in Resources */,
 				6D5435691BF2FA10002E25DA /* shijian@3x.png in Resources */,
 				6D5435581BF2FA10002E25DA /* qichenew@2x.png in Resources */,
 				10D2F5811C50B4A80033F0B3 /* buleHui.png in Resources */,
@@ -1978,6 +1985,7 @@
 				0EDE8C941C06D8E800356AF1 /* DriverInfoCell.xib in Resources */,
 				6D54358F1BF2FA10002E25DA /* yuangongxinxi@3x.png in Resources */,
 				10D2F5231C507AC20033F0B3 /* GSchooseOrderViewController.xib in Resources */,
+				0E38A5381C50E8990040236C /* NYComplaintViewController.xib in Resources */,
 				6D54354D1BF2FA10002E25DA /* indicator@3x.png in Resources */,
 				0EDE8C9D1C07EC7D00356AF1 /* sijidingwei@2x.png in Resources */,
 				6D54353F1BF2FA10002E25DA /* dingwei2@3x.png in Resources */,
@@ -2201,11 +2209,11 @@
 				0E4C930C1C02F94300118310 /* ProvincesAndCitiesTableViewController.m in Sources */,
 				6D5436201BF30F21002E25DA /* NSDataEx.m in Sources */,
 				6D5436231BF30F21002E25DA /* RSADataVerifier.m in Sources */,
-				10D2F5631C507AC20033F0B3 /* MyNewsTableViewCell.m in Sources */,
 				10D2F54E1C507AC20033F0B3 /* MyWalletVC.m in Sources */,
 				0E20D40D1C44C58400BF6177 /* NYCompanyProtocalViewController.m in Sources */,
 				10D2F5501C507AC20033F0B3 /* PersonInfoViewController.m in Sources */,
 				0EC717711C351EEA00399EC4 /* NYCommentViewController.m in Sources */,
+				0E38A5371C50E8990040236C /* NYComplaintViewController.m in Sources */,
 				0ED1D9D41BF6CB9200804B14 /* SendVoucherCell.m in Sources */,
 				6D54361C1BF30F21002E25DA /* base64.m in Sources */,
 				0E98D0C21C33CF9600E09CEA /* GDataXMLNode.m in Sources */,
@@ -2411,7 +2419,7 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2548,7 +2556,7 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2596,7 +2604,7 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

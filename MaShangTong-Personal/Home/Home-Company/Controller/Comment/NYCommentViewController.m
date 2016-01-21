@@ -11,6 +11,7 @@
 #import "DriverInfoModel.h"
 #import "CompanyHomeViewController.h"
 #import "HomeViewController.h"
+#import "NYComplaintViewController.h"
 
 @interface NYCommentViewController ()
 
@@ -49,6 +50,17 @@
     self.navigationItem.titleView = navTitleLabel;
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:0 target:nil action:nil];
+    
+    UILabel *rightLabel = [[UILabel alloc] init];
+    rightLabel.text = @"投诉";
+    rightLabel.textAlignment = 1;
+    rightLabel.textColor = [UIColor whiteColor];
+    rightLabel.font = [UIFont systemFontOfSize:13];
+    rightLabel.size = CGSizeMake(60, 15);
+    rightLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *rightLabelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rightLabelTaped)];
+    [rightLabel addGestureRecognizer:rightLabelTap];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightLabel];
 }
 
 - (void)viewDidLoad {
@@ -102,4 +114,12 @@
         [MBProgressHUD showError:@"评论失败，请重试"];
     }];
 }
+
+- (void)rightLabelTaped
+{
+    NYComplaintViewController *complaint = [[NYComplaintViewController alloc] init];
+    complaint.driverId = self.driverInfoModel.driver_id;
+    [self.navigationController pushViewController:complaint animated:YES];
+}
+
 @end

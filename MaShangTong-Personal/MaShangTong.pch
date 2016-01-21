@@ -45,6 +45,8 @@
 #define NYLog(...)
 #endif
 
+const static NSString *UMSocialAppKey = @"567679b067e58ec55c005520";
+
 /* ----------------------支付宝支付---------------------- */
 const static NSString *alipayPID = @"2088021763249420";
 const static NSString *alipaySecret = @"a59f834f11ed4a4eb6b87736bd7c7e3a";

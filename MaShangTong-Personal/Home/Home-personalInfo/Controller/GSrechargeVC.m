@@ -142,8 +142,8 @@ typedef enum{
     order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
     order.productName = @"码尚通余额充值";
     order.productDescription = @"码尚通余额充值";
-//    order.amount = _monryTextFiled.text;
-    order.amount = @"0.01";
+    order.amount = _monryTextFiled.text;
+//    order.amount = @"0.01";
     order.notifyURL =  @"http://www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";

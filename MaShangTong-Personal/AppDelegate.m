@@ -20,6 +20,11 @@
 #import "iflyMSC/IFlySetting.h"
 #import "IQKeyboardManager.h"
 #import "WXApi.h"
+#import "UMSocial.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialSinaSSOHandler.h"
+#import "UMSocialSinaHandler.h"
 
 #import "WaitForTheOrderViewController.h"
 #import "PayChargeViewController.h"
@@ -35,6 +40,15 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // 友盟分享
+    [UMSocialData setAppKey:(NSString *)UMSocialAppKey];
+    [UMSocialQQHandler setQQWithAppId:@"1105007699" appKey:@"bCDtAHTxJBP80oUA" url:@"http://www.umeng.com/social"];
+    [UMSocialQQHandler setSupportWebView:YES];
+    [UMSocialWechatHandler setWXAppId:@"wx3760bac068655ead" appSecret:@"d4624c36b6795d1d99dcf0547af5443d" url:@"http://www.umeng.com/social"];
+    //    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"147809891" RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
     
     NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0
                                                             diskCapacity:0

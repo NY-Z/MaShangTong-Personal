@@ -10,6 +10,7 @@
 #import "StarView.h"
 #import "DriverInfoModel.h"
 #import "CompanyHomeViewController.h"
+#import "HomeViewController.h"
 
 @interface NYCommentViewController ()
 
@@ -90,7 +91,7 @@
         if ([dataStr isEqualToString:@"1"]) {
             [MBProgressHUD showSuccess:@"评论成功"];
             for (UIViewController *vc in self.navigationController.viewControllers) {
-                if ([vc isKindOfClass:[CompanyHomeViewController class]]) {
+                if ([vc isKindOfClass:[CompanyHomeViewController class]] ||  [vc isKindOfClass:[HomeViewController class]]) {
                     [self.navigationController popToViewController:vc animated:YES];
                 }
             }

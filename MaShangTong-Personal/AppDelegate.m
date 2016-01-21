@@ -26,6 +26,7 @@
 #import "CompanyHomeViewController.h"
 #import "NYCommentViewController.h"
 #import "PayChargeViewController.h"
+#import "HomeViewController.h"
 
 @interface AppDelegate () <WXApiDelegate>
 
@@ -76,8 +77,15 @@
     self.window.backgroundColor = [UIColor whiteColor];
     NSString *str = [USER_DEFAULT objectForKey:@"isLogin"];
     if ([str isEqualToString:@"1"]) {
-        CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
-        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:companyHome];
+        NSString *str = [USER_DEFAULT objectForKey:@"group_id"];
+        if ([str isEqualToString:@"1"]) {
+            HomeViewController *personalHome = [[HomeViewController alloc]init];
+            self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:personalHome];
+        }
+        else{
+            CompanyHomeViewController *companyHome = [[CompanyHomeViewController alloc] init];
+            self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:companyHome];
+        }
     } else {
         RegisViewController *regis = [[RegisViewController alloc] init];
         self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
@@ -116,8 +124,28 @@
                 [params setValue:@"1" forKey:@"type"];
                 [params setValue:@"2" forKey:@"group_id"];
                 [self informTheServerWithParams:params];
-                break;
+                
+                if([[USER_DEFAULT objectForKey:@"group_id"] isEqualToString:@"1"]){
+                    if(self.weChatPayType == RechargePayed){
+                        [params setValue:APP_DELEGATE.payMoney forKey:@"money"];
+                        [params setValue:@"1" forKey:@"type"];
+                        
+                        [[NSNotificationCenter defaultCenter]postNotificationName:@"weChatRecharge" object:nil userInfo:params];
+                    }
+                    else if (self.weChatPayType == Payed){
+                        [params setValue:@"2" forKey:@"type"];
+                        [[NSNotificationCenter defaultCenter]postNotificationName:@"weChatPay" object:nil userInfo:params];
+                    }
+                    else if (self.weChatPayType == Buyed){
+                        [params setValue:APP_DELEGATE.payMoney forKey:@"money"];
+                        [params setValue:@"2" forKey:@"type"];
+                        [[NSNotificationCenter defaultCenter]postNotificationName:@"weChatBuy" object:nil userInfo:params];
+                    }
+                    
+                    self.weChatPayType = NonePayed;
+                }
             }
+                break;
             default:
                 NYLog(@"支付失败，retcode=%d",resp.errCode);
                 break;

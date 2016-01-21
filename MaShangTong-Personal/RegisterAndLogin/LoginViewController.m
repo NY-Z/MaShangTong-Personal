@@ -12,6 +12,7 @@
 #import "PersonRegisViewController.h"
 #import "NYForgetPasswordViewController.h"
 #import "UserModel.h"
+#import "HomeViewController.h"
 
 @interface LoginViewController ()
 
@@ -127,8 +128,8 @@
                 [USER_DEFAULT setValue:@"2" forKey:@"group_id"];
                 [self.navigationController pushViewController:companyHome animated:YES];
             } else if (self.type == LoginTypePerson) {
-                #warning 个人端登录
-                
+                [USER_DEFAULT setValue:@"1" forKey:@"group_id"];
+                [self.navigationController pushViewController:[[HomeViewController alloc]init] animated:YES];
             }
             [MBProgressHUD hideHUD];
             [MBProgressHUD showSuccess:@"登陆成功"];

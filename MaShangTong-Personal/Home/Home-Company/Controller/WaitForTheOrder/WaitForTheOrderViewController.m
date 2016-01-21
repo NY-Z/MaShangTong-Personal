@@ -13,6 +13,7 @@
 #import "AMapSearchAPI.h"
 #import "MANaviRoute.h"
 #import "PayChargeViewController.h"
+#import "GSpayVC.h"
 #import "ActualPriceModel.h"
 #import "DriverInfoModel.h"
 #import "DriverInfoCell.h"
@@ -389,9 +390,8 @@
         [self initIFlySpeech];
         [self configDriverInfo];
         [self initChargingBgView];
-//        [self initTimer];
+        [self initTimer];
     }
-    [self perform]
 }
 
 #pragma mark - Timer
@@ -483,15 +483,28 @@
                                 _route_status = 5;
                                 [self configRouteInfo];
                                 [_iFlySpeechSynthesizer startSpeaking:@"您已到达目的地，请付费"];
-                                PayChargeViewController *pay = [[PayChargeViewController alloc] init];
-                                pay.actualPriceModel = _actualPriceModel;
-                                pay.passengerMessageModel = self.model;
-                                pay.route_id = self.route_id;
-                                if (!infoModel) {
-                                    infoModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"driverInfo"]];
+                                NSString *str = [USER_DEFAULT objectForKey:@"group_id"];
+                                if ([str isEqualToString:@"1"]) {
+                                    GSpayVC *payVC = [[GSpayVC alloc]init];
+                                    
+                                    payVC.route_id = _route_id;
+                                    if (!infoModel) {
+                                        infoModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"driverInfo"]];
+                                    }
+                                    payVC.driverModel = infoModel;
+                                    [self.navigationController pushViewController:payVC animated:YES];
                                 }
-                                pay.driverInfoModel = infoModel;
-                                [self.navigationController pushViewController:pay animated:YES];
+                                else{
+                                    PayChargeViewController *pay = [[PayChargeViewController alloc] init];
+                                    pay.actualPriceModel = _actualPriceModel;
+                                    pay.passengerMessageModel = self.model;
+                                    pay.route_id = self.route_id;
+                                    if (!infoModel) {
+                                        infoModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"driverInfo"]];
+                                    }
+                                    pay.driverInfoModel = infoModel;
+                                    [self.navigationController pushViewController:pay animated:YES];
+                                }
                                 [_timer setFireDate:[NSDate distantFuture]];
                             }
                             _lastState = DriverStatePayOver;

@@ -12,6 +12,14 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+//微信支付类型
+typedef enum{
+    NonePayed,//都没有支付
+    RechargePayed,//充值
+    Payed,//支付
+    Buyed//购买套餐
+}weChatPayed;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @property (nonatomic,assign) CLLocationCoordinate2D sourceCoordinate;
@@ -36,6 +44,10 @@
 @property (nonatomic,assign) CLLocationCoordinate2D passengerCoordinate;
 
 @property (nonatomic,strong) NSString *payMoney;
+//微信支付付的钱
+@property (nonatomic,strong) NSString *paymoney;
+
+@property (nonatomic,assign)weChatPayed weChatPayType;
 
 @end
 

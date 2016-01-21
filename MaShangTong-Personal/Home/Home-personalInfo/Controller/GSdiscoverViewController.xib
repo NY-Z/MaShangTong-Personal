@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10089" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10072.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GSdiscoverViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主人，对不起，功能暂未开放~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbn-xT-RkP">
+                    <rect key="frame" x="60" y="177" width="200" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="9wN-es-aR0"/>
+                        <constraint firstAttribute="width" constant="200" id="rxn-bV-ggX"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconfont-biaoqingbaoqian.png" translatesAutoresizingMaskIntoConstraints="NO" id="xkj-nd-nX8">
+                    <rect key="frame" x="109" y="60" width="102" height="102"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="102" id="3dD-9Y-HOb"/>
+                        <constraint firstAttribute="height" constant="102" id="mW5-lr-M9u"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="sbn-xT-RkP" firstAttribute="top" secondItem="xkj-nd-nX8" secondAttribute="bottom" constant="15" id="0y0-rU-Eae"/>
+                <constraint firstItem="xkj-nd-nX8" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="37l-4g-TzR"/>
+                <constraint firstItem="sbn-xT-RkP" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ZBH-O7-f3O"/>
+                <constraint firstItem="xkj-nd-nX8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="hfr-Qe-fpe"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="iconfont-biaoqingbaoqian.png" width="1024" height="1024"/>
+    </resources>
+</document>

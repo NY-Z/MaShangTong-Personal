@@ -48,6 +48,7 @@
         make.top.equalTo(contentView).offset(8);
         make.size.mas_equalTo(CGSizeMake(55, 55));
     }];
+    headerImageView.layer.cornerRadius = 55/2;
     
     UILabel *nameLabel = [[UILabel alloc] init];
     nameLabel.text = _driverInfoModel.owner_name;

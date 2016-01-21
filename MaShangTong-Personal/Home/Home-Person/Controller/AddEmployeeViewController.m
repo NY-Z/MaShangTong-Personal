@@ -206,8 +206,7 @@
     }
     [params setValue:group forKey:@"pid_name"];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"pid_id"];
-    NYLog(@"%@",[USER_DEFAULT valueForKey:@"user_id"]);
-    NYLog(@"%@",[USER_DEFAULT objectForKey:@"user_id"]);
+
     [MBProgressHUD showMessage:@"正在添加"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"team_enter"] params:params success:^(id json) {
         [MBProgressHUD hideHUD];

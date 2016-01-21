@@ -191,6 +191,7 @@
         make.left.equalTo(bgView).with.offset(25);
         make.size.mas_equalTo(CGSizeMake(64, 64));
     }];
+    headerView.layer.cornerRadius = 32;
     
     UILabel *nameLabel = [[UILabel alloc] init];
     nameLabel.text = @"";
@@ -241,7 +242,6 @@
     
     StarView *starView = [[StarView alloc] initWithFrame:CGRectMake(0, 0, 50, 10)];
     starView.size = CGSizeMake(50, 10);
-//    [starView setRating:0];
     starView.tag = 500;
     [bgView addSubview:starView];
     [starView mas_makeConstraints:^(MASConstraintMaker *make) {

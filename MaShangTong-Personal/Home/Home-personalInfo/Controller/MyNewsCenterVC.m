@@ -128,7 +128,7 @@
             _newsDataAry = json[@"info"];
             for (NSDictionary *dic in _newsDataAry) {
                 NSString *content = [NSString stringWithFormat:@"%@",dic[@"content"]];
-                CGRect rect = [content boundingRectWithSize:CGSizeMake(260, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil];
+                CGRect rect = [content boundingRectWithSize:CGSizeMake(self.view.size.width-60, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil];
                 [_hightAry addObject:[NSString stringWithFormat:@"%.2f",rect.size.height]];
             }
             [_tableView reloadData];

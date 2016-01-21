@@ -189,7 +189,8 @@
     [params setValue:@"码尚通" forKey:@"name"];
     [params setValue:@"码尚通" forKey:@"sign"];
     [params setValue:@"6C572C72EE1CA257886E65C7E5F3" forKey:@"pwd"];
-    [params setValue:@"您的联系人好友向您推荐码尚通。" forKey:@"content"];
+    NSString *str = [NSString stringWithFormat:@"%@您好，您的朋友（%@）送了50元代金券请您打车。（）退订回复TD",mobile,[self getName]];
+    [params setValue:str forKey:@"content"];
     [params setValue:mobile forKey:@"mobile"];
     [params setValue:@"pt" forKey:@"type"];
     
@@ -203,7 +204,15 @@
         
     }];
 }
-
+#pragma mark - 从本地获取昵称
+-(NSString *)getName
+{
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [documentPath stringByAppendingString:@"/personInfo/person.plist"];
+    NSArray *ary = [NSArray arrayWithContentsOfFile:filePath];
+    
+    return ary[1];
+}
 #pragma mark - 中间de社交分享
 -(void)setMidVews
 {

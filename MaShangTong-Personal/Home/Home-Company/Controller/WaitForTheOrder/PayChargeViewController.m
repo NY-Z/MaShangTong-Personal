@@ -201,8 +201,8 @@
     
     UILabel *rightLabel = [[UILabel alloc] init];
     rightLabel.text = @"投诉";
-    rightLabel.textAlignment = 1;
-    rightLabel.textColor = [UIColor whiteColor];
+    rightLabel.textAlignment = NSTextAlignmentCenter;
+    rightLabel.textColor = RGBColor(73, 185, 254, 1.f);
     rightLabel.font = [UIFont systemFontOfSize:13];
     rightLabel.size = CGSizeMake(60, 15);
     rightLabel.userInteractionEnabled = YES;

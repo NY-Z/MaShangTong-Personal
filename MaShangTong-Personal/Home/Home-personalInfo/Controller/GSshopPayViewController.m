@@ -197,8 +197,8 @@ typedef enum{
     order.partner = (NSString *)alipayPID;
     order.seller = (NSString *)alipaySeller;
     order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
-    order.productName = @"码尚通车费支付";
-    order.productDescription = @"码尚通车费";
+    order.productName = @"码尚通购买商品";
+    order.productDescription = @"码尚通购买商品";
     order.amount = [NSString stringWithFormat:@"%.2f",[_priceStr floatValue]];
     //    order.amount = @"0.01";
     order.notifyURL =  @"http://www.baidu.com"; //回调URL
@@ -260,16 +260,15 @@ typedef enum{
 #pragma mark - 微信支付
 -(void)payWeChat
 {
-    [MBProgressHUD showMessage:@"请稍候"];
+    
     _wxPayMoney = [NSString stringWithFormat:@"%.0f",[_priceStr doubleValue]*100];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_wxPayMoney forKey:@"money"];
     [params setValue:@"192.168.0.20" forKey:@"ip"];
-    [params setValue:@"码尚通个人端余额充值" forKey:@"detail"];
+    [params setValue:@"码尚通个人端购买商品" forKey:@"detail"];
     [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (responseObject) {
-            
             NSLog(@"%@",responseObject);
             //获取到prepayid后进行第二次签名
             NSString    *package, *time_stamp, *nonce_str;

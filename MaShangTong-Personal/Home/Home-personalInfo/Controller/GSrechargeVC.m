@@ -231,7 +231,6 @@ typedef enum{
 #pragma mark - 微信充值
 -(void)payWeChat
 {
-    [MBProgressHUD showMessage:@"请稍候"];
     _wxPayMoney = [NSString stringWithFormat:@"%.0f",[_monryTextFiled.text floatValue]*100];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];

@@ -37,7 +37,7 @@
 
 - (void)configTableView
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     _tableView.tableFooterView = [[UIView alloc] init];
     _tableView.delegate = self;
     _tableView.dataSource = self;

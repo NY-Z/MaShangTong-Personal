@@ -50,6 +50,8 @@
     
     NSString *_nameStr;
     NSArray *_nearCarsAry;
+    
+    NSInteger getNearCarsNum;
 }
 //计价规则
 @property (nonatomic,copy) NSArray *ruleAry;
@@ -103,6 +105,8 @@ static BOOL isApper = YES;
 - (void)viewWillAppear:(BOOL)animated
 {
     isApper = YES;
+    
+    [_mapView removeAnnotations:_mapView.annotations];
     
     self.navigationController.navigationBar.barTintColor = RGBColor(99, 190, 255, 1.f);
     _callCarView.startTextFled.enabled = YES;
@@ -219,7 +223,9 @@ static BOOL isApper = YES;
     };
     
     _callCarView.priceTapBlock = ^() {
-        if (weakSelf.priceRuleModel.price ) {
+        if (weakSelf.priceRuleModel.price && weakSelf.priceNum > 0) {
+            
+            NSLog(@"预估价格");
             
             EstimateViewController *estimate = [[EstimateViewController alloc] init];
             estimate.estimateDic = @{@"rule":(NSDictionary *)weakSelf.ruleAry[[weakSelf.personModel.car_type_id integerValue]-1],@"estimatePrice":weakSelf.priceRuleModel.price,@"step":weakSelf.priceRuleModel.step,@"distance":[NSString stringWithFormat:@"%.2f",weakSelf.priceRuleModel.distance]};
@@ -499,7 +505,8 @@ updatingLocation:(BOOL)updatingLocation
         //获取定位位置的经纬度
         _location = [[CLLocation alloc]initWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
         //获取附近的车de位置
-        if (isApper) {
+        getNearCarsNum ++;
+        if (isApper && getNearCarsNum%10 == 0) {
             [self getNearCarsWithLocation:_location];
         }
         
@@ -551,11 +558,7 @@ updatingLocation:(BOOL)updatingLocation
     }
     
     else   if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
-        for (MAPointAnnotation *point in _mapView.annotations) {
-            if ([point isKindOfClass:[MAPointAnnotation class]] ) {
-                [_mapView removeAnnotation:point];
-            }
-        }
+        
         static NSString *anIde = @"pointAnnotation";
         MAPointAnnotation *annotation = (MAPointAnnotation *)[mapView dequeueReusableAnnotationViewWithIdentifier:anIde];
         MAAnnotationView *annitationView;
@@ -718,12 +721,13 @@ updatingLocation:(BOOL)updatingLocation
     NSDictionary *param = @{@"person_place":[NSString stringWithFormat:@"%f,%f",location.coordinate.longitude,location.coordinate.latitude]};
     
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"OrderApi",@"near_cars"];
-        NSLog(@"------%@",[NSDate date]);
     [DownloadManager post:url params:param success:^(id json) {
-                NSLog(@"======%@",[NSDate date]);
         if(json){
             NSString *str = [NSString stringWithFormat:@"%@", json[@"data"]];
             if ([str isEqualToString:@"1"]) {
+                
+                [_mapView removeAnnotations:_mapView.annotations];
+                
                 _nearCarsAry = [NSArray arrayWithArray: json[@"info"]];
                 NSMutableArray *annotationAry = [NSMutableArray new];
                 for (int i=0; i < _nearCarsAry.count; i++) {
@@ -736,11 +740,13 @@ updatingLocation:(BOOL)updatingLocation
                 }
                 [_mapView addAnnotations:annotationAry];
                 for (MAPointAnnotation *point in _mapView.annotations) {
-                    if (_nearCarsAry.count == 0) {
-                        point.title = [NSString stringWithFormat:@"附近没有车"];
-                    }
-                    else{
-                        point.title = [NSString stringWithFormat:@"附近%ld辆车",_nearCarsAry.count];
+                    if ([point isKindOfClass:[MAUserLocation class]]) {
+                        if (_nearCarsAry.count == 0) {
+                            point.title = [NSString stringWithFormat:@"附近没有车"];
+                        }
+                        else{
+                            point.title = [NSString stringWithFormat:@"附近%ld辆车",_nearCarsAry.count];
+                        }
                     }
                 }
             }

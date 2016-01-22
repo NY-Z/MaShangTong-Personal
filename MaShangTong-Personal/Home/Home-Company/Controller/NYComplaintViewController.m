@@ -56,7 +56,7 @@
         return;
     }
     [MBProgressHUD showMessage:@"投诉中"];
-    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"complaint"] params:@{@"driver_id":self.driverId,@"user_id":[USER_DEFAULT objectForKey:@"user_id"],@"content":self.complaintTextView.text} success:^(id json) {
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"complaint"] params:@{@"driver_id":self.driverId,@"user_id":[USER_DEFAULT objectForKey:@"user_id"],@"info":self.complaintTextView.text} success:^(id json) {
         [MBProgressHUD hideHUD];
         @try {
             NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];

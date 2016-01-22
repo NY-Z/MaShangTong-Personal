@@ -228,17 +228,17 @@
         make.size.mas_equalTo(CGSizeMake(60, 18));
     }];
     
-    //    for (NSInteger i = 0; i < 5; i++) {
-    //
-    //        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pingfen"]];
-    //        [bgView addSubview:imageView];
-    //
-    //        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-    //            make.left.equalTo(nameLabel).with.offset(10*i);
-    //            make.top.equalTo(licenseLabel).with.offset(20);
-    //            make.size.mas_equalTo(CGSizeMake(10, 10));
-    //        }];
-    //    }
+//        for (NSInteger i = 0; i < 5; i++) {
+//    
+//            UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pingfen"]];
+//            [bgView addSubview:imageView];
+//    
+//            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.left.equalTo(nameLabel).with.offset(10*i);
+//                make.top.equalTo(licenseLabel).with.offset(20);
+//                make.size.mas_equalTo(CGSizeMake(10, 10));
+//            }];
+//        }
     
     StarView *starView = [[StarView alloc] initWithFrame:CGRectMake(0, 0, 50, 10)];
     starView.size = CGSizeMake(50, 10);

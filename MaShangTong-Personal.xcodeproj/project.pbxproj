@@ -16,6 +16,8 @@
 		0E21A4611C059862006A722A /* ValuationRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E21A4601C059862006A722A /* ValuationRuleModel.m */; };
 		0E38A5371C50E8990040236C /* NYComplaintViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E38A5351C50E8990040236C /* NYComplaintViewController.m */; };
 		0E38A5381C50E8990040236C /* NYComplaintViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E38A5361C50E8990040236C /* NYComplaintViewController.xib */; };
+		0E38A53C1C50EEC70040236C /* MyNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E38A53A1C50EEC70040236C /* MyNewsTableViewCell.m */; };
+		0E38A53D1C50EEC70040236C /* MyNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E38A53B1C50EEC70040236C /* MyNewsTableViewCell.xib */; };
 		0E3FB0171C45E183002834BB /* NYCalculateSpecialCarPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FB0161C45E183002834BB /* NYCalculateSpecialCarPrice.m */; };
 		0E3FB01A1C462904002834BB /* NYCalculateCharteredBusPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FB0191C462904002834BB /* NYCalculateCharteredBusPrice.m */; };
 		0E4C92F91C02E3AC00118310 /* RegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C92F71C02E3AC00118310 /* RegisViewController.m */; };
@@ -372,6 +374,9 @@
 		0E38A5341C50E8990040236C /* NYComplaintViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYComplaintViewController.h; sourceTree = "<group>"; };
 		0E38A5351C50E8990040236C /* NYComplaintViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYComplaintViewController.m; sourceTree = "<group>"; };
 		0E38A5361C50E8990040236C /* NYComplaintViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYComplaintViewController.xib; sourceTree = "<group>"; };
+		0E38A5391C50EEC70040236C /* MyNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNewsTableViewCell.h; sourceTree = "<group>"; };
+		0E38A53A1C50EEC70040236C /* MyNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNewsTableViewCell.m; sourceTree = "<group>"; };
+		0E38A53B1C50EEC70040236C /* MyNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyNewsTableViewCell.xib; sourceTree = "<group>"; };
 		0E3FB0151C45E183002834BB /* NYCalculateSpecialCarPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCalculateSpecialCarPrice.h; sourceTree = "<group>"; };
 		0E3FB0161C45E183002834BB /* NYCalculateSpecialCarPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCalculateSpecialCarPrice.m; sourceTree = "<group>"; };
 		0E3FB0181C462904002834BB /* NYCalculateCharteredBusPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCalculateCharteredBusPrice.h; sourceTree = "<group>"; };
@@ -1230,6 +1235,9 @@
 				10D2F51D1C507AC20033F0B3 /* PersonInfoCell.m */,
 				10D2F51E1C507AC20033F0B3 /* settingCell.h */,
 				10D2F51F1C507AC20033F0B3 /* settingCell.m */,
+				0E38A5391C50EEC70040236C /* MyNewsTableViewCell.h */,
+				0E38A53A1C50EEC70040236C /* MyNewsTableViewCell.m */,
+				0E38A53B1C50EEC70040236C /* MyNewsTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2071,6 +2079,7 @@
 				18BB20E41C1986F0005123DA /* Default-568h@2x.png in Resources */,
 				10D2F53D1C507AC20033F0B3 /* GSdiscoverViewController.xib in Resources */,
 				6D54356F1BF2FA10002E25DA /* tianjiayuangong@3x.png in Resources */,
+				0E38A53D1C50EEC70040236C /* MyNewsTableViewCell.xib in Resources */,
 				6D5435301BF2FA10002E25DA /* che2Deselect@2x.png in Resources */,
 				0EC717721C351EEA00399EC4 /* NYCommentViewController.xib in Resources */,
 				6D54357C1BF2FA10002E25DA /* wodeyouhuiquan@2x.png in Resources */,
@@ -2289,6 +2298,7 @@
 				0ED1D9D71BF6CB9200804B14 /* VoucherCell.m in Sources */,
 				0EDE8C881C06AE6000356AF1 /* AirportPickupViewController.m in Sources */,
 				0EDE8C8C1C06AE6000356AF1 /* FlightNoViewController.m in Sources */,
+				0E38A53C1C50EEC70040236C /* MyNewsTableViewCell.m in Sources */,
 				0E71B7C41BF6E8CD00D95618 /* Helper.m in Sources */,
 				0EDE8C931C06D8E800356AF1 /* DriverInfoCell.m in Sources */,
 				6D5434981BF2F112002E25DA /* MANaviAnnotation.m in Sources */,

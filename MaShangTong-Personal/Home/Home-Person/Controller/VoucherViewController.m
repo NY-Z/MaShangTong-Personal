@@ -71,13 +71,19 @@
 {
     [MBProgressHUD showMessage:@"正在加载"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"show_ticket"] params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]} success:^(id json) {
-        [MBProgressHUD hideHUD];
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"1"]) {
-            _dataArr = json[@"info"];
-            [_tableView reloadData];
-        } else {
-            [MBProgressHUD showError:@"您没有代金券"];
+        @try {
+            [MBProgressHUD hideHUD];
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"1"]) {
+                _dataArr = json[@"info"];
+                [_tableView reloadData];
+            } else {
+                [MBProgressHUD showError:@"您没有代金券"];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         NYLog(@"%@",error.localizedDescription);

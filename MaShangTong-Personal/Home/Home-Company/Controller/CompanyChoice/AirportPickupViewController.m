@@ -373,7 +373,13 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"3" forKey:@"reserva_type"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"order_car"] params:params success:^(id json) {
-        _airportPickupRuleArr = json[@"info"][@"rule"];
+        @try {
+            _airportPickupRuleArr = json[@"info"][@"rule"];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];
     }];
@@ -548,45 +554,51 @@
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"] params:params success:^(id json) {
         
-        NYLog(@"%@",json);
-        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-        [MBProgressHUD hideHUD];
-        if ([resultStr isEqualToString:@"-1"]) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        @try {
+            NYLog(@"%@",json);
+            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+            [MBProgressHUD hideHUD];
+            if ([resultStr isEqualToString:@"-1"]) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    if (self.confirmBtnBlock) {
+                        model.route_id = json[@"route_id"];
+#warning 计价从何而来
+                        self.confirmBtnBlock(model,json[@"route"][@"route_id"],airportModel);
+                    }
+                }]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [MBProgressHUD showMessage:@"正在取消订单"];
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                        
+                        NYLog(@"%@",json);
+                        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                        [MBProgressHUD hideHUD];
+                        if ([resultStr isEqualToString:@"1"]) {
+                            [MBProgressHUD showSuccess:@"取消订单成功"];
+                        } else {
+                            [MBProgressHUD showError:@"取消订单失败"];
+                        }
+                    } failure:^(NSError *error) {
+                        [MBProgressHUD hideHUD];
+                        [MBProgressHUD showError:@"请求超时"];
+                        NYLog(@"%@",error.localizedDescription);
+                    }];
+                }]];
+                [self presentViewController:alert animated:YES completion:nil];
+            } else if ([resultStr isEqualToString:@"0"]) {
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"您的网络有问题，请重试"];
+            } else if ([resultStr isEqualToString:@"1"]) {
                 if (self.confirmBtnBlock) {
                     model.route_id = json[@"route_id"];
-#warning 计价从何而来
-                    self.confirmBtnBlock(model,json[@"route"][@"route_id"],airportModel);
+                    self.confirmBtnBlock(model,json[@"route_id"],airportModel);
                 }
-            }]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [MBProgressHUD showMessage:@"正在取消订单"];
-                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
-                    
-                    NYLog(@"%@",json);
-                    NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-                    [MBProgressHUD hideHUD];
-                    if ([resultStr isEqualToString:@"1"]) {
-                        [MBProgressHUD showSuccess:@"取消订单成功"];
-                    } else {
-                        [MBProgressHUD showError:@"取消订单失败"];
-                    }
-                } failure:^(NSError *error) {
-                    [MBProgressHUD hideHUD];
-                    [MBProgressHUD showError:@"请求超时"];
-                    NYLog(@"%@",error.localizedDescription);
-                }];
-            }]];
-            [self presentViewController:alert animated:YES completion:nil];
-        } else if ([resultStr isEqualToString:@"0"]) {
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showError:@"您的网络有问题，请重试"];
-        } else if ([resultStr isEqualToString:@"1"]) {
-            if (self.confirmBtnBlock) {
-                model.route_id = json[@"route_id"];
-                self.confirmBtnBlock(model,json[@"route_id"],airportModel);
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         

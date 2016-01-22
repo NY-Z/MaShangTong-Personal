@@ -142,18 +142,24 @@
     [MBProgressHUD showMessage:@"删除中"];
     [DownloadManager post:url params:parma success:^(id json){
         [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                [MBProgressHUD showSuccess:@"删除成功"];
-                NSMutableArray *tempAry = [NSMutableArray arrayWithArray:_dataArr];
-                [tempAry removeObjectAtIndex:indexPath.row];
-                _dataArr = tempAry;
-                [_tableView reloadData];
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD showSuccess:@"删除成功"];
+                    NSMutableArray *tempAry = [NSMutableArray arrayWithArray:_dataArr];
+                    [tempAry removeObjectAtIndex:indexPath.row];
+                    _dataArr = tempAry;
+                    [_tableView reloadData];
+                }
             }
-        }
-        else{
-            [MBProgressHUD showSuccess:@"删除失败"];
+            else{
+                [MBProgressHUD showSuccess:@"删除失败"];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         [MBProgressHUD hideHUD];
@@ -172,24 +178,26 @@
 
     [MBProgressHUD showMessage:@"加载中"];
     
-    NSDate *date = [NSDate date];
-    NSLog(@"before   %@",date);
     
     [DownloadManager post:url params:param success:^(id json) {
-        NSDate *date = [NSDate date];
-        NSLog(@"after   %@",date);
-        
-        [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                _dataArr = [NSArray arrayWithArray:json[@"info"][@"detaile"]];
-                [_tableView reloadData];
+        @try {
+            [MBProgressHUD hideHUD];
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    _dataArr = [NSArray arrayWithArray:json[@"info"][@"detaile"]];
+                    [_tableView reloadData];
+                }
+                else{
+                    [MBProgressHUD showError:@"没有行程"];
+                }
             }
-            else{
-                [MBProgressHUD showError:@"没有行程"];
-            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
+        
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"网络错误"];

@@ -71,24 +71,30 @@
     
     [DownloadManager post:url params:params success:^(id json) {
         [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                [MBProgressHUD showSuccess:@"提交成功"];
-                if (self.makeAuthentication) {
-                    self.makeAuthentication(YES);
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD showSuccess:@"提交成功"];
+                    if (self.makeAuthentication) {
+                        self.makeAuthentication(YES);
+                    }
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
-                [self.navigationController popViewControllerAnimated:YES];
+                else{
+                    [MBProgressHUD showError:@"提交失败"];
+                }
             }
             else{
                 [MBProgressHUD showError:@"提交失败"];
             }
-        }
-        else{
-            [MBProgressHUD showError:@"提交失败"];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+        
         }
     } failure:^(NSError *error) {
-        NSLog(@"%@",error.description);
+        NYLog(@"%@",error.description);
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"网络错误"];
     }];

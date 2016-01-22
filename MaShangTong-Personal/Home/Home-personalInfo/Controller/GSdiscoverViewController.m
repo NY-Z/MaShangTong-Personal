@@ -45,7 +45,7 @@
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning {

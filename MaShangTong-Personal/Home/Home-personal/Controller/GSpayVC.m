@@ -92,7 +92,7 @@ typedef enum{
     vc.backTicket = ^(NSString *ticket_id,NSString *ticket_money){
         weakSelf.ticket_id = ticket_id;
         weakSelf.ticket_money = ticket_money;
-        NSLog(@"%@,%@",ticket_id,ticket_money);
+        NYLog(@"%@,%@",ticket_id,ticket_money);
         weakSelf.orderPayType = UseOrderPay;
         
         _ture_price = _total_price - [ticket_money  doubleValue];
@@ -183,7 +183,7 @@ typedef enum{
 }
 //打电话
 - (IBAction)call:(id)sender {
-    NSLog(@"call");
+    NYLog(@"call");
     
     if (!_driverModel) {
         return;
@@ -197,7 +197,7 @@ typedef enum{
 }
 //账户余额支付
 - (IBAction)selfMoneyAction:(id)sender {
-    NSLog(@"余额支付");
+    NYLog(@"余额支付");
     [_tempBtn setImage:[UIImage imageNamed:@"payBtnDeselect"] forState:UIControlStateNormal];
     _payType = SelfMoney;
     [_selfMoneyBtn setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateNormal];
@@ -222,15 +222,15 @@ typedef enum{
 - (IBAction)makeSureAction:(id)sender {
     switch (_payType) {
         case SelfMoney:
-            NSLog(@"账户余额支付");
+            NYLog(@"账户余额支付");
             [self selfMONeyPay];
             break;
         case Alipay:
-            NSLog(@"支付宝支付");
+            NYLog(@"支付宝支付");
             [self payAlipay];
             break;
         case WeChat:
-            NSLog(@"微信支付");
+            NYLog(@"微信支付");
             [self payWeChat];
             break;
             
@@ -256,24 +256,30 @@ typedef enum{
     
     [params setValue:@"1" forKey:@"group_id"];
     [params setValue:_route_id forKey:@"route_id"];
-    NSLog(@"%@",params);
+    NYLog(@"%@",params);
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
-        NSLog(@"%@",json);
-        if (json) {
-            if ([json[@"result" ] isEqualToString:@"1" ]) {
-                
-                [self rebackOrderState];
-                
+        NYLog(@"%@",json);
+        @try {
+            if (json) {
+                if ([json[@"result" ] isEqualToString:@"1" ]) {
+                    
+                    [self rebackOrderState];
+                    
+                }
+                else{
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showError:@"支付失败"];
+                }
             }
             else{
                 [MBProgressHUD hideHUD];
-                [MBProgressHUD showError:@"支付失败"];
+                [MBProgressHUD showError:@"网络错误"];
             }
-        }
-        else{
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showError:@"网络错误"];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         [MBProgressHUD hideHUD];
@@ -388,20 +394,26 @@ typedef enum{
 {
     [MBProgressHUD hideHUD];
     [MBProgressHUD showMessage:@"正在支付"];
-    NSLog(@"%@",params);
+    NYLog(@"%@",params);
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
-            if ([str isEqualToString:@"1"]) {
-                [MBProgressHUD hideHUD];
-                [self rebackOrderState];
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD hideHUD];
+                    [self rebackOrderState];
+                }
+                else{
+                    [self payPriceWith:params];
+                }
             }
             else{
                 [self payPriceWith:params];
             }
-        }
-        else{
-            [self payPriceWith:params];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         [self payPriceWith:params];
@@ -421,7 +433,7 @@ typedef enum{
     [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (responseObject) {
             
-            NSLog(@"%@",responseObject);
+            NYLog(@"%@",responseObject);
             //获取到prepayid后进行第二次签名
             NSString    *package, *time_stamp, *nonce_str;
             //设置支付参数
@@ -443,7 +455,7 @@ typedef enum{
             NSString *sign  = [self createMd5Sign:signParams];
             [signParams setObject: sign forKey:@"sign"];
             NSMutableString *stamp  = [signParams objectForKey:@"timestamp"];
-            NSLog(@"%@",signParams);
+            NYLog(@"%@",signParams);
             //发起请求
             PayReq *req = [[PayReq alloc] init];
             
@@ -528,19 +540,25 @@ typedef enum{
     
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
         
-        if (json) {
-            NSString *str = json[@"result"];
-            if ([str isEqualToString:@"1"]) {
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showSuccess:@"支付成功"];
-                [self rebackOrderState];
+        @try {
+            if (json) {
+                NSString *str = json[@"result"];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showSuccess:@"支付成功"];
+                    [self rebackOrderState];
+                }
+                else{
+                    [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:nil]];
+                }
             }
             else{
                 [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:nil]];
             }
-        }
-        else{
-            [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:nil]];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:nil]];
@@ -552,26 +570,32 @@ typedef enum{
 {
     [MBProgressHUD hideHUD];
     [MBProgressHUD showMessage:@"正在支付"];
-    NSLog(@"%@",@{@"route_id":_route_id,@"route_status":@"6"});
+    NYLog(@"%@",@{@"route_id":_route_id,@"route_status":@"6"});
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"boarding"] params:@{@"route_id":_route_id,@"route_status":@"6"} success:^(id json) {
         
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
-            if ([str isEqualToString:@"1"]) {
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showSuccess:@"支付成功"];
-                NYCommentViewController *comment = [[NYCommentViewController alloc] init];
-                comment.driverInfoModel = self.driverModel;
-                comment.route_id = self.route_id;
-                [self.navigationController pushViewController:comment animated:YES];
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showSuccess:@"支付成功"];
+                    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+                    comment.driverInfoModel = self.driverModel;
+                    comment.route_id = self.route_id;
+                    [self.navigationController pushViewController:comment animated:YES];
+                }
+                else
+                {
+                    [self rebackOrderState];
+                }
             }
-            else
-            {
+            else{
                 [self rebackOrderState];
             }
-        }
-        else{
-            [self rebackOrderState];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [self rebackOrderState];
@@ -588,28 +612,34 @@ typedef enum{
     
     [DownloadManager post:url params:param success:^(id json) {
         [MBProgressHUD hideHUD];
-        if (json) {
-            NSNumber *num  = json[@"data"];
-            if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                _dataDic = json[@"info"];
-                
-                 _total_price = [_dataDic[@"total_price"] doubleValue];
-                _ture_price = [_dataDic[@"total_price"] doubleValue];
-                
-                _fareLabel.text = [NSString stringWithFormat:@"%@元",  _dataDic[@"total_price"]];
-                _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",[_dataDic[@"mileage"] floatValue]];
-                _carbonLabel.text = [NSString stringWithFormat:@"%.2fkg",[_dataDic[@"carbon_emission"] floatValue]];
-                
-                NSString *title =[NSString stringWithFormat:@"确认支付：%.2f",_total_price];
-                [_makeSureBtn setTitle:title forState:UIControlStateNormal];
-
+        @try {
+            if (json) {
+                NSNumber *num  = json[@"data"];
+                if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                    _dataDic = json[@"info"];
+                    
+                    _total_price = [_dataDic[@"total_price"] doubleValue];
+                    _ture_price = [_dataDic[@"total_price"] doubleValue];
+                    
+                    _fareLabel.text = [NSString stringWithFormat:@"%@元",  _dataDic[@"total_price"]];
+                    _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",[_dataDic[@"mileage"] floatValue]];
+                    _carbonLabel.text = [NSString stringWithFormat:@"%.2fkg",[_dataDic[@"carbon_emission"] floatValue]];
+                    
+                    NSString *title =[NSString stringWithFormat:@"确认支付：%.2f",_total_price];
+                    [_makeSureBtn setTitle:title forState:UIControlStateNormal];
+                    
+                }
+                else{
+                    [self getPriceAndOthers];
+                }
             }
             else{
                 [self getPriceAndOthers];
             }
-        }
-        else{
-            [self getPriceAndOthers];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -624,14 +654,20 @@ typedef enum{
     [param setValue:self.route_id forKey:@"route_id"];
     
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"orderApi",@"dri_info"] params:param success:^(id json) {
-        if (json) {
+        @try {
+            if (json) {
+                
+                self.driverModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
+                [self displayData];
+                
+            }
+            else{
+                [self getDriverInfo];
+            }
+        } @catch (NSException *exception) {
             
-            self.driverModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
-            [self displayData];
+        } @finally {
             
-        }
-        else{
-            [self getDriverInfo];
         }
     } failure:^(NSError *error) {
         [self getDriverInfo];

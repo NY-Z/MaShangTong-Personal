@@ -189,22 +189,24 @@
     NSDictionary *param = [myWalletModel getDicWith:_myWallet];
     
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"];
-    NSDate *date = [NSDate date];
-    NSLog(@"before   %@",date);
     
     [DownloadManager post:url params:param success:^(id json) {
-        NSDate *date = [NSDate date];
-        NSLog(@"after   %@",date);
-        [MBProgressHUD hideHUD];
-        
-        if(json){
-            NSMutableAttributedString *attriStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat: @"%@ 元",json[@"money"]]];
-            [attriStr setAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:28]} range:NSMakeRange(0, attriStr.length-1)];
-            self.moneyView.MyDalanceLabel.attributedText = attriStr;
-        }
-        else{
-            [MBProgressHUD showError:@"网络错误"];
-            [self.navigationController popViewControllerAnimated:YES];
+        @try {
+            [MBProgressHUD hideHUD];
+            
+            if(json){
+                NSMutableAttributedString *attriStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat: @"%@ 元",json[@"money"]]];
+                [attriStr setAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:28]} range:NSMakeRange(0, attriStr.length-1)];
+                self.moneyView.MyDalanceLabel.attributedText = attriStr;
+            }
+            else{
+                [MBProgressHUD showError:@"网络错误"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -222,26 +224,32 @@
     
     NSString *url = [NSString stringWithFormat:Mast_Url,@"UserApi",@"show_ticket"];
     [DownloadManager post:url params:param success:^(id json) {
-        [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"0"]) {
-                UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 21)];
-                label.text = @"啊哦~~您还没有优惠券~~~";
-                label.textAlignment = 1;
-                label.font = [UIFont systemFontOfSize:12];
-                label.textColor = RGBColor(192, 192, 192, 0.9f);
-                [self.chitView addSubview:label];
-                
-                self.chitView.vouchersTabelV.hidden = YES;
+        @try {
+            [MBProgressHUD hideHUD];
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"0"]) {
+                    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 21)];
+                    label.text = @"啊哦~~您还没有优惠券~~~";
+                    label.textAlignment = 1;
+                    label.font = [UIFont systemFontOfSize:12];
+                    label.textColor = RGBColor(192, 192, 192, 0.9f);
+                    [self.chitView addSubview:label];
+                    
+                    self.chitView.vouchersTabelV.hidden = YES;
+                }
+                else{
+                    [self.chitView.vouchersTabelV reloadData];
+                }
             }
             else{
-                [self.chitView.vouchersTabelV reloadData];
+                [MBProgressHUD showError:@"网络错误"];
+                [self.navigationController popViewControllerAnimated:YES];
             }
-        }
-        else{
-            [MBProgressHUD showError:@"网络错误"];
-            [self.navigationController popViewControllerAnimated:YES];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -252,7 +260,7 @@
 
 -(void)dealloc
 {
-    NSLog(@"dealloc");
+    NYLog(@"dealloc");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

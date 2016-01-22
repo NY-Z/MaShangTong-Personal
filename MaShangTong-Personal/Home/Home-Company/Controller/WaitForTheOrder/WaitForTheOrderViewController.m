@@ -43,7 +43,7 @@
     
     NSInteger _route_status;
     
-//    ReservationType _reservationType;
+    //    ReservationType _reservationType;
 }
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) UITableView *tableView;
@@ -228,17 +228,17 @@
         make.size.mas_equalTo(CGSizeMake(60, 18));
     }];
     
-//    for (NSInteger i = 0; i < 5; i++) {
-//        
-//        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pingfen"]];
-//        [bgView addSubview:imageView];
-//        
-//        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(nameLabel).with.offset(10*i);
-//            make.top.equalTo(licenseLabel).with.offset(20);
-//            make.size.mas_equalTo(CGSizeMake(10, 10));
-//        }];
-//    }
+    //    for (NSInteger i = 0; i < 5; i++) {
+    //
+    //        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pingfen"]];
+    //        [bgView addSubview:imageView];
+    //
+    //        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    //            make.left.equalTo(nameLabel).with.offset(10*i);
+    //            make.top.equalTo(licenseLabel).with.offset(20);
+    //            make.size.mas_equalTo(CGSizeMake(10, 10));
+    //        }];
+    //    }
     
     StarView *starView = [[StarView alloc] initWithFrame:CGRectMake(0, 0, 50, 10)];
     starView.size = CGSizeMake(50, 10);
@@ -426,16 +426,16 @@
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
                                 [self configRouteInfo];
                                 // 记录是哪种行程
-//                                NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
-//                                if ([reservaTypeStr isEqualToString:@"1"]) {
-//                                    _reservationType = ReservationTypeSpecialCar;
-//                                } else if ([reservaTypeStr isEqualToString:@"2"]) {
-//                                    _reservationType = ReservationTypeCharteredBus;
-//                                } else if ([reservaTypeStr isEqualToString:@"3"]) {
-//                                    _reservationType = ReservationTypeAirportPickUp;
-//                                } else if ([reservaTypeStr isEqualToString:@"4"]) {
-//                                    _reservationType = ReservationTypeAirportDropOff;
-//                                }
+                                //                                NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
+                                //                                if ([reservaTypeStr isEqualToString:@"1"]) {
+                                //                                    _reservationType = ReservationTypeSpecialCar;
+                                //                                } else if ([reservaTypeStr isEqualToString:@"2"]) {
+                                //                                    _reservationType = ReservationTypeCharteredBus;
+                                //                                } else if ([reservaTypeStr isEqualToString:@"3"]) {
+                                //                                    _reservationType = ReservationTypeAirportPickUp;
+                                //                                } else if ([reservaTypeStr isEqualToString:@"4"]) {
+                                //                                    _reservationType = ReservationTypeAirportDropOff;
+                                //                                }
                             }
                             _lastState = DriverStateOrderReceive;
                             break;
@@ -561,7 +561,7 @@
     
     if (_iscalculateStart) {
         switch (_type) {
-            // 专车
+                // 专车
             case ReservationTypeSpecialCar:
             {
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -592,7 +592,7 @@
                 }
                 break;
             }
-            // 包车
+                // 包车
             case ReservationTypeCharteredBus:
             {
                 speedLabel.hidden = YES;
@@ -611,7 +611,7 @@
                 }
                 break;
             }
-            // 接机
+                // 接机
             case ReservationTypeAirportPickUp:
             {
                 _driveDistance += _speed;
@@ -633,7 +633,7 @@
             {
                 _driveDistance += _speed;
                 speedLabel.hidden = YES;
-//                priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
+                //                priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
                 _totalPrice = [NSString stringWithFormat:@"%.0f元",_airportModel.once_price.floatValue];
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
@@ -659,25 +659,31 @@
         NSMutableDictionary *param = [NSMutableDictionary dictionary];
         [param setValue:self.route_id forKey:@"route_id"];
         [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"orderApi",@"dri_info"] params:param success:^(id json) {
-            infoModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
+            @try {
+                infoModel = [[DriverInfoModel alloc] initWithDictionary:json[@"data"] error:nil];
                 [USER_DEFAULT setObject:[NSKeyedArchiver archivedDataWithRootObject:infoModel] forKey:@"driverInfo"];
                 [USER_DEFAULT synchronize];
-            UIView *tableHeaderView = self.tableView.tableHeaderView;
-            UIImageView *headerImageView = (UIImageView *)[tableHeaderView viewWithTag:50];
-            if (![infoModel.head_image isEqualToString:@"http://112.124.115.81/"]) {
-                [headerImageView sd_setImageWithURL:[NSURL URLWithString:infoModel.head_image] placeholderImage:[UIImage imageNamed:@"sijitouxiang"]];
+                UIView *tableHeaderView = self.tableView.tableHeaderView;
+                UIImageView *headerImageView = (UIImageView *)[tableHeaderView viewWithTag:50];
+                if (![infoModel.head_image isEqualToString:@"http://112.124.115.81/"]) {
+                    [headerImageView sd_setImageWithURL:[NSURL URLWithString:infoModel.head_image] placeholderImage:[UIImage imageNamed:@"sijitouxiang"]];
+                }
+                UILabel *nameLabel = (UILabel *)[tableHeaderView viewWithTag:100];
+                UILabel *licenseLabel = (UILabel *)[tableHeaderView viewWithTag:200];
+                UILabel *companyLabel = (UILabel *)[tableHeaderView viewWithTag:300];
+                UILabel *billLabel = (UILabel *)[tableHeaderView viewWithTag:400];
+                StarView *starView = (StarView *)[tableHeaderView viewWithTag:500];
+                [starView setRating:infoModel.averagePoint.floatValue];
+                nameLabel.text = infoModel.owner_name;
+                licenseLabel.text = infoModel.license_plate;
+                companyLabel.text = @"";
+                billLabel.text = [NSString stringWithFormat:@"%@单",infoModel.num];
+                self.tableView.hidden = NO;
+            } @catch (NSException *exception) {
+                
+            } @finally {
+                
             }
-            UILabel *nameLabel = (UILabel *)[tableHeaderView viewWithTag:100];
-            UILabel *licenseLabel = (UILabel *)[tableHeaderView viewWithTag:200];
-            UILabel *companyLabel = (UILabel *)[tableHeaderView viewWithTag:300];
-            UILabel *billLabel = (UILabel *)[tableHeaderView viewWithTag:400];
-            StarView *starView = (StarView *)[tableHeaderView viewWithTag:500];
-            [starView setRating:infoModel.averagePoint.floatValue];
-            nameLabel.text = infoModel.owner_name;
-            licenseLabel.text = infoModel.license_plate;
-            companyLabel.text = @"";
-            billLabel.text = [NSString stringWithFormat:@"%@单",infoModel.num];
-            self.tableView.hidden = NO;
         } failure:^(NSError *error) {
             
         }];
@@ -839,18 +845,24 @@
             
             [MBProgressHUD showMessage:@"正在取消订单"];
             [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
-                NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-                [MBProgressHUD hideHUD];
-                if ([resultStr isEqualToString:@"1"]) {
-                    [MBProgressHUD showSuccess:@"取消订单成功"];
-                    [_timer setFireDate:[NSDate distantFuture]];
-                    if (_timer.valid) {
-                        [_timer invalidate];
+                @try {
+                    NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                    [MBProgressHUD hideHUD];
+                    if ([resultStr isEqualToString:@"1"]) {
+                        [MBProgressHUD showSuccess:@"取消订单成功"];
+                        [_timer setFireDate:[NSDate distantFuture]];
+                        if (_timer.valid) {
+                            [_timer invalidate];
+                        }
+                        _timer = nil;
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    } else {
+                        [MBProgressHUD showError:@"取消订单失败"];
                     }
-                    _timer = nil;
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
-                } else {
-                    [MBProgressHUD showError:@"取消订单失败"];
+                } @catch (NSException *exception) {
+                    
+                } @finally {
+                    
                 }
             } failure:^(NSError *error) {
                 
@@ -868,18 +880,24 @@
             
             [MBProgressHUD showMessage:@"正在取消订单"];
             [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":_route_id} success:^(id json) {
-                NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-                [MBProgressHUD hideHUD];
-                if ([resultStr isEqualToString:@"1"]) {
-                    [MBProgressHUD showSuccess:@"取消订单成功"];
-                    [_timer setFireDate:[NSDate distantFuture]];
-                    if (_timer.valid) {
-                        [_timer invalidate];
+                @try {
+                    NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                    [MBProgressHUD hideHUD];
+                    if ([resultStr isEqualToString:@"1"]) {
+                        [MBProgressHUD showSuccess:@"取消订单成功"];
+                        [_timer setFireDate:[NSDate distantFuture]];
+                        if (_timer.valid) {
+                            [_timer invalidate];
+                        }
+                        _timer = nil;
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    } else {
+                        [MBProgressHUD showError:@"取消订单失败"];
                     }
-                    _timer = nil;
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
-                } else {
-                    [MBProgressHUD showError:@"取消订单失败"];
+                } @catch (NSException *exception) {
+                    
+                } @finally {
+                    
                 }
             } failure:^(NSError *error) {
                 

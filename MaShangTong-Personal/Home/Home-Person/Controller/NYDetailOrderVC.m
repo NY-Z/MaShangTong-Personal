@@ -63,28 +63,34 @@
     NYLog(@"%@",_route_id);
     [MBProgressHUD showMessage:@"请稍候"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"userTrips_detail"] params:@{@"route_id":_route_id} success:^(id json) {
-        NYLog(@"%@",json);
-        [MBProgressHUD hideHUD];
-        _dataDic = json[@"info"];
-        [self creatMoneyLabelStr];
-        [self displayData];
-        
-        switch ([json[@"info"][@"reserva_type"] integerValue]) {
-            case 1:
-                _carTypeLabel.text = @"用车类型：专车";
-                break;
-            case 2:
-                _carTypeLabel.text = @"用车类型：包车";
-                break;
-            case 3:
-                _carTypeLabel.text = @"用车类型：接机";
-                break;
-            case 4:
-                _carTypeLabel.text = @"用车类型：送机";
-                break;
-
-            default:
-                break;
+        @try {
+            NYLog(@"%@",json);
+            [MBProgressHUD hideHUD];
+            _dataDic = json[@"info"];
+            [self creatMoneyLabelStr];
+            [self displayData];
+            
+            switch ([json[@"info"][@"reserva_type"] integerValue]) {
+                case 1:
+                    _carTypeLabel.text = @"用车类型：专车";
+                    break;
+                case 2:
+                    _carTypeLabel.text = @"用车类型：包车";
+                    break;
+                case 3:
+                    _carTypeLabel.text = @"用车类型：接机";
+                    break;
+                case 4:
+                    _carTypeLabel.text = @"用车类型：送机";
+                    break;
+                    
+                default:
+                    break;
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
 
     } failure:^(NSError *error) {

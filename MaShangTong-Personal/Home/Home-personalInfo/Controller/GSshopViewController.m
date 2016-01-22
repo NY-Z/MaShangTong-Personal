@@ -61,7 +61,7 @@
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -81,25 +81,31 @@
     NSDictionary *parmas = [NSDictionary dictionaryWithObjects:@[_shc_id,_cb_id] forKeys:@[@"shc_id",@"cb_id"]];
     NSString *url = [NSString stringWithFormat:Mast_Url,@"ShcApi",@"combo"];
     [DownloadManager post:url params:parmas success:^(id json) {
-        [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                
-                _combo_name = json[@"info"][@"combo"];
-                _combo_id = json[@"info"][@"cb_id"];
-                _perPrice = json[@"info"][@"new_price"];
-                
-                [_imageView sd_setImageWithURL:json[@"info"][@"img"]];
-                [_priceLabel setText:[NSString stringWithFormat:@"%@元",json[@"info"][@"new_price"]]];
-                
-                [_textView setText:json[@"info"][@"remark1"] ];
-                NSMutableAttributedString *addressStr = [self addressStrWith:json[@"info"]];
-                NSMutableAttributedString *contentStr = [[NSMutableAttributedString alloc]initWithString:json[@"info"][@"remark1"] ];
-                [contentStr setAttributes:@{NSForegroundColorAttributeName:RGBColor(100, 100, 100, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:16]} range:NSMakeRange(0, contentStr.length)];
-                [addressStr appendAttributedString:contentStr];
-                [_textView setAttributedText:addressStr];
+        @try {
+            [MBProgressHUD hideHUD];
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    
+                    _combo_name = json[@"info"][@"combo"];
+                    _combo_id = json[@"info"][@"cb_id"];
+                    _perPrice = json[@"info"][@"new_price"];
+                    
+                    [_imageView sd_setImageWithURL:json[@"info"][@"img"]];
+                    [_priceLabel setText:[NSString stringWithFormat:@"%@元",json[@"info"][@"new_price"]]];
+                    
+                    [_textView setText:json[@"info"][@"remark1"] ];
+                    NSMutableAttributedString *addressStr = [self addressStrWith:json[@"info"]];
+                    NSMutableAttributedString *contentStr = [[NSMutableAttributedString alloc]initWithString:json[@"info"][@"remark1"] ];
+                    [contentStr setAttributes:@{NSForegroundColorAttributeName:RGBColor(100, 100, 100, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:16]} range:NSMakeRange(0, contentStr.length)];
+                    [addressStr appendAttributedString:contentStr];
+                    [_textView setAttributedText:addressStr];
+                }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

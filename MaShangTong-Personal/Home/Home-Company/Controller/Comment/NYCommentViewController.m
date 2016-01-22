@@ -98,16 +98,22 @@
 {
     [MBProgressHUD showMessage:@"评论中"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"comment"] params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"],@"driver_id":_driverInfoModel.driver_id,@"content":_contentTextView.text,@"stars":[NSString stringWithFormat:@"%.2f",_rateStarImageView.rate],@"route_id":self.route_id} success:^(id json) {
-        [MBProgressHUD hideHUD];
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"1"]) {
-            [MBProgressHUD showSuccess:@"评论成功"];
-            for (UIViewController *vc in self.navigationController.viewControllers) {
-                if ([vc isKindOfClass:[CompanyHomeViewController class]] ||  [vc isKindOfClass:[HomeViewController class]]) {
-                    [self.navigationController popToViewController:vc animated:YES];
+        @try {
+            [MBProgressHUD hideHUD];
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"评论成功"];
+                for (UIViewController *vc in self.navigationController.viewControllers) {
+                    if ([vc isKindOfClass:[CompanyHomeViewController class]] ||  [vc isKindOfClass:[HomeViewController class]]) {
+                        [self.navigationController popToViewController:vc animated:YES];
+                    }
                 }
+                return ;
             }
-            return ;
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

@@ -88,7 +88,7 @@
 //    NSString *url = @"http://112.124.115.81/m.php?m=UserApi&a=user_show_ticket";
 //    
 //    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation,id responseObject){
-//        NSLog(@"============%@",responseObject);
+//        NYLog(@"============%@",responseObject);
 //        
 //        _vouchersDataAry = responseObject[@"info"];
 //        if (_vouchersDataAry.count == 0) {
@@ -104,7 +104,7 @@
 //        }
 //        
 //    }failure:^(AFHTTPRequestOperation *operation,NSError *error){
-//        NSLog(@"-----------------%@",error);
+//        NYLog(@"-----------------%@",error);
 //    }];
 //    
 //}

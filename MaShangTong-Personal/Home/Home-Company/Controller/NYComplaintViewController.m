@@ -58,12 +58,18 @@
     [MBProgressHUD showMessage:@"投诉中"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"complaint"] params:@{@"driver_id":self.driverId,@"user_id":[USER_DEFAULT objectForKey:@"user_id"],@"content":self.complaintTextView.text} success:^(id json) {
         [MBProgressHUD hideHUD];
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"1"]) {
-            [MBProgressHUD showSuccess:@"投诉成功"];
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            [MBProgressHUD showError:@"投诉失败，请重试"];
+        @try {
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"投诉成功"];
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                [MBProgressHUD showError:@"投诉失败，请重试"];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

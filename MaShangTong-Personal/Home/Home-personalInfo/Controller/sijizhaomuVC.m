@@ -54,13 +54,13 @@
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 //司机加盟按钮的点击事件
 - (IBAction)jiameng:(id)sender {
-    NSLog(@"司机加盟");
+    NYLog(@"司机加盟");
     
     DriverJoinInViewController *vc = [[DriverJoinInViewController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];

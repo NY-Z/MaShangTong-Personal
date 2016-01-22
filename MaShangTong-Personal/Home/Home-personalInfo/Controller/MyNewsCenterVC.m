@@ -111,29 +111,32 @@
     
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"OrderApi",@"msg_notice"];
     [MBProgressHUD showMessage:@"加载中"];
-    NSLog(@"before------%@",[NSDate date]);
     [DownloadManager post:url params:param success:^(id json) {
-        NSLog(@" after======%@",[NSDate date]);
-        [MBProgressHUD hideHUD];
-        if ([json[@"data"] isEqualToString:@"0"]) {
-            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 21)];
-            label.text = @"啊哦~~没有消息~~~";
-            label.textAlignment = 1;
-            label.font = [UIFont systemFontOfSize:12];
-            label.textColor = RGBColor(192, 192, 192, 0.9f);
-            [self.view addSubview:label];
+        @try {
+            [MBProgressHUD hideHUD];
+            if ([json[@"data"] isEqualToString:@"0"]) {
+                UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 21)];
+                label.text = @"啊哦~~没有消息~~~";
+                label.textAlignment = 1;
+                label.font = [UIFont systemFontOfSize:12];
+                label.textColor = RGBColor(192, 192, 192, 0.9f);
+                [self.view addSubview:label];
+                
+            }
+            else{
+                _newsDataAry = json[@"info"];
+                for (NSDictionary *dic in _newsDataAry) {
+                    NSString *content = [NSString stringWithFormat:@"%@",dic[@"content"]];
+                    CGRect rect = [content boundingRectWithSize:CGSizeMake(self.view.size.width-60, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil];
+                    [_hightAry addObject:[NSString stringWithFormat:@"%.2f",rect.size.height]];
+                }
+                [_tableView reloadData];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
             
         }
-        else{
-            _newsDataAry = json[@"info"];
-            for (NSDictionary *dic in _newsDataAry) {
-                NSString *content = [NSString stringWithFormat:@"%@",dic[@"content"]];
-                CGRect rect = [content boundingRectWithSize:CGSizeMake(self.view.size.width-60, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil];
-                [_hightAry addObject:[NSString stringWithFormat:@"%.2f",rect.size.height]];
-            }
-            [_tableView reloadData];
-        }
-
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"网络错误"];

@@ -192,25 +192,31 @@
     [params setValue:@"3" forKey:@"group_id"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"register"] params:params success:^(id json) {
         
-        NYLog(@"%@",json);
-        NSString *resultStr = json[@"result"];
-        if ([resultStr isEqualToString:@"1"]) {
+        @try {
+            NYLog(@"%@",json);
+            NSString *resultStr = json[@"result"];
+            if ([resultStr isEqualToString:@"1"]) {
+                
+                [MBProgressHUD showSuccess:@"注册成功 请继续填写您的详细信息"];
+                DetailInfoViewController *detailInfo = [[DetailInfoViewController alloc] init];
+                detailInfo.userId = json[@"user_id"];
+                [self.navigationController pushViewController:detailInfo animated:YES];
+                
+                
+            } else if ([resultStr isEqualToString:@"0"]) {
+                
+                [MBProgressHUD showError:@"注册失败，请重新注册"];
+                return ;
+                
+            } else if ([resultStr isEqualToString:@"-1"]) {
+                
+                [MBProgressHUD showError:@"该手机号码已注册"];
+                return;
+            }
+        } @catch (NSException *exception) {
             
-            [MBProgressHUD showSuccess:@"注册成功 请继续填写您的详细信息"];
-            DetailInfoViewController *detailInfo = [[DetailInfoViewController alloc] init];
-            detailInfo.userId = json[@"user_id"];
-            [self.navigationController pushViewController:detailInfo animated:YES];
+        } @finally {
             
-            
-        } else if ([resultStr isEqualToString:@"0"]) {
-            
-            [MBProgressHUD showError:@"注册失败，请重新注册"];
-            return ;
-            
-        } else if ([resultStr isEqualToString:@"-1"]) {
-            
-            [MBProgressHUD showError:@"该手机号码已注册"];
-            return;
         }
         
     } failure:^(NSError *error) {

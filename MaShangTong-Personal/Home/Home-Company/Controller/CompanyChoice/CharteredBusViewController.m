@@ -282,18 +282,24 @@
     [params setValue:@"2" forKey:@"reserva_type"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"chartered_bus_rule"] params:params success:^(id json) {
         NYLog(@"%@",json);
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"0"] || !json) {
-            [self requestTheRules];
-            return ;
-        } else {
-            _charteredBusRuleArr = json[@"rule"];
-            _charteredBusDescArr = json[@"desc"];
-            [self.durationBtn setTitle:_charteredBusDescArr[0] forState:UIControlStateNormal];
-            NSString *once_price = [NSString stringWithFormat:@"约 %@ 元",json[@"rule"][_selectedBtn.tag-200][@"once_price"]];
-            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:once_price];
-            [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, ((NSString *)json[@"rule"][0][@"once_price"]).length)];
-            _priceLabel.attributedText = attri;
+        @try {
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"0"] || !json) {
+                [self requestTheRules];
+                return ;
+            } else {
+                _charteredBusRuleArr = json[@"rule"];
+                _charteredBusDescArr = json[@"desc"];
+                [self.durationBtn setTitle:_charteredBusDescArr[0] forState:UIControlStateNormal];
+                NSString *once_price = [NSString stringWithFormat:@"约 %@ 元",json[@"rule"][_selectedBtn.tag-200][@"once_price"]];
+                NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:once_price];
+                [attri addAttributes:@{NSForegroundColorAttributeName:RGBColor(109, 193, 255, 1.f),NSFontAttributeName:[UIFont systemFontOfSize:40]} range:NSMakeRange(2, ((NSString *)json[@"rule"][0][@"once_price"]).length)];
+                _priceLabel.attributedText = attri;
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         
@@ -460,46 +466,52 @@
     PassengerMessageModel *model = [[PassengerMessageModel alloc] initWithDictionary:params error:nil];
     CharteredBusRule *charteredBusRule = [self checkWhitchRule];
     [DownloadManager post:urlStr params:params success:^(id json) {
-        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-        if ([resultStr isEqualToString:@"1"]) {
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showSuccess:@"订单发送成功，请等待接单"];
-            if (self.confirmBtnBlock) {
-                model.route_id = json[@"route_id"];
-                self.confirmBtnBlock(model,json[@"route_id"],charteredBusRule);
-            }
-        } else if ([resultStr isEqualToString:@"0"]) {
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showError:@"您的网络有问题，请重试"];
-        } else if ([resultStr isEqualToString:@"-1"]) {
-            [MBProgressHUD hideHUD];
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-#warning 计价规则从哪来？
+        @try {
+            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+            if ([resultStr isEqualToString:@"1"]) {
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showSuccess:@"订单发送成功，请等待接单"];
                 if (self.confirmBtnBlock) {
                     model.route_id = json[@"route_id"];
-                    self.confirmBtnBlock(model,json[@"route"][@"route_id"],charteredBusRule);
+                    self.confirmBtnBlock(model,json[@"route_id"],charteredBusRule);
                 }
-            }]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [MBProgressHUD showMessage:@"正在取消订单"];
-                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
-                    
-                    NYLog(@"%@",json);
-                    NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-                    [MBProgressHUD hideHUD];
-                    if ([resultStr isEqualToString:@"1"]) {
-                        [MBProgressHUD showSuccess:@"取消订单成功"];
-                    } else {
-                        [MBProgressHUD showError:@"取消订单失败"];
+            } else if ([resultStr isEqualToString:@"0"]) {
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"您的网络有问题，请重试"];
+            } else if ([resultStr isEqualToString:@"-1"]) {
+                [MBProgressHUD hideHUD];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+#warning 计价规则从哪来？
+                    if (self.confirmBtnBlock) {
+                        model.route_id = json[@"route_id"];
+                        self.confirmBtnBlock(model,json[@"route"][@"route_id"],charteredBusRule);
                     }
-                } failure:^(NSError *error) {
-                    [MBProgressHUD hideHUD];
-                    [MBProgressHUD showError:@"请求超时"];
-                    NYLog(@"%@",error.localizedDescription);
-                }];
-            }]];
-            [self presentViewController:alert animated:YES completion:nil];
+                }]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [MBProgressHUD showMessage:@"正在取消订单"];
+                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":json[@"route"][@"route_id"]} success:^(id json) {
+                        
+                        NYLog(@"%@",json);
+                        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+                        [MBProgressHUD hideHUD];
+                        if ([resultStr isEqualToString:@"1"]) {
+                            [MBProgressHUD showSuccess:@"取消订单成功"];
+                        } else {
+                            [MBProgressHUD showError:@"取消订单失败"];
+                        }
+                    } failure:^(NSError *error) {
+                        [MBProgressHUD hideHUD];
+                        [MBProgressHUD showError:@"请求超时"];
+                        NYLog(@"%@",error.localizedDescription);
+                    }];
+                }]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         

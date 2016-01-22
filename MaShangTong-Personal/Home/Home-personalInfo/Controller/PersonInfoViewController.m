@@ -72,7 +72,7 @@ static BOOL isHadAutonym = NO;
 //点击了广告图片
 -(void)clickADImage:(UIButton *)sender
 {
-    NSLog(@"点击了广告图片");
+    NYLog(@"点击了广告图片");
 }
 - (void)configNavigationItem
 {
@@ -404,32 +404,38 @@ static BOOL isHadAutonym = NO;
     [DownloadManager post:url params:param success:^(id json) {
         [MBProgressHUD hideHUD];
         
-        if (json) {
-            if ([[NSString stringWithFormat:@"%@",json[@"data"]] isEqualToString:@"1" ]) {
-                [MBProgressHUD showSuccess:@"修改成功"];
-                if (row == 0) {
-                    _contentAry  = [GSPersonInfoModel updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:0 andContent:_personInfo.portraitImage];
-                    [_tableView reloadData];
-                }
-                else{
-                    NSArray *keyAry = @[@"user_name",@"sex",@"byear",@"city"];
-                    NSString *str ;
-                    if (row == 3) {
-                        str = [NSString stringWithFormat:@"%@%@",dic[keyAry[row-1]],@"后"];
-                        
+        @try {
+            if (json) {
+                if ([[NSString stringWithFormat:@"%@",json[@"data"]] isEqualToString:@"1" ]) {
+                    [MBProgressHUD showSuccess:@"修改成功"];
+                    if (row == 0) {
+                        _contentAry  = [GSPersonInfoModel updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:0 andContent:_personInfo.portraitImage];
+                        [_tableView reloadData];
                     }
                     else{
-                        str = [NSString stringWithFormat:@"%@",dic[keyAry[row-1]]];
+                        NSArray *keyAry = @[@"user_name",@"sex",@"byear",@"city"];
+                        NSString *str ;
+                        if (row == 3) {
+                            str = [NSString stringWithFormat:@"%@%@",dic[keyAry[row-1]],@"后"];
+                            
+                        }
+                        else{
+                            str = [NSString stringWithFormat:@"%@",dic[keyAry[row-1]]];
+                        }
+                        _contentAry = [GSPersonInfoModel updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:row andContent:str];
+                        [_tableView reloadData];
+                        
                     }
-                    _contentAry = [GSPersonInfoModel updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:row andContent:str];
-                    [_tableView reloadData];
-                    
+                }
+                else
+                {
+                    [MBProgressHUD showError:@"修改失败"];
                 }
             }
-            else
-            {
-                [MBProgressHUD showError:@"修改失败"];
-            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -451,15 +457,21 @@ static BOOL isHadAutonym = NO;
     NSString *url = [NSString stringWithFormat:Mast_Url,@"OrderApi",@"adv"];
     
     [DownloadManager get:url params:params success:^(id json){
-        if (json) {
-            NSNumber *num = json[@"data"];
-            if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                [imageView sd_setImageWithURL:json[@"info"] placeholderImage:[UIImage imageNamed:@"advertisementImage"] completed:^(UIImage *image,NSError *error,SDImageCacheType cacheType,NSURL *imageURL){
+        @try {
+            if (json) {
+                NSNumber *num = json[@"data"];
+                if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                    [imageView sd_setImageWithURL:json[@"info"] placeholderImage:[UIImage imageNamed:@"advertisementImage"] completed:^(UIImage *image,NSError *error,SDImageCacheType cacheType,NSURL *imageURL){
+                        
+                    }];
                     
-                }];
-                
-                //                imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:json[@"info"]]]];
+                    //                imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:json[@"info"]]]];
+                }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         
@@ -473,29 +485,35 @@ static BOOL isHadAutonym = NO;
     
     NSString *url = [NSString stringWithFormat:Mast_Url,@"UserApi",@"certification"];
     [DownloadManager post:url params:params success:^(id json) {
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"info"]];
-            if ([str isEqualToString:@"-1"]) {
-                _autonym = @"认证失败";
-                isHadAutonym = NO;
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"info"]];
+                if ([str isEqualToString:@"-1"]) {
+                    _autonym = @"认证失败";
+                    isHadAutonym = NO;
+                }
+                else if ([str isEqualToString:@"0"]){
+                    _autonym = @"未认证";
+                    isHadAutonym = NO;
+                }
+                else if ([str isEqualToString:@"1"]){
+                    _autonym = @"认证中";
+                    isHadAutonym = YES;
+                }
+                else{
+                    _autonym = @"已认证";
+                    isHadAutonym = YES;
+                }
+                [_tableView reloadData];
+                
             }
-            else if ([str isEqualToString:@"0"]){
-                _autonym = @"未认证";
-                isHadAutonym = NO;
-            }
-            else if ([str isEqualToString:@"1"]){
-                _autonym = @"认证中";
-                isHadAutonym = YES;
-            }
-            else{
-                _autonym = @"已认证";
-                isHadAutonym = YES;
-            }
-            [_tableView reloadData];
+        } @catch (NSException *exception) {
+            
+        } @finally {
             
         }
     } failure:^(NSError *error) {
-        NSLog(@"%@",error.description);
+        NYLog(@"%@",error.description);
         [MBProgressHUD showError:@"网络错误"];
     }];
 

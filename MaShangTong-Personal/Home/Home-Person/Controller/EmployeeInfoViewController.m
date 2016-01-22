@@ -245,14 +245,20 @@
         [params setValue:textFiled.text forKey:@"group_name"];
         [params setValue:[NSString stringWithFormat:@"group%li",_dataArr.count+1] forKey:@"groupn"];
         [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"add_team"] params:params success:^(id json) {
-            NYLog(@"%@",json);
-            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([dataStr isEqualToString:@"0"]) {
-                [MBProgressHUD showError:@"添加失败"];
-                return ;
-            } else if ([dataStr isEqualToString:@"1"]) {
-                [_dataArr addObject:@{@"detail":[NSMutableArray array],@"pid_name":textFiled.text}];
-                [_tableView reloadData];
+            @try {
+                NYLog(@"%@",json);
+                NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([dataStr isEqualToString:@"0"]) {
+                    [MBProgressHUD showError:@"添加失败"];
+                    return ;
+                } else if ([dataStr isEqualToString:@"1"]) {
+                    [_dataArr addObject:@{@"detail":[NSMutableArray array],@"pid_name":textFiled.text}];
+                    [_tableView reloadData];
+                }
+            } @catch (NSException *exception) {
+            
+            } @finally {
+                
             }
         } failure:^(NSError *error) {
             

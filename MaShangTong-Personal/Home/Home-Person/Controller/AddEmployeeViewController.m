@@ -210,12 +210,18 @@
     [MBProgressHUD showMessage:@"正在添加"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"team_enter"] params:params success:^(id json) {
         [MBProgressHUD hideHUD];
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"1"]) {
-            [MBProgressHUD showSuccess:@"添加成功"];
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            [MBProgressHUD showError:json[@"data"]];
+        @try {
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"添加成功"];
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                [MBProgressHUD showError:json[@"data"]];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

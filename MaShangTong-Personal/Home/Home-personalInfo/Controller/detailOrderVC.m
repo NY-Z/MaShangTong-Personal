@@ -47,7 +47,7 @@
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -67,11 +67,17 @@
     
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"UserApi",@"userTrips_detail"];
     [DownloadManager post:url params:param success:^(id json) {
-        NYLog(@"%@",json);
-        [MBProgressHUD hideHUD];
-        _dataDic = json[@"info"];
-        [self creatMoneyLabelStr];
-        [self displayData];
+        @try {
+            NYLog(@"%@",json);
+            [MBProgressHUD hideHUD];
+            _dataDic = json[@"info"];
+            [self creatMoneyLabelStr];
+            [self displayData];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"网络错误"];

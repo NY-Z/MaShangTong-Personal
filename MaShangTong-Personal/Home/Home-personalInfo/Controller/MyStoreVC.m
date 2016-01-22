@@ -69,13 +69,13 @@
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 //点击我的消费详细
 -(void)myConsumption
 {
-    NSLog(@"去我的消费中心");
+    NYLog(@"去我的消费中心");
     MyStoreCenter *vc = [[MyStoreCenter alloc]init];
     
     [self.navigationController pushViewController:vc animated:NO];
@@ -164,22 +164,26 @@
 {    
     [MBProgressHUD showMessage:@"正在加载"];
     //获取商城内详细
-    NSLog(@"======%@",[NSDate date]);
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"ShcApi",@"shh"] params:nil success:^(id json){
-        NSLog(@"------%@",[NSDate date]);
-        [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                _dataAry = json[@"info"];
-                [_tableView reloadData];
+        @try {
+            [MBProgressHUD hideHUD];
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    _dataAry = json[@"info"];
+                    [_tableView reloadData];
+                }
+                else{
+                    [MBProgressHUD showSuccess:@"暂没有商家入驻"];
+                }
             }
             else{
-                [MBProgressHUD showSuccess:@"暂没有商家入驻"];
+                [MBProgressHUD showError:@"网络错误"];
             }
-        }
-        else{
-            [MBProgressHUD showError:@"网络错误"];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
         
     }failure:^(NSError *error){

@@ -49,15 +49,11 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     [MBProgressHUD showMessage:@"正在加载"];
-    NSLog(@"----------%@",[NSDate date]);
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"myTrips"] params:params success:^(id json) {
-        NSLog(@"===========%@",[NSDate date]);
         [MBProgressHUD hideHUD];
         @try {
             _dataArr = json[@"info"][@"detaile"];
             [_tableView reloadData];
-            NSDate *date = [NSDate date];
-            NYLog(@"%@",date);
         }
         @catch (NSException *exception) {
             [MBProgressHUD showError:@"网络错误,请重试"];

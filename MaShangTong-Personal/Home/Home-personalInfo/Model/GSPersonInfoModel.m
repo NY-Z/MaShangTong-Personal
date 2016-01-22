@@ -71,28 +71,34 @@
     
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"UserApi",@"user_info"];
     [DownloadManager post:url params:param success:^(id json) {
-        NSLog(@"%@",json);
-        if (json) {
-            NSURL *urlStr = [NSURL URLWithString:json[@"data"][@"head_image"]];
-            NSData *data = [NSData dataWithContentsOfURL:urlStr];
-            if (data) {
-                [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:0 andContent:data];
-                
-                [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:1 andContent:json[@"data"][@"user_name"]];
-                
-                [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:2 andContent:json[@"data"][@"sex"]];
-                
-                [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:3 andContent:json[@"data"][@"byear"]];
-                
-                [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:4 andContent:json[@"data"][@"city"]];
-                
-                [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:5 andContent:json[@"data"][@"mobile"]];
-                
+        @try {
+            NYLog(@"%@",json);
+            if (json) {
+                NSURL *urlStr = [NSURL URLWithString:json[@"data"][@"head_image"]];
+                NSData *data = [NSData dataWithContentsOfURL:urlStr];
+                if (data) {
+                    [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:0 andContent:data];
+                    
+                    [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:1 andContent:json[@"data"][@"user_name"]];
+                    
+                    [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:2 andContent:json[@"data"][@"sex"]];
+                    
+                    [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:3 andContent:json[@"data"][@"byear"]];
+                    
+                    [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:4 andContent:json[@"data"][@"city"]];
+                    
+                    [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:5 andContent:json[@"data"][@"mobile"]];
+                    
+                    
+                }
+            }
+            else
+            {
                 
             }
-        }
-        else
-        {
+        } @catch (NSException *exception) {
+            
+        } @finally {
             
         }
     } failure:^(NSError *error) {

@@ -56,7 +56,7 @@ static int number = 1;
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)minusAction:(id)sender {
@@ -87,16 +87,22 @@ static int number = 1;
     
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"ShcApi",@"sub_order"] params:params success:^(id json) {
         [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@", json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                GSshopPayViewController *vc = [[GSshopPayViewController alloc]init];
-                vc.goodsName = self.goodsName;
-                vc.priceStr = _total.text;
-                vc.route_id = json[@"order_id"];
-                [self.navigationController pushViewController:vc animated:YES];
-
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@", json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    GSshopPayViewController *vc = [[GSshopPayViewController alloc]init];
+                    vc.goodsName = self.goodsName;
+                    vc.priceStr = _total.text;
+                    vc.route_id = json[@"order_id"];
+                    [self.navigationController pushViewController:vc animated:YES];
+                    
+                }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

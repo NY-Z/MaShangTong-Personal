@@ -70,7 +70,7 @@
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 //编辑按钮的点击事件
@@ -200,13 +200,19 @@
             break;
     }
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"ShcApi",@"myOrder"] params:params success:^(id json) {
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                _dataAry = json[@"info"];
-                [_tableView reloadData];
-                [_tableView scrollsToTop];
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    _dataAry = json[@"info"];
+                    [_tableView reloadData];
+                    [_tableView scrollsToTop];
+                }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网路错误"];
@@ -282,20 +288,26 @@
     
     [DownloadManager post:url params:params success:^(id json) {
         [MBProgressHUD hideHUD];
-        if(json){
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ( [str isEqualToString:@"1"]) {
-                [MBProgressHUD showSuccess:@"删除成功"];
-                NSMutableArray *tempAry = [NSMutableArray arrayWithArray:_dataAry];
-                [tempAry removeObjectAtIndex:num];
-                _dataAry = tempAry;
-                [_tableView reloadData];
-            }
-            else{
+        @try {
+            if(json){
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ( [str isEqualToString:@"1"]) {
+                    [MBProgressHUD showSuccess:@"删除成功"];
+                    NSMutableArray *tempAry = [NSMutableArray arrayWithArray:_dataAry];
+                    [tempAry removeObjectAtIndex:num];
+                    _dataAry = tempAry;
+                    [_tableView reloadData];
+                }
+                else{
+                    [MBProgressHUD showError:@"删除失败"];
+                }
+            }else{
                 [MBProgressHUD showError:@"删除失败"];
             }
-        }else{
-            [MBProgressHUD showError:@"删除失败"];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

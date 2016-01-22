@@ -153,19 +153,24 @@
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"register"] params:params success:^(id json) {
         
-        NYLog(@"%@",json);
-        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-        [MBProgressHUD hideHUD];
-        if ([resultStr isEqualToString:@"1"]) {
-            [MBProgressHUD showError:@"注册成功"];
-            return ;
-        } else if ([resultStr isEqualToString:@"0"]) {
-            [MBProgressHUD showError:@"您的网络有点问题，请重新注册"];
-            return;
-        } else if ([resultStr isEqualToString:@"-1"]) {
-#warning 注册成功
-            [MBProgressHUD showSuccess:json[@"data"]];
-            return;
+        @try {
+            NYLog(@"%@",json);
+            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+            [MBProgressHUD hideHUD];
+            if ([resultStr isEqualToString:@"1"]) {
+                [MBProgressHUD showError:@"注册成功"];
+                return ;
+            } else if ([resultStr isEqualToString:@"0"]) {
+                [MBProgressHUD showError:@"您的网络有点问题，请重新注册"];
+                return;
+            } else if ([resultStr isEqualToString:@"-1"]) {
+                [MBProgressHUD showSuccess:json[@"data"]];
+                return;
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
         
     } failure:^(NSError *error) {

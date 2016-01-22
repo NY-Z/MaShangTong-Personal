@@ -120,12 +120,12 @@ static NSInteger betweenTime;
     }
     //如果大于三天，则提示重新选择
     if (betweenTime > 259200) {
-        NSLog(@"超出三天");
+        NYLog(@"超出三天");
         UIAlertView *alter = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入小于三天的时间。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alter show];
         return;
     }
-    NSLog(@"%@",_reservation_time);
+    NYLog(@"%@",_reservation_time);
     if (self.sendTime) {
         self.sendTime(_reservation_time,_reservation_type,str);
     }

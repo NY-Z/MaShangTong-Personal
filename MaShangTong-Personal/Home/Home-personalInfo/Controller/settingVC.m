@@ -154,7 +154,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    NSLog(@"点击了cell");
+    NYLog(@"点击了cell");
     switch (indexPath.section) {
 
 //        case <#constant#>:

@@ -62,14 +62,20 @@
     [MBProgressHUD showMessage:@"反馈中"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"feedBack"] params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"],@"content":_suggestionTextView.text} success:^(id json) {
        
-        [MBProgressHUD hideHUD];
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"0"]) {
-            [MBProgressHUD showError:@"反馈失败，请重试"];
-            return ;
-        } else if ([dataStr isEqualToString:@"1"]) {
-            [MBProgressHUD showSuccess:@"感谢您的反馈信息"];
-            [self.navigationController popViewControllerAnimated:YES];
+        @try {
+            [MBProgressHUD hideHUD];
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"0"]) {
+                [MBProgressHUD showError:@"反馈失败，请重试"];
+                return ;
+            } else if ([dataStr isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"感谢您的反馈信息"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
         
     } failure:^(NSError *error) {

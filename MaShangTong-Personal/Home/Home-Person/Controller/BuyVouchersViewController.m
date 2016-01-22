@@ -164,12 +164,18 @@
     [MBProgressHUD showMessage:@"购买中"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"buy_tickets"] params:params success:^(id json) {
         [MBProgressHUD hideHUD];
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"0"]) {
-            [MBProgressHUD showError:@"购买失败，请重试"];
-            return ;
-        } else if ([dataStr isEqualToString:@"1"]) {
-            [self.navigationController popViewControllerAnimated:YES];
+        @try {
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"0"]) {
+                [MBProgressHUD showError:@"购买失败，请重试"];
+                return ;
+            } else if ([dataStr isEqualToString:@"1"]) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

@@ -75,7 +75,7 @@
     if(string.length >0){
         BOOL isSure = [self validateABC123:string];
         if (!isSure) {
-            NSLog(@"格式不符合");
+            NYLog(@"格式不符合");
             UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"只能包含数字、英文字母和符号" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [alertV show];
             textField.text = nil;
@@ -147,26 +147,32 @@
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"UserApi",@"modify_password"];
     
     [DownloadManager post:url params:param success:^(id json) {
-        NYLog(@"%@",json);
-        if (json) {
-            if ([[NSString stringWithFormat:@"%@", json[@"data"] ]  isEqualToString:@"1"]) {
-                NSString *resultsStr = [NSString stringWithFormat:@"%@",json[@"info"]];
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showSuccess:resultsStr];
-                if (self.navigationController.viewControllers.count == 3) {
-                    BOOL a = [self.navigationController.viewControllers[1] isKindOfClass:[RegisViewController class]];
-                    if (a) {
-                        [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
+        @try {
+            NYLog(@"%@",json);
+            if (json) {
+                if ([[NSString stringWithFormat:@"%@", json[@"data"] ]  isEqualToString:@"1"]) {
+                    NSString *resultsStr = [NSString stringWithFormat:@"%@",json[@"info"]];
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showSuccess:resultsStr];
+                    if (self.navigationController.viewControllers.count == 3) {
+                        BOOL a = [self.navigationController.viewControllers[1] isKindOfClass:[RegisViewController class]];
+                        if (a) {
+                            [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
+                        }
+                    }
+                    else {
+                        RegisViewController *regis = [[RegisViewController alloc] init];
+                        [UIApplication sharedApplication].keyWindow.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
+                        [USER_DEFAULT setValue:@"0" forKey:@"isLogin"];
+                        [USER_DEFAULT setValue:@"0" forKey:@"group_id"];
+                        [self.navigationController popToRootViewControllerAnimated:YES];
                     }
                 }
-                else {
-                    RegisViewController *regis = [[RegisViewController alloc] init];
-                    [UIApplication sharedApplication].keyWindow.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
-                    [USER_DEFAULT setValue:@"0" forKey:@"isLogin"];
-                    [USER_DEFAULT setValue:@"0" forKey:@"group_id"];
-                    [self.navigationController popToRootViewControllerAnimated:YES];
-                }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
         
     } failure:^(NSError *error) {

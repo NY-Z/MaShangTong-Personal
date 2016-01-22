@@ -330,7 +330,13 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@"4" forKey:@"reserva_type"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"order_car"] params:params success:^(id json) {
-        _airportPickupRuleArr = json[@"info"][@"rule"];
+        @try {
+            _airportPickupRuleArr = json[@"info"][@"rule"];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            [self requestTheRules];
+        }
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];
     }];
@@ -513,6 +519,7 @@
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"] params:params success:^(id json) {
             NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
             [MBProgressHUD hideHUD];
+        @try {
             if ([resultStr isEqualToString:@"-1"]) {
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
                 [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -549,6 +556,11 @@
                     self.confirmBtnBlock(model,json[@"route_id"],airportModel);
                 }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"订单发送失败，请重试"];

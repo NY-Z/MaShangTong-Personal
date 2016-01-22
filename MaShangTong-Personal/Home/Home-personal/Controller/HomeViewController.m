@@ -225,7 +225,7 @@ static BOOL isApper = YES;
     _callCarView.priceTapBlock = ^() {
         if (weakSelf.priceRuleModel.price && weakSelf.priceNum > 0) {
             
-            NSLog(@"预估价格");
+            NYLog(@"预估价格");
             
             EstimateViewController *estimate = [[EstimateViewController alloc] init];
             estimate.estimateDic = @{@"rule":(NSDictionary *)weakSelf.ruleAry[[weakSelf.personModel.car_type_id integerValue]-1],@"estimatePrice":weakSelf.priceRuleModel.price,@"step":weakSelf.priceRuleModel.step,@"distance":[NSString stringWithFormat:@"%.2f",weakSelf.priceRuleModel.distance]};
@@ -384,7 +384,7 @@ static BOOL isApper = YES;
     };
     
     _personCenter.logOut = ^{
-        NSLog(@"退出登录");
+        NYLog(@"退出登录");
         
         [MBProgressHUD showMessage:@"正在退出"];
         if (self.navigationController.viewControllers.count == 2) {
@@ -450,7 +450,7 @@ static BOOL isApper = YES;
 {
     NSMutableArray *tempArray = [NSMutableArray new];
     if (response.tips.count == 0) {
-        NSLog(@"没有请求到数据");
+        NYLog(@"没有请求到数据");
         return;
     }
     //对请求到的数据进行处理
@@ -479,7 +479,7 @@ static BOOL isApper = YES;
             _distance = _distance+step.distance;
         }
     }
-    NSLog(@"%g",_distance);
+    NYLog(@"%g",_distance);
     _priceNum = [self calculateThFeareWithCarType:_personModel.car_type_id and:_distance];
     NSMutableAttributedString *attriStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat: @"约 %ld 元",_priceNum]];
     _priceRuleModel.price = [NSString stringWithFormat:@"%ld",_priceNum];
@@ -495,7 +495,7 @@ updatingLocation:(BOOL)updatingLocation
 {
     if(updatingLocation) {
         //        [_mapView setCenterCoordinate:userLocation.coordinate animated:YES];
-        //        NSLog(@"%f,%f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
+        //        NYLog(@"%f,%f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
         
         
         /**
@@ -524,7 +524,7 @@ updatingLocation:(BOOL)updatingLocation
                 if (![_callCarView.startTextFled.text isEqualToString:[self componentString:firstPlaceMark.name] ] && !isHadSearched) {
                     
                     _nameStr = [self componentString:firstPlaceMark.name];
-                    NSLog(@"%@",_nameStr);
+                    NYLog(@"%@",_nameStr);
                     _callCarView.startTextFled.text = _nameStr;
                     _personModel.origin_name = _nameStr;
                     
@@ -576,24 +576,30 @@ updatingLocation:(BOOL)updatingLocation
 -(void)chickIsHadRoute
 {
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"user_backLoge"] params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]} success:^(id json) {
-        NSLog(@"%@",json);
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"1"]) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的行程" preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
-                waitOrderVc.route_id = json[@"info"][@"route_id"];
-                waitOrderVc.model = [[PassengerMessageModel alloc] initWithDictionary:json[@"info"] error:nil];
-                waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(self.driveSearch.origin.latitude, self.driveSearch.origin.longitude);
-                waitOrderVc.specialCarRuleModel = [[ValuationRuleModel alloc] initWithDictionary:json[@"rule"] error:nil];
-                waitOrderVc.type = ReservationTypeSpecialCar;
-                [self.navigationController pushViewController:waitOrderVc animated:YES];
-            }]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self cancelOrderWithRouteId:json[@"info"][@"route_id"]];
-            }]];
-            [self presentViewController:alert animated:YES completion:nil];
-        } else {
+        @try {
+            NYLog(@"%@",json);
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"1"]) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的行程" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    WaitForTheOrderViewController *waitOrderVc = [[WaitForTheOrderViewController alloc] init];
+                    waitOrderVc.route_id = json[@"info"][@"route_id"];
+                    waitOrderVc.model = [[PassengerMessageModel alloc] initWithDictionary:json[@"info"] error:nil];
+                    waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(self.driveSearch.origin.latitude, self.driveSearch.origin.longitude);
+                    waitOrderVc.specialCarRuleModel = [[ValuationRuleModel alloc] initWithDictionary:json[@"rule"] error:nil];
+                    waitOrderVc.type = ReservationTypeSpecialCar;
+                    [self.navigationController pushViewController:waitOrderVc animated:YES];
+                }]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [self cancelOrderWithRouteId:json[@"info"][@"route_id"]];
+                }]];
+                [self presentViewController:alert animated:YES completion:nil];
+            } else {
+                
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
             
         }
     } failure:^(NSError *error) {
@@ -603,18 +609,21 @@ updatingLocation:(BOOL)updatingLocation
 - (void)cancelOrderWithRouteId:(NSString *)routeId{
     [MBProgressHUD showMessage:@"正在取消订单"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":routeId} success:^(id json) {
-        
-        NYLog(@"%@",json);
-        NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
-        [MBProgressHUD hideHUD];
-        if ([resultStr isEqualToString:@"1"]) {
-            [MBProgressHUD showSuccess:@"取消订单成功"];
-        } else {
-            [MBProgressHUD showError:@"取消订单失败"];
-            [self cancelOrderWithRouteId:routeId];
+        @try {
+            NYLog(@"%@",json);
+            NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
+            [MBProgressHUD hideHUD];
+            if ([resultStr isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"取消订单成功"];
+            } else {
+                [MBProgressHUD showError:@"取消订单失败"];
+                [self cancelOrderWithRouteId:routeId];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
-        
-        
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"请求超时"];
@@ -629,63 +638,69 @@ updatingLocation:(BOOL)updatingLocation
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"OrderApi",@"usersigle"];
     
     [DownloadManager post:url params:param success:^(id json) {
-        NYLog(@"发单，发单%@",json);
-        [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
-            if ([str isEqualToString:@"1"]) {
-                [MBProgressHUD showSuccess:@"发单成功"];
-                WaitForTheOrderViewController *vc = [[WaitForTheOrderViewController alloc]init];
-                PassengerMessageModel *passengerModel = [[PassengerMessageModel alloc] initWithDictionary:param error:nil];
-                passengerModel.route_id = json[@"route_id"];
-                vc.model = passengerModel;
-                vc.route_id = json[@"route_id"];
-                vc.passengerCoordinate = CLLocationCoordinate2DMake(self.driveSearch.origin.latitude, self.driveSearch.origin.longitude);
-                vc.specialCarRuleModel = [[ValuationRuleModel alloc]initWithDictionary:(NSDictionary *)self.ruleAry[[self.personModel.car_type_id integerValue]-1] error:nil];
-                vc.type = ReservationTypeSpecialCar;
-                [self.navigationController pushViewController:vc animated:YES];
+        @try {
+            NYLog(@"发单，发单%@",json);
+            [MBProgressHUD hideHUD];
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD showSuccess:@"发单成功"];
+                    WaitForTheOrderViewController *vc = [[WaitForTheOrderViewController alloc]init];
+                    PassengerMessageModel *passengerModel = [[PassengerMessageModel alloc] initWithDictionary:param error:nil];
+                    passengerModel.route_id = json[@"route_id"];
+                    vc.model = passengerModel;
+                    vc.route_id = json[@"route_id"];
+                    vc.passengerCoordinate = CLLocationCoordinate2DMake(self.driveSearch.origin.latitude, self.driveSearch.origin.longitude);
+                    vc.specialCarRuleModel = [[ValuationRuleModel alloc]initWithDictionary:(NSDictionary *)self.ruleAry[[self.personModel.car_type_id integerValue]-1] error:nil];
+                    vc.type = ReservationTypeSpecialCar;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+                //            else if([str isEqualToString:@"-1"]){
+                //                [MBProgressHUD hideHUD];
+                //                NSString *route_id = json[@"route"][@"route_id"];
+                //                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您有未完成的订单" preferredStyle:UIAlertControllerStyleAlert];
+                //                [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //
+                //                    [MBProgressHUD showMessage:@"正在取消订单"];
+                //
+                //                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":route_id} success:^(id jsons) {
+                //                        NSString *resultStr = [NSString stringWithFormat:@"%@",jsons[@"result"]];
+                //                        [MBProgressHUD hideHUD];
+                //                        if ([resultStr isEqualToString:@"1"]) {
+                //                            [MBProgressHUD showSuccess:@"取消订单成功"];
+                //
+                //                            [self.navigationController popViewControllerAnimated:YES];
+                //                        } else {
+                //                            [MBProgressHUD showError:@"取消订单失败"];
+                //                        }
+                //                    } failure:^(NSError *error) {
+                //
+                //                        [MBProgressHUD hideHUD];
+                //                        [MBProgressHUD showError:@"请求失败，请重试"];
+                //                        NYLog(@"%@",error.localizedDescription);
+                //
+                //                    }];
+                //                }]];
+                //                [alert addAction:[UIAlertAction actionWithTitle:@"前往订单" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action){
+                //
+                //                    WaitForTheOrderViewController *vc = [[WaitForTheOrderViewController alloc]init];
+                //                    //                    PassengerMessageModel *passengerModel = [[PassengerMessageModel alloc]initWithDictionary:param andRouteId:json[@"route_id"]];
+                //                    PassengerMessageModel *passengerModel = [[PassengerMessageModel alloc] initWithDictionary:param error:nil];
+                //                    passengerModel.route_id = json[@"route_id"];
+                //                    vc.model = passengerModel;
+                //                    vc.route_id = route_id;
+                //                    [self.navigationController pushViewController:vc animated:YES];
+                //                }]];
+                //                [self presentViewController:alert animated:YES completion:nil];
+                //            }
             }
-//            else if([str isEqualToString:@"-1"]){
-//                [MBProgressHUD hideHUD];
-//                NSString *route_id = json[@"route"][@"route_id"];
-//                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您有未完成的订单" preferredStyle:UIAlertControllerStyleAlert];
-//                [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                    
-//                    [MBProgressHUD showMessage:@"正在取消订单"];
-//                    
-//                    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"cacelorder"] params:@{@"user":[USER_DEFAULT objectForKey:@"user_id"] ,@"route_id":route_id} success:^(id jsons) {
-//                        NSString *resultStr = [NSString stringWithFormat:@"%@",jsons[@"result"]];
-//                        [MBProgressHUD hideHUD];
-//                        if ([resultStr isEqualToString:@"1"]) {
-//                            [MBProgressHUD showSuccess:@"取消订单成功"];
-//                            
-//                            [self.navigationController popViewControllerAnimated:YES];
-//                        } else {
-//                            [MBProgressHUD showError:@"取消订单失败"];
-//                        }
-//                    } failure:^(NSError *error) {
-//                        
-//                        [MBProgressHUD hideHUD];
-//                        [MBProgressHUD showError:@"请求失败，请重试"];
-//                        NYLog(@"%@",error.localizedDescription);
-//                        
-//                    }];
-//                }]];
-//                [alert addAction:[UIAlertAction actionWithTitle:@"前往订单" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action){
-//                    
-//                    WaitForTheOrderViewController *vc = [[WaitForTheOrderViewController alloc]init];
-//                    //                    PassengerMessageModel *passengerModel = [[PassengerMessageModel alloc]initWithDictionary:param andRouteId:json[@"route_id"]];
-//                    PassengerMessageModel *passengerModel = [[PassengerMessageModel alloc] initWithDictionary:param error:nil];
-//                    passengerModel.route_id = json[@"route_id"];
-//                    vc.model = passengerModel;
-//                    vc.route_id = route_id;
-//                    [self.navigationController pushViewController:vc animated:YES];
-//                }]];
-//                [self presentViewController:alert animated:YES completion:nil];
-//            }
-        }
-        else{
-            [MBProgressHUD showError:@"网络错误"];
+            else{
+                [MBProgressHUD showError:@"网络错误"];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -703,11 +718,16 @@ updatingLocation:(BOOL)updatingLocation
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"OrderApi",@"order_car"];
     
     [DownloadManager post:url params:param success:^(id json) {
-        
-        NSString *str = json[@"data"];
-        if ([str isEqualToString:@"1"]) {
-            isGetRule = YES;
-            weakSelf.ruleAry = [NSArray arrayWithArray: json[@"info"][@"rule"]];
+        @try {
+            NSString *str = json[@"data"];
+            if ([str isEqualToString:@"1"]) {
+                isGetRule = YES;
+                weakSelf.ruleAry = [NSArray arrayWithArray: json[@"info"][@"rule"]];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         
@@ -722,34 +742,40 @@ updatingLocation:(BOOL)updatingLocation
     
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"OrderApi",@"near_cars"];
     [DownloadManager post:url params:param success:^(id json) {
-        if(json){
-            NSString *str = [NSString stringWithFormat:@"%@", json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                
-                [_mapView removeAnnotations:_mapView.annotations];
-                
-                _nearCarsAry = [NSArray arrayWithArray: json[@"info"]];
-                NSMutableArray *annotationAry = [NSMutableArray new];
-                for (int i=0; i < _nearCarsAry.count; i++) {
-                    MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc]init];
-                    NSString *str = _nearCarsAry[i];
-                    NSArray *ary = [str componentsSeparatedByString:@","];
-                    pointAnnotation.coordinate = [[CLLocation alloc]initWithLatitude:[ary[1] doubleValue] longitude:[ary[0] doubleValue]].coordinate;
+        @try {
+            if(json){
+                NSString *str = [NSString stringWithFormat:@"%@", json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
                     
-                    [annotationAry addObject:pointAnnotation];
-                }
-                [_mapView addAnnotations:annotationAry];
-                for (MAPointAnnotation *point in _mapView.annotations) {
-                    if ([point isKindOfClass:[MAUserLocation class]]) {
-                        if (_nearCarsAry.count == 0) {
-                            point.title = [NSString stringWithFormat:@"附近没有车"];
-                        }
-                        else{
-                            point.title = [NSString stringWithFormat:@"附近%ld辆车",_nearCarsAry.count];
+                    [_mapView removeAnnotations:_mapView.annotations];
+                    
+                    _nearCarsAry = [NSArray arrayWithArray: json[@"info"]];
+                    NSMutableArray *annotationAry = [NSMutableArray new];
+                    for (int i=0; i < _nearCarsAry.count; i++) {
+                        MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc]init];
+                        NSString *str = _nearCarsAry[i];
+                        NSArray *ary = [str componentsSeparatedByString:@","];
+                        pointAnnotation.coordinate = [[CLLocation alloc]initWithLatitude:[ary[1] doubleValue] longitude:[ary[0] doubleValue]].coordinate;
+                        
+                        [annotationAry addObject:pointAnnotation];
+                    }
+                    [_mapView addAnnotations:annotationAry];
+                    for (MAPointAnnotation *point in _mapView.annotations) {
+                        if ([point isKindOfClass:[MAUserLocation class]]) {
+                            if (_nearCarsAry.count == 0) {
+                                point.title = [NSString stringWithFormat:@"附近没有车"];
+                            }
+                            else{
+                                point.title = [NSString stringWithFormat:@"附近%ld辆车",_nearCarsAry.count];
+                            }
                         }
                     }
                 }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         
@@ -871,6 +897,6 @@ updatingLocation:(BOOL)updatingLocation
 }
 -(void)dealloc
 {
-    NSLog(@"释放%@",_mapView);
+    NYLog(@"释放%@",_mapView);
 }
 @end

@@ -110,25 +110,31 @@
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"UserApi",@"show_ticket"];
     [DownloadManager post:url params:param success:^(id json) {
         [MBProgressHUD hideHUD];
-        if (json) {
-            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                _dataAry = json[@"info"];
-                [_tableView reloadData];
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    _dataAry = json[@"info"];
+                    [_tableView reloadData];
+                }
+                else{
+                    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 21)];
+                    label.text = @"啊哦~~您还没有优惠券~~~";
+                    label.textAlignment = 1;
+                    label.font = [UIFont systemFontOfSize:12];
+                    label.textColor = RGBColor(192, 192, 192, 0.9f);
+                    [self.view addSubview:label];
+                    _tableView.hidden = YES;
+                }
             }
             else{
-                UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 21)];
-                label.text = @"啊哦~~您还没有优惠券~~~";
-                label.textAlignment = 1;
-                label.font = [UIFont systemFontOfSize:12];
-                label.textColor = RGBColor(192, 192, 192, 0.9f);
-                [self.view addSubview:label];
-                _tableView.hidden = YES;
+                [MBProgressHUD showError:@"网络错误"];
+                [self.navigationController popViewControllerAnimated:YES];
             }
-        }
-        else{
-            [MBProgressHUD showError:@"网络错误"];
-            [self.navigationController popViewControllerAnimated:YES];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

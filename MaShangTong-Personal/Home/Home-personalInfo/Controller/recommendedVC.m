@@ -67,7 +67,7 @@
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - 上面的推荐好友
@@ -156,24 +156,30 @@
 -(void)recommendedFriend:(NSString *)phoneNumber
 {
     [MBProgressHUD showMessage:@"校验中"];
-    NSLog(@"%@",phoneNumber);
+    NYLog(@"%@",phoneNumber);
     NSDictionary *param = [NSDictionary dictionaryWithObjects:@[@"1",phoneNumber] forKeys:@[@"group_id",@"mobile"]];
     
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"UserApi",@"user_recomment"];
     
     [DownloadManager post:url params:param success:^(id json) {
-        [MBProgressHUD hideHUD];
-        NYLog(@"%@",json);
-        if(json){
-            if([json[@"data"] isEqualToString:@"1"]){
-                [self sendMessages:phoneNumber];
+        @try {
+            [MBProgressHUD hideHUD];
+            NYLog(@"%@",json);
+            if(json){
+                if([json[@"data"] isEqualToString:@"1"]){
+                    [self sendMessages:phoneNumber];
+                }
+                else{
+                    [MBProgressHUD showSuccess:json[@"info"]];
+                }
             }
             else{
-                [MBProgressHUD showSuccess:json[@"info"]];
+                [MBProgressHUD showError:@"网络错误"];
             }
-        }
-        else{
-            [MBProgressHUD showError:@"网络错误"];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -332,7 +338,7 @@
             [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToWechatSession] content:@"码尚通" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
                 if (response.responseCode == UMSResponseCodeSuccess) {
                     [MBProgressHUD showSuccess:@"分享到微信好友成功"];
-                    NSLog(@"分享微信好友成功");
+                    NYLog(@"分享微信好友成功");
                 }
             }];
             break;
@@ -342,7 +348,7 @@
             [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToWechatTimeline] content:@"码尚通" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
                 if (response.responseCode == UMSResponseCodeSuccess) {
                     [MBProgressHUD showSuccess:@"分享到微信朋友圈成功"];
-                    NSLog(@"分享微信朋友圈成功");
+                    NYLog(@"分享微信朋友圈成功");
                 }
             }];
             break;
@@ -352,7 +358,7 @@
             [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToQQ] content:@"码尚通" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
                 if (response.responseCode == UMSResponseCodeSuccess) {
                     [MBProgressHUD showSuccess:@"分享到QQ成功"];
-                    NSLog(@"分享QQ成功");
+                    NYLog(@"分享QQ成功");
                 }
             }];
             break;

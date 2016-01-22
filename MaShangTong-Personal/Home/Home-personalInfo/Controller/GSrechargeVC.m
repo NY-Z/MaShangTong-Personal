@@ -103,11 +103,11 @@ typedef enum{
     switch (_rechargeType) {
         
         case Alipay:
-            NSLog(@"支付宝支付");
+            NYLog(@"支付宝支付");
             [self payAlipay];
             break;
         case WeChat:
-            NSLog(@"微信支付");
+            NYLog(@"微信支付");
             [self payWeChat];
             break;
             
@@ -209,20 +209,26 @@ typedef enum{
     [MBProgressHUD showMessage:@"正在充值,请稍后"];
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
-        NSLog(@"%@",json);
-        if (json) {
-            NSString *str = json[@"result"];
-            if ([str isEqualToString:@"1"]) {
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showSuccess:@"充值成功"];
-                [self.navigationController popViewControllerAnimated:YES];
+        @try {
+            NYLog(@"%@",json);
+            if (json) {
+                NSString *str = json[@"result"];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showSuccess:@"充值成功"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+                else{
+                    [self rechargeMoneyWith:params];
+                }
             }
             else{
                 [self rechargeMoneyWith:params];
             }
-        }
-        else{
-            [self rechargeMoneyWith:params];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         [self rechargeMoneyWith:params];
@@ -239,7 +245,7 @@ typedef enum{
     [params setValue:@"码尚通个人端余额充值" forKey:@"detail"];
     [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         
-        NSLog(@"%@",responseObject);
+        NYLog(@"%@",responseObject);
         //获取到prepayid后进行第二次签名
         NSString    *package, *time_stamp, *nonce_str;
         //设置支付参数
@@ -261,7 +267,7 @@ typedef enum{
         NSString *sign  = [self createMd5Sign:signParams];
         [signParams setObject: sign forKey:@"sign"];
         NSMutableString *stamp  = [signParams objectForKey:@"timestamp"];
-        NSLog(@"%@",signParams);
+        NYLog(@"%@",signParams);
         PayReq *req = [[PayReq alloc] init];
         req.openID  = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"appid"]];
         req.partnerId = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"partnerid"]];
@@ -332,20 +338,26 @@ typedef enum{
     [params setValue:@"1" forKey:@"group_id"];
     
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
-        NSLog(@"%@",json);
-        if (json) {
-            NSString *str = json[@"result"];
-            if ([str isEqualToString:@"1"]) {
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showSuccess:@"充值成功"];
-                [self.navigationController popViewControllerAnimated:YES];
+        @try {
+            NYLog(@"%@",json);
+            if (json) {
+                NSString *str = json[@"result"];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showSuccess:@"充值成功"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+                else{
+                    [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:nil]];
+                }
             }
             else{
                 [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:nil]];
             }
-        }
-        else{
-            [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:nil]];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:nil]];

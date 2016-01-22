@@ -53,7 +53,7 @@
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - 出去看我的团购券
@@ -62,12 +62,18 @@
     NSDictionary *params = [NSDictionary dictionaryWithObject:USER_ID forKey:@"user_id"];
     
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"ShcApi",@"myStamps"] params:params success:^(id json) {
-        if (json) {
-           NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-            if ([str isEqualToString:@"1"]) {
-                _dataAry = json[@"info"];
-                [_tableView reloadData];
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    _dataAry = json[@"info"];
+                    [_tableView reloadData];
+                }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];

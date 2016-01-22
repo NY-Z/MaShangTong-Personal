@@ -105,7 +105,7 @@
         self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
     }
 
-    NSLog(@"%@",NSHomeDirectory());
+    NYLog(@"%@",NSHomeDirectory());
     
     [self.window makeKeyAndVisible];
     return YES;

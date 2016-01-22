@@ -218,16 +218,22 @@
     [MBProgressHUD showMessage:@"正在注册"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"register"] params:params success:^(id json) {
         
-        [MBProgressHUD hideHUD];
-        if ([json[@"result"] isEqualToString:@"1"]) {
-            [MBProgressHUD showSuccess:@"注册成功"];
-            [USER_DEFAULT setObject:json[@"user_id"] forKey:@"user_id"];
-            [USER_DEFAULT synchronize];
-            [self.navigationController pushViewController:[[CompanyHomeViewController alloc] init] animated:YES];
-        } else if ([json[@"result"] isEqualToString:@"-1"]){
-            [MBProgressHUD showError:@"此账号已经注册过了"];
-        } else if ([json isEqualToString:@"0"]){
-            [MBProgressHUD showError:@"您的网络有点问题，请重新注册"];
+        @try {
+            [MBProgressHUD hideHUD];
+            if ([json[@"result"] isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"注册成功"];
+                [USER_DEFAULT setObject:json[@"user_id"] forKey:@"user_id"];
+                [USER_DEFAULT synchronize];
+                [self.navigationController pushViewController:[[CompanyHomeViewController alloc] init] animated:YES];
+            } else if ([json[@"result"] isEqualToString:@"-1"]){
+                [MBProgressHUD showError:@"此账号已经注册过了"];
+            } else if ([json isEqualToString:@"0"]){
+                [MBProgressHUD showError:@"您的网络有点问题，请重新注册"];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
         
     } failure:^(NSError *error) {

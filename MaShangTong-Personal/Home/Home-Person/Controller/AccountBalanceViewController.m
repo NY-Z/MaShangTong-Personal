@@ -214,14 +214,20 @@
     [params setValue:@"2" forKey:@"group_id"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json) {
         
-        NYLog(@"%@",json);
-        _moneyLabel.text = [NSString stringWithFormat:@"￥ %@",json[@"money"]];
-        [MBProgressHUD hideHUD];
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            userModel.money = json[@"money"];
-            [USER_DEFAULT setObject:[NSKeyedArchiver archivedDataWithRootObject:userModel] forKey:@"user_info"];
-            [USER_DEFAULT synchronize];
-        });
+        @try {
+            NYLog(@"%@",json);
+            _moneyLabel.text = [NSString stringWithFormat:@"￥ %@",json[@"money"]];
+            [MBProgressHUD hideHUD];
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                userModel.money = json[@"money"];
+                [USER_DEFAULT setObject:[NSKeyedArchiver archivedDataWithRootObject:userModel] forKey:@"user_info"];
+                [USER_DEFAULT synchronize];
+            });
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"请求超时，请重试"];

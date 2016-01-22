@@ -131,7 +131,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%@",[_searchDataArray[indexPath.row] valueForKey:@"location"]);
+    NYLog(@"%@",[_searchDataArray[indexPath.row] valueForKey:@"location"]);
     
     if (self.selectedCell) {
         self.selectedCell(indexPath.row,[_searchDataArray[indexPath.row] valueForKey:@"location"]);
@@ -142,7 +142,7 @@
 }
 -(void)dealloc
 {
-    NSLog(@"销毁");
+    NYLog(@"销毁");
 }
 
 

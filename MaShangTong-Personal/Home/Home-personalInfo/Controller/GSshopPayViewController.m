@@ -67,7 +67,7 @@ typedef enum{
 //返回Btn的点击事件
 -(void)backBtnClick
 {
-    NSLog(@"返回");
+    NYLog(@"返回");
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -119,17 +119,23 @@ typedef enum{
     NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[_route_id,@"1"] forKeys:@[@"array",@"status"]];
     
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"ShcApi",@"update_status"] params:dic success:^(id json) {
-        if (json) {
-            NSNumber *num = json[@"data"];
-            if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                NSInteger viewControllerNum = self.navigationController.viewControllers.count;
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showSuccess:@"支付成功"];
-                [self.navigationController popToViewController:self.navigationController.viewControllers[viewControllerNum - 4] animated:YES];
+        @try {
+            if (json) {
+                NSNumber *num = json[@"data"];
+                if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                    NSInteger viewControllerNum = self.navigationController.viewControllers.count;
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showSuccess:@"支付成功"];
+                    [self.navigationController popToViewController:self.navigationController.viewControllers[viewControllerNum - 4] animated:YES];
+                }
             }
-        }
-        else{
-            [self changeRouteStatus];
+            else{
+                [self changeRouteStatus];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [self changeRouteStatus];
@@ -146,24 +152,30 @@ typedef enum{
     [params setValue:@"2" forKey:@"type"];
     [params setValue:@"1" forKey:@"group_id"];
     
-    NSLog(@"%@",params);
+    NYLog(@"%@",params);
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
-        if (json) {
-//            NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
-//            if ([str isEqualToString:@"1"]) {
-            
+        @try {
+            if (json) {
+                //            NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
+                //            if ([str isEqualToString:@"1"]) {
+                
                 [self changeRouteStatus];
                 
-//            }
-//            else{
-//                [MBProgressHUD hideHUD];
-//                [MBProgressHUD showError:@"支付失败"];
-//            }
-        }
-        else{
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showError:@"网络错误"];
+                //            }
+                //            else{
+                //                [MBProgressHUD hideHUD];
+                //                [MBProgressHUD showError:@"支付失败"];
+                //            }
+            }
+            else{
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"网络错误"];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         [MBProgressHUD hideHUD];
@@ -269,7 +281,7 @@ typedef enum{
     [params setValue:@"码尚通个人端购买商品" forKey:@"detail"];
     [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (responseObject) {
-            NSLog(@"%@",responseObject);
+            NYLog(@"%@",responseObject);
             //获取到prepayid后进行第二次签名
             NSString    *package, *time_stamp, *nonce_str;
             //设置支付参数
@@ -291,7 +303,7 @@ typedef enum{
             NSString *sign  = [self createMd5Sign:signParams];
             [signParams setObject: sign forKey:@"sign"];
             NSMutableString *stamp  = [signParams objectForKey:@"timestamp"];
-            NSLog(@"%@",signParams);
+            NYLog(@"%@",signParams);
             //发起请求
             PayReq *req = [[PayReq alloc] init];
             

@@ -232,22 +232,28 @@
     [MBProgressHUD showMessage:@"请稍候"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"check_bill"] params:@{@"route_id":_passengerMessageModel.route_id} success:^(id json) {
         [MBProgressHUD hideHUD];
-        NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
-        if ([dataStr isEqualToString:@"1"]) {
-            _billCheck = json;
-            
-            UIView *contentView = (UIView *)[_scrollView viewWithTag:250];
-            
-            UIButton *btn = (UIButton *)[contentView viewWithTag:900];
-            [btn setTitle:[NSString stringWithFormat:@"确认支付%.2f元",[json[@"info"][@"total_price"] floatValue]] forState:UIControlStateNormal];
-            
-            NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%.2f元",[json[@"info"][@"total_price"] floatValue]],[NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"mileage"] floatValue]],[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]]];
-            for (NSInteger i = 0; i < detailInfoArr.count; i++) {
-                UILabel *label = (UILabel *)[contentView viewWithTag:600+i];
-                label.text = detailInfoArr[i];
+        @try {
+            NSString *dataStr = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([dataStr isEqualToString:@"1"]) {
+                _billCheck = json;
+                
+                UIView *contentView = (UIView *)[_scrollView viewWithTag:250];
+                
+                UIButton *btn = (UIButton *)[contentView viewWithTag:900];
+                [btn setTitle:[NSString stringWithFormat:@"确认支付%.2f元",[json[@"info"][@"total_price"] floatValue]] forState:UIControlStateNormal];
+                
+                NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%.2f元",[json[@"info"][@"total_price"] floatValue]],[NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"mileage"] floatValue]],[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]]];
+                for (NSInteger i = 0; i < detailInfoArr.count; i++) {
+                    UILabel *label = (UILabel *)[contentView viewWithTag:600+i];
+                    label.text = detailInfoArr[i];
+                }
+            } else {
+                [self configData];
             }
-        } else {
-            [self configData];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
@@ -269,22 +275,28 @@
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json) {
         NSString *resultStr = [NSString stringWithFormat:@"%@",json[@"result"]];
         [MBProgressHUD hideHUD];
-        if ([resultStr isEqualToString:@"1"]) {
-            [MBProgressHUD showSuccess:@"支付成功"];
-            NYLog(@"%@",_passengerMessageModel.route_id);
-            [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"boarding"] params:@{@"route_id":_passengerMessageModel.route_id,@"route_status":@"6"} success:^(id json) {
-                NYLog(@"%@",json);
-            } failure:^(NSError *error) {
-                
-            }];
-            NYCommentViewController *comment = [[NYCommentViewController alloc] init];
-            comment.driverInfoModel = self.driverInfoModel;
-            comment.route_id = self.route_id;
-            [self.navigationController pushViewController:comment animated:YES];
-            return ;
-        } else if ([resultStr isEqualToString:@"0"]) {
-            [MBProgressHUD showError:@"支付失败，请重试"];
-            return;
+        @try {
+            if ([resultStr isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"支付成功"];
+                NYLog(@"%@",_passengerMessageModel.route_id);
+                [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"boarding"] params:@{@"route_id":_passengerMessageModel.route_id,@"route_status":@"6"} success:^(id json) {
+                    NYLog(@"%@",json);
+                } failure:^(NSError *error) {
+                    
+                }];
+                NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+                comment.driverInfoModel = self.driverInfoModel;
+                comment.route_id = self.route_id;
+                [self.navigationController pushViewController:comment animated:YES];
+                return ;
+            } else if ([resultStr isEqualToString:@"0"]) {
+                [MBProgressHUD showError:@"支付失败，请重试"];
+                return;
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];

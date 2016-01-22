@@ -145,7 +145,7 @@
 //点击了广告图片
 -(void)clickADImage:(UIButton *)sender
 {
-    NSLog(@"点击了广告图片");
+    NYLog(@"点击了广告图片");
 }
 
 //设置退出按钮所在界面，及退出按钮
@@ -183,7 +183,7 @@
 }
 -(void)personLogOut:(UIButton *)sender
 {
-    NSLog(@"退出登录");
+    NYLog(@"退出登录");
     if (self.logOut) {
         self.logOut();
     }
@@ -293,14 +293,20 @@
     NSString *url = [NSString stringWithFormat:URL_HEADER,@"OrderApi",@"adv"];
     
     [DownloadManager get:url params:params success:^(id json){
-        if (json) {
-            NSNumber *num = json[@"data"];
-            if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                [imageView sd_setImageWithURL:json[@"info"] placeholderImage:[UIImage imageNamed:@"advertisementImage"] completed:^(UIImage *image,NSError *error,SDImageCacheType cacheType,NSURL *imageURL){
-                }];
-                
-//                imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:json[@"info"]]]];
+        @try {
+            if (json) {
+                NSNumber *num = json[@"data"];
+                if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                    [imageView sd_setImageWithURL:json[@"info"] placeholderImage:[UIImage imageNamed:@"advertisementImage"] completed:^(UIImage *image,NSError *error,SDImageCacheType cacheType,NSURL *imageURL){
+                    }];
+                    
+                    //                imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:json[@"info"]]]];
+                }
             }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
         }
     }failure:^(NSError *error){
         
@@ -308,7 +314,7 @@
 }
 -(void)dealloc
 {
-    NSLog(@"%s",__func__);
+    NYLog(@"%s",__func__);
 }
 
 @end

@@ -12,6 +12,10 @@
 
 @implementation CallCarView
 
+{
+    
+}
+
 //定义静态变量标记btn(车分类的btn)
 static NSInteger  btnNuber;
 

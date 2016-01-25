@@ -315,8 +315,8 @@ typedef enum{
     order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
     order.productName = @"码尚通车费支付";
     order.productDescription = @"码尚通车费支付";
-    order.amount = [NSString stringWithFormat:@"%.2f",_ture_price];
-//    order.amount = @"0.01";
+//    order.amount = [NSString stringWithFormat:@"%.2f",_ture_price];
+    order.amount = @"0.01";
     order.notifyURL =  @"http://www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
@@ -423,8 +423,8 @@ typedef enum{
 #pragma mark - 微信支付
 -(void)payWeChat
 {
-    _wxPayMoney = [NSString stringWithFormat:@"%.0f",_ture_price*100];
-//    _wxPayMoney = @"1";
+//    _wxPayMoney = [NSString stringWithFormat:@"%.0f",_ture_price*100];
+    _wxPayMoney = @"1";
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_wxPayMoney forKey:@"money"];

@@ -163,7 +163,8 @@ static BOOL isApper = YES;
 {
     
     // 呼叫专车
-    _callCarView = [[CallCarView alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-220-64, SCREEN_WIDTH-20, 220)];
+    CGRect frame = CGRectMake(10, 0.6*SCREEN_HEIGHT-64, SCREEN_WIDTH-20, 0.4*SCREEN_HEIGHT);
+    _callCarView = [[CallCarView alloc] initWithFrame:frame];
     [self.view addSubview:_callCarView];
     _searchVC = [[searchViewC alloc]init];
     

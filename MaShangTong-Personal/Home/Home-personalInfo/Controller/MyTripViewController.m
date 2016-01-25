@@ -85,7 +85,6 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     
-    
 }
 
 #pragma mark - Action

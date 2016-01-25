@@ -104,8 +104,6 @@
         RegisViewController *regis = [[RegisViewController alloc] init];
         self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
     }
-
-    NYLog(@"%@",NSHomeDirectory());
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -135,10 +133,6 @@
                 NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
                 NSMutableDictionary *params = [NSMutableDictionary dictionary];
                 [params setValue:userId forKey:@"user_id"];
-                [params setValue:APP_DELEGATE.payMoney forKey:@"money"];
-                [params setValue:@"1" forKey:@"type"];
-                [params setValue:@"2" forKey:@"group_id"];
-                [self informTheServerWithParams:params];
                 
                 if([[USER_DEFAULT objectForKey:@"group_id"] isEqualToString:@"1"]){
                     if(self.weChatPayType == RechargePayed){
@@ -158,6 +152,11 @@
                     }
                     
                     self.weChatPayType = NonePayed;
+                } else {
+                    [params setValue:APP_DELEGATE.payMoney forKey:@"money"];
+                    [params setValue:@"1" forKey:@"type"];
+                    [params setValue:@"2" forKey:@"group_id"];
+                    [self informTheServerWithParams:params];
                 }
             }
                 break;

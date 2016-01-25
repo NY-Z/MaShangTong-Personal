@@ -13,7 +13,7 @@
 @implementation CallCarView
 
 {
-    
+    CGFloat subView_hight;
 }
 
 //定义静态变量标记btn(车分类的btn)
@@ -27,7 +27,7 @@ static NSInteger  btnNuber;
         self.layer.borderWidth = 1.f;
         
         self.backgroundColor = [UIColor whiteColor];
-        
+        subView_hight = frame.size.height/10;
         
         [self createSubView];
     }
@@ -64,7 +64,7 @@ static NSInteger  btnNuber;
     CGFloat width = SCREEN_WIDTH-20;
     
     _goOffBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _goOffBtn.frame = CGRectMake(10, 0, width-20, 24);
+    _goOffBtn.frame = CGRectMake(10, 0, width-20, subView_hight);
     [_goOffBtn setTitle:@"出发时间" forState:UIControlStateNormal];
     [_goOffBtn setTitleColor:RGBColor(173, 173, 173, 1.f) forState:UIControlStateNormal];
     _goOffBtn.titleLabel.font = [UIFont systemFontOfSize:12];
@@ -73,7 +73,7 @@ static NSInteger  btnNuber;
     
     [self addSubview:_goOffBtn];
     
-    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 24, width, 1)];
+    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, subView_hight, width, 1)];
     view1.backgroundColor = RGBColor(235, 235, 235, 1.f);
     [self addSubview:view1];
     
@@ -86,7 +86,7 @@ static NSInteger  btnNuber;
     NSArray *titleArr = @[@"舒适电动轿车",@"商务电动轿车",@"豪华电动轿车"];
     for (NSInteger i = 0; i < 3; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(width*i/3+5, 25, width/3-10, 25);
+        btn.frame = CGRectMake(width*i/3+5, subView_hight+1, width/3-10, subView_hight);
         btn.tag = i+100;
         [btn setTitle:titleArr[i] forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:10];
@@ -110,7 +110,7 @@ static NSInteger  btnNuber;
         //            make.size.mas_equalTo(CGSizeMake(width/3, 25));
         //        }];
     }
-    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 49, width, 1)];
+    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 2*subView_hight+1, width, 1)];
     view2.backgroundColor = RGBColor(235, 235, 235, 1.f);
     [self addSubview:view2];
     
@@ -125,7 +125,7 @@ static NSInteger  btnNuber;
         UIView *tapView = [tap view];
         tapView.tag = 110+i;
         
-        UILabel *textField = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 1.5*width, 25)];
+        UILabel *textField = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 1.5*width, subView_hight)];
         textField.text = textFieldText[i];
         textField.textColor = RGBColor(173, 173, 173, 1.f);
         textField.font = [UIFont systemFontOfSize:13];
@@ -143,7 +143,7 @@ static NSInteger  btnNuber;
             _startTextFled = textField;
         }
         
-        UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(10, 25*(i+2)+24, width-20, 1)];
+        UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(10, subView_hight*(i+2)+subView_hight, width-20, 1)];
         view2.backgroundColor = RGBColor(235, 235, 235, 1.f);
         [self addSubview:view2];
         
@@ -154,7 +154,7 @@ static NSInteger  btnNuber;
         //        }];
     }
     
-    _textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 100, width-40, 25)];
+    _textField = [[UITextField alloc] initWithFrame:CGRectMake(20, subView_hight*4+4, width-40, subView_hight)];
     _textField.placeholder = @"请输入备注";
     _textField.textColor = RGBColor(173, 173, 173, 1.f);
     _textField.font = [UIFont systemFontOfSize:12];
@@ -168,7 +168,7 @@ static NSInteger  btnNuber;
     //        make.size.mas_equalTo(CGSizeMake(width-40, 25));
     //    }];
     
-    _priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 125, width-20, 50)];
+    _priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, subView_hight*5+5, width-20, 2*subView_hight)];
     _priceLabel.userInteractionEnabled = YES;
     _priceLabel.textAlignment = 1;
     
@@ -184,7 +184,7 @@ static NSInteger  btnNuber;
     //    }];
     
     UIButton *callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    callBtn.frame = CGRectMake(width/5, 175, width*3/5, 30);
+    callBtn.frame = CGRectMake(width/5, subView_hight*7+10, width*3/5, 30);
     [callBtn setTitle:@"呼叫专车" forState:UIControlStateNormal];
     [callBtn setBackgroundColor:RGBColor(54, 171, 237, 1.f)];
     [callBtn addTarget:self action:@selector(callCarAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -236,8 +236,8 @@ static NSInteger  btnNuber;
 #pragma mark - 创建两个scrollView（将起始点和终点放上去）
 -(UIScrollView *)creatScrollViewForPlaceWithI:(NSInteger)i andWidth:(CGFloat)width
 {
-    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, 25*(i+2), width-20, 25)];
-    scrollView.contentSize = CGSizeMake(1.5*width, 25);
+    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(10, subView_hight*(i+2)+i+2, width-20, subView_hight)];
+    scrollView.contentSize = CGSizeMake(1.5*width, subView_hight);
     scrollView.bounces = NO;
     scrollView.backgroundColor = [UIColor clearColor];
     

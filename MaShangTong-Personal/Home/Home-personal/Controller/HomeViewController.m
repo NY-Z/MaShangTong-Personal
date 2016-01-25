@@ -748,8 +748,11 @@ updatingLocation:(BOOL)updatingLocation
                 NSString *str = [NSString stringWithFormat:@"%@", json[@"data"]];
                 if ([str isEqualToString:@"1"]) {
                     
-                    [_mapView removeAnnotations:_mapView.annotations];
-                    
+                    for (MAPointAnnotation *point in _mapView.annotations) {
+                        if (![point isKindOfClass:[MAUserLocation class]]) {
+                            [_mapView removeAnnotation:point];
+                        }
+                    }
                     _nearCarsAry = [NSArray arrayWithArray: json[@"info"]];
                     NSMutableArray *annotationAry = [NSMutableArray new];
                     for (int i=0; i < _nearCarsAry.count; i++) {

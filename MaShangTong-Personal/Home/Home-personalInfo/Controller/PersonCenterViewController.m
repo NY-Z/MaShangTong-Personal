@@ -299,8 +299,6 @@
                 if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
                     [imageView sd_setImageWithURL:json[@"info"] placeholderImage:[UIImage imageNamed:@"advertisementImage"] completed:^(UIImage *image,NSError *error,SDImageCacheType cacheType,NSURL *imageURL){
                     }];
-                    
-                    //                imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:json[@"info"]]]];
                 }
             }
         } @catch (NSException *exception) {

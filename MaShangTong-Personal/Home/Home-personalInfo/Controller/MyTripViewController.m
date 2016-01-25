@@ -23,6 +23,10 @@
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSArray *dataArr;
 
+@property (nonatomic,strong) UILabel *distanceLabel;
+@property (nonatomic,strong) UILabel *secondLabel;
+@property (nonatomic,strong) UILabel *carbonLabel;
+
 @end
 
 @implementation MyTripViewController
@@ -37,7 +41,7 @@
 
 - (void)configTableView
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, SCREEN_HEIGHT-64-40) style:UITableViewStylePlain];
     _tableView.tableFooterView = [[UIView alloc] init];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -75,10 +79,56 @@
     
     [self configTableView];
     [self configNavigationItem];
+    [self configInformationView];
     
     [self sendOrder];
 }
-
+-(void)configInformationView
+{
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
+    view.backgroundColor = RGBColor(220 , 220, 220, 1.f);
+    [self.view addSubview:view];
+    
+    UILabel *distance = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 50, 15)];
+    distance.textAlignment = UITextAlignmentLeft;
+    distance.font = [UIFont systemFontOfSize:12];
+    distance.text = @"总里程";
+    distance.textColor = RGBColor(50, 50, 50, 1.f);
+    [view addSubview:distance];
+    
+    _distanceLabel  = [[UILabel alloc]initWithFrame:CGRectMake(10, 25, 50, 15)];
+    _distanceLabel.textAlignment = UITextAlignmentLeft;
+    _distanceLabel.font = [UIFont systemFontOfSize:12];
+    _distanceLabel.textColor = RGBColor(93, 195, 255, 1.f);
+    [view addSubview:_distanceLabel];
+    
+    UILabel *second = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2-25, 5, 50, 15)];
+    second.textAlignment = UITextAlignmentCenter;
+    second.font = [UIFont systemFontOfSize:12];
+    second.text = @"总次数";
+    second.textColor = RGBColor(50, 50, 50, 1.f);
+    [view addSubview:second];
+    
+    _secondLabel  = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2-25, 25, 50, 15)];
+    _secondLabel.textAlignment = UITextAlignmentCenter;
+    _secondLabel.font = [UIFont systemFontOfSize:12];
+    _secondLabel.textColor = RGBColor(93, 195, 255, 1.f);
+    [view addSubview:_secondLabel];
+    
+    UILabel *carbon = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-10-50, 5, 50, 15)];
+    carbon.textAlignment = UITextAlignmentRight;
+    carbon.font = [UIFont systemFontOfSize:12];
+    carbon.text = @"总碳排放";
+    carbon.textColor = RGBColor(50, 50, 50, 1.f);
+    [view addSubview:carbon];
+    
+    _carbonLabel  = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-10-50, 25, 50, 15)];
+    _carbonLabel.textAlignment = UITextAlignmentRight;
+    _carbonLabel.font = [UIFont systemFontOfSize:12];
+    _carbonLabel.textColor = RGBColor(93, 195, 255, 1.f);
+    [view addSubview:_carbonLabel];
+    
+}
 - (void)viewWillAppear:(BOOL)animated
 {
 
@@ -184,6 +234,10 @@
             if (json) {
                 NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
                 if ([str isEqualToString:@"1"]) {
+                    _distanceLabel.text = [NSString stringWithFormat:@"%@km",json[@"info"][@"distance"]];
+                    _secondLabel.text = [NSString stringWithFormat:@"%@次",json[@"info"][@"num1"]];
+                    _carbonLabel.text = [NSString stringWithFormat:@"%@kg",json[@"info"][@"carbon_emission"]];
+                    
                     _dataArr = [NSArray arrayWithArray:json[@"info"][@"detaile"]];
                     [_tableView reloadData];
                 }

@@ -41,9 +41,18 @@
     _scrollView.autoresizesSubviews = NO;
     [self.view addSubview:_scrollView];
     
-    UIImage *image = [UIImage imageNamed:@"TaxiGuideImageView"];
+    
+    UIImage *image = [UIImage new];
+    
+    NSString *str = [USER_DEFAULT objectForKey:@"group_id"];
+    if ([str isEqualToString:@"1"]) {
+        image = [UIImage imageNamed:@"打车指南（个人）"];
+    }
+    else if ([str isEqualToString:@"2"]){
+        image = [UIImage imageNamed:@"打车指南（企业）"];
+    }
+    
     CGSize size = image.size;
-
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*size.height/SCREEN_HEIGHT);
     [_scrollView addSubview:imageView];

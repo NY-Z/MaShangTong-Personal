@@ -22,6 +22,7 @@
 
 #import "GSchooseOrderViewController.h"
 #import "NYCommentViewController.h"
+#import "NYComplaintViewController.h"
 
 typedef enum{
     SelfMoney,//账户余额支付
@@ -130,6 +131,25 @@ typedef enum{
     
     self.navigationItem.titleView = label;
     
+    
+    UILabel *rightLabel = [[UILabel alloc] init];
+    rightLabel.text = @"投诉";
+    rightLabel.textAlignment = 1;
+    rightLabel.textColor = RGBColor(73, 185, 254, 1.f);
+    rightLabel.font = [UIFont systemFontOfSize:13];
+    rightLabel.size = CGSizeMake(60, 15);
+    rightLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *rightLabelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rightLabelTaped)];
+    [rightLabel addGestureRecognizer:rightLabelTap];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightLabel];
+    
+    
+}
+- (void)rightLabelTaped
+{
+    NYComplaintViewController *complaint = [[NYComplaintViewController alloc] init];
+    complaint.driverId = self.driverModel.driver_id;
+    [self.navigationController pushViewController:complaint animated:YES];
 }
 
 #pragma mark - 填充数据
@@ -141,7 +161,7 @@ typedef enum{
     _compareName.text = @"友联出租";
     [self setStarsWith:[self.driverModel.averagePoint floatValue]];
     _danLabel.text = [NSString stringWithFormat:@"%@单",_driverModel.num];
-    
+        
 }
 
 #pragma mark - 设置评分的星星
@@ -315,8 +335,8 @@ typedef enum{
     order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
     order.productName = @"码尚通车费支付";
     order.productDescription = @"码尚通车费支付";
-//    order.amount = [NSString stringWithFormat:@"%.2f",_ture_price];
-    order.amount = @"0.01";
+    order.amount = [NSString stringWithFormat:@"%.2f",_ture_price];
+//    order.amount = @"0.01";
     order.notifyURL =  @"http://www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
@@ -423,8 +443,8 @@ typedef enum{
 #pragma mark - 微信支付
 -(void)payWeChat
 {
-//    _wxPayMoney = [NSString stringWithFormat:@"%.0f",_ture_price*100];
-    _wxPayMoney = @"1";
+    _wxPayMoney = [NSString stringWithFormat:@"%.0f",_ture_price*100];
+//    _wxPayMoney = @"1";
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_wxPayMoney forKey:@"money"];

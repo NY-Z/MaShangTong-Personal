@@ -12,6 +12,9 @@
 @implementation MyStoreTableViewCell
 
 - (void)awakeFromNib {
+    _zongleiLabel.layer.borderWidth = 1.f;    
+    _zongleiLabel.layer.borderColor = RGBColor(93, 195, 255, 1.f).CGColor;
+    _zongleiLabel.layer.cornerRadius = 3.f;
 }
 
 

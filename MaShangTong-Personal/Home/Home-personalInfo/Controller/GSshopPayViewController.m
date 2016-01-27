@@ -102,9 +102,11 @@ typedef enum{
             break;
         case WeChatPay:
             //微信支付
+            [self payWeChat];
             break;
         case Alipay:
             //支付宝余额支付
+            [self payAlipay];
             break;
             
         default:
@@ -151,6 +153,7 @@ typedef enum{
     [params setValue:[NSString stringWithFormat:@"%@",_priceStr] forKey:@"money"];
     [params setValue:@"6" forKey:@"type"];
     [params setValue:_company_id forKey:@"company_id"];
+    [params setValue:_ticket_id forKey:@"ticket_id"];
     
     NYLog(@"%@",params);
     
@@ -193,6 +196,7 @@ typedef enum{
     [params setValue:[NSString stringWithFormat:@"%@",_priceStr] forKey:@"money"];
     [params setValue:@"7" forKey:@"type"];
     [params setValue:_company_id forKey:@"company_id"];
+    [params setValue:_ticket_id forKey:@"ticket_id"];
     
     NYLog(@"%@",params);
     

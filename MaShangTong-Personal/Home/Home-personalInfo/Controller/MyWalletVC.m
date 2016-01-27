@@ -121,8 +121,6 @@
     //“我的钱包“被点击了
     if ( getBtn1.enabled) {
         
-        [self sendOrder];
-        
         getBtn1.backgroundColor = [UIColor whiteColor];
         [getBtn1 setTitleColor:RGBColor(99, 193, 255, 1.f) forState:UIControlStateNormal];
         
@@ -136,11 +134,10 @@
         [_chitView removeFromSuperview];
         [self.view addSubview:_moneyView];
         
-        
+        [self sendOrder];
     }
     //“我的券”被点击了
     else {
-        [self postTOchickChits];
         
         getBtn2.backgroundColor = [UIColor whiteColor];
         [getBtn2 setTitleColor:RGBColor(99, 193, 255, 1.f) forState:UIControlStateNormal];
@@ -154,6 +151,8 @@
         
         [_moneyView removeFromSuperview];
         [self.view addSubview:_chitView];
+        
+        [self postTOchickChits];
     }
     
     
@@ -239,6 +238,7 @@
                     self.chitView.vouchersTabelV.hidden = YES;
                 }
                 else{
+                    self.chitView.vouchersDataAry = json[@"info"];
                     [self.chitView.vouchersTabelV reloadData];
                 }
             }

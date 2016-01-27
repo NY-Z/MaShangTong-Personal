@@ -28,6 +28,7 @@
 @property (nonatomic,copy) NSString *goodsName;
 @property (nonatomic,copy) NSString *cb_id;
 @property (nonatomic,copy) NSString *company_id;
+@property (nonatomic,copy) NSString *ticket_id;
 
 @property (nonatomic,copy) NSString *perPriceStr;
 

@@ -145,7 +145,7 @@
         cell.nameLabel.text = dic[@"combo"];
         cell.priceLabel.text = dic[@"new_price"];
         cell.yuanjiaLabel.text = dic[@"original_price"];
-        cell.zongleiLabel.text = dic[@"ticket_id"];
+        cell.zongleiLabel.text = dic[@"ticket_name"];
     }
     
     return cell;
@@ -158,7 +158,7 @@
     vc.company_id = dic[@"company_id"];
     NSDictionary *subDic = dic[@"a"][indexPath.row];
     vc.cb_id = subDic[@"cb_id"];
-    
+    vc.ticket_id = subDic[@"ticket_id"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - 网络请求

@@ -72,6 +72,7 @@
     vc.cb_id = _combo_id;
     vc.perPriceStr = _perPrice;
     vc.company_id = _company_id;
+    vc.ticket_id = _ticket_id;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

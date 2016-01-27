@@ -96,6 +96,7 @@ static int number = 1;
                     vc.priceStr = _total.text;
                     vc.route_id = json[@"order_id"];
                     vc.company_id = _company_id;
+                    vc.ticket_id = _ticket_id;
                     [self.navigationController pushViewController:vc animated:YES];
                     
                 }

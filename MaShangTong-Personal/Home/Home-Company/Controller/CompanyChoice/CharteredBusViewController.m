@@ -482,7 +482,6 @@
                 [MBProgressHUD hideHUD];
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您有未完成的订单信息" preferredStyle:UIAlertControllerStyleAlert];
                 [alert addAction:[UIAlertAction actionWithTitle:@"进入我的订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-#warning 计价规则从哪来？
                     if (self.confirmBtnBlock) {
                         model.route_id = json[@"route_id"];
                         self.confirmBtnBlock(model,json[@"route"][@"route_id"],charteredBusRule);

@@ -50,7 +50,7 @@
 {
     if (self.chooseAge) {
         
-        self.chooseAge([_dataAry objectAtIndex:(NSInteger)ageNum]);
+        self.chooseAge([_dataAry objectAtIndex:(NSInteger)_ageNum]);
     }
     
     [self removeFromSuperview];
@@ -81,7 +81,7 @@
 }
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    ageNum = row;
+    _ageNum = row;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

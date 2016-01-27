@@ -8,7 +8,6 @@
 
 #import "MyOrderTableViewCell.h"
 
-static BOOL isHadDid = NO;
 @implementation MyOrderTableViewCell
 
 - (void)awakeFromNib {

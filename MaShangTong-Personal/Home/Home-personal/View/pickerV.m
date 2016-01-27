@@ -198,8 +198,8 @@ static NSInteger betweenTime;
         }
         for (int i =1 ; i<3; i++) {
             UIPickerView *getPickerV = (UIPickerView *)[self viewWithTag:160+i];
-            [getPickerV selectRow:0 inComponent:0 animated:YES];
             [getPickerV reloadAllComponents];
+            [getPickerV selectRow:0 inComponent:0 animated:YES];
         }
         
         [self getPickerDateLaterNowTimeWith:pickerView.tag and:row];

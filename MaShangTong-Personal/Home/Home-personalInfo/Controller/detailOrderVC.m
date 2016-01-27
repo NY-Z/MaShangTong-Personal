@@ -88,7 +88,7 @@
 -(void)displayData
 {
     _moneyLabel.attributedText = [self returnAttriString: _dataDic[@"total_price"]];
-    _combinedLabel.text = [NSString stringWithFormat:@"%.2f元", [_dataDic[@"total_price"] floatValue]];
+    _combinedLabel.text = [NSString stringWithFormat:@"%d元", [_dataDic[@"total_price"] intValue]];
     _mileageLabel.text = [NSString stringWithFormat:@"%@km", [self returnStrIfStringIsNil:_dataDic[@"mileage"]]];
     _carbonLabel.text = [NSString stringWithFormat:@"%@kg",[self returnStrIfStringIsNil:_dataDic[@"carbon_emission"]]];
     

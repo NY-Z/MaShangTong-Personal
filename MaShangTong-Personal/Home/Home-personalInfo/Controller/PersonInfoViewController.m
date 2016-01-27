@@ -213,7 +213,8 @@ static BOOL isHadAutonym = NO;
         }
     }
     else if (indexPath.row == 3){
-        if (![_contentAry[indexPath.row] containsString:@"后"]) {
+        NSString *str = _contentAry[indexPath.row];
+        if (str.length == 2) {
             cell.subTitleLabel.text = [NSString stringWithFormat:@"%@后",_contentAry[indexPath.row]];
         }
         else{

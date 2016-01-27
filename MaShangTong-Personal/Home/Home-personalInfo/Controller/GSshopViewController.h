@@ -27,7 +27,7 @@
 
 @property (nonatomic,copy) NSString *shc_id;
 @property (nonatomic,copy) NSString *cb_id;
-
+@property (nonatomic,copy) NSString *company_id;
 
 - (IBAction)goShopping:(id)sender;
 

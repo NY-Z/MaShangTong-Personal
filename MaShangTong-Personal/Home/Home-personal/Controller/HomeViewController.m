@@ -41,6 +41,7 @@
 #import "RegisViewController.h"
 #import "ValuationRuleModel.h"
 
+#import "UserModel.h"
 
 @interface HomeViewController () <MAMapViewDelegate,AMapSearchDelegate,UIAlertViewDelegate>
 {
@@ -155,7 +156,10 @@ static BOOL isApper = YES;
     
     //用户的id和电话号码（先写死，到时候从本地持久化文件里面取出来）
     _personModel.user_id = [NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"user_id"]];
-    _personModel.mobile_phone = [NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"mobile"]];
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"user_info"]];
+    _personModel.mobile_phone = userModel.mobile;
+    
+//    NSLog(@"------%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
     _personModel.leave_message = @"请输入备注";
 }
 
@@ -495,10 +499,6 @@ static BOOL isApper = YES;
 updatingLocation:(BOOL)updatingLocation
 {
     if(updatingLocation) {
-        //        [_mapView setCenterCoordinate:userLocation.coordinate animated:YES];
-        //        NYLog(@"%f,%f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
-        
-        
         /**
          *反地理编码获取定位的信息字典
          **/
@@ -591,9 +591,12 @@ updatingLocation:(BOOL)updatingLocation
                     waitOrderVc.type = ReservationTypeSpecialCar;
                     [self.navigationController pushViewController:waitOrderVc animated:YES];
                 }]];
-                [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [self cancelOrderWithRouteId:json[@"info"][@"route_id"]];
-                }]];
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"info"][@"route_status"]];
+                if([str intValue] < 3){
+                    [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        [self cancelOrderWithRouteId:json[@"info"][@"route_id"]];
+                    }]];
+                }
                 [self presentViewController:alert animated:YES completion:nil];
             } else {
                 
@@ -893,10 +896,17 @@ updatingLocation:(BOOL)updatingLocation
 //截取地址
 -(NSString *)componentString:(NSString *)str
 {
-    NSMutableString *tempStr = [NSMutableString stringWithString:str];
-    [tempStr deleteCharactersInRange:NSMakeRange(0, 2)];
-    NSString *getStr = [NSString stringWithString:tempStr];
-    return getStr;
+    NSMutableString *tempStr1 = [NSMutableString stringWithString:str];
+    NSString *string = [tempStr1 substringWithRange:NSMakeRange(0, 2)];
+    if ([string isEqualToString:@"中国"]) {
+        NSMutableString *tempStr2 = [NSMutableString stringWithString:str];
+        [tempStr2 deleteCharactersInRange:NSMakeRange(0, 2)];
+        NSString *getStr = [NSString stringWithString:tempStr2];
+        return getStr;
+    }
+    else{
+        return str;
+    }
     
 }
 -(void)dealloc

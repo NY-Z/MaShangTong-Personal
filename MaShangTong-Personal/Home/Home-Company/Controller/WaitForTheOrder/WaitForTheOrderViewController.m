@@ -457,6 +457,7 @@
                                 _route_status = 3;
                                 [self configRouteInfo];
                                 self.navigationItem.title = @"行程中";
+                                self.navigationItem.rightBarButtonItem.customView.hidden = YES;
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已开始计费"];
                                 _chargingBgView.y = SCREEN_HEIGHT-70-34;
                                 _chargingBgView.hidden = NO;
@@ -471,6 +472,7 @@
                             if (_lastState != DriverStateArriveDestination) {
                                 _route_status = 4;
                                 [self configRouteInfo];
+                                self.navigationItem.rightBarButtonItem.customView = nil;
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅正在确认价格，请稍后"];
                                 _iscalculateStart = 0;
                             }
@@ -577,7 +579,7 @@
                 NSMutableDictionary *priceDic = [[self.calculateSpecialCar calculatePriceWithParams:params] mutableCopy];
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceDic[@"mileage"] floatValue]];
                 speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[priceDic[@"low_time"] integerValue]/60];
-                _totalPrice = [NSString stringWithFormat:@"%.2f元",[priceDic[@"total_price"] floatValue]];
+                _totalPrice = [NSString stringWithFormat:@"%.0f元",[priceDic[@"total_price"] floatValue]];
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
                 priceLabel.attributedText = attri;

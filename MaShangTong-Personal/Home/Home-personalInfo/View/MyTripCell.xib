@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10089" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10072.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -17,7 +17,6 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dingwei2.png" translatesAutoresizingMaskIntoConstraints="NO" id="KIR-KF-OaR">
                         <rect key="frame" x="8" y="8" width="17" height="17"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="17" id="32q-F2-2Zq"/>
                             <constraint firstAttribute="height" constant="17" id="54K-gv-ypr"/>
@@ -25,7 +24,6 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dingwei1.png" translatesAutoresizingMaskIntoConstraints="NO" id="z4P-JK-MHq">
                         <rect key="frame" x="8" y="33" width="17" height="17"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="URP-61-zgq"/>
                             <constraint firstAttribute="width" constant="17" id="wzW-Y9-Npo"/>
@@ -33,7 +31,6 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上海市真南路3911弄" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lKl-nO-rXN">
                         <rect key="frame" x="33" y="8" width="110" height="20"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="110" id="cfl-gH-2LE"/>
                             <constraint firstAttribute="height" constant="20" id="igp-nm-a0q"/>
@@ -50,7 +47,6 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="嘉定区南翔镇共和街南翔公馆" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dX6-zI-n8V">
                         <rect key="frame" x="33" y="33" width="110" height="20"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="110" id="UUg-g2-i9z"/>
                             <constraint firstAttribute="height" constant="20" id="XS6-Vb-SLd"/>
@@ -61,7 +57,6 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="路程：2.3km" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3zq-NS-HdJ">
                         <rect key="frame" x="151" y="19" width="60" height="21"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="CNh-ls-oZf"/>
                             <constraint firstAttribute="width" constant="60" id="yW4-19-jh3"/>
@@ -72,7 +67,6 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="碳排放：0.5kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K0e-Ik-EZ9">
                         <rect key="frame" x="219" y="19" width="70" height="21"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="5An-I8-53w"/>
                             <constraint firstAttribute="width" constant="70" id="rYh-sN-dQV"/>
@@ -82,7 +76,6 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <animations/>
                 <constraints>
                     <constraint firstItem="lKl-nO-rXN" firstAttribute="leading" secondItem="KIR-KF-OaR" secondAttribute="trailing" constant="8" id="2rl-xF-eYo"/>
                     <constraint firstItem="K0e-Ik-EZ9" firstAttribute="leading" secondItem="3zq-NS-HdJ" secondAttribute="trailing" constant="8" id="5ll-Ji-w0D"/>
@@ -107,7 +100,6 @@
                     </mask>
                 </variation>
             </tableViewCellContentView>
-            <animations/>
             <connections>
                 <outlet property="carbonLabel" destination="K0e-Ik-EZ9" id="HRu-wJ-N5z"/>
                 <outlet property="destinationLabel" destination="dX6-zI-n8V" id="oVW-f7-Jqp"/>

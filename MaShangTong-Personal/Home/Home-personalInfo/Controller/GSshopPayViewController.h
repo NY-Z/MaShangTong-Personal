@@ -24,6 +24,8 @@
 
 @property (nonatomic,copy) NSString *goodsName;
 @property (nonatomic,copy) NSArray *route_id;
+@property (nonatomic,copy) NSString *company_id;
+
 
 @property (nonatomic,copy) NSString *priceStr;
 

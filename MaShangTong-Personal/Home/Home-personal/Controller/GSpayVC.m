@@ -33,9 +33,9 @@ typedef enum{
 @interface GSpayVC ()
 
 {
-    CGFloat _total_price;
+    int _total_price;
     
-    CGFloat _ture_price;
+    int _ture_price;
     
     NSDictionary *_dataDic;
     
@@ -97,14 +97,14 @@ typedef enum{
         weakSelf.orderPayType = UseOrderPay;
         
         _ture_price = _total_price - [ticket_money  doubleValue];
-        if (_ture_price < 0) {
+        if (_ture_price <= 0) {
             _ture_price = 0;
-            weakSelf.youhuiLabel.text = [NSString stringWithFormat:@"-%.2f元>",_total_price];
+            weakSelf.youhuiLabel.text = [NSString stringWithFormat:@"-%d元>",_total_price];
         }
         else{
             weakSelf.youhuiLabel.text = [NSString stringWithFormat:@"-%@元>",  ticket_money];
         }
-        NSString *title =[NSString stringWithFormat:@"确认支付：%.2f",_ture_price];
+        NSString *title =[NSString stringWithFormat:@"确认支付：%d",_ture_price];
         [weakSelf.makeSureBtn setTitle:title forState:UIControlStateNormal];
     };
     
@@ -113,7 +113,7 @@ typedef enum{
         weakSelf.youhuiLabel.text = @"0元>";
         _ture_price = _total_price ;
         
-        NSString *title =[NSString stringWithFormat:@"确认支付：%.2f",_ture_price ];
+        NSString *title =[NSString stringWithFormat:@"确认支付：%d",_ture_price ];
         [weakSelf.makeSureBtn setTitle:title forState:UIControlStateNormal];
     };
     [self.navigationController pushViewController:vc animated:YES];
@@ -265,7 +265,7 @@ typedef enum{
     NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:userId forKey:@"user_id"];
-    [params setValue:[NSString stringWithFormat:@"%.2f",_total_price] forKey:@"money"];
+    [params setValue:[NSString stringWithFormat:@"%d",_total_price] forKey:@"money"];
     if (_orderPayType == DisUseOrderPay) {
         [params setValue:@"2" forKey:@"type"];
     }
@@ -335,7 +335,7 @@ typedef enum{
     order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
     order.productName = @"码尚通车费支付";
     order.productDescription = @"码尚通车费支付";
-    order.amount = [NSString stringWithFormat:@"%.2f",_ture_price];
+    order.amount = [NSString stringWithFormat:@"%d",_ture_price];
 //    order.amount = @"0.01";
     order.notifyURL =  @"http://www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
@@ -376,13 +376,13 @@ typedef enum{
             if (_orderPayType == DisUseOrderPay) {
                 [params setValue:@"2" forKey:@"type"];
                 [params setValue:_route_id forKey:@"route_id"];
-                [params setValue:[NSString stringWithFormat:@"%f",_total_price] forKey:@"money"];
+                [params setValue:[NSString stringWithFormat:@"%d",_total_price] forKey:@"money"];
                 [params setValue:@"1" forKey:@"group_id"];
             }
             else if (_orderPayType == UseOrderPay){
                 [params setValue:@"5" forKey:@"type"];
                 [params setValue:_ticket_id forKey:@"ticket_id"];
-                [params setValue:[NSString stringWithFormat:@"%f",_total_price] forKey:@"last_money"];
+                [params setValue:[NSString stringWithFormat:@"%d",_total_price] forKey:@"last_money"];
                 [params setValue:self.driverModel.driver_id forKey:@"driver_id"];
             }
             
@@ -443,7 +443,7 @@ typedef enum{
 #pragma mark - 微信支付
 -(void)payWeChat
 {
-    _wxPayMoney = [NSString stringWithFormat:@"%.0f",_ture_price*100];
+    _wxPayMoney = [NSString stringWithFormat:@"%d",_ture_price*100];
 //    _wxPayMoney = @"1";
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -489,7 +489,7 @@ typedef enum{
             
             [WXApi sendReq:req];
             
-            APP_DELEGATE.paymoney = [NSString stringWithFormat:@"%.2f",_ture_price];
+            APP_DELEGATE.paymoney = [NSString stringWithFormat:@"%d",_ture_price];
             APP_DELEGATE.weChatPayType = Payed;
             [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(weChatPayMoneyWith:) name:@"weChatPay" object:nil];
         }
@@ -547,12 +547,12 @@ typedef enum{
     NSMutableDictionary *params = (NSMutableDictionary *)sender.userInfo;
     
     if (_orderPayType == DisUseOrderPay) {
-        [params setValue:[NSString stringWithFormat:@"%.2f",_ture_price] forKey:@"money"];
+        [params setValue:[NSString stringWithFormat:@"%d",_ture_price] forKey:@"money"];
         [params setValue:_route_id forKey:@"route_id"];
         [params setValue:@"1" forKey:@"group_id"];
     }
     else if (_orderPayType == UseOrderPay){
-        [params setValue:[NSString stringWithFormat:@"%.2f",_ture_price] forKey:@"last_money"];
+        [params setValue:[NSString stringWithFormat:@"%d",_ture_price] forKey:@"last_money"];
         [params setValue:@"5" forKey:@"type"];
         [params setValue:_ticket_id forKey:@"ticket_id"];
         [params setValue:self.driverModel.driver_id forKey:@"driver_id"];
@@ -638,14 +638,14 @@ typedef enum{
                 if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
                     _dataDic = json[@"info"];
                     
-                    _total_price = [_dataDic[@"total_price"] doubleValue];
-                    _ture_price = [_dataDic[@"total_price"] doubleValue];
+                    _total_price = [_dataDic[@"total_price"] intValue];
+                    _ture_price = [_dataDic[@"total_price"] intValue];
                     
-                    _fareLabel.text = [NSString stringWithFormat:@"%@元",  _dataDic[@"total_price"]];
+                    _fareLabel.text = [NSString stringWithFormat:@"%d元",  _total_price];
                     _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",[_dataDic[@"mileage"] floatValue]];
                     _carbonLabel.text = [NSString stringWithFormat:@"%.2fkg",[_dataDic[@"carbon_emission"] floatValue]];
                     
-                    NSString *title =[NSString stringWithFormat:@"确认支付：%.2f",_total_price];
+                    NSString *title =[NSString stringWithFormat:@"确认支付：%d",_total_price];
                     [_makeSureBtn setTitle:title forState:UIControlStateNormal];
                     
                 }

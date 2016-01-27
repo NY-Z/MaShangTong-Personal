@@ -1035,6 +1035,194 @@
 			name = UserModel;
 			sourceTree = "<group>";
 		};
+		101C74D91C55E8AF006295A1 /* 发单流程 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F49C1C507AC20033F0B3 /* GSchooseOrderViewController.h */,
+				10D2F49D1C507AC20033F0B3 /* GSchooseOrderViewController.m */,
+				10D2F49E1C507AC20033F0B3 /* GSchooseOrderViewController.xib */,
+				10D2F49F1C507AC20033F0B3 /* GSpayVC.h */,
+				10D2F4A01C507AC20033F0B3 /* GSpayVC.m */,
+				10D2F4A11C507AC20033F0B3 /* GSpayVC.xib */,
+			);
+			name = "发单流程";
+			sourceTree = "<group>";
+		};
+		101C74DA1C55E8DA006295A1 /* VIewController */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F4A21C507AC20033F0B3 /* HomeViewController.h */,
+				10D2F4A31C507AC20033F0B3 /* HomeViewController.m */,
+				10D2F4A71C507AC20033F0B3 /* searchViewC.h */,
+				10D2F4A81C507AC20033F0B3 /* searchViewC.m */,
+				10D2F4A91C507AC20033F0B3 /* wordVC.h */,
+				10D2F4AA1C507AC20033F0B3 /* wordVC.m */,
+				10D2F4AB1C507AC20033F0B3 /* wordVC.xib */,
+			);
+			name = VIewController;
+			sourceTree = "<group>";
+		};
+		101C74DB1C55E940006295A1 /* 个人中心 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F4CB1C507AC20033F0B3 /* GSdiscoverViewController.h */,
+				10D2F4CC1C507AC20033F0B3 /* GSdiscoverViewController.m */,
+				10D2F4CD1C507AC20033F0B3 /* GSdiscoverViewController.xib */,
+				10D2F4DD1C507AC20033F0B3 /* MyNewsCenterVC.h */,
+				10D2F4DE1C507AC20033F0B3 /* MyNewsCenterVC.m */,
+				10D2F4EA1C507AC20033F0B3 /* PersonCenterViewController.h */,
+				10D2F4EB1C507AC20033F0B3 /* PersonCenterViewController.m */,
+				10D2F4EE1C507AC20033F0B3 /* recommendedVC.h */,
+				10D2F4EF1C507AC20033F0B3 /* recommendedVC.m */,
+				10D2F4F01C507AC20033F0B3 /* settingVC.h */,
+				10D2F4F11C507AC20033F0B3 /* settingVC.m */,
+			);
+			name = "个人中心";
+			sourceTree = "<group>";
+		};
+		101C74DC1C55E959006295A1 /* 我的钱包 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F4CE1C507AC20033F0B3 /* GSrechargeVC.h */,
+				10D2F4CF1C507AC20033F0B3 /* GSrechargeVC.m */,
+				10D2F4D01C507AC20033F0B3 /* GSrechargeVC.xib */,
+				10D2F4E81C507AC20033F0B3 /* MyWalletVC.h */,
+				10D2F4E91C507AC20033F0B3 /* MyWalletVC.m */,
+			);
+			name = "我的钱包";
+			sourceTree = "<group>";
+		};
+		101C74DD1C55E969006295A1 /* 我的行程 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F4BF1C507AC20033F0B3 /* detailOrderVC.h */,
+				10D2F4C01C507AC20033F0B3 /* detailOrderVC.m */,
+				10D2F4C11C507AC20033F0B3 /* detailOrderVC.xib */,
+				10D2F4E61C507AC20033F0B3 /* MyTripViewController.h */,
+				10D2F4E71C507AC20033F0B3 /* MyTripViewController.m */,
+			);
+			name = "我的行程";
+			sourceTree = "<group>";
+		};
+		101C74DE1C55E98B006295A1 /* 司机招募 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F4BD1C507AC20033F0B3 /* DetailInfoViewController.h */,
+				10D2F4BE1C507AC20033F0B3 /* DetailInfoViewController.m */,
+				10D2F4C21C507AC20033F0B3 /* DriverJoinInViewController.h */,
+				10D2F4C31C507AC20033F0B3 /* DriverJoinInViewController.m */,
+				10D2F4C41C507AC20033F0B3 /* DriverJoinInViewController.xib */,
+				10D2F4F21C507AC20033F0B3 /* sijizhaomuVC.h */,
+				10D2F4F31C507AC20033F0B3 /* sijizhaomuVC.m */,
+				10D2F4F41C507AC20033F0B3 /* sijizhaomuVC.xib */,
+			);
+			name = "司机招募";
+			sourceTree = "<group>";
+		};
+		101C74DF1C55E9B5006295A1 /* 团购商城 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F4D11C507AC20033F0B3 /* GSsendOrderViewController.h */,
+				10D2F4D21C507AC20033F0B3 /* GSsendOrderViewController.m */,
+				10D2F4D31C507AC20033F0B3 /* GSsendOrderViewController.xib */,
+				10D2F4D41C507AC20033F0B3 /* GSshopPayViewController.h */,
+				10D2F4D51C507AC20033F0B3 /* GSshopPayViewController.m */,
+				10D2F4D61C507AC20033F0B3 /* GSshopPayViewController.xib */,
+				10D2F4D71C507AC20033F0B3 /* GSshopViewController.h */,
+				10D2F4D81C507AC20033F0B3 /* GSshopViewController.m */,
+				10D2F4D91C507AC20033F0B3 /* GSshopViewController.xib */,
+				10D2F4DA1C507AC20033F0B3 /* MyCouponVC.h */,
+				10D2F4DB1C507AC20033F0B3 /* MyCouponVC.m */,
+				10D2F4DC1C507AC20033F0B3 /* MyCouponVC.xib */,
+				10D2F4DF1C507AC20033F0B3 /* MyOrderVC.h */,
+				10D2F4E01C507AC20033F0B3 /* MyOrderVC.m */,
+				10D2F4E11C507AC20033F0B3 /* MyStoreCenter.h */,
+				10D2F4E21C507AC20033F0B3 /* MyStoreCenter.m */,
+				10D2F4E31C507AC20033F0B3 /* MyStoreCenter.xib */,
+				10D2F4E41C507AC20033F0B3 /* MyStoreVC.h */,
+				10D2F4E51C507AC20033F0B3 /* MyStoreVC.m */,
+			);
+			name = "团购商城";
+			sourceTree = "<group>";
+		};
+		101C74E01C55E9D5006295A1 /* 我的信息 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F4C51C507AC20033F0B3 /* GSauthenticationVC.h */,
+				10D2F4C61C507AC20033F0B3 /* GSauthenticationVC.m */,
+				10D2F4C71C507AC20033F0B3 /* GSauthenticationVC.xib */,
+				10D2F4C81C507AC20033F0B3 /* GSchangePassWordVC.h */,
+				10D2F4C91C507AC20033F0B3 /* GSchangePassWordVC.m */,
+				10D2F4CA1C507AC20033F0B3 /* GSchangePassWordVC.xib */,
+				10D2F4EC1C507AC20033F0B3 /* PersonInfoViewController.h */,
+				10D2F4ED1C507AC20033F0B3 /* PersonInfoViewController.m */,
+			);
+			name = "我的信息";
+			sourceTree = "<group>";
+		};
+		101C74E11C55E9F3006295A1 /* 我的信息 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F51C1C507AC20033F0B3 /* PersonInfoCell.h */,
+				10D2F51D1C507AC20033F0B3 /* PersonInfoCell.m */,
+				10D2F4FD1C507AC20033F0B3 /* GSageView.h */,
+				10D2F4FE1C507AC20033F0B3 /* GSageView.m */,
+				10D2F4FF1C507AC20033F0B3 /* GScityView.h */,
+				10D2F5001C507AC20033F0B3 /* GScityView.m */,
+				10D2F5011C507AC20033F0B3 /* GSsexView.h */,
+				10D2F5021C507AC20033F0B3 /* GSsexView.m */,
+			);
+			name = "我的信息";
+			sourceTree = "<group>";
+		};
+		101C74E21C55EA25006295A1 /* 个人中心 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F5031C507AC20033F0B3 /* MyCenterCell.h */,
+				10D2F5041C507AC20033F0B3 /* MyCenterCell.m */,
+				10D2F5051C507AC20033F0B3 /* MyCenterCell.xib */,
+				10D2F5191C507AC20033F0B3 /* MyTripCell.h */,
+				10D2F51A1C507AC20033F0B3 /* MyTripCell.m */,
+				10D2F51B1C507AC20033F0B3 /* MyTripCell.xib */,
+				10D2F51E1C507AC20033F0B3 /* settingCell.h */,
+				10D2F51F1C507AC20033F0B3 /* settingCell.m */,
+				0E38A5391C50EEC70040236C /* MyNewsTableViewCell.h */,
+				0E38A53A1C50EEC70040236C /* MyNewsTableViewCell.m */,
+				0E38A53B1C50EEC70040236C /* MyNewsTableViewCell.xib */,
+			);
+			name = "个人中心";
+			sourceTree = "<group>";
+		};
+		101C74E31C55EA49006295A1 /* 我的钱包 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F5081C507AC20033F0B3 /* MyChitTableViewCell.h */,
+				10D2F5091C507AC20033F0B3 /* MyChitTableViewCell.m */,
+				10D2F50A1C507AC20033F0B3 /* MyChitTableViewCell.xib */,
+				10D2F5061C507AC20033F0B3 /* MyChit.h */,
+				10D2F5071C507AC20033F0B3 /* MyChit.m */,
+				10D2F50E1C507AC20033F0B3 /* MyMoney.h */,
+				10D2F50F1C507AC20033F0B3 /* MyMoney.m */,
+			);
+			name = "我的钱包";
+			sourceTree = "<group>";
+		};
+		101C74E41C55EA8B006295A1 /* 团购商城 */ = {
+			isa = PBXGroup;
+			children = (
+				10D2F50B1C507AC20033F0B3 /* MyCouponTableViewCell.h */,
+				10D2F50C1C507AC20033F0B3 /* MyCouponTableViewCell.m */,
+				10D2F50D1C507AC20033F0B3 /* MyCouponTableViewCell.xib */,
+				10D2F5131C507AC20033F0B3 /* MyOrderTableViewCell.h */,
+				10D2F5141C507AC20033F0B3 /* MyOrderTableViewCell.m */,
+				10D2F5151C507AC20033F0B3 /* MyOrderTableViewCell.xib */,
+				10D2F5161C507AC20033F0B3 /* MyStoreTableViewCell.h */,
+				10D2F5171C507AC20033F0B3 /* MyStoreTableViewCell.m */,
+				10D2F5181C507AC20033F0B3 /* MyStoreTableViewCell.xib */,
+			);
+			name = "团购商城";
+			sourceTree = "<group>";
+		};
 		105791E11C106DAF00E844FA /* DriverLoginAndRegis */ = {
 			isa = PBXGroup;
 			children = (
@@ -1074,19 +1262,8 @@
 		10D2F4981C507AC20033F0B3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				10D2F49C1C507AC20033F0B3 /* GSchooseOrderViewController.h */,
-				10D2F49D1C507AC20033F0B3 /* GSchooseOrderViewController.m */,
-				10D2F49E1C507AC20033F0B3 /* GSchooseOrderViewController.xib */,
-				10D2F49F1C507AC20033F0B3 /* GSpayVC.h */,
-				10D2F4A01C507AC20033F0B3 /* GSpayVC.m */,
-				10D2F4A11C507AC20033F0B3 /* GSpayVC.xib */,
-				10D2F4A21C507AC20033F0B3 /* HomeViewController.h */,
-				10D2F4A31C507AC20033F0B3 /* HomeViewController.m */,
-				10D2F4A71C507AC20033F0B3 /* searchViewC.h */,
-				10D2F4A81C507AC20033F0B3 /* searchViewC.m */,
-				10D2F4A91C507AC20033F0B3 /* wordVC.h */,
-				10D2F4AA1C507AC20033F0B3 /* wordVC.m */,
-				10D2F4AB1C507AC20033F0B3 /* wordVC.xib */,
+				101C74D91C55E8AF006295A1 /* 发单流程 */,
+				101C74DA1C55E8DA006295A1 /* VIewController */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1131,62 +1308,12 @@
 		10D2F4BC1C507AC20033F0B3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				10D2F4BD1C507AC20033F0B3 /* DetailInfoViewController.h */,
-				10D2F4BE1C507AC20033F0B3 /* DetailInfoViewController.m */,
-				10D2F4BF1C507AC20033F0B3 /* detailOrderVC.h */,
-				10D2F4C01C507AC20033F0B3 /* detailOrderVC.m */,
-				10D2F4C11C507AC20033F0B3 /* detailOrderVC.xib */,
-				10D2F4C21C507AC20033F0B3 /* DriverJoinInViewController.h */,
-				10D2F4C31C507AC20033F0B3 /* DriverJoinInViewController.m */,
-				10D2F4C41C507AC20033F0B3 /* DriverJoinInViewController.xib */,
-				10D2F4C51C507AC20033F0B3 /* GSauthenticationVC.h */,
-				10D2F4C61C507AC20033F0B3 /* GSauthenticationVC.m */,
-				10D2F4C71C507AC20033F0B3 /* GSauthenticationVC.xib */,
-				10D2F4C81C507AC20033F0B3 /* GSchangePassWordVC.h */,
-				10D2F4C91C507AC20033F0B3 /* GSchangePassWordVC.m */,
-				10D2F4CA1C507AC20033F0B3 /* GSchangePassWordVC.xib */,
-				10D2F4CB1C507AC20033F0B3 /* GSdiscoverViewController.h */,
-				10D2F4CC1C507AC20033F0B3 /* GSdiscoverViewController.m */,
-				10D2F4CD1C507AC20033F0B3 /* GSdiscoverViewController.xib */,
-				10D2F4CE1C507AC20033F0B3 /* GSrechargeVC.h */,
-				10D2F4CF1C507AC20033F0B3 /* GSrechargeVC.m */,
-				10D2F4D01C507AC20033F0B3 /* GSrechargeVC.xib */,
-				10D2F4D11C507AC20033F0B3 /* GSsendOrderViewController.h */,
-				10D2F4D21C507AC20033F0B3 /* GSsendOrderViewController.m */,
-				10D2F4D31C507AC20033F0B3 /* GSsendOrderViewController.xib */,
-				10D2F4D41C507AC20033F0B3 /* GSshopPayViewController.h */,
-				10D2F4D51C507AC20033F0B3 /* GSshopPayViewController.m */,
-				10D2F4D61C507AC20033F0B3 /* GSshopPayViewController.xib */,
-				10D2F4D71C507AC20033F0B3 /* GSshopViewController.h */,
-				10D2F4D81C507AC20033F0B3 /* GSshopViewController.m */,
-				10D2F4D91C507AC20033F0B3 /* GSshopViewController.xib */,
-				10D2F4DA1C507AC20033F0B3 /* MyCouponVC.h */,
-				10D2F4DB1C507AC20033F0B3 /* MyCouponVC.m */,
-				10D2F4DC1C507AC20033F0B3 /* MyCouponVC.xib */,
-				10D2F4DD1C507AC20033F0B3 /* MyNewsCenterVC.h */,
-				10D2F4DE1C507AC20033F0B3 /* MyNewsCenterVC.m */,
-				10D2F4DF1C507AC20033F0B3 /* MyOrderVC.h */,
-				10D2F4E01C507AC20033F0B3 /* MyOrderVC.m */,
-				10D2F4E11C507AC20033F0B3 /* MyStoreCenter.h */,
-				10D2F4E21C507AC20033F0B3 /* MyStoreCenter.m */,
-				10D2F4E31C507AC20033F0B3 /* MyStoreCenter.xib */,
-				10D2F4E41C507AC20033F0B3 /* MyStoreVC.h */,
-				10D2F4E51C507AC20033F0B3 /* MyStoreVC.m */,
-				10D2F4E61C507AC20033F0B3 /* MyTripViewController.h */,
-				10D2F4E71C507AC20033F0B3 /* MyTripViewController.m */,
-				10D2F4E81C507AC20033F0B3 /* MyWalletVC.h */,
-				10D2F4E91C507AC20033F0B3 /* MyWalletVC.m */,
-				10D2F4EA1C507AC20033F0B3 /* PersonCenterViewController.h */,
-				10D2F4EB1C507AC20033F0B3 /* PersonCenterViewController.m */,
-				10D2F4EC1C507AC20033F0B3 /* PersonInfoViewController.h */,
-				10D2F4ED1C507AC20033F0B3 /* PersonInfoViewController.m */,
-				10D2F4EE1C507AC20033F0B3 /* recommendedVC.h */,
-				10D2F4EF1C507AC20033F0B3 /* recommendedVC.m */,
-				10D2F4F01C507AC20033F0B3 /* settingVC.h */,
-				10D2F4F11C507AC20033F0B3 /* settingVC.m */,
-				10D2F4F21C507AC20033F0B3 /* sijizhaomuVC.h */,
-				10D2F4F31C507AC20033F0B3 /* sijizhaomuVC.m */,
-				10D2F4F41C507AC20033F0B3 /* sijizhaomuVC.xib */,
+				101C74DC1C55E959006295A1 /* 我的钱包 */,
+				101C74DD1C55E969006295A1 /* 我的行程 */,
+				101C74DE1C55E98B006295A1 /* 司机招募 */,
+				101C74E01C55E9D5006295A1 /* 我的信息 */,
+				101C74DF1C55E9B5006295A1 /* 团购商城 */,
+				101C74DB1C55E940006295A1 /* 个人中心 */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1207,41 +1334,10 @@
 		10D2F4FC1C507AC20033F0B3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				10D2F4FD1C507AC20033F0B3 /* GSageView.h */,
-				10D2F4FE1C507AC20033F0B3 /* GSageView.m */,
-				10D2F4FF1C507AC20033F0B3 /* GScityView.h */,
-				10D2F5001C507AC20033F0B3 /* GScityView.m */,
-				10D2F5011C507AC20033F0B3 /* GSsexView.h */,
-				10D2F5021C507AC20033F0B3 /* GSsexView.m */,
-				10D2F5031C507AC20033F0B3 /* MyCenterCell.h */,
-				10D2F5041C507AC20033F0B3 /* MyCenterCell.m */,
-				10D2F5051C507AC20033F0B3 /* MyCenterCell.xib */,
-				10D2F5061C507AC20033F0B3 /* MyChit.h */,
-				10D2F5071C507AC20033F0B3 /* MyChit.m */,
-				10D2F5081C507AC20033F0B3 /* MyChitTableViewCell.h */,
-				10D2F5091C507AC20033F0B3 /* MyChitTableViewCell.m */,
-				10D2F50A1C507AC20033F0B3 /* MyChitTableViewCell.xib */,
-				10D2F50B1C507AC20033F0B3 /* MyCouponTableViewCell.h */,
-				10D2F50C1C507AC20033F0B3 /* MyCouponTableViewCell.m */,
-				10D2F50D1C507AC20033F0B3 /* MyCouponTableViewCell.xib */,
-				10D2F50E1C507AC20033F0B3 /* MyMoney.h */,
-				10D2F50F1C507AC20033F0B3 /* MyMoney.m */,
-				10D2F5131C507AC20033F0B3 /* MyOrderTableViewCell.h */,
-				10D2F5141C507AC20033F0B3 /* MyOrderTableViewCell.m */,
-				10D2F5151C507AC20033F0B3 /* MyOrderTableViewCell.xib */,
-				10D2F5161C507AC20033F0B3 /* MyStoreTableViewCell.h */,
-				10D2F5171C507AC20033F0B3 /* MyStoreTableViewCell.m */,
-				10D2F5181C507AC20033F0B3 /* MyStoreTableViewCell.xib */,
-				10D2F5191C507AC20033F0B3 /* MyTripCell.h */,
-				10D2F51A1C507AC20033F0B3 /* MyTripCell.m */,
-				10D2F51B1C507AC20033F0B3 /* MyTripCell.xib */,
-				10D2F51C1C507AC20033F0B3 /* PersonInfoCell.h */,
-				10D2F51D1C507AC20033F0B3 /* PersonInfoCell.m */,
-				10D2F51E1C507AC20033F0B3 /* settingCell.h */,
-				10D2F51F1C507AC20033F0B3 /* settingCell.m */,
-				0E38A5391C50EEC70040236C /* MyNewsTableViewCell.h */,
-				0E38A53A1C50EEC70040236C /* MyNewsTableViewCell.m */,
-				0E38A53B1C50EEC70040236C /* MyNewsTableViewCell.xib */,
+				101C74E11C55E9F3006295A1 /* 我的信息 */,
+				101C74E31C55EA49006295A1 /* 我的钱包 */,
+				101C74E41C55EA8B006295A1 /* 团购商城 */,
+				101C74E21C55EA25006295A1 /* 个人中心 */,
 			);
 			path = View;
 			sourceTree = "<group>";

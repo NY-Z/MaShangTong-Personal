@@ -71,6 +71,7 @@
     vc.goodsName = _combo_name;
     vc.cb_id = _combo_id;
     vc.perPriceStr = _perPrice;
+    vc.company_id = _company_id;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

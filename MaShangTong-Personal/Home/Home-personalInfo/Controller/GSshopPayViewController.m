@@ -149,24 +149,24 @@ typedef enum{
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:userId forKey:@"user_id"];
     [params setValue:[NSString stringWithFormat:@"%@",_priceStr] forKey:@"money"];
-    [params setValue:@"2" forKey:@"type"];
-    [params setValue:@"1" forKey:@"group_id"];
+    [params setValue:@"6" forKey:@"type"];
+    [params setValue:_company_id forKey:@"company_id"];
     
     NYLog(@"%@",params);
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
         @try {
             if (json) {
-                //            NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
-                //            if ([str isEqualToString:@"1"]) {
-                
-                [self changeRouteStatus];
-                
-                //            }
-                //            else{
-                //                [MBProgressHUD hideHUD];
-                //                [MBProgressHUD showError:@"支付失败"];
-                //            }
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    
+                    [self changeRouteStatus];
+                    
+                }
+                else{
+                    [MBProgressHUD hideHUD];
+                    [MBProgressHUD showError:@"支付失败"];
+                }
             }
             else{
                 [MBProgressHUD hideHUD];
@@ -182,6 +182,47 @@ typedef enum{
         [MBProgressHUD showError:@"请求超时"];
     }];
     
+}
+#pragma  mark - 微信和支付宝支付
+-(void)payByAliapyOrWechat
+{
+    [MBProgressHUD showMessage:@"正在支付"];
+    NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:userId forKey:@"user_id"];
+    [params setValue:[NSString stringWithFormat:@"%@",_priceStr] forKey:@"money"];
+    [params setValue:@"7" forKey:@"type"];
+    [params setValue:_company_id forKey:@"company_id"];
+    
+    NYLog(@"%@",params);
+    
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    
+                    [self changeRouteStatus];
+                }
+                else{
+                    [MBProgressHUD hideHUD];
+                    [self payByAliapyOrWechat];
+                }
+            }
+            else{
+                [MBProgressHUD hideHUD];
+                [self payByAliapyOrWechat];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            [self payByAliapyOrWechat];
+        }
+    }failure:^(NSError *error){
+        [MBProgressHUD hideHUD];
+        [self payByAliapyOrWechat];
+    }];
+
 }
 #pragma mark - 支付宝支付
 -(void)payAlipay
@@ -245,8 +286,10 @@ typedef enum{
                 return ;
             }
             [MBProgressHUD showSuccess:@"购买成功"];
+            
+            
             //支付成功
-            [self changeRouteStatus];
+            [self payByAliapyOrWechat];
         }];
         
     }
@@ -371,8 +414,7 @@ typedef enum{
 }
 -(void)weChatBuy
 {
-    [MBProgressHUD showSuccess:@"购买成功"];
-    [self changeRouteStatus];
+    [self payByAliapyOrWechat];
 }
 
 @end

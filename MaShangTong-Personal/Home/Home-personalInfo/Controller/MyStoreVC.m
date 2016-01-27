@@ -155,8 +155,10 @@
     GSshopViewController *vc = [[GSshopViewController alloc]init];
     NSDictionary *dic = _dataAry[indexPath.section];
     vc.shc_id = dic[@"shc_id"];
+    vc.company_id = dic[@"company_id"];
     NSDictionary *subDic = dic[@"a"][indexPath.row];
     vc.cb_id = subDic[@"cb_id"];
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - 网络请求

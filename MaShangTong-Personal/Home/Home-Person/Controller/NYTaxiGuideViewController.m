@@ -54,7 +54,7 @@
     
     CGSize size = image.size;
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*size.height/SCREEN_HEIGHT);
+    imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 13384/(1280/SCREEN_WIDTH));
     [_scrollView addSubview:imageView];
     _scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH*size.height/SCREEN_HEIGHT);
 }

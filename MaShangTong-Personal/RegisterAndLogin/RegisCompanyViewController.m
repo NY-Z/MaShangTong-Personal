@@ -42,8 +42,18 @@
 
 @implementation RegisCompanyViewController
 
+-(void)backBtnClick
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 - (void)addNavTitle
 {
+    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    leftBtn.size = CGSizeMake(22, 22);
+    [leftBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
     label.font = [UIFont systemFontOfSize:15];
     label.text = @"注册公司";

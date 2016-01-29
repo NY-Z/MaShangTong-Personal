@@ -209,12 +209,12 @@ typedef enum{
     [MBProgressHUD showMessage:@"正在充值,请稍后"];
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
+        [MBProgressHUD hideHUD];
         @try {
             NYLog(@"%@",json);
             if (json) {
                 NSString *str = json[@"result"];
                 if ([str isEqualToString:@"1"]) {
-                    [MBProgressHUD hideHUD];
                     [MBProgressHUD showSuccess:@"充值成功"];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
@@ -231,6 +231,7 @@ typedef enum{
             
         }
     }failure:^(NSError *error){
+        [MBProgressHUD hideHUD];
         [self rechargeMoneyWith:params];
     }];
 }
@@ -238,6 +239,7 @@ typedef enum{
 -(void)payWeChat
 {
     _wxPayMoney = [NSString stringWithFormat:@"%.0f",[_monryTextFiled.text floatValue]*100];
+//    _wxPayMoney = @"1";
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_wxPayMoney forKey:@"money"];
@@ -279,7 +281,7 @@ typedef enum{
         [WXApi sendReq:req];
         [MBProgressHUD hideHUD];
         
-        APP_DELEGATE.paymoney = [NSString stringWithFormat:@"%.2f",[_monryTextFiled.text floatValue]];
+        APP_DELEGATE.payMoney = [NSString stringWithFormat:@"%.2f",[_monryTextFiled.text floatValue]];
         APP_DELEGATE.weChatPayType = RechargePayed;
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(weChatRechargeMoneyWith:) name:@"weChatRecharge" object:nil];
         
@@ -338,6 +340,7 @@ typedef enum{
     [params setValue:@"1" forKey:@"group_id"];
     
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
+        [MBProgressHUD hideHUD];
         @try {
             NYLog(@"%@",json);
             if (json) {
@@ -348,11 +351,11 @@ typedef enum{
                     [self.navigationController popViewControllerAnimated:YES];
                 }
                 else{
-                    [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:nil]];
+                    [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
                 }
             }
             else{
-                [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:nil]];
+                [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
             }
         } @catch (NSException *exception) {
             
@@ -360,7 +363,8 @@ typedef enum{
             
         }
     }failure:^(NSError *error){
-        [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:nil]];
+        [MBProgressHUD hideHUD];
+        [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
     }];
 }
 

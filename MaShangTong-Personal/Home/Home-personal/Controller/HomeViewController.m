@@ -68,6 +68,8 @@
 
 //判断用户是否是自己选择位置（NO为否）
 static BOOL isHadSearched = NO;
+//判断用户自己选择预约时间没有
+static bool isChooseDate = NO;
 //判断是哪个label点击的（起点是0和终点是1）
 static NSInteger whichLabel;
 //判断计价规则是否请求成功
@@ -117,6 +119,8 @@ static BOOL isApper = YES;
     isApper = NO;
     
     [_mapView removeAnnotations:_mapView.annotations];
+    
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -145,13 +149,6 @@ static BOOL isApper = YES;
     _personModel.reserva_type = [NSString stringWithFormat:@"%d",1];
     //获取车型，为舒适电动轿车
     _personModel.car_type_id = [NSString stringWithFormat:@"%d",1];
-    //获取出发时间和预约类型
-    _personModel.reservation_type = [NSString stringWithFormat:@"%d",1];
-    NSDate *date = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"HH mm"];
-    
-    _personModel.reservation_time = [NSString stringWithFormat:@"%ld",(long)[date timeIntervalSince1970]];
     
     
     //用户的id和电话号码（先写死，到时候从本地持久化文件里面取出来）
@@ -270,7 +267,7 @@ static BOOL isApper = YES;
             //获取到预约事件类型和预约时间
             weakSelf.personModel.reservation_time = reservation_time;
             weakSelf.personModel.reservation_type = reservation_type;
-            
+            isChooseDate = YES;
             [weakSelf.callCarView.goOffBtn setTitle:[NSString stringWithFormat:@"出发时间  %@",dateStr] forState:UIControlStateNormal];
         };
         [weakSelf.view addSubview:dataV];
@@ -296,6 +293,15 @@ static BOOL isApper = YES;
             [alter show];
         }
         else {
+            if (!isChooseDate) {
+                //获取出发时间和预约类型
+                weakSelf.personModel.reservation_type = [NSString stringWithFormat:@"%d",1];
+                NSDate *date = [NSDate date];
+                NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+                [formatter setDateFormat:@"HH mm"];
+                
+                weakSelf.personModel.reservation_time = [NSString stringWithFormat:@"%ld",(long)[date timeIntervalSince1970]];
+            }
             NSDictionary *param = [personOrderModel getDictionaryWith:weakSelf.personModel];
             [weakSelf sendOrderWith:param];
             
@@ -589,6 +595,11 @@ updatingLocation:(BOOL)updatingLocation
                     waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(self.driveSearch.origin.latitude, self.driveSearch.origin.longitude);
                     waitOrderVc.specialCarRuleModel = [[ValuationRuleModel alloc] initWithDictionary:json[@"rule"] error:nil];
                     waitOrderVc.type = ReservationTypeSpecialCar;
+                    waitOrderVc.HaveOrder = YES;
+                    waitOrderVc.gonePrice = [NSString stringWithFormat:@"%f" ,[json[@"info"][@"total_price"] floatValue] - [json[@"info"][@"start_price"] floatValue]];
+                    waitOrderVc.isHadExit = HadExit;
+                    waitOrderVc.low_time = json[@"info"][@"low_time"];
+                    waitOrderVc.mileage = json[@"info"][@"mileage"];
                     [self.navigationController pushViewController:waitOrderVc animated:YES];
                 }]];
                 NSString *str = [NSString stringWithFormat:@"%@",json[@"info"][@"route_status"]];
@@ -621,7 +632,7 @@ updatingLocation:(BOOL)updatingLocation
                 [MBProgressHUD showSuccess:@"取消订单成功"];
             } else {
                 [MBProgressHUD showError:@"取消订单失败"];
-                [self cancelOrderWithRouteId:routeId];
+                
             }
         } @catch (NSException *exception) {
             
@@ -631,7 +642,7 @@ updatingLocation:(BOOL)updatingLocation
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [MBProgressHUD showError:@"请求超时"];
-        [self cancelOrderWithRouteId:routeId];
+       
     }];
 }
 #pragma mark - 网络请求，发单
@@ -827,7 +838,7 @@ updatingLocation:(BOOL)updatingLocation
             return fareNum;
         }
         else{
-            NSInteger fareNum  = (long)(stemp1+10*price1+(KM-10)*priceNum1);
+            NSInteger fareNum  = (long)(stemp1+KM*price1+(KM-10)*priceNum1);
             return fareNum;
         }
         
@@ -843,7 +854,7 @@ updatingLocation:(BOOL)updatingLocation
             return fareNum;
         }
         else{
-            NSInteger fareNum  = (long)(stemp2+10*price2+(KM-10)*priceNum2);
+            NSInteger fareNum  = (long)(stemp2+KM*price2+(KM-10)*priceNum2);
             return fareNum;
         }
     }
@@ -857,7 +868,7 @@ updatingLocation:(BOOL)updatingLocation
             return fareNum;
         }
         else{
-            NSInteger fareNum  = (long)(stemp3+10*price3+(KM-10)*priceNum3);
+            NSInteger fareNum  = (long)(stemp3+KM*price3+(KM-10)*priceNum3);
             return fareNum;
         }
     }

@@ -44,6 +44,10 @@
     NSInteger _route_status;
     
     //    ReservationType _reservationType;
+    
+    
+    CLLocationCoordinate2D lastPoint;//上一秒的坐标经纬度
+    CLLocationCoordinate2D nowPoint;//下一秒的坐标经纬度
 }
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) UITableView *tableView;
@@ -70,6 +74,8 @@
 
 @end
 
+//重新进入程序后，判断是否已经记录退出前坐标经纬度
+static BOOL isHadRecord = NO;
 @implementation WaitForTheOrderViewController
 
 - (NYCalculateSpecialCarPrice *)calculateSpecialCar
@@ -133,6 +139,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    if (_HaveOrder) {//如果之前有未完成订单，那么进来之后就发起请求查看订单状态
+        [self updateTime];
+    }
+    
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBarHidden = NO;
@@ -373,11 +383,22 @@
     distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[json[@"distance"] floatValue]/1000];
     speedLabel.text = [NSString stringWithFormat:@"低速%.2f分钟",[json[@"time"] floatValue]/60];
 }
-
+#pragma mark - 清空上一单的数据
+-(void)clearCalculateSpecialCarData{
+    self.calculateSpecialCar.distance = 0;
+//    self.calculateSpecialCar.price = 0;
+    self.calculateSpecialCar.lowSpeedTime = 0;
+    self.calculateSpecialCar.lowSpeedPrice = 0;
+    self.calculateSpecialCar.longDistance = 0;
+    self.calculateSpecialCar.longPrice = 0;
+    self.calculateSpecialCar.nightPrice = 0;
+    
+}
 #pragma mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     @autoreleasepool {
+        [self clearCalculateSpecialCarData];
         _calculaterWitch = 0;
         _driveringTime = 0;
         _lastState = 0;
@@ -552,6 +573,7 @@
             if (secondStr.length == 1) {
                 secondStr = [NSMutableString stringWithFormat:@"0%@",secondStr];
             }
+            _distance += [_mileage floatValue];
             NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%@:%@",((float)_distance)/1000,minuteStr,secondStr];
             userLocation.title = annTitle;
         }
@@ -576,9 +598,25 @@
                 [params setValue:[NSString stringWithFormat:@"%li",(long)_route_status] forKey:@"route_status"];
                 [params setValue:isLowSpeed forKey:@"time"];
                 
-                NSMutableDictionary *priceDic = [[self.calculateSpecialCar calculatePriceWithParams:params] mutableCopy];
+                if(_gonePrice){
+                    [params setValue:_gonePrice forKey:@"gonePrice"];
+                }
+                //记录上一秒和当前一秒的经纬度。
+                [params setValue:[NSString stringWithFormat:@"%f",lastPoint.latitude] forKey:@"last_latitude"];
+                [params setValue:[NSString stringWithFormat:@"%f",lastPoint.longitude] forKey:@"last_longitude"];
+                [params setValue:[NSString stringWithFormat:@"%f",nowPoint.latitude] forKey:@"now_latitude"];
+                [params setValue:[NSString stringWithFormat:@"%f",nowPoint.longitude] forKey:@"now_longitude"];
+                
+//                NSMutableDictionary *priceDic = [[self.calculateSpecialCar calculatePriceWithParams:params] mutableCopy];
+                NSMutableDictionary *priceDic = [[self.calculateSpecialCar calculatePriceByLocationWithParams:params] mutableCopy];
+                
+                if (_isHadExit == HadExit) {//如果是退出程序重新启动，低速时间要加上之前的低速时间
+                    [priceDic setValue:[NSString stringWithFormat:@"%ld",[priceDic[@"low_time"] integerValue] + [_low_time integerValue]] forKey:@"low_time"];
+                    speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[priceDic[@"low_time"] integerValue]/60];
+                }else{
+                    speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[priceDic[@"low_time"] integerValue]/60];
+                }
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceDic[@"mileage"] floatValue]];
-                speedLabel.text = [NSString stringWithFormat:@"低速%li分钟",[priceDic[@"low_time"] integerValue]/60];
                 _totalPrice = [NSString stringWithFormat:@"%.0f元",[priceDic[@"total_price"] floatValue]];
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
@@ -598,7 +636,12 @@
             case ReservationTypeCharteredBus:
             {
                 speedLabel.hidden = YES;
-                NSArray *priceArr = [self.calculateCharteredBus calculatePriceWithSpeed:_speed];
+                //将每秒根据经纬度定位到的距离按照速度传给计价规则
+                MAMapPoint point1 = MAMapPointMake(lastPoint.longitude, lastPoint.latitude);
+                MAMapPoint point2 = MAMapPointMake(nowPoint.longitude, nowPoint.latitude);
+                CLLocationDistance distance = MAMetersBetweenMapPoints(point1, point2);
+                _speed = distance;
+                NSArray *priceArr = [self.calculateCharteredBus calculatePriceWithSpeed:_speed andGonePrice:_mileage andBordingTime:_boardingTime];
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[1] floatValue]];
                 _totalPrice = [NSString stringWithFormat:@"%.0f元",[priceArr[0] floatValue]];
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
@@ -702,6 +745,23 @@
     });
     _passengerCoordinate = userLocation.coordinate;
     _speed = userLocation.location.speed;
+    
+    if(userLocation.location){
+        nowPoint = userLocation.location.coordinate;
+    }
+    else{
+        return;
+    }
+    if (_isHadExit == HadExit && !isHadRecord) {//如果退出过程序，那么上一秒的坐标经纬度就是请求道服务器的坐标
+        NSArray *ary = [_model.origin_coordinates componentsSeparatedByString:@","];
+        lastPoint = CLLocationCoordinate2DMake([ary[1] doubleValue], [ary[0] doubleValue]);
+        isHadRecord = !isHadRecord;
+    }
+    else{//如果没有退出过程序，那么就是正常计费，上一秒坐标经纬度是上一秒定位到的坐标
+        if(userLocation.location){
+            lastPoint = userLocation.location.coordinate;
+        }
+    }
     
     if (_iscalculateStart && userLocation.location.speed >= 0) {
         _actualDistance += userLocation.location.speed;

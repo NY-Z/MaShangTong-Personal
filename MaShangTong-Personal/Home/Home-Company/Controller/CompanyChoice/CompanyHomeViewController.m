@@ -688,15 +688,27 @@
                     waitOrderVc.route_id = json[@"info"][@"route_id"];
                     waitOrderVc.model = [[PassengerMessageModel alloc] initWithDictionary:json[@"info"] error:nil];
                     waitOrderVc.passengerCoordinate = CLLocationCoordinate2DMake(delegate.passengerCoordinate.latitude, delegate.passengerCoordinate.longitude);
+                    //有未完成的订单
+                    waitOrderVc.HaveOrder = YES;
+                    waitOrderVc.mileage = json[@"info"][@"mileage"];
                     switch ([json[@"info"][@"reserva_type"] integerValue]) {
                         case 1:
                         {
                             waitOrderVc.specialCarRuleModel = [[ValuationRuleModel alloc] initWithDictionary:json[@"rule"] error:nil];
                             waitOrderVc.type = ReservationTypeSpecialCar;
+                            waitOrderVc.gonePrice = [NSString stringWithFormat:@"%f" ,[json[@"info"][@"total_price"] floatValue] - [json[@"info"][@"start_price"] floatValue]];
+                            waitOrderVc.isHadExit = HadExit;
+                            waitOrderVc.low_time = json[@"info"][@"low_time"];
+                            
                             break;
                         }
                         case 2:
                         {
+                            //如推出之前订单的 状态时已经开始计费了（2），则为包车传开始计费的时间戳
+                            NSString *str = [NSString stringWithFormat:@"%@",json[@"info"][@"route_status"]];
+                            if ([str isEqualToString:@"3"]) {
+                                waitOrderVc.boardingTime = json[@"info"][@"boarding_time"];
+                            }
                             waitOrderVc.charteredBusRule = [[CharteredBusRule alloc] init];
                             waitOrderVc.type = ReservationTypeCharteredBus;
                             break;

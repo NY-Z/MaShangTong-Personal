@@ -48,7 +48,10 @@
 -(void)dealOthers
 {
     _btn.layer.cornerRadius = 3.0f;
+    
+    _textV.layer.cornerRadius = 5.f;
     _textV.layer.borderWidth = 1.0f;
+    _textV.layer.borderColor = RGBColor(93, 195, 255, 1.f).CGColor;
 
 }
 //返回Btn的点击事件

@@ -29,6 +29,11 @@ typedef NS_ENUM(NSInteger,ReservationType) {
     ReservationTypeAirportDropOff,
 };
 
+typedef enum{
+    NotExit,//没有退出程序
+    HadExit//退出程序重新进来
+}IsHadExit;
+
 @interface WaitForTheOrderViewController : UIViewController
 
 @property (nonatomic,strong) PassengerMessageModel *model;
@@ -42,4 +47,16 @@ typedef NS_ENUM(NSInteger,ReservationType) {
 @property (nonatomic,strong) AirportPickupModel *airportModel;
 @property (nonatomic,assign) ReservationType type;
 
+
+@property (nonatomic,strong) NSString *gonePrice;
+@property (nonatomic,assign) BOOL HaveOrder;
+
+//是否退出程序
+@property (nonatomic,assign) IsHadExit isHadExit;
+//退出程序之前的低速时间
+@property (nonatomic,strong) NSString *low_time;
+//退出之前行驶的距离
+@property (nonatomic,strong) NSString *mileage;
+//开始计费的时间（时间戳）
+@property (nonatomic,strong) NSString *boardingTime;
 @end

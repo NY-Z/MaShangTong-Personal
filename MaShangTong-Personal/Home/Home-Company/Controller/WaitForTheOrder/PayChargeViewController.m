@@ -78,7 +78,7 @@
     }];
     
     UILabel *dealCountLabel = [[UILabel alloc] init];
-    dealCountLabel.text = _driverInfoModel.num;
+    dealCountLabel.text = [NSString stringWithFormat:@"%@单", _driverInfoModel.num];
     dealCountLabel.textAlignment = 0;
     dealCountLabel.textColor = RGBColor(148, 148, 148, 1.f);
     dealCountLabel.font = [UIFont systemFontOfSize:12];

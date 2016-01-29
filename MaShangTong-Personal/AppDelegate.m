@@ -142,6 +142,7 @@
                         [[NSNotificationCenter defaultCenter]postNotificationName:@"weChatRecharge" object:nil userInfo:params];
                     }
                     else if (self.weChatPayType == Payed){
+                        [params setValue:APP_DELEGATE.payMoney forKey:@"money"];
                         [params setValue:@"2" forKey:@"type"];
                         [[NSNotificationCenter defaultCenter]postNotificationName:@"weChatPay" object:nil userInfo:params];
                     }
@@ -153,7 +154,7 @@
                     
                     self.weChatPayType = NonePayed;
                 } else {
-                    [params setValue:APP_DELEGATE.payMoney forKey:@"money"];
+                    [params setValue:APP_DELEGATE.paymoney forKey:@"money"];
                     [params setValue:@"1" forKey:@"type"];
                     [params setValue:@"2" forKey:@"group_id"];
                     [self informTheServerWithParams:params];

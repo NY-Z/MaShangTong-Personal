@@ -58,7 +58,7 @@ typedef enum{
     [super viewDidLoad];
     
     _dataDic = [NSDictionary new];
-    
+    _touxiangImage.layer.cornerRadius = 21;
    
     _makeSureBtn.layer.cornerRadius = 5.f;
     _makeSureBtn.layer.masksToBounds = YES;
@@ -280,20 +280,23 @@ typedef enum{
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
         NYLog(@"%@",json);
+        [MBProgressHUD hideHUD];
         @try {
             if (json) {
                 if ([json[@"result" ] isEqualToString:@"1" ]) {
                     
-                    [self rebackOrderState];
+//                    [self rebackOrderState];
+                    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+                    comment.driverInfoModel = self.driverModel;
+                    comment.route_id = self.route_id;
+                    [self.navigationController pushViewController:comment animated:YES];
                     
                 }
                 else{
-                    [MBProgressHUD hideHUD];
                     [MBProgressHUD showError:@"支付失败"];
                 }
             }
             else{
-                [MBProgressHUD hideHUD];
                 [MBProgressHUD showError:@"网络错误"];
             }
         } @catch (NSException *exception) {
@@ -416,12 +419,17 @@ typedef enum{
     [MBProgressHUD showMessage:@"正在支付"];
     NYLog(@"%@",params);
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
+        [MBProgressHUD hideHUD];
         @try {
             if (json) {
                 NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
                 if ([str isEqualToString:@"1"]) {
                     [MBProgressHUD hideHUD];
-                    [self rebackOrderState];
+                    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+                    comment.driverInfoModel = self.driverModel;
+                    comment.route_id = self.route_id;
+                    [self.navigationController pushViewController:comment animated:YES];
+//                    [self rebackOrderState];
                 }
                 else{
                     [self payPriceWith:params];
@@ -436,6 +444,7 @@ typedef enum{
             
         }
     }failure:^(NSError *error){
+        [MBProgressHUD hideHUD];
         [self payPriceWith:params];
     }];
 
@@ -489,7 +498,7 @@ typedef enum{
             
             [WXApi sendReq:req];
             
-            APP_DELEGATE.paymoney = [NSString stringWithFormat:@"%d",_ture_price];
+            APP_DELEGATE.payMoney = [NSString stringWithFormat:@"%d",_ture_price];
             APP_DELEGATE.weChatPayType = Payed;
             [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(weChatPayMoneyWith:) name:@"weChatPay" object:nil];
         }
@@ -558,22 +567,28 @@ typedef enum{
         [params setValue:self.driverModel.driver_id forKey:@"driver_id"];
     }
     
+    
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
         
         @try {
+            [MBProgressHUD hideHUD];
             if (json) {
                 NSString *str = json[@"result"];
                 if ([str isEqualToString:@"1"]) {
-                    [MBProgressHUD hideHUD];
+                    
                     [MBProgressHUD showSuccess:@"支付成功"];
-                    [self rebackOrderState];
+                    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+                    comment.driverInfoModel = self.driverModel;
+                    comment.route_id = self.route_id;
+                    [self.navigationController pushViewController:comment animated:YES];
+//                    [self rebackOrderState];
                 }
                 else{
-                    [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:nil]];
+                    [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
                 }
             }
             else{
-                [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:nil]];
+                [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
             }
         } @catch (NSException *exception) {
             
@@ -581,46 +596,49 @@ typedef enum{
             
         }
     }failure:^(NSError *error){
-        [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:nil]];
+        [MBProgressHUD hideHUD];
+        [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
     }];
 }
 
-#pragma mrak - 返回订单状态
--(void)rebackOrderState
-{
-    [MBProgressHUD hideHUD];
-    [MBProgressHUD showMessage:@"正在支付"];
-    NYLog(@"%@",@{@"route_id":_route_id,@"route_status":@"6"});
-    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"boarding"] params:@{@"route_id":_route_id,@"route_status":@"6"} success:^(id json) {
-        
-        @try {
-            if (json) {
-                NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
-                if ([str isEqualToString:@"1"]) {
-                    [MBProgressHUD hideHUD];
-                    [MBProgressHUD showSuccess:@"支付成功"];
-                    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
-                    comment.driverInfoModel = self.driverModel;
-                    comment.route_id = self.route_id;
-                    [self.navigationController pushViewController:comment animated:YES];
-                }
-                else
-                {
-                    [self rebackOrderState];
-                }
-            }
-            else{
-                [self rebackOrderState];
-            }
-        } @catch (NSException *exception) {
-            
-        } @finally {
-            
-        }
-    } failure:^(NSError *error) {
-        [self rebackOrderState];
-    }];
-}
+//#pragma mrak - 返回订单状态
+//-(void)rebackOrderState
+//{
+//    [MBProgressHUD hideHUD];
+//    [MBProgressHUD showMessage:@"正在支付,请稍后"];
+//    NYLog(@"%@",@{@"route_id":_route_id,@"route_status":@"6"});
+//    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"boarding"] params:@{@"route_id":_route_id,@"route_status":@"6"} success:^(id json) {
+//        
+//        @try {
+//            [MBProgressHUD hideHUD];
+//            if (json) {
+//                NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
+//                if ([str isEqualToString:@"1"]) {
+//                    [MBProgressHUD hideHUD];
+//                    [MBProgressHUD showSuccess:@"支付成功"];
+//                    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+//                    comment.driverInfoModel = self.driverModel;
+//                    comment.route_id = self.route_id;
+//                    [self.navigationController pushViewController:comment animated:YES];
+//                }
+//                else
+//                {
+//                    [self rebackOrderState];
+//                }
+//            }
+//            else{
+//                [self rebackOrderState];
+//            }
+//        } @catch (NSException *exception) {
+//            
+//        } @finally {
+//            
+//        }
+//    } failure:^(NSError *error) {
+//        [MBProgressHUD hideHUD];
+//        [self rebackOrderState];
+//    }];
+//}
 #pragma mark - 获取价钱
 -(void)getPriceAndOthers
 {

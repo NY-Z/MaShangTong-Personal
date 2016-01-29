@@ -14,6 +14,6 @@
 @property (nonatomic,strong) CharteredBusRule *rule;
 
 + (instancetype)shareCharteredBusPrice;
-- (NSArray *)calculatePriceWithSpeed:(CLLocationSpeed)speed;
+- (NSArray *)calculatePriceWithSpeed:(CLLocationSpeed)speed andGonePrice:(NSString *)mileage andBordingTime:(NSString *)boardingTime;
 
 @end

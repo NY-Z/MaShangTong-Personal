@@ -119,8 +119,9 @@ typedef enum{
 -(void)changeRouteStatus
 {
     NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[_route_id,@"1"] forKeys:@[@"array",@"status"]];
-    
+    [MBProgressHUD showMessage:@"正在支付"];
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"ShcApi",@"update_status"] params:dic success:^(id json) {
+        [MBProgressHUD hideHUD];
         @try {
             if (json) {
                 NSNumber *num = json[@"data"];
@@ -140,6 +141,7 @@ typedef enum{
             
         }
     } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
         [self changeRouteStatus];
     }];
 }
@@ -158,6 +160,7 @@ typedef enum{
     NYLog(@"%@",params);
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
+        [MBProgressHUD hideHUD];
         @try {
             if (json) {
                 NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
@@ -167,12 +170,10 @@ typedef enum{
                     
                 }
                 else{
-                    [MBProgressHUD hideHUD];
                     [MBProgressHUD showError:@"支付失败"];
                 }
             }
             else{
-                [MBProgressHUD hideHUD];
                 [MBProgressHUD showError:@"网络错误"];
             }
         } @catch (NSException *exception) {
@@ -257,7 +258,7 @@ typedef enum{
     order.productName = @"码尚通购买商品";
     order.productDescription = @"码尚通购买商品";
     order.amount = [NSString stringWithFormat:@"%.2f",[_priceStr floatValue]];
-    //    order.amount = @"0.01";
+//        order.amount = @"0.01";
     order.notifyURL =  @"http://www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
@@ -321,6 +322,7 @@ typedef enum{
 {
     
     _wxPayMoney = [NSString stringWithFormat:@"%.0f",[_priceStr doubleValue]*100];
+//    _wxPayMoney = @"1";
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_wxPayMoney forKey:@"money"];
@@ -365,7 +367,7 @@ typedef enum{
             [WXApi sendReq:req];
             [MBProgressHUD hideHUD];
             
-            APP_DELEGATE.paymoney = _priceStr;
+            APP_DELEGATE.payMoney = _priceStr;
             APP_DELEGATE.weChatPayType = Buyed;
             [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(weChatBuy) name:@"weChatBuy" object:nil];
         }

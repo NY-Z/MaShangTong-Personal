@@ -105,7 +105,7 @@ static NSInteger betweenTime;
     NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:betweenTime];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"MM月dd日HH:mm"];
-    NSString *str = [formatter stringFromDate:date];
+    NSString *dateStr = [formatter stringFromDate:date];
     
     
     //如果datePicker上的时间小于一个小时，则认为预约类型为立即
@@ -127,7 +127,7 @@ static NSInteger betweenTime;
     }
     NYLog(@"%@",_reservation_time);
     if (self.sendTime) {
-        self.sendTime(_reservation_time,_reservation_type,str);
+        self.sendTime(_reservation_time,_reservation_type,dateStr);
     }
     
     betweenTime = 0;

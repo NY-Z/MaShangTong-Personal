@@ -348,6 +348,7 @@ typedef enum{
                 if ([str isEqualToString:@"1"]) {
                     [MBProgressHUD hideHUD];
                     [MBProgressHUD showSuccess:@"充值成功"];
+                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatRecharge" object:nil];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
                 else{

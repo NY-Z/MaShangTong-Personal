@@ -15,6 +15,8 @@
 
 @interface NYCommentViewController ()
 
+
+@property (weak, nonatomic) IBOutlet UIImageView *sijitouxiang;
 @property (weak, nonatomic) IBOutlet StarView *rateStarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *driverNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *driverLicenseLabel;
@@ -30,6 +32,8 @@
 
 - (void)configDriverInfo
 {
+    self.sijitouxiang.layer.cornerRadius = 32;
+    [self.sijitouxiang sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.driverInfoModel.head_image]]];
     self.driverNameLabel.text = _driverInfoModel.owner_name;
     self.driverLicenseLabel.text = _driverInfoModel.license_plate;
     [self.driverRateStarView setRating:[_driverInfoModel.averagePoint floatValue]];

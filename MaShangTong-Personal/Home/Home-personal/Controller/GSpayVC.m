@@ -581,6 +581,7 @@ typedef enum{
                     comment.driverInfoModel = self.driverModel;
                     comment.route_id = self.route_id;
                     [self.navigationController pushViewController:comment animated:YES];
+                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatPay" object:nil];
 //                    [self rebackOrderState];
                 }
                 else{

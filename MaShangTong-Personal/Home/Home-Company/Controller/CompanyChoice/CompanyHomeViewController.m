@@ -731,9 +731,12 @@
                     }
                     [self.navigationController pushViewController:waitOrderVc animated:YES];
                 }]];
-                [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [self cancelOrderWithRouteId:json[@"info"][@"route_id"]];
-                }]];
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"info"][@"route_status"]];
+                if([str intValue] < 3){
+                    [alert addAction:[UIAlertAction actionWithTitle:@"取消订单" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        [self cancelOrderWithRouteId:json[@"info"][@"route_id"]];
+                    }]];
+                }
                 [self presentViewController:alert animated:YES completion:nil];
             } else {
                 

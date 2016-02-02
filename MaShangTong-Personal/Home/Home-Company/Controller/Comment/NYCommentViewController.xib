@@ -14,6 +14,7 @@
                 <outlet property="driverNameLabel" destination="kbh-4W-pkx" id="k8T-2Z-xaI"/>
                 <outlet property="driverRateStarView" destination="CDW-2L-e40" id="fWY-ev-p7A"/>
                 <outlet property="rateStarImageView" destination="1XN-4Y-23z" id="h5U-tO-Pxf"/>
+                <outlet property="sijitouxiang" destination="PmS-TU-8xd" id="nzb-Gt-aSt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

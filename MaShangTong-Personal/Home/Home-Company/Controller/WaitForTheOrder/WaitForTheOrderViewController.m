@@ -45,10 +45,11 @@
     
     //    ReservationType _reservationType;
     
-    
     CLLocationCoordinate2D lastPoint;//上一秒的坐标经纬度
     CLLocationCoordinate2D nowPoint;//下一秒的坐标经纬度
 }
+
+
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSTimer *timer;
@@ -135,6 +136,7 @@ static BOOL isHadRecord = NO;
     UITapGestureRecognizer *rightLabelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rightLabelTaped:)];
     [rightLabel addGestureRecognizer:rightLabelTap];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightLabel];
+    self.navigationItem.rightBarButtonItem.customView.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -435,10 +437,12 @@ static BOOL isHadRecord = NO;
                 }
                 NSString *routeStatus = [NSString stringWithFormat:@"%@",json[@"data"][@"route_status"]];
                 if ([routeStatus isEqualToString:@"0"]) {
+                    self.navigationItem.rightBarButtonItem.customView.hidden = NO;
                     return;
                 } else {
                     isDriverCatch = 1;
                     switch ([routeStatus integerValue]) {
+                                               
                         case 1:
                         {
                             if (_lastState != DriverStateOrderReceive) {
@@ -446,6 +450,8 @@ static BOOL isHadRecord = NO;
                                 self.navigationItem.title = @"等待接驾";
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已接单，请在路边等待"];
                                 [self configRouteInfo];
+                                self.navigationItem.rightBarButtonItem.customView.hidden = NO;
+                                
                                 // 记录是哪种行程
                                 //                                NSString *reservaTypeStr = [NSString stringWithFormat:@"%@",json[@"data"][@"reserva_type"]];
                                 //                                if ([reservaTypeStr isEqualToString:@"1"]) {
@@ -466,7 +472,7 @@ static BOOL isHadRecord = NO;
                             if (_lastState != DriverStateReachAppointment) {
                                 _route_status = 2;
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已到达约定地点"];
-                                
+                                self.navigationItem.rightBarButtonItem.customView.hidden = NO;
                                 [self configRouteInfo];
                             }
                             _lastState = DriverStateReachAppointment;
@@ -536,20 +542,22 @@ static BOOL isHadRecord = NO;
                         default:
                             break;
                     }
-                    NSString *locationStr = json[@"data"][@"location"];
-                    if ([locationStr isEqualToString:@""]) {
-                        return;
+                    if ([routeStatus integerValue] == 1 | [routeStatus integerValue] == 2) {
+                        NSString *locationStr = json[@"data"][@"location"];
+                        if ([locationStr isEqualToString:@""]) {
+                            return;
+                        }
+                        CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);
+                        _driverCoordinate = location;
+                        if (_navPoint) {
+                            [self.mapView removeAnnotation:_navPoint];
+                            _navPoint = nil;
+                        }
+                        _navPoint = [[NavPointAnnotation alloc] init];
+                        _navPoint.coordinate = location;
+                        _navPoint.title = @"司机位置";
+                        [self.mapView addAnnotation:_navPoint];
                     }
-                    CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationStr componentsSeparatedByString:@","][1] floatValue], [[locationStr componentsSeparatedByString:@","][0] floatValue]);
-                    _driverCoordinate = location;
-                    if (_navPoint) {
-                        [self.mapView removeAnnotation:_navPoint];
-                        _navPoint = nil;
-                    }
-                    _navPoint = [[NavPointAnnotation alloc] init];
-                    _navPoint.coordinate = location;
-                    _navPoint.title = @"司机位置";
-                    [self.mapView addAnnotation:_navPoint];
                 }
             }
             @catch (NSException *exception) {
@@ -805,7 +813,9 @@ static BOOL isHadRecord = NO;
             _annotationView.canShowCallout = YES;
         }
         _annotationView.image = [UIImage imageNamed:@"sijidingwei"];
+        
         return _annotationView;
+        
     } else if ([annotation isKindOfClass:[MAUserLocation class]]) {
         static NSString *anIde = @"PointAnnotation";
         MAAnnotationView *view = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:anIde];

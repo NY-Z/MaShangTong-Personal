@@ -59,4 +59,6 @@ typedef enum{
 @property (nonatomic,strong) NSString *mileage;
 //开始计费的时间（时间戳）
 @property (nonatomic,strong) NSString *boardingTime;
+
+
 @end

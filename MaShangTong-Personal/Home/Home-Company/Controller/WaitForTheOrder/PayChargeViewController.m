@@ -163,7 +163,7 @@
     }
     
     UIButton *confirmPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [confirmPayBtn setTitle:[NSString stringWithFormat:@"确认支付%.2f元",[detailInfoArr[0] floatValue]] forState:UIControlStateNormal];
+    [confirmPayBtn setTitle:[NSString stringWithFormat:@"确认支付%.0f元",[detailInfoArr[0] floatValue]] forState:UIControlStateNormal];
     [confirmPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [confirmPayBtn setBackgroundColor:RGBColor(84, 175, 255, 1.f)];
     confirmPayBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -240,9 +240,9 @@
                 UIView *contentView = (UIView *)[_scrollView viewWithTag:250];
                 
                 UIButton *btn = (UIButton *)[contentView viewWithTag:900];
-                [btn setTitle:[NSString stringWithFormat:@"确认支付%.2f元",[json[@"info"][@"total_price"] floatValue]] forState:UIControlStateNormal];
+                [btn setTitle:[NSString stringWithFormat:@"确认支付%.0f元",[json[@"info"][@"total_price"] floatValue]] forState:UIControlStateNormal];
                 
-                NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%.2f元",[json[@"info"][@"total_price"] floatValue]],[NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"mileage"] floatValue]],[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]]];
+                NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%.0f元",[json[@"info"][@"total_price"] floatValue]],[NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"mileage"] floatValue]],[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]]];
                 for (NSInteger i = 0; i < detailInfoArr.count; i++) {
                     UILabel *label = (UILabel *)[contentView viewWithTag:600+i];
                     label.text = detailInfoArr[i];

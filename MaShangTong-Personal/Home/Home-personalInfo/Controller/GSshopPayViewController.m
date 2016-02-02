@@ -206,7 +206,7 @@ typedef enum{
             if (json) {
                 NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
                 if ([str isEqualToString:@"1"]) {
-                    
+                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatBuy" object:nil];
                     [self changeRouteStatus];
                 }
                 else{

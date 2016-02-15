@@ -755,23 +755,23 @@ static BOOL isHadRecord = NO;
     _passengerCoordinate = userLocation.coordinate;
     _speed = userLocation.location.speed;
     
-    if(userLocation.location){
-        nowPoint = userLocation.location.coordinate;
-    }
-    else{
-        return;
-    }
+    
     if (_isHadExit == HadExit && !isHadRecord) {//如果退出过程序，那么上一秒的坐标经纬度就是请求道服务器的坐标
         NSArray *ary = [_model.origin_coordinates componentsSeparatedByString:@","];
         lastPoint = CLLocationCoordinate2DMake([ary[1] doubleValue], [ary[0] doubleValue]);
         isHadRecord = !isHadRecord;
     }
     else{//如果没有退出过程序，那么就是正常计费，上一秒坐标经纬度是上一秒定位到的坐标
-        if(userLocation.location){
-            lastPoint = userLocation.location.coordinate;
+        if(nowPoint.latitude != 0){
+            lastPoint = nowPoint;
         }
     }
-    
+    if(userLocation.location){
+        nowPoint = userLocation.location.coordinate;
+    }
+    else{
+        return;
+    }
     if (_iscalculateStart && userLocation.location.speed >= 0) {
         _actualDistance += userLocation.location.speed;
     }

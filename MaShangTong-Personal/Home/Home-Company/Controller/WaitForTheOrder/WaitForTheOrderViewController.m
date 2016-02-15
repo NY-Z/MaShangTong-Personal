@@ -751,6 +751,7 @@ static BOOL isHadRecord = NO;
         [_mapView setCenterCoordinate:userLocation.coordinate animated:YES];
         [_mapView setZoomLevel:16 animated:YES];
     });
+    _mapView.centerCoordinate = userLocation.coordinate;
     _passengerCoordinate = userLocation.coordinate;
     _speed = userLocation.location.speed;
     

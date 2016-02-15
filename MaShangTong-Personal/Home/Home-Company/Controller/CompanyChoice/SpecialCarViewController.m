@@ -643,7 +643,7 @@
         price = [NSString stringWithFormat:@"%.0f",(distance*[model.mileage floatValue])/1000+[model.step floatValue]];
     } else {
         NSInteger moreDistance = distance-10000;
-        price = [NSString stringWithFormat:@"%.0f",10*[model.mileage floatValue]+[model.step floatValue]+moreDistance*[model.long_mileage floatValue]/1000];
+        price = [NSString stringWithFormat:@"%.0f",10*[model.mileage floatValue]+[model.step floatValue]+moreDistance*([model.long_mileage floatValue] + [model.mileage floatValue])/1000];
     }
     
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"约 %li 元", (long)[[price componentsSeparatedByString:@"."][0] integerValue]]];

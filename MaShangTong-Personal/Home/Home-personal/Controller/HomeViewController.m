@@ -32,6 +32,7 @@
 
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
+#import "MANaviRoute.h"
 
 #import "personOrderModel.h"
 #import "GSPriceRuleModel.h"
@@ -117,6 +118,8 @@ static BOOL isApper = YES;
 -(void)viewWillDisappear:(BOOL)animated
 {
     isApper = NO;
+    
+    [_mapView setZoomLevel:16 animated:YES];
     
     [_mapView removeAnnotations:_mapView.annotations];
     
@@ -434,7 +437,7 @@ static BOOL isApper = YES;
     _mapView.showsScale = YES;
     _mapView.userTrackingMode = 1;
     _mapView.showsUserLocation = YES;
-    [_mapView setZoomLevel:16 animated:YES];
+    
     
     _geocoder = [[CLGeocoder alloc]init];
     

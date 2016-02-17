@@ -452,6 +452,7 @@ typedef enum{
 #pragma mark - 微信支付
 -(void)payWeChat
 {
+    [MBProgressHUD showMessage:@"正在跳转微信，请稍后"];
     _wxPayMoney = [NSString stringWithFormat:@"%d",_ture_price*100];
 //    _wxPayMoney = @"1";
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -460,6 +461,7 @@ typedef enum{
     [params setValue:@"192.168.0.20" forKey:@"ip"];
     [params setValue:@"码尚通车费支付" forKey:@"detail"];
     [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        [MBProgressHUD hideHUD];
         if (responseObject) {
             
             NYLog(@"%@",responseObject);
@@ -552,7 +554,7 @@ typedef enum{
 #pragma mark - 微信支付
 -(void)weChatPayMoneyWith:(NSNotification *)sender
 {
-    [MBProgressHUD showMessage:@"正在支付,请稍后"];
+//    [MBProgressHUD showMessage:@"正在支付,请稍后"];
     NSMutableDictionary *params = (NSMutableDictionary *)sender.userInfo;
     
     if (_orderPayType == DisUseOrderPay) {
@@ -567,15 +569,13 @@ typedef enum{
         [params setValue:self.driverModel.driver_id forKey:@"driver_id"];
     }
     
-    
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
-        
+        [MBProgressHUD hideHUD];
         @try {
             [MBProgressHUD hideHUD];
             if (json) {
                 NSString *str = json[@"result"];
                 if ([str isEqualToString:@"1"]) {
-                    
                     [MBProgressHUD showSuccess:@"支付成功"];
                     NYCommentViewController *comment = [[NYCommentViewController alloc] init];
                     comment.driverInfoModel = self.driverModel;

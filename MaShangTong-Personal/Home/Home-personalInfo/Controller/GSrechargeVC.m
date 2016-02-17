@@ -343,6 +343,7 @@ typedef enum{
         [MBProgressHUD hideHUD];
         @try {
             NYLog(@"%@",json);
+            [MBProgressHUD hideHUD];
             if (json) {
                 NSString *str = json[@"result"];
                 if ([str isEqualToString:@"1"]) {

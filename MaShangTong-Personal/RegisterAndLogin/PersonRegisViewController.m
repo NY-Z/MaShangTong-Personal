@@ -33,13 +33,12 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (void)configNavigationBar
-{
+{    
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    leftBtn.size = CGSizeMake(22, 22);
     [leftBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    leftBtn.size = CGSizeMake(44, 44);
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
-    
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
     label.font = [UIFont systemFontOfSize:15];
@@ -49,7 +48,6 @@
     label.textColor = RGBColor(97, 190, 254, 1.f);
     self.navigationItem.titleView = label;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:0 target:nil action:nil];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitle:@"马上登陆" forState:UIControlStateNormal];

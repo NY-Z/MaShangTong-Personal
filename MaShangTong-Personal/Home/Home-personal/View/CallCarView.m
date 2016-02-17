@@ -114,7 +114,7 @@ static NSInteger  btnNuber;
     view2.backgroundColor = RGBColor(235, 235, 235, 1.f);
     [self addSubview:view2];
     
-    NSArray *textFieldText = @[@"请输入起点",@"  请输入终点"];
+    NSArray *textFieldText = @[@"请输入起点",@"请输入终点"];
     for (NSInteger i = 0; i < 2; i++) {
         
         UIScrollView *scrollView = [self creatScrollViewForPlaceWithI:i andWidth:width];

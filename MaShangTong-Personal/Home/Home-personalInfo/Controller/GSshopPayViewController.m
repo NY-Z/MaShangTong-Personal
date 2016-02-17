@@ -118,7 +118,7 @@ typedef enum{
 #pragma mark - 订单状态修改
 -(void)changeRouteStatus
 {
-    NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[_route_id,@"1"] forKeys:@[@"array",@"status"]];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[_route_id,@"1",USER_ID] forKeys:@[@"array",@"status",@"user_id"]];
     [MBProgressHUD showMessage:@"正在支付"];
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"ShcApi",@"update_status"] params:dic success:^(id json) {
         [MBProgressHUD hideHUD];

@@ -12,6 +12,7 @@
 #import "ProvincesAndCitiesTableViewController.h"
 #import "CompanyHomeViewController.h"
 #import "NYCompanyProtocalViewController.h"
+#import "GSsoftwareMaintenanceViewController.h"
 #import <AFNetworking.h>
 
 @interface RegisCompanyViewController () <UITextFieldDelegate>
@@ -37,6 +38,7 @@
 - (IBAction)getVerification:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *verificationBtn;
 - (IBAction)selectBtnClicked:(id)sender;
+- (IBAction)softwareMaintenance:(id)sender;
 
 @end
 
@@ -48,12 +50,6 @@
 }
 - (void)addNavTitle
 {
-    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    leftBtn.size = CGSizeMake(22, 22);
-    [leftBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
-    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
     label.font = [UIFont systemFontOfSize:15];
     label.text = @"注册公司";
@@ -64,6 +60,12 @@
 }
 - (void)addRightBarButtonItem
 {
+    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    leftBtn.size = CGSizeMake(44, 44);
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitle:@"马上登陆" forState:UIControlStateNormal];
     [btn setTitleColor:RGBColor(162, 162, 162, 1) forState:UIControlStateNormal];
@@ -71,7 +73,6 @@
     btn.titleLabel.font = [UIFont systemFontOfSize:13];
     [btn addTarget:self action:@selector(loginClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:0 target:nil action:nil];
 }
 
 - (void)initTimer
@@ -335,6 +336,11 @@
 - (IBAction)selectBtnClicked:(id)sender {
     
     _selectBtn.selected = !_selectBtn.selected;
+}
+
+- (IBAction)softwareMaintenance:(id)sender {
+    
+    [self.navigationController pushViewController:[[GSsoftwareMaintenanceViewController alloc] init] animated:YES];
 }
 
 - (void)protocalTaped

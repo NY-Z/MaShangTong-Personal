@@ -836,12 +836,12 @@ updatingLocation:(BOOL)updatingLocation
         _priceRuleModel.mileage = [NSString stringWithFormat:@"%g",price1];
         _priceRuleModel.long_mileage = [NSString stringWithFormat:@"%g",priceNum1];
         
-        if (KM <= 10) {
-            NSInteger fareNum = (long)(KM*price1+stemp1);
+        if (distance <= 10000) {
+            NSInteger fareNum = (long)(distance*price1/1000+stemp1);
             return fareNum;
         }
         else{
-            NSInteger fareNum  = (long)(stemp1+KM*price1+(KM-10)*priceNum1);
+            NSInteger fareNum  = (long)(stemp1+distance*price1/1000+(distance-10000)*priceNum1/1000);
             return fareNum;
         }
         
@@ -852,12 +852,12 @@ updatingLocation:(BOOL)updatingLocation
         _priceRuleModel.mileage = [NSString stringWithFormat:@"%g",price2];
         _priceRuleModel.long_mileage = [NSString stringWithFormat:@"%g",priceNum2];
         
-        if (KM <= 10) {
-            NSInteger fareNum = (long)(KM*price2+stemp2);
+        if (distance <= 10000) {
+            NSInteger fareNum = (long)(distance*price2/1000+stemp2);
             return fareNum;
         }
         else{
-            NSInteger fareNum  = (long)(stemp2+KM*price2+(KM-10)*priceNum2);
+            NSInteger fareNum  = (long)(stemp2+distance*price2/1000+(distance-10000)*priceNum2/1000);
             return fareNum;
         }
     }
@@ -866,12 +866,12 @@ updatingLocation:(BOOL)updatingLocation
         _priceRuleModel.mileage = [NSString stringWithFormat:@"%g",price3];
         _priceRuleModel.long_mileage = [NSString stringWithFormat:@"%g",priceNum3];
         
-        if (KM <= 10) {
-            NSInteger fareNum = (long)(stemp3+KM*price3);
+        if (distance <= 10000) {
+            NSInteger fareNum = (long)(stemp3+distance*price3/1000);
             return fareNum;
         }
         else{
-            NSInteger fareNum  = (long)(stemp3+KM*price3+(KM-10)*priceNum3);
+            NSInteger fareNum  = (long)(stemp3+distance*price3/1000+(distance-10000)*priceNum3/1000);
             return fareNum;
         }
     }

@@ -72,6 +72,9 @@
 @property (nonatomic,strong) NYCalculateSpecialCarPrice *calculateSpecialCar;
 @property (nonatomic,strong) NYCalculateCharteredBusPrice *calculateCharteredBus;
 @property (nonatomic,assign) float driveDistance;
+// 用户定位
+@property (nonatomic,strong) MAUserLocation *userLocation;
+
 
 @end
 
@@ -424,7 +427,8 @@ static BOOL isHadRecord = NO;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_route_id forKey:@"route_id"];
     // 10s请求一次订单状态
-    if (_driveringTime % 13 == 0) {
+#pragma mark - 顶求订单状态
+    if (_driveringTime % 10 == 0) {
         [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"near_cars"] params:params success:^(id json) {
             
             @try {
@@ -568,6 +572,7 @@ static BOOL isHadRecord = NO;
         }];
     }
     
+#pragma mark - 修改气泡
     for (id ann in self.mapView.annotations) {
         if ([ann isKindOfClass:[MAUserLocation class]]) {
             MAUserLocation *userLocation = (MAUserLocation *)ann;
@@ -587,6 +592,24 @@ static BOOL isHadRecord = NO;
         }
     }
     
+#pragma 计价
+    if (_isHadExit == HadExit && !isHadRecord) {//如果退出过程序，那么上一秒的坐标经纬度就是请求道服务器的坐标
+        NSArray *ary = [_model.origin_coordinates componentsSeparatedByString:@","];
+        lastPoint = CLLocationCoordinate2DMake([ary[1] doubleValue], [ary[0] doubleValue]);
+        isHadRecord = !isHadRecord;
+    }
+    else{//如果没有退出过程序，那么就是正常计费，上一秒坐标经纬度是上一秒定位到的坐标
+        if(nowPoint.latitude != 0){
+            lastPoint = nowPoint;
+        }
+    }
+    if(_userLocation.location){
+        nowPoint = _userLocation.location.coordinate;
+    }
+    else{
+        return;
+    }
+
     if (_speed == -1) {
         _speed = 0;
     }
@@ -704,6 +727,9 @@ static BOOL isHadRecord = NO;
                 break;
         }
     }
+    
+    
+    
 }
 
 - (void)configRouteInfo
@@ -746,6 +772,7 @@ static BOOL isHadRecord = NO;
 #pragma mark - MAMapViewDelegate
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
+    _userLocation = userLocation;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         [_mapView setCenterCoordinate:userLocation.coordinate animated:YES];
@@ -756,22 +783,22 @@ static BOOL isHadRecord = NO;
     _speed = userLocation.location.speed;
     
     
-    if (_isHadExit == HadExit && !isHadRecord) {//如果退出过程序，那么上一秒的坐标经纬度就是请求道服务器的坐标
-        NSArray *ary = [_model.origin_coordinates componentsSeparatedByString:@","];
-        lastPoint = CLLocationCoordinate2DMake([ary[1] doubleValue], [ary[0] doubleValue]);
-        isHadRecord = !isHadRecord;
-    }
-    else{//如果没有退出过程序，那么就是正常计费，上一秒坐标经纬度是上一秒定位到的坐标
-        if(nowPoint.latitude != 0){
-            lastPoint = nowPoint;
-        }
-    }
-    if(userLocation.location){
-        nowPoint = userLocation.location.coordinate;
-    }
-    else{
-        return;
-    }
+//    if (_isHadExit == HadExit && !isHadRecord) {//如果退出过程序，那么上一秒的坐标经纬度就是请求道服务器的坐标
+//        NSArray *ary = [_model.origin_coordinates componentsSeparatedByString:@","];
+//        lastPoint = CLLocationCoordinate2DMake([ary[1] doubleValue], [ary[0] doubleValue]);
+//        isHadRecord = !isHadRecord;
+//    }
+//    else{//如果没有退出过程序，那么就是正常计费，上一秒坐标经纬度是上一秒定位到的坐标
+//        if(nowPoint.latitude != 0){
+//            lastPoint = nowPoint;
+//        }
+//    }
+//    if(userLocation.location){
+//        nowPoint = userLocation.location.coordinate;
+//    }
+//    else{
+//        return;
+//    }
     if (_iscalculateStart && userLocation.location.speed >= 0) {
         _actualDistance += userLocation.location.speed;
     }
@@ -787,7 +814,7 @@ static BOOL isHadRecord = NO;
                 PassengerMessageModel *model = _model;
                 request.destination = [AMapGeoPoint locationWithLatitude:[[model.end_coordinates componentsSeparatedByString:@","][1] floatValue] longitude:[[model.end_coordinates componentsSeparatedByString:@","][0] floatValue]];
             }
-            request.strategy = 0;//结合交通实际情况
+            request.strategy = 2;
             request.requireExtension = YES;
             if (!_search) {
                 _search = [[AMapSearchAPI alloc] init];
@@ -795,6 +822,19 @@ static BOOL isHadRecord = NO;
             }
             [_search AMapDrivingRouteSearch:request];
         }
+    }
+    
+    //修改司机坐标（以免司机退掉程序，个人端仍在计费导致司机端的位置信息有偏差）
+    NSString *locationStr = [NSString stringWithFormat:@"%f,%f",userLocation.coordinate.longitude,userLocation.coordinate.latitude];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:infoModel.driver_id forKey:@"user_id"];
+    [params setValue:locationStr forKey:@"location"];
+    
+    if (_driveringTime % 10 == 0) {
+        
+        [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"dri_address"] params:params success:^(id json) {
+        } failure:^(NSError *error) {
+        }];
     }
 }
 

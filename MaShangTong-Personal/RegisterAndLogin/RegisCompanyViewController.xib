@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10089" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10072.1"/>
     </dependencies>
     <objects>
@@ -115,7 +116,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vRC-NJ-bGm">
-                    <rect key="frame" x="50" y="338" width="102.5" height="28"/>
+                    <rect key="frame" x="50" y="338" width="103" height="28"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <inset key="titleEdgeInsets" minX="-40" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -128,7 +129,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQ2-AF-WAs">
-                    <rect key="frame" x="167" y="338" width="102.5" height="28"/>
+                    <rect key="frame" x="168" y="338" width="102" height="28"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <inset key="contentEdgeInsets" minX="-40" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -141,7 +142,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我已点击阅读并同意" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDq-5d-Ojy">
-                    <rect key="frame" x="70" y="374" width="90.5" height="15"/>
+                    <rect key="frame" x="70" y="374" width="91" height="15"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -159,7 +160,7 @@
                     <state key="selected" image="agreeBtnSelect.png"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i8m-Bg-DrU">
-                    <rect key="frame" x="50" y="374" width="110.5" height="15"/>
+                    <rect key="frame" x="50" y="374" width="111" height="15"/>
                     <connections>
                         <action selector="selectBtnClicked:" destination="-1" eventType="touchUpInside" id="nrh-EQ-oyn"/>
                     </connections>
@@ -173,7 +174,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="《码尚通企业服务协议》" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phH-zu-nVa">
-                    <rect key="frame" x="165" y="374" width="189.5" height="15"/>
+                    <rect key="frame" x="166" y="374" width="189" height="15"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.45490196078431372" green="0.73333333333333328" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
@@ -212,7 +213,7 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xiasanjiao.png" translatesAutoresizingMaskIntoConstraints="NO" id="EN0-DL-Uqd">
-                    <rect key="frame" x="124" y="342" width="20" height="20"/>
+                    <rect key="frame" x="125" y="342" width="20" height="20"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="20" id="gZc-MI-Zkm"/>
                         <constraint firstAttribute="height" constant="20" id="mOM-I1-juV"/>
@@ -242,6 +243,20 @@
                         <constraint firstAttribute="height" constant="2" id="j2u-7Z-l9N"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdI-of-m3k">
+                    <rect key="frame" x="161" y="390" width="125" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="125" id="fKS-Jl-RVq"/>
+                        <constraint firstAttribute="height" constant="15" id="r91-zF-QKy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <state key="normal" title="《码尚通软件服务协议》 ">
+                        <color key="titleColor" red="0.36470588240000001" green="0.75686274509999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="softwareMaintenance:" destination="-1" eventType="touchUpInside" id="D3F-af-M8M"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -258,6 +273,7 @@
                 <constraint firstItem="i8m-Bg-DrU" firstAttribute="trailing" secondItem="wDq-5d-Ojy" secondAttribute="trailing" id="7Tu-yW-2Fs"/>
                 <constraint firstItem="dBX-Qb-evT" firstAttribute="leading" secondItem="thA-Bh-gcW" secondAttribute="trailing" constant="8" id="7ym-xo-Xwb"/>
                 <constraint firstItem="kQ2-AF-WAs" firstAttribute="leading" secondItem="vRC-NJ-bGm" secondAttribute="trailing" constant="15" id="8TZ-Xl-KYe"/>
+                <constraint firstItem="vdI-of-m3k" firstAttribute="leading" secondItem="i8m-Bg-DrU" secondAttribute="trailing" id="AeX-d5-HcS"/>
                 <constraint firstItem="HG8-br-PGU" firstAttribute="height" secondItem="UkA-1a-G78" secondAttribute="height" id="CQE-km-4ph"/>
                 <constraint firstItem="8H0-ep-4ta" firstAttribute="trailing" secondItem="9Rn-d6-vwt" secondAttribute="trailing" id="DN5-iL-2ax"/>
                 <constraint firstItem="8H0-ep-4ta" firstAttribute="leading" secondItem="Wr0-En-ChL" secondAttribute="leading" id="EJE-3u-RDt"/>
@@ -312,6 +328,7 @@
                 <constraint firstItem="i8m-Bg-DrU" firstAttribute="top" secondItem="wDq-5d-Ojy" secondAttribute="top" id="jeb-SC-Ltz"/>
                 <constraint firstItem="8H0-ep-4ta" firstAttribute="leading" secondItem="9Rn-d6-vwt" secondAttribute="leading" id="kTC-Ud-DTz"/>
                 <constraint firstItem="vRC-NJ-bGm" firstAttribute="trailing" secondItem="wDq-5d-Ojy" secondAttribute="trailing" id="mZe-g2-PB3"/>
+                <constraint firstItem="vdI-of-m3k" firstAttribute="top" secondItem="phH-zu-nVa" secondAttribute="bottom" constant="1" id="mgn-y7-DMh"/>
                 <constraint firstItem="LRi-rb-ZN8" firstAttribute="leading" secondItem="vRC-NJ-bGm" secondAttribute="leading" id="nFg-xn-qte"/>
                 <constraint firstItem="LRi-rb-ZN8" firstAttribute="trailing" secondItem="GV8-Us-Ml9" secondAttribute="trailing" id="npR-Ms-qQp"/>
                 <constraint firstItem="phH-zu-nVa" firstAttribute="top" secondItem="wDq-5d-Ojy" secondAttribute="top" id="owS-Vk-ySD"/>
@@ -331,7 +348,7 @@
                     <exclude reference="mZe-g2-PB3"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="1425" y="79"/>
+            <point key="canvasLocation" x="1267" y="79"/>
         </view>
     </objects>
     <resources>

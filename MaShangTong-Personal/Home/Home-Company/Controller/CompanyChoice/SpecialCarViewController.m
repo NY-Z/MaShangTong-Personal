@@ -385,7 +385,7 @@
     AMapDrivingRouteSearchRequest *request = [[AMapDrivingRouteSearchRequest alloc] init];
     request.origin = [AMapGeoPoint locationWithLatitude:delegate.sourceCoordinate.latitude longitude:delegate.sourceCoordinate.longitude];
     request.destination = [AMapGeoPoint locationWithLatitude:delegate.destinationCoordinate.latitude longitude:delegate.destinationCoordinate.longitude];
-    request.strategy = 6;//结合交通实际情况
+    request.strategy = 2;//结合交通实际情况
     request.requireExtension = YES;
     [_search AMapDrivingRouteSearch:request];
     NYLog(@"%f,%f",delegate.sourceCoordinate.latitude,delegate.sourceCoordinate.longitude);

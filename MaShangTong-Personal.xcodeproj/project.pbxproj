@@ -175,6 +175,7 @@
 		10D2F5851C50B4A80033F0B3 /* iconfont-weibo1.png in Resources */ = {isa = PBXBuildFile; fileRef = 10D2F5791C50B4A80033F0B3 /* iconfont-weibo1.png */; };
 		10D2F5861C50B4A80033F0B3 /* iconfont-weixin1.png in Resources */ = {isa = PBXBuildFile; fileRef = 10D2F57A1C50B4A80033F0B3 /* iconfont-weixin1.png */; };
 		10D2F5881C50B5280033F0B3 /* quanyouhui.png in Resources */ = {isa = PBXBuildFile; fileRef = 10D2F5871C50B5280033F0B3 /* quanyouhui.png */; };
+		10DBF8891C73217300FA52EB /* GSsoftwareMaintenanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10DBF8881C73217300FA52EB /* GSsoftwareMaintenanceViewController.m */; };
 		180378771C1D4C7900F4FDCB /* AirportPickupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180378761C1D4C7900F4FDCB /* AirportPickupModel.m */; };
 		1803787B1C1D6CB400F4FDCB /* AddEmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180378791C1D6CB400F4FDCB /* AddEmployeeViewController.m */; };
 		1803787C1C1D6CB400F4FDCB /* AddEmployeeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1803787A1C1D6CB400F4FDCB /* AddEmployeeViewController.xib */; };
@@ -623,6 +624,8 @@
 		10D2F5791C50B4A80033F0B3 /* iconfont-weibo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-weibo1.png"; sourceTree = "<group>"; };
 		10D2F57A1C50B4A80033F0B3 /* iconfont-weixin1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-weixin1.png"; sourceTree = "<group>"; };
 		10D2F5871C50B5280033F0B3 /* quanyouhui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quanyouhui.png; sourceTree = "<group>"; };
+		10DBF8871C73217300FA52EB /* GSsoftwareMaintenanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSsoftwareMaintenanceViewController.h; sourceTree = "<group>"; };
+		10DBF8881C73217300FA52EB /* GSsoftwareMaintenanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSsoftwareMaintenanceViewController.m; sourceTree = "<group>"; };
 		180378751C1D4C7900F4FDCB /* AirportPickupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirportPickupModel.h; sourceTree = "<group>"; };
 		180378761C1D4C7900F4FDCB /* AirportPickupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirportPickupModel.m; sourceTree = "<group>"; };
 		180378781C1D6CB400F4FDCB /* AddEmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEmployeeViewController.h; sourceTree = "<group>"; };
@@ -1235,6 +1238,8 @@
 				0E4C930B1C02F94300118310 /* ProvincesAndCitiesTableViewController.m */,
 				0E20D40B1C44C58400BF6177 /* NYCompanyProtocalViewController.h */,
 				0E20D40C1C44C58400BF6177 /* NYCompanyProtocalViewController.m */,
+				10DBF8871C73217300FA52EB /* GSsoftwareMaintenanceViewController.h */,
+				10DBF8881C73217300FA52EB /* GSsoftwareMaintenanceViewController.m */,
 			);
 			name = DriverLoginAndRegis;
 			sourceTree = "<group>";
@@ -2415,6 +2420,7 @@
 				10D2F5621C507AC20033F0B3 /* MyMoney.m in Sources */,
 				10D2F53C1C507AC20033F0B3 /* GSdiscoverViewController.m in Sources */,
 				10D2F53E1C507AC20033F0B3 /* GSrechargeVC.m in Sources */,
+				10DBF8891C73217300FA52EB /* GSsoftwareMaintenanceViewController.m in Sources */,
 				10D2F56C1C507AC20033F0B3 /* settingCell.m in Sources */,
 				10D2F5261C507AC20033F0B3 /* HomeViewController.m in Sources */,
 				0EDE8C8B1C06AE6000356AF1 /* CompanyHomeViewController.m in Sources */,

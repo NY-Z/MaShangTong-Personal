@@ -8,6 +8,7 @@
 
 #import "PersonRegisViewController.h"
 #import "LoginViewController.h"
+#import "GSpersonalAgressViewController.h"
 #import <AFNetworking.h>
 
 @interface PersonRegisViewController ()
@@ -15,6 +16,7 @@
     NSString *_random;
     NSTimer *_timer;
     NSInteger _timeCount;
+    BOOL _isChick;//是否查看法律申明隐私
 }
 @property (weak, nonatomic) IBOutlet UITextField *mobileNumberTextField;
 @property (weak, nonatomic) IBOutlet UITextField *verificationCodeTextField;
@@ -23,6 +25,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *confirmBtn;
 - (IBAction)sendVerificationCodeBtnClicked:(id)sender;
 - (IBAction)confirmBtnClicked:(id)sender;
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIButton *selectBtn;
+
+- (IBAction)selectAgress:(id)sender;
+- (IBAction)chickAgreement:(id)sender;
 
 @end
 
@@ -97,6 +106,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _timeCount = 60;
+    //法律申明隐私默认没有查看
+    _isChick = NO;
+    
     [self configNavigationBar];
     [self handleThwWidget];
 }
@@ -154,6 +166,11 @@
         [MBProgressHUD showError:@"验证码错误"];
         return;
     }
+    if (!_isChick) {
+        [MBProgressHUD showError:@"请同意《法律声明隐私》"];
+        return;
+    }
+    
     [MBProgressHUD showMessage:@"注册中，请稍后"];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_mobileNumberTextField.text forKey:@"mobile"];
@@ -218,5 +235,20 @@
        [_timer invalidate];
     }
     _timer = nil;
+}
+- (IBAction)selectAgress:(id)sender {
+    if(!_isChick){//如果没有同意的话，点击则勾选（即同意）
+        [_imageView setImage:[UIImage imageNamed:@"agreeBtnSelect.png"]];
+        _isChick = !_isChick;
+    }
+    else{//如果同意的话，点击则去掉勾选（ji不同意）
+        [_imageView setImage:[UIImage imageNamed:@"agreeBtnDeselect.png"]];
+        _isChick = !_isChick;
+    }
+}
+
+- (IBAction)chickAgreement:(id)sender {
+    
+    [self.navigationController pushViewController:[[GSpersonalAgressViewController alloc]init] animated:YES];
 }
 @end

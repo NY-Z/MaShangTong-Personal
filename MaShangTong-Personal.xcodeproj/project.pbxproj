@@ -89,6 +89,7 @@
 		101C74D81C55D25C006295A1 /* 打车指南（企业）.png in Resources */ = {isa = PBXBuildFile; fileRef = 101C74D61C55D25C006295A1 /* 打车指南（企业）.png */; };
 		105791E61C106DF600E844FA /* PersonRegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105791E41C106DF600E844FA /* PersonRegisViewController.m */; };
 		105791E71C106DF600E844FA /* PersonRegisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105791E51C106DF600E844FA /* PersonRegisViewController.xib */; };
+		1080101C1C7465DF006983DD /* GSpersonalAgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1080101B1C7465DF006983DD /* GSpersonalAgressViewController.m */; };
 		10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */; };
 		10D2F5221C507AC20033F0B3 /* GSchooseOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D2F49D1C507AC20033F0B3 /* GSchooseOrderViewController.m */; };
 		10D2F5231C507AC20033F0B3 /* GSchooseOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D2F49E1C507AC20033F0B3 /* GSchooseOrderViewController.xib */; };
@@ -488,6 +489,8 @@
 		105791E31C106DF600E844FA /* PersonRegisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonRegisViewController.h; sourceTree = "<group>"; };
 		105791E41C106DF600E844FA /* PersonRegisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonRegisViewController.m; sourceTree = "<group>"; };
 		105791E51C106DF600E844FA /* PersonRegisViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonRegisViewController.xib; sourceTree = "<group>"; };
+		1080101A1C7465DF006983DD /* GSpersonalAgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSpersonalAgressViewController.h; sourceTree = "<group>"; };
+		1080101B1C7465DF006983DD /* GSpersonalAgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSpersonalAgressViewController.m; sourceTree = "<group>"; };
 		10823F6D1C0EFBB000B3FAB4 /* PayChargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayChargeViewController.h; sourceTree = "<group>"; };
 		10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayChargeViewController.m; sourceTree = "<group>"; };
 		10D2F49C1C507AC20033F0B3 /* GSchooseOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSchooseOrderViewController.h; sourceTree = "<group>"; };
@@ -1250,6 +1253,8 @@
 				105791E31C106DF600E844FA /* PersonRegisViewController.h */,
 				105791E41C106DF600E844FA /* PersonRegisViewController.m */,
 				105791E51C106DF600E844FA /* PersonRegisViewController.xib */,
+				1080101A1C7465DF006983DD /* GSpersonalAgressViewController.h */,
+				1080101B1C7465DF006983DD /* GSpersonalAgressViewController.m */,
 			);
 			name = PersonLoginAndRegis;
 			sourceTree = "<group>";
@@ -2341,6 +2346,7 @@
 				10D2F5491C507AC20033F0B3 /* MyOrderVC.m in Sources */,
 				0EC717751C35210000399EC4 /* StarView.m in Sources */,
 				1803787B1C1D6CB400F4FDCB /* AddEmployeeViewController.m in Sources */,
+				1080101C1C7465DF006983DD /* GSpersonalAgressViewController.m in Sources */,
 				0EC717781C35212A00399EC4 /* MyUtil.m in Sources */,
 				10D2F5521C507AC20033F0B3 /* settingVC.m in Sources */,
 				10D2F52F1C507AC20033F0B3 /* CallCarView.m in Sources */,

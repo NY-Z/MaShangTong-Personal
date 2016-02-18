@@ -439,6 +439,24 @@ static BOOL isHadRecord = NO;
                 if ([resultStr isEqualToString:@"0"]) {
                     return ;
                 }
+                //当司机修改终点之后，传过来的终点的位置坐标和名字则不一样
+                if (json[@"data"][@"end_name"] && json[@"data"][@"end_coordinates"]) {
+                    NSString *nameStr = [NSString stringWithFormat:@"%@",json[@"data"][@"end_name"]];
+                    NSString *coordinatesStr = [NSString stringWithFormat:@"%@",json[@"data"][@"end_coordinates"]];
+                    if(![nameStr isEqualToString:_model.end_name] || ![coordinatesStr isEqualToString:_model.end_coordinates]){
+                        
+                        NSString *iFlyStr = [NSString stringWithFormat:@"司机师傅已修改目的地为%@",nameStr];
+                        [_iFlySpeechSynthesizer startSpeaking:iFlyStr];
+                        
+                        [_model setEnd_name:nameStr];
+                        [_model setEnd_coordinates:coordinatesStr];
+                        
+                        [infoModel setEnd_name:nameStr];
+                        [infoModel setEnd_coordinates:coordinatesStr];
+                    }
+                }
+                
+                
                 NSString *routeStatus = [NSString stringWithFormat:@"%@",json[@"data"][@"route_status"]];
                 if ([routeStatus isEqualToString:@"0"]) {
                     self.navigationItem.rightBarButtonItem.customView.hidden = NO;
@@ -598,15 +616,15 @@ static BOOL isHadRecord = NO;
         lastPoint = CLLocationCoordinate2DMake([ary[1] doubleValue], [ary[0] doubleValue]);
         isHadRecord = !isHadRecord;
     }
-    else{//如果没有退出过程序，那么就是正常计费，上一秒坐标经纬度是上一秒定位到的坐标
+    else{//如果没有退出过程序，那么就是正常计费，上一秒坐标经纬度是上一秒定位到的坐标（上一秒的坐标就是nowPoint）
         if(nowPoint.latitude != 0){
             lastPoint = nowPoint;
         }
     }
-    if(_userLocation.location){
+    if(_userLocation.location){//如果定位到坐标，则赋值给当前这一秒坐标
         nowPoint = _userLocation.location.coordinate;
     }
-    else{
+    else{//如果没有的话，则直接return，不做计价。
         return;
     }
 

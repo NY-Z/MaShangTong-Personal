@@ -13,6 +13,10 @@
 #import "MyChitTableViewCell.h"
 
 @implementation MyChit
+{
+    
+    NSMutableArray *_dataAry;
+}
 
 -(instancetype)initWithFrame:(CGRect)frame
 {
@@ -30,13 +34,14 @@
 }
 
 -(void)creatSubViews
-{
-    
+{    
     _vouchersDataAry = [NSArray new];
+    _dataAry = [NSMutableArray new];
     
-    _vouchersTabelV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) style:UITableViewStylePlain];
+    _vouchersTabelV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - 60) style:UITableViewStylePlain];
     _vouchersTabelV.delegate = self;
     _vouchersTabelV.dataSource = self;
+    _vouchersTabelV.tableFooterView = [[UIView alloc]init];
     
     [self addSubview:_vouchersTabelV];
     
@@ -45,7 +50,16 @@
 #pragma mark - UITabelViewDelegate,UITabelViewDataSourse
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _vouchersDataAry.count;
+    if (_vouchersDataAry.count > 0) {
+        for (int i = 0 ;i < _vouchersDataAry.count ; i++) {
+            NSDictionary *dic = _vouchersDataAry[i];
+            NSInteger num = [dic[@"num"] integerValue];
+            for (int j = 0; j < num; j++) {
+                [_dataAry addObject:dic];
+            }
+        }
+    }
+    return _dataAry.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -64,7 +78,7 @@
     }
     
     cell.image.image = [UIImage imageNamed:@"wodeyouhuiquan@2x"];
-    NSDictionary *dic = _vouchersDataAry[indexPath.row];
+    NSDictionary *dic = _dataAry[indexPath.row];
     cell.moneyLabel.text = dic[@"price"];
     cell.nameLabel.text = dic[@"name"];
     cell.timeLabel.text = [NSString stringWithFormat:@"有效至%@",dic[@"end_time"]];;

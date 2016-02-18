@@ -67,7 +67,7 @@
                         <constraint firstAttribute="height" constant="11" id="ct8-qS-MvI"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="26666单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n4-y7-HmX">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0单" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n4-y7-HmX">
                     <rect key="frame" x="139" y="41" width="55" height="11"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="11" id="HHJ-yj-yRh"/>

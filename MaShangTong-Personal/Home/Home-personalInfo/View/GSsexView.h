@@ -11,7 +11,7 @@
 @interface GSsexView : UIView<UIPickerViewDelegate,UIPickerViewDataSource>
 
 {
-    NSInteger *sexNum;
+    NSInteger sexNum;
 }
 @property (nonatomic,strong)void(^chooseSex)(NSString *sexStr);
 

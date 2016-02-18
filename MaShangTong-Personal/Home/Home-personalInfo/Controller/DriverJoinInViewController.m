@@ -89,8 +89,25 @@
     _numberTextField.text = [USER_DEFAULT objectForKey:@"mobile"];
     [self setXibViews];
     [self setNavigationBar];
+    
+    [self requestDriversCount];
 }
-
+- (void)requestDriversCount
+{
+    [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"driver_first"] params:nil success:^(id json) {
+        @try {
+            self.accountLabel.text = json[@"num"];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {

@@ -12,8 +12,8 @@
 		0E18DFFA1C31140C00D77CEC /* NYDetailOrderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E18DFF81C31140C00D77CEC /* NYDetailOrderVC.xib */; };
 		0E18E00A1C313D0D00D77CEC /* TaxiGuideImageView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */; };
 		0E20D40D1C44C58400BF6177 /* NYCompanyProtocalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E20D40C1C44C58400BF6177 /* NYCompanyProtocalViewController.m */; };
-		0E21A45B1C055FFF006A722A /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E21A45A1C055FFF006A722A /* icon.png */; };
 		0E21A4611C059862006A722A /* ValuationRuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E21A4601C059862006A722A /* ValuationRuleModel.m */; };
+		0E317CD91CA0E89A0015AA2B /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E317CD81CA0E89A0015AA2B /* icon.png */; };
 		0E38A5371C50E8990040236C /* NYComplaintViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E38A5351C50E8990040236C /* NYComplaintViewController.m */; };
 		0E38A5381C50E8990040236C /* NYComplaintViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E38A5361C50E8990040236C /* NYComplaintViewController.xib */; };
 		0E38A53C1C50EEC70040236C /* MyNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E38A53A1C50EEC70040236C /* MyNewsTableViewCell.m */; };
@@ -89,8 +89,14 @@
 		101C74D81C55D25C006295A1 /* 打车指南（企业）.png in Resources */ = {isa = PBXBuildFile; fileRef = 101C74D61C55D25C006295A1 /* 打车指南（企业）.png */; };
 		105791E61C106DF600E844FA /* PersonRegisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105791E41C106DF600E844FA /* PersonRegisViewController.m */; };
 		105791E71C106DF600E844FA /* PersonRegisViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105791E51C106DF600E844FA /* PersonRegisViewController.xib */; };
+		1062B1111C7E03B100992265 /* USA.m in Sources */ = {isa = PBXBuildFile; fileRef = 1062B1101C7E03B100992265 /* USA.m */; };
+		106B6A1D1C7D80EB00E915DE /* libPaymentControl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 106B6A1A1C7D80EB00E915DE /* libPaymentControl.a */; };
+		106B6A1E1C7D80EB00E915DE /* public_test.key in Resources */ = {isa = PBXBuildFile; fileRef = 106B6A1B1C7D80EB00E915DE /* public_test.key */; };
+		106B6A201C7D81C000E915DE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 106B6A1F1C7D81C000E915DE /* CFNetwork.framework */; };
+		106B6A251C7DBF5A00E915DE /* mast.pfx in Resources */ = {isa = PBXBuildFile; fileRef = 106B6A241C7DBF5A00E915DE /* mast.pfx */; };
 		1080101C1C7465DF006983DD /* GSpersonalAgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1080101B1C7465DF006983DD /* GSpersonalAgressViewController.m */; };
 		10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */; };
+		10BE0DAE1C93C532009D3F5C /* GSPriceRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BE0DAD1C93C532009D3F5C /* GSPriceRuleViewController.m */; };
 		10D2F5221C507AC20033F0B3 /* GSchooseOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D2F49D1C507AC20033F0B3 /* GSchooseOrderViewController.m */; };
 		10D2F5231C507AC20033F0B3 /* GSchooseOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D2F49E1C507AC20033F0B3 /* GSchooseOrderViewController.xib */; };
 		10D2F5241C507AC20033F0B3 /* GSpayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D2F4A01C507AC20033F0B3 /* GSpayVC.m */; };
@@ -372,9 +378,9 @@
 		0E18E0091C313D0D00D77CEC /* TaxiGuideImageView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TaxiGuideImageView@2x.png"; sourceTree = "<group>"; };
 		0E20D40B1C44C58400BF6177 /* NYCompanyProtocalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYCompanyProtocalViewController.h; sourceTree = "<group>"; };
 		0E20D40C1C44C58400BF6177 /* NYCompanyProtocalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYCompanyProtocalViewController.m; sourceTree = "<group>"; };
-		0E21A45A1C055FFF006A722A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		0E21A45F1C059862006A722A /* ValuationRuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationRuleModel.h; sourceTree = "<group>"; };
 		0E21A4601C059862006A722A /* ValuationRuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationRuleModel.m; sourceTree = "<group>"; };
+		0E317CD81CA0E89A0015AA2B /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		0E38A5341C50E8990040236C /* NYComplaintViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYComplaintViewController.h; sourceTree = "<group>"; };
 		0E38A5351C50E8990040236C /* NYComplaintViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYComplaintViewController.m; sourceTree = "<group>"; };
 		0E38A5361C50E8990040236C /* NYComplaintViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYComplaintViewController.xib; sourceTree = "<group>"; };
@@ -478,6 +484,7 @@
 		0EDE8CB81C08257300356AF1 /* MANaviRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviRoute.m; sourceTree = "<group>"; };
 		0EDE8CBB1C08402C00356AF1 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		0EDE8CBC1C08402C00356AF1 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		0EDEA22E1CA11D8C00F47930 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Pods/OpenSSL-Classic/lib-ios/libcrypto.a"; sourceTree = "<group>"; };
 		0EEF3F0D1C3D504F001D8F30 /* NYSuggestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYSuggestionViewController.h; sourceTree = "<group>"; };
 		0EEF3F0E1C3D504F001D8F30 /* NYSuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYSuggestionViewController.m; sourceTree = "<group>"; };
 		0EEF3F0F1C3D504F001D8F30 /* NYSuggestionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NYSuggestionViewController.xib; sourceTree = "<group>"; };
@@ -489,10 +496,19 @@
 		105791E31C106DF600E844FA /* PersonRegisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonRegisViewController.h; sourceTree = "<group>"; };
 		105791E41C106DF600E844FA /* PersonRegisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonRegisViewController.m; sourceTree = "<group>"; };
 		105791E51C106DF600E844FA /* PersonRegisViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonRegisViewController.xib; sourceTree = "<group>"; };
+		1062B10F1C7E03B100992265 /* USA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USA.h; sourceTree = "<group>"; };
+		1062B1101C7E03B100992265 /* USA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USA.m; sourceTree = "<group>"; };
+		106B6A1A1C7D80EB00E915DE /* libPaymentControl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPaymentControl.a; sourceTree = "<group>"; };
+		106B6A1B1C7D80EB00E915DE /* public_test.key */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_test.key; sourceTree = "<group>"; };
+		106B6A1C1C7D80EB00E915DE /* UPPaymentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPaymentControl.h; sourceTree = "<group>"; };
+		106B6A1F1C7D81C000E915DE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		106B6A241C7DBF5A00E915DE /* mast.pfx */ = {isa = PBXFileReference; lastKnownFileType = file; path = mast.pfx; sourceTree = "<group>"; };
 		1080101A1C7465DF006983DD /* GSpersonalAgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSpersonalAgressViewController.h; sourceTree = "<group>"; };
 		1080101B1C7465DF006983DD /* GSpersonalAgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSpersonalAgressViewController.m; sourceTree = "<group>"; };
 		10823F6D1C0EFBB000B3FAB4 /* PayChargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayChargeViewController.h; sourceTree = "<group>"; };
 		10823F6E1C0EFBB000B3FAB4 /* PayChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayChargeViewController.m; sourceTree = "<group>"; };
+		10BE0DAC1C93C532009D3F5C /* GSPriceRuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSPriceRuleViewController.h; sourceTree = "<group>"; };
+		10BE0DAD1C93C532009D3F5C /* GSPriceRuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSPriceRuleViewController.m; sourceTree = "<group>"; };
 		10D2F49C1C507AC20033F0B3 /* GSchooseOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSchooseOrderViewController.h; sourceTree = "<group>"; };
 		10D2F49D1C507AC20033F0B3 /* GSchooseOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSchooseOrderViewController.m; sourceTree = "<group>"; };
 		10D2F49E1C507AC20033F0B3 /* GSchooseOrderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GSchooseOrderViewController.xib; sourceTree = "<group>"; };
@@ -857,7 +873,7 @@
 		6D5436251BF30F2D002E25DA /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		6D97F79B1BF5CC590066257C /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
 		6D97F79C1BF5CC590066257C /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
-		6DD875BE1BF21CC3006145E2 /* 码尚通.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "码尚通.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DD875BE1BF21CC3006145E2 /* 码尚通用户端.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "码尚通用户端.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DD875C21BF21CC3006145E2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6DD875C41BF21CC3006145E2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6DD875C51BF21CC3006145E2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -876,6 +892,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				106B6A201C7D81C000E915DE /* CFNetwork.framework in Frameworks */,
 				0E98D0C41C33CFAA00E09CEA /* libxml2.tbd in Frameworks */,
 				0EDE8CB61C081FEF00356AF1 /* CoreGraphics.framework in Frameworks */,
 				0EDE8CB41C081FDE00356AF1 /* QuartzCore.framework in Frameworks */,
@@ -887,6 +904,7 @@
 				0EDE8CA81C081FA100356AF1 /* Foundation.framework in Frameworks */,
 				0EDE8CA61C081F9700356AF1 /* SystemConfiguration.framework in Frameworks */,
 				0EDE8CA41C081F8E00356AF1 /* AVFoundation.framework in Frameworks */,
+				106B6A1D1C7D80EB00E915DE /* libPaymentControl.a in Frameworks */,
 				0EDE8CA21C081F8400356AF1 /* libz.tbd in Frameworks */,
 				0EDE8CA01C081F5C00356AF1 /* iflyMSC.framework in Frameworks */,
 				A0E5E731B31E0B4615A4E94C /* libPods.a in Frameworks */,
@@ -1106,6 +1124,8 @@
 				10D2F4C11C507AC20033F0B3 /* detailOrderVC.xib */,
 				10D2F4E61C507AC20033F0B3 /* MyTripViewController.h */,
 				10D2F4E71C507AC20033F0B3 /* MyTripViewController.m */,
+				10BE0DAC1C93C532009D3F5C /* GSPriceRuleViewController.h */,
+				10BE0DAD1C93C532009D3F5C /* GSPriceRuleViewController.m */,
 			);
 			name = "我的行程";
 			sourceTree = "<group>";
@@ -1257,6 +1277,19 @@
 				1080101B1C7465DF006983DD /* GSpersonalAgressViewController.m */,
 			);
 			name = PersonLoginAndRegis;
+			sourceTree = "<group>";
+		};
+		106B6A191C7D80A700E915DE /* UPPaymentControl */ = {
+			isa = PBXGroup;
+			children = (
+				106B6A1A1C7D80EB00E915DE /* libPaymentControl.a */,
+				106B6A1B1C7D80EB00E915DE /* public_test.key */,
+				1062B10F1C7E03B100992265 /* USA.h */,
+				1062B1101C7E03B100992265 /* USA.m */,
+				106B6A1C1C7D80EB00E915DE /* UPPaymentControl.h */,
+			);
+			name = UPPaymentControl;
+			path = RegisterAndLogin/UPPaymentControl;
 			sourceTree = "<group>";
 		};
 		10D2F4971C507AC20033F0B3 /* Home-personal */ = {
@@ -1676,6 +1709,7 @@
 		6D5434A11BF2FA10002E25DA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0E317CD81CA0E89A0015AA2B /* icon.png */,
 				101C74D51C55D25C006295A1 /* 打车指南（个人）.png */,
 				101C74D61C55D25C006295A1 /* 打车指南（企业）.png */,
 				10D2F56D1C50B4390033F0B3 /* 消息中心_03.png */,
@@ -1687,7 +1721,6 @@
 				187DE84C1C2AA96C00E0A5C4 /* SettingContractUs@2x.png */,
 				187DE84D1C2AA96C00E0A5C4 /* SettingContractUs@3x.png */,
 				18D7BC4E1C25406E00CB6C52 /* tuichudenglu@2x.png */,
-				0E21A45A1C055FFF006A722A /* icon.png */,
 				18D7BC4F1C25406E00CB6C52 /* tuichudenglu@3x.png */,
 				0EDE8C9B1C07EC7D00356AF1 /* sijidingwei@2x.png */,
 				0EDE8C9C1C07EC7D00356AF1 /* sijidingwei@3x.png */,
@@ -1916,6 +1949,7 @@
 		6DD875B51BF21CC2006145E2 = {
 			isa = PBXGroup;
 			children = (
+				106B6A241C7DBF5A00E915DE /* mast.pfx */,
 				18BB20E31C1986F0005123DA /* Default-568h@2x.png */,
 				6DD875C01BF21CC3006145E2 /* MaShangTong-Personal */,
 				6DD875BF1BF21CC3006145E2 /* Products */,
@@ -1927,7 +1961,7 @@
 		6DD875BF1BF21CC3006145E2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6DD875BE1BF21CC3006145E2 /* 码尚通.app */,
+				6DD875BE1BF21CC3006145E2 /* 码尚通用户端.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1942,6 +1976,7 @@
 				6D5434131BF2D8A2002E25DA /* Category */,
 				6D54349D1BF2F27E002E25DA /* Control */,
 				6D97F79A1BF5CC450066257C /* Utility */,
+				106B6A191C7D80A700E915DE /* UPPaymentControl */,
 				0E4C92F51C02E38E00118310 /* RegisterAndLogin */,
 				6D5434171BF2D8DB002E25DA /* Home */,
 				6D5434121BF2D755002E25DA /* MaShangTong.pch */,
@@ -1971,6 +2006,8 @@
 		DA04B6042898E0DBDA637427 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EDEA22E1CA11D8C00F47930 /* libcrypto.a */,
+				106B6A1F1C7D81C000E915DE /* CFNetwork.framework */,
 				0E98D0C31C33CFAA00E09CEA /* libxml2.tbd */,
 				0EDE8CB51C081FEF00356AF1 /* CoreGraphics.framework */,
 				0EDE8CB31C081FDE00356AF1 /* QuartzCore.framework */,
@@ -2010,7 +2047,7 @@
 			);
 			name = "MaShangTong-Personal";
 			productName = "MaShangTong-Personal";
-			productReference = 6DD875BE1BF21CC3006145E2 /* 码尚通.app */;
+			productReference = 6DD875BE1BF21CC3006145E2 /* 码尚通用户端.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2092,6 +2129,7 @@
 				10D2F5431C507AC20033F0B3 /* GSshopPayViewController.xib in Resources */,
 				10D2F5351C507AC20033F0B3 /* detailOrderVC.xib in Resources */,
 				6D5435871BF2FA10002E25DA /* xiasanjiao@3x.png in Resources */,
+				106B6A251C7DBF5A00E915DE /* mast.pfx in Resources */,
 				6D5435321BF2FA10002E25DA /* che2Select@2x.png in Resources */,
 				6D54356E1BF2FA10002E25DA /* tianjiayuangong@2x.png in Resources */,
 				6D5435531BF2FA10002E25DA /* payBtnDeselect@3x.png in Resources */,
@@ -2142,6 +2180,7 @@
 				6D5435401BF2FA10002E25DA /* dingwei@2x.png in Resources */,
 				6D5435821BF2FA10002E25DA /* xiaoxi@2x.png in Resources */,
 				10D2F5851C50B4A80033F0B3 /* iconfont-weibo1.png in Resources */,
+				0E317CD91CA0E89A0015AA2B /* icon.png in Resources */,
 				6D54353D1BF2FA10002E25DA /* dingwei1@3x.png in Resources */,
 				6D5435481BF2FA10002E25DA /* gengduo@2x.png in Resources */,
 				10D2F56E1C50B4390033F0B3 /* 消息中心_03.png in Resources */,
@@ -2152,7 +2191,6 @@
 				6D54358D1BF2FA10002E25DA /* yonghu@3x.png in Resources */,
 				6D5435941BF2FA10002E25DA /* zhuanhuan@2x.png in Resources */,
 				10D2F5471C507AC20033F0B3 /* MyCouponVC.xib in Resources */,
-				0E21A45B1C055FFF006A722A /* icon.png in Resources */,
 				10D2F5861C50B4A80033F0B3 /* iconfont-weixin1.png in Resources */,
 				10D2F5881C50B5280033F0B3 /* quanyouhui.png in Resources */,
 				187999841C29890A0011D43C /* NYForgetPasswordViewController.xib in Resources */,
@@ -2201,6 +2239,7 @@
 				6D5435611BF2FA10002E25DA /* sendBtnDeselect@3x.png in Resources */,
 				187DE84E1C2AA96C00E0A5C4 /* SettingContractUs@2x.png in Resources */,
 				6D5435381BF2FA10002E25DA /* daijinquan@2x.png in Resources */,
+				106B6A1E1C7D80EB00E915DE /* public_test.key in Resources */,
 				0EC717801C3523E700399EC4 /* StarsForeground@3x.png in Resources */,
 				6DD875CE1BF21CC3006145E2 /* Assets.xcassets in Resources */,
 				6D54356D1BF2FA10002E25DA /* sijizhaomu@3x.png in Resources */,
@@ -2319,6 +2358,7 @@
 				0E3FB01A1C462904002834BB /* NYCalculateCharteredBusPrice.m in Sources */,
 				6DD875C91BF21CC3006145E2 /* ViewController.m in Sources */,
 				10D2F52C1C507AC20033F0B3 /* GSPayModel.m in Sources */,
+				10BE0DAE1C93C532009D3F5C /* GSPriceRuleViewController.m in Sources */,
 				10D2F5401C507AC20033F0B3 /* GSsendOrderViewController.m in Sources */,
 				6D54349C1BF2F112002E25DA /* ReGeocodeAnnotation.m in Sources */,
 				10823F6F1C0EFBB000B3FAB4 /* PayChargeViewController.m in Sources */,
@@ -2411,6 +2451,7 @@
 				0E4C92FD1C02E40800118310 /* BaseNavViewController.m in Sources */,
 				6D5436261BF30F2D002E25DA /* Order.m in Sources */,
 				0ED1D9D71BF6CB9200804B14 /* VoucherCell.m in Sources */,
+				1062B1111C7E03B100992265 /* USA.m in Sources */,
 				0EDE8C881C06AE6000356AF1 /* AirportPickupViewController.m in Sources */,
 				0EDE8C8C1C06AE6000356AF1 /* FlightNoViewController.m in Sources */,
 				0E38A53C1C50EEC70040236C /* MyNewsTableViewCell.m in Sources */,
@@ -2476,96 +2517,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0EF9E64F1BF970CD002B6915 /* ad hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "码尚通-个人端";
-				PROVISIONING_PROFILE = "c778906f-5061-46b7-820f-5ecff36157df";
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-				WARNING_CFLAGS = "-Wno-deprecated-declarations";
-			};
-			name = "ad hoc";
-		};
-		0EF9E6501BF970CD002B6915 /* ad hoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AC39481D512E3812E98E3CF2 /* Pods.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MaShangTong-Personal/MaShangTong.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"\"${PODS_ROOT}/Headers/Public/AMapLocation\"",
-					"\"${PODS_ROOT}/Headers/Public/AMapNavi\"",
-					"\"${PODS_ROOT}/Headers/Public/AMapSearch\"",
-					"\"${PODS_ROOT}/Headers/Public/AlipaySDK-2.0\"",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
-					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
-					/usr/include/libxml2,
-				);
-				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(inherited)",
-					"$(SDKROOT)/usr/lib/system",
-					"$(PROJECT_DIR)/MaShangTong-Personal/BizPay",
-				);
-				LINK_WITH_STANDARD_LIBRARIES = YES;
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.NY.Mast.Personal;
-				PRODUCT_NAME = "码尚通";
-				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
-				WARNING_LDFLAGS = (
-					"-Wno-deprecated-declarations",
-					"-Wno-deprecated-declarations",
-				);
-			};
-			name = "ad hoc";
-		};
 		6DD875D31BF21CC3006145E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2603,7 +2554,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "码尚通-个人端";
@@ -2644,7 +2595,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "码尚通-个人端";
 				PROVISIONING_PROFILE = "c778906f-5061-46b7-820f-5ecff36157df";
@@ -2658,8 +2609,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 261B7650BD8D444E92F4DBEA /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2680,21 +2633,25 @@
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
 					/usr/include/libxml2,
+					"/Users/NY/Desktop/Projects/MaShangTong-Personal/Pods/OpenSSL-Classic/lib-ios/libcrypto.a",
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
-					"$(PROJECT_DIR)/MaShangTong-Personal/BizPay",
+					"$(PROJECT_DIR)/MaShangTong-Personal/RegisterAndLogin/UPPaymentControl",
+					"$(PROJECT_DIR)/Pods/OpenSSL-Classic/lib-ios",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.NY.Mast.Personal;
-				PRODUCT_NAME = "码尚通";
+				PRODUCT_NAME = "码尚通用户端";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
+				VALID_ARCHS = "arm64 armv7 armv7s i386";
 				WARNING_LDFLAGS = (
 					"-Wno-deprecated-declarations",
 					"-Wno-deprecated-declarations",
@@ -2706,6 +2663,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AC39481D512E3812E98E3CF2 /* Pods.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2728,22 +2686,26 @@
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"$(SRCROOT)/MaShangTong-Personal/AliPay\"",
 					/usr/include/libxml2,
+					"/Users/NY/Desktop/Projects/MaShangTong-Personal/Pods/OpenSSL-Classic/lib-ios/libcrypto.a",
 				);
 				INFOPLIST_FILE = "MaShangTong-Personal/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
-					"$(PROJECT_DIR)/MaShangTong-Personal/BizPay",
+					"$(PROJECT_DIR)/MaShangTong-Personal/RegisterAndLogin/UPPaymentControl",
+					"$(PROJECT_DIR)/Pods/OpenSSL-Classic/lib-ios",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.NY.Mast.Personal;
-				PRODUCT_NAME = "码尚通";
+				PRODUCT_NAME = "码尚通用户端";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
+				VALID_ARCHS = "arm64 armv7 armv7s i386";
 				WARNING_LDFLAGS = (
 					"-Wno-deprecated-declarations",
 					"-Wno-deprecated-declarations",
@@ -2759,7 +2721,6 @@
 			buildConfigurations = (
 				6DD875D31BF21CC3006145E2 /* Debug */,
 				6DD875D41BF21CC3006145E2 /* Release */,
-				0EF9E64F1BF970CD002B6915 /* ad hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2769,7 +2730,6 @@
 			buildConfigurations = (
 				6DD875D61BF21CC3006145E2 /* Debug */,
 				6DD875D71BF21CC3006145E2 /* Release */,
-				0EF9E6501BF970CD002B6915 /* ad hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

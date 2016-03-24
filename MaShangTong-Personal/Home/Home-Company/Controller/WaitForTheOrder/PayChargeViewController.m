@@ -126,7 +126,7 @@
         make.size.mas_equalTo(CGSizeMake(70, 18));
     }];
     
-    NSArray *labelTitleArr = @[@"车费合计",@"公里数",@"碳排放减少"];
+    NSArray *labelTitleArr = @[@"车费合计",@"起步价",@"里程费",@"低速费",@"夜间费",@"公里数",@"碳排放减少"];
     for (NSInteger i = 0; i < labelTitleArr.count; i++) {
         UILabel *label = [[UILabel alloc] init];
         label.text = labelTitleArr[i];
@@ -145,7 +145,7 @@
         }];
     }
     
-    NSArray *detailInfoArr = @[@"0元",@"0km",@"0.0kg"];
+    NSArray *detailInfoArr = @[@"0元",@"0元",@"0元",@"0元",@"0元",@"0km",@"0.0kg"];
     for (NSInteger i = 0; i < detailInfoArr.count; i++) {
         UILabel *label = [[UILabel alloc] init];
         label.text = detailInfoArr[i];
@@ -241,8 +241,8 @@
                 
                 UIButton *btn = (UIButton *)[contentView viewWithTag:900];
                 [btn setTitle:[NSString stringWithFormat:@"确认支付%.0f元",[json[@"info"][@"total_price"] floatValue]] forState:UIControlStateNormal];
-                
-                NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%.0f元",[json[@"info"][@"total_price"] floatValue]],[NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"mileage"] floatValue]],[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]]];
+                // ,@"里程费",@"低速费",@"夜间费"
+                NSArray *detailInfoArr = @[[NSString stringWithFormat:@"%.0f元",[json[@"info"][@"total_price"] floatValue]],[NSString stringWithFormat:@"%.0f元",[json[@"info"][@"start_price"] floatValue]],[NSString stringWithFormat:@"%.0f元",[json[@"info"][@"mileage_price"] floatValue]],[NSString stringWithFormat:@"%.0f元",[json[@"info"][@"low_price"] floatValue]],[NSString stringWithFormat:@"%.0f元",[json[@"info"][@"night_price"] floatValue]],[NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"mileage"] floatValue]],[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]]];
                 for (NSInteger i = 0; i < detailInfoArr.count; i++) {
                     UILabel *label = (UILabel *)[contentView viewWithTag:600+i];
                     label.text = detailInfoArr[i];

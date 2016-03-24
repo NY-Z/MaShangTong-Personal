@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10089" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10072.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GSrechargeVC">
             <connections>
                 <outlet property="alipayBtn" destination="DC6-Kh-6IM" id="IqS-1Y-cEF"/>
+                <outlet property="bankPay" destination="XLt-Pj-thh" id="fP3-kv-YBj"/>
                 <outlet property="monryTextFiled" destination="fp1-wu-X95" id="u4o-rb-8jy"/>
                 <outlet property="rechargeBtn" destination="8o6-0w-kry" id="HTQ-lz-Jdn"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -56,7 +58,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8o6-0w-kry">
-                    <rect key="frame" x="84" y="188" width="153" height="32"/>
+                    <rect key="frame" x="84" y="278" width="153" height="32"/>
                     <color key="backgroundColor" red="0.38823529411764707" green="0.75686274509803919" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="32" id="IA1-sS-lIY"/>
@@ -79,20 +81,36 @@
                     <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XLt-Pj-thh">
+                    <rect key="frame" x="30" y="184" width="88" height="42"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="88" id="WRK-gU-Q6t"/>
+                        <constraint firstAttribute="height" constant="42" id="ZRe-eM-2ul"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="银联充值" image="payBtnDeselect.png">
+                        <color key="titleColor" red="0.45490196078431372" green="0.45490196078431372" blue="0.45490196078431372" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="daBank:" destination="-1" eventType="touchUpInside" id="tTm-ES-ZV2"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="8o6-0w-kry" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="3CK-9C-mxO"/>
                 <constraint firstItem="3AQ-Nb-bgY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="6YA-os-QHM"/>
                 <constraint firstItem="PoI-G9-99E" firstAttribute="top" secondItem="DC6-Kh-6IM" secondAttribute="bottom" constant="8" id="7Gn-bw-fte"/>
+                <constraint firstItem="XLt-Pj-thh" firstAttribute="top" secondItem="PoI-G9-99E" secondAttribute="bottom" constant="12" id="8Px-4G-nnw" userLabel="Bank Pay.top = We Chat Btn.bottom + 6"/>
                 <constraint firstAttribute="trailing" secondItem="fp1-wu-X95" secondAttribute="trailing" constant="25" id="8bJ-lR-paY"/>
+                <constraint firstItem="8o6-0w-kry" firstAttribute="top" secondItem="XLt-Pj-thh" secondAttribute="bottom" constant="52" id="987-5m-ToS"/>
                 <constraint firstItem="DC6-Kh-6IM" firstAttribute="top" secondItem="fp1-wu-X95" secondAttribute="bottom" constant="25" id="BaM-ci-8WA"/>
+                <constraint firstItem="XLt-Pj-thh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="D6W-Uk-vT2"/>
                 <constraint firstItem="fp1-wu-X95" firstAttribute="leading" secondItem="3AQ-Nb-bgY" secondAttribute="trailing" constant="14" id="I0J-M6-gLg"/>
                 <constraint firstItem="DC6-Kh-6IM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="LDO-pi-sJ6"/>
                 <constraint firstItem="PoI-G9-99E" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="Sob-MF-Etb"/>
                 <constraint firstItem="fp1-wu-X95" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="VVS-2b-z81"/>
                 <constraint firstItem="3AQ-Nb-bgY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="ZSw-wk-Ctb"/>
-                <constraint firstItem="8o6-0w-kry" firstAttribute="top" secondItem="PoI-G9-99E" secondAttribute="bottom" constant="16" id="dvZ-3R-pZD"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>

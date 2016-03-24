@@ -25,6 +25,7 @@
 {
     _originNameLabel.text = model.origin_name;
     _endNameLabel.text = model.end_name;
+    
     NSInteger reservaType = [model.reserva_type integerValue];
     switch (reservaType) {
         case 1:

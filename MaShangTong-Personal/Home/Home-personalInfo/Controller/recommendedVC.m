@@ -35,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _moneyStr = [NSString stringWithFormat:@"%d",30];
+    _moneyStr = [NSString stringWithFormat:@"%d",5];
     
     [self dealNavicatonItens];
     
@@ -335,7 +335,7 @@
     switch (sender.tag) {
         case 140:
             //微信分享
-            [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToWechatSession] content:@"码尚通" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+            [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToWechatSession] content:@"快来领取5元码尚通打车券，绿色环保需要您的加入！ http://www.51mast.com" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
                 if (response.responseCode == UMSResponseCodeSuccess) {
                     [MBProgressHUD showSuccess:@"分享到微信好友成功"];
                     NYLog(@"分享微信好友成功");
@@ -345,7 +345,7 @@
             
         case 141:
             //朋友圈分享
-            [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToWechatTimeline] content:@"码尚通" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+            [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToWechatTimeline] content:@"快来领取5元码尚通打车券，绿色环保需要您的加入！ http://www.51mast.com" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
                 if (response.responseCode == UMSResponseCodeSuccess) {
                     [MBProgressHUD showSuccess:@"分享到微信朋友圈成功"];
                     NYLog(@"分享微信朋友圈成功");
@@ -355,7 +355,7 @@
             
         case 142:
             //QQ分享
-            [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToQQ] content:@"码尚通" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+            [[UMSocialDataService defaultDataService]postSNSWithTypes:@[UMShareToQQ] content:@"快来领取5元码尚通打车券，绿色环保需要您的加入！ http://www.51mast.com" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
                 if (response.responseCode == UMSResponseCodeSuccess) {
                     [MBProgressHUD showSuccess:@"分享到QQ成功"];
                     NYLog(@"分享QQ成功");
@@ -364,17 +364,12 @@
             break;
             
         case 143:
-            //微博分享
-            
-            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToSina] content:@"分享内嵌文字，www.baidu.com" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToSina] content:@"快来领取5元码尚通打车券，绿色环保需要您的加入！ http://www.51mast.com" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
                 if (response.responseCode == UMSResponseCodeSuccess) {
                     NYLog(@"分享成功！");
-                    
-                    [MBProgressHUD showSuccess:@"分享成功！"];
+                   
                 }
             }];
-            
-            
             break;
             
         default:

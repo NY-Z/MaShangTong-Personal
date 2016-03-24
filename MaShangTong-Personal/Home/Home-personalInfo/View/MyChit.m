@@ -13,10 +13,6 @@
 #import "MyChitTableViewCell.h"
 
 @implementation MyChit
-{
-    
-    NSMutableArray *_dataAry;
-}
 
 -(instancetype)initWithFrame:(CGRect)frame
 {

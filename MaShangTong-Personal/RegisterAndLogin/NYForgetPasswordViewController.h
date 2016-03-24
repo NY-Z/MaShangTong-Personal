@@ -17,4 +17,5 @@ typedef NS_ENUM(NSInteger ,ForgetPasswordType) {
 
 @property (nonatomic,assign) ForgetPasswordType type;
 
+
 @end

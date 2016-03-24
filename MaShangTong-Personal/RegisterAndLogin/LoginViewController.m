@@ -120,6 +120,7 @@
                     [USER_DEFAULT setValue:json[@"user_id"] forKey:@"user_id"];
                     UserModel *userModel = [[UserModel alloc] initWithDictionary:json[@"info"][@"user_info"] error:nil];
                     NSData *userModelData = [NSKeyedArchiver archivedDataWithRootObject:userModel];
+                    [USER_DEFAULT setValue:userModel.mobile forKey:@"mobile"];
                     [USER_DEFAULT setObject:userModelData forKey:@"user_info"];
                     [USER_DEFAULT setValue:@"1" forKey:@"isLogin"];
                     [USER_DEFAULT synchronize];
@@ -136,7 +137,7 @@
                 [MBProgressHUD showSuccess:@"登陆成功"];
             } else if ([isSuccessLog isEqualToString:@"0"]) {
                 [MBProgressHUD hideHUD];
-                [MBProgressHUD showSuccess:@"请输入正确的用户名和密码"];
+                [MBProgressHUD showSuccess:[NSString stringWithFormat:@"%@",json[@"info"]]];
             } else if ([isSuccessLog isEqualToString:@"-1"]) {
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showError:@"该账号还未注册过"];

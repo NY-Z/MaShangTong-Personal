@@ -16,10 +16,18 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "WXApi.h"
 
+#include <sys/socket.h>
+#include <sys/sysctl.h>
+#include <net/if.h>
+#include <net/if_dl.h>
+#import "UPPaymentControl.h"
+
+#define kModel_Developement            @"00"
+
 typedef enum{
     Alipay,  //支付宝支付
-    WeChat   //微信支付
-    
+    WeChat,  //微信支付
+    Bank      //银联支付
 }RechargeType;
 
 @interface GSrechargeVC ()
@@ -27,12 +35,18 @@ typedef enum{
 
 {
     NSString *_wxPayMoney;
+    
+    NSString *_bankPayMoney;
 }
 //支付方式
 @property (nonatomic,assign) RechargeType rechargeType;
 
 
 @property (nonatomic,strong) UIButton *tempBtn;
+
+
+
+@property (nonatomic,copy) NSString *tnModel;
 @end
 
 @implementation GSrechargeVC
@@ -94,6 +108,13 @@ typedef enum{
     _tempBtn = _weChatBtn;
 }
 
+- (IBAction)daBank:(id)sender {
+    [_tempBtn setImage:[UIImage imageNamed:@"payBtnDeselect"] forState:UIControlStateNormal];
+    _rechargeType = Bank;
+    [_bankPay setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateNormal];
+    _tempBtn = _bankPay;
+}
+
 - (IBAction)doRecharge:(id)sender {
     [_monryTextFiled resignFirstResponder];
     if (_monryTextFiled.text.length < 1) {
@@ -109,6 +130,9 @@ typedef enum{
         case WeChat:
             NYLog(@"微信支付");
             [self payWeChat];
+            break;
+        case Bank:
+            [self payBank];
             break;
             
         default:
@@ -144,7 +168,7 @@ typedef enum{
     order.productDescription = @"码尚通余额充值";
     order.amount = _monryTextFiled.text;
 //    order.amount = @"0.01";
-    order.notifyURL =  @"http://www.baidu.com"; //回调URL
+    order.notifyURL =  @"www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
     order.inputCharset = @"utf-8";
@@ -210,26 +234,21 @@ typedef enum{
     
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"recharge"] params:params success:^(id json){
         [MBProgressHUD hideHUD];
-        @try {
-            NYLog(@"%@",json);
-            if (json) {
-                NSString *str = json[@"result"];
-                if ([str isEqualToString:@"1"]) {
-                    [MBProgressHUD showSuccess:@"充值成功"];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-                else{
-                    [self rechargeMoneyWith:params];
-                }
+        NYLog(@"%@",json);
+        if (json) {
+            NSString *str = json[@"result"];
+            if ([str isEqualToString:@"1"]) {
+                [MBProgressHUD showSuccess:@"充值成功"];
+                [self.navigationController popViewControllerAnimated:YES];
             }
             else{
                 [self rechargeMoneyWith:params];
             }
-        } @catch (NSException *exception) {
-            
-        } @finally {
-            
         }
+        else{
+            [self rechargeMoneyWith:params];
+        }
+        
     }failure:^(NSError *error){
         [MBProgressHUD hideHUD];
         [self rechargeMoneyWith:params];
@@ -238,14 +257,15 @@ typedef enum{
 #pragma mark - 微信充值
 -(void)payWeChat
 {
+    [MBProgressHUD showMessage:@"正在跳转微信，请稍后"];
     _wxPayMoney = [NSString stringWithFormat:@"%.0f",[_monryTextFiled.text floatValue]*100];
 //    _wxPayMoney = @"1";
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_wxPayMoney forKey:@"money"];
-    [params setValue:@"192.168.0.20" forKey:@"ip"];
-    [params setValue:@"码尚通个人端余额充值" forKey:@"detail"];
-    [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    [params setValue:@"码尚通余额充值" forKey:@"detail"];
+    [params setValue:USER_ID forKey:@"uid"];
+    [mgr POST:@"http://139.196.189.159/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         
         NYLog(@"%@",responseObject);
         //获取到prepayid后进行第二次签名
@@ -264,7 +284,7 @@ typedef enum{
         [signParams setObject: nonce_str    forKey:@"noncestr"];
         [signParams setObject: @"Sign=WXPay"      forKey:@"package"];
         [signParams setObject: time_stamp   forKey:@"timestamp"];
-        [signParams setObject: responseObject[@"info"][@"prepay_id"] forKey:@"prepayid"];
+        [signParams setObject: responseObject[@"info"][@"prepayid"] forKey:@"prepayid"];
         [signParams setObject:@"F36DA743251B99E9D7779D2209F6E3F6" forKey:@"key"];
         NSString *sign  = [self createMd5Sign:signParams];
         [signParams setObject: sign forKey:@"sign"];
@@ -335,43 +355,87 @@ typedef enum{
 
 -(void)weChatRechargeMoneyWith:(NSNotification *)sender
 {
-    [MBProgressHUD showMessage:@"正在充值,请稍后"];
-    NSMutableDictionary *params =(NSMutableDictionary *)sender.userInfo;
-    [params setValue:@"1" forKey:@"group_id"];
     
-    [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
-        [MBProgressHUD hideHUD];
-        @try {
-            NYLog(@"%@",json);
-            [MBProgressHUD hideHUD];
-            if (json) {
-                NSString *str = json[@"result"];
-                if ([str isEqualToString:@"1"]) {
-                    [MBProgressHUD hideHUD];
-                    [MBProgressHUD showSuccess:@"充值成功"];
-                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatRecharge" object:nil];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-                else{
-                    [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
-                }
-            }
-            else{
-                [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
-            }
-        } @catch (NSException *exception) {
-            
-        } @finally {
-            
-        }
-    }failure:^(NSError *error){
-        [MBProgressHUD hideHUD];
-        [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
-    }];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatRecharge" object:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+    //    NSLog(@"succeed");
+    //
+//    [MBProgressHUD showMessage:@"正在充值,请稍后"];
+//    NSMutableDictionary *params =(NSMutableDictionary *)sender.userInfo;
+//    [params setValue:@"1" forKey:@"group_id"];
+//    
+//    [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
+//        [MBProgressHUD hideHUD];
+//        NYLog(@"%@",json);
+//        [MBProgressHUD hideHUD];
+//        if (json) {
+//            NSString *str = json[@"result"];
+//            if ([str isEqualToString:@"1"]) {
+//                [MBProgressHUD hideHUD];
+//                [MBProgressHUD showSuccess:@"充值成功"];
+//                [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatRecharge" object:nil];
+//                [self.navigationController popViewControllerAnimated:YES];
+//            }
+//            else{
+//                [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
+//            }
+//        }
+//        else{
+//            [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
+//        }
+//        
+//    }failure:^(NSError *error){
+//        [MBProgressHUD hideHUD];
+//        [self weChatRechargeMoneyWith:[NSNotification notificationWithName:@"weChatRecharge" object:sender]];
+//    }];
 }
 
-
-
+#pragma mark - 银联支付
+-(void)payBank
+{
+    NSDictionary *parmas = @{@"money":[NSString stringWithFormat:@"%.0f",[_monryTextFiled.text floatValue]*100],@"uid":USER_ID};
+    
+//    NSDictionary *parmas = @{@"money":@"1",@"uid":USER_ID};
+    self.tnModel = kModel_Developement;
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager POST:@"http://112.124.115.81/mst/api/cn/demo/api_05_app/Form_6_2_AppConsume.php" parameters:parmas success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSString *tn = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        
+        _bankPayMoney = [NSString stringWithFormat:@"%.2f",[_monryTextFiled.text floatValue]];
+        
+        APP_DELEGATE.banpayType = RechargeBankPayed;
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(bankBuyFare) name:@"bankRecharge" object:nil];
+        
+       
+        
+        [[UPPaymentControl defaultControl] startPay:tn fromScheme:@"MaShangTong" mode:self.tnModel viewController:self];
+        
+//        [[UPPaymentControl defaultControl] handlePaymentResult:[NSURL URLWithString:@"http://112.124.115.81/mst/api/cn/demo/api_05_app/BackReceive.php"] completeBlock:^(NSString *code, NSDictionary *data) {
+//            NSLog(@"%@,%@",code,data);
+//            NSLog(@"壮哥个大傻X");
+//        }];
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [MBProgressHUD showError:@"支付失败"];
+    }];
+    
+}
+-(void)bankBuyFare
+{
+    NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:userId forKey:@"user_id"];
+    [params setValue:_bankPayMoney forKey:@"money"];
+    [params setValue:@"1" forKey:@"type"];
+    [params setValue:@"1" forKey:@"group_id"];
+    
+    [self rechargeMoneyWith:params];
+        
+}
 
 
 

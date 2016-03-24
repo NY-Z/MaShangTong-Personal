@@ -14,12 +14,15 @@
 #import "NYCompanyProtocalViewController.h"
 #import "GSsoftwareMaintenanceViewController.h"
 #import <AFNetworking.h>
+#import "HomeViewController.h"
 
-@interface RegisCompanyViewController () <UITextFieldDelegate>
+@interface RegisCompanyViewController () <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UIActionSheetDelegate>
 {
     NSString *random;
     NSTimer *_timer;
     NSInteger _time;
+    
+    NSString *_imageStr;
 }
 @property (weak, nonatomic) IBOutlet UILabel *firstLabel;
 @property (weak, nonatomic) IBOutlet UILabel *secondLabel;
@@ -33,6 +36,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *regisBtn;
 @property (weak, nonatomic) IBOutlet UIButton *provinceBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cityBtn;
+
+@property (weak, nonatomic) IBOutlet UIButton *upDataImage;
+- (IBAction)upDataImage:(id)sender;
+
 - (IBAction)provinceBtnClicked:(id)sender;
 - (IBAction)cityBtnClicked:(id)sender;
 - (IBAction)getVerification:(id)sender;
@@ -86,6 +93,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _upDataImage.layer.cornerRadius = 5.f;
+    _upDataImage.layer.masksToBounds = YES;
     
     self.view.backgroundColor = RGBColor(238, 238, 238, 1);
     self.navigationController.navigationBar.translucent = NO;
@@ -218,6 +228,12 @@
         return;
     }
     [params setValue:_cityBtn.currentTitle forKey:@"city"];
+#pragma mark - 营业执照
+    if (_imageStr.length <= 0) {
+        [MBProgressHUD showError:@"请上传您的营业执照"];
+        return;
+    }
+    [params setValue:_imageStr forKey:@"img"];
     
     [params setValue:@"2" forKey:@"group_id"];
     
@@ -232,10 +248,12 @@
         @try {
             [MBProgressHUD hideHUD];
             if ([json[@"result"] isEqualToString:@"1"]) {
-                [MBProgressHUD showSuccess:@"注册成功"];
+                [MBProgressHUD showSuccess:@"注册成功,请您等工作人员认证"];
                 [USER_DEFAULT setObject:json[@"user_id"] forKey:@"user_id"];
                 [USER_DEFAULT synchronize];
-                [self.navigationController pushViewController:[[CompanyHomeViewController alloc] init] animated:YES];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+               
             } else if ([json[@"result"] isEqualToString:@"-1"]){
                 [MBProgressHUD showError:@"此账号已经注册过了"];
             } else if ([json isEqualToString:@"0"]){
@@ -253,6 +271,103 @@
         
     }];
     
+}
+#pragma mark - 上传头像
+- (IBAction)upDataImage:(id)sender {
+    
+    [self creatActionSheet];
+    
+}
+-(void)creatActionSheet
+{
+    
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"打开相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        //资源类型为图片库
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.delegate = self;
+        //设置选择后的图片可被编辑
+        picker.allowsEditing = YES;
+        [self presentModalViewController:picker animated:YES];
+        
+    }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"打开相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+        //判断是否有相机
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]){
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            //设置拍照后的图片可被编辑
+            picker.allowsEditing = YES;
+            //资源类型为照相机
+            picker.sourceType = sourceType;
+            [self presentModalViewController:picker animated:YES];
+        }else {
+            [MBProgressHUD showError:@"该设备无摄像头"];
+        }
+        
+    }]];
+    [self presentViewController:actionSheet animated:YES completion:nil];
+    
+    
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo{
+    UIImage *compressedImage;
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        
+        UIImage *image = [editingInfo objectForKey:UIImagePickerControllerOriginalImage];
+        NSString *mediaTyoe = [editingInfo objectForKey:UIImagePickerControllerMediaType];
+        if ([mediaTyoe isEqualToString:(NSString *)kUTTypeImage]) {
+            UIImage *editImage = [editingInfo objectForKey:UIImagePickerControllerEditedImage];
+            UIImageWriteToSavedPhotosAlbum(editImage, self, nil, NULL);
+            [MBProgressHUD showError:@"您刚刚拍摄的视频,请重试"];
+        }
+        CGSize imageSize = CGSizeMake(42, 42);
+        //压缩图片
+        compressedImage = [self imageWithImage:image scaledToSize:imageSize];
+//        compressedImage = image;
+    } else if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+        
+        UIImage *image = editingInfo[UIImagePickerControllerOriginalImage];
+        compressedImage = [self imageWithImage:image scaledToSize:CGSizeMake(42, 42)];
+//        compressedImage = image;
+    }
+    
+    NSData *compressedImageData = UIImagePNGRepresentation(compressedImage);
+    if (!compressedImageData) {
+        compressedImageData = UIImageJPEGRepresentation(compressedImage, 1.f);
+    }
+    
+    NSString  *dataStr = [compressedImageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    _imageStr = [NSString stringWithString:dataStr];
+    [MBProgressHUD showSuccess:@"成功获取图片"];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+// 图片压缩
+-(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    // Create a graphics image context
+    UIGraphicsBeginImageContext(newSize);
+    
+    // Tell the old image to draw in this new context, with the desired
+    // new size
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    
+    // Get the new image from the context
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // End the context
+    UIGraphicsEndImageContext();
+    
+    // Return the new image.
+    return newImage;
 }
 
 - (IBAction)provinceBtnClicked:(id)sender {

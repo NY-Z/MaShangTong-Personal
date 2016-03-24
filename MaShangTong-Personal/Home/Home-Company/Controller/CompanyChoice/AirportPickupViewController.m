@@ -504,6 +504,11 @@
 
 - (void)confirmBtnClicked:(UIButton *)btn
 {
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"user_info"]];
+    if ([userModel.money floatValue] <= 200) {
+        [MBProgressHUD showError:@"您的余额不足200"];
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if ([_flightBtn.currentTitle isEqualToString:@"请选择航班号"]) {
         [self showAlertViewWithMessage:@"请输入您的航班号"];

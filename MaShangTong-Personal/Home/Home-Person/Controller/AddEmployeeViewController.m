@@ -181,7 +181,7 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *name = ((UITextField *)[[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].contentView viewWithTag:300]).text;
-    if ([Helper justNickname:name]) {
+    if (![Helper justNickname:name]) {
         [MBProgressHUD showError:@"请输入姓名"];
         return;
     }
@@ -216,7 +216,7 @@
                 [MBProgressHUD showSuccess:@"添加成功"];
                 [self.navigationController popViewControllerAnimated:YES];
             } else {
-                [MBProgressHUD showError:json[@"data"]];
+                [MBProgressHUD showError:json[@"info"]];
             }
         } @catch (NSException *exception) {
             

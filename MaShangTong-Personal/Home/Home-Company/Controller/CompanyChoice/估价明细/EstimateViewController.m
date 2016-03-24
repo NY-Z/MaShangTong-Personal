@@ -48,7 +48,7 @@
             
             NSString *distance = self.estimateDic[@"distance"];
             NSString *step = self.estimateDic[@"step"];
-            _mileageLabel.text = [NSString stringWithFormat:@"里程费(%.2fkm)",(distance.floatValue/1000)];
+            _mileageLabel.text = [NSString stringWithFormat:@"里程费(%.2fkm)",(distance.floatValue)];
             _stepPriceLabel.text = [NSString stringWithFormat:@"%@元",step];
             _mileageFareLabel.text = [NSString stringWithFormat:@"%.2f元",([price doubleValue]-[step doubleValue])];
             break;

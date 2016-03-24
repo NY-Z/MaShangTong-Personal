@@ -197,7 +197,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (![Helper justMobile:_numberTextField.text]) {
-        [MBProgressHUD showMessage:@"请输入正确的手机号"];
+        [MBProgressHUD showError:@"请输入正确的手机号"];
         return;
     }
     [params setValue:_numberTextField.text forKey:@"mobile"];
@@ -205,7 +205,7 @@
         [MBProgressHUD showError:@"您的密码格式不正确"];
         return;
     }
-    [params setValue:_codeTextField.text forKey:@"pwd"];
+    [params setValue:_codeTextField.text forKey:@"user_pwd"];
     [params setValue:@"3" forKey:@"group_id"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"register"] params:params success:^(id json) {
         

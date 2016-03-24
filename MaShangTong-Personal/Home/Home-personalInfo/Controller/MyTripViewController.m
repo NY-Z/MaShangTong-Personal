@@ -15,8 +15,8 @@
 
 #define kOrigin @"origin_name"
 #define kDestination @"end_name"
-#define kJourney @"trip_distance"
-#define kCarbon @"carbon_emssion"
+#define kJourney @"mileage"
+#define kCarbon @"carbon_emission"
 
 @interface MyTripViewController () <UITableViewDataSource,UITableViewDelegate>
 
@@ -96,7 +96,7 @@
     distance.textColor = RGBColor(50, 50, 50, 1.f);
     [view addSubview:distance];
     
-    _distanceLabel  = [[UILabel alloc]initWithFrame:CGRectMake(10, 25, 50, 15)];
+    _distanceLabel  = [[UILabel alloc]initWithFrame:CGRectMake(10, 25, 100, 15)];
     _distanceLabel.textAlignment = UITextAlignmentLeft;
     _distanceLabel.font = [UIFont systemFontOfSize:12];
     _distanceLabel.textColor = RGBColor(93, 195, 255, 1.f);
@@ -122,7 +122,7 @@
     carbon.textColor = RGBColor(50, 50, 50, 1.f);
     [view addSubview:carbon];
     
-    _carbonLabel  = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-10-50, 25, 50, 15)];
+    _carbonLabel  = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-10-80, 25, 80, 15)];
     _carbonLabel.textAlignment = UITextAlignmentRight;
     _carbonLabel.font = [UIFont systemFontOfSize:12];
     _carbonLabel.textColor = RGBColor(93, 195, 255, 1.f);
@@ -160,13 +160,13 @@
     cell.originLabel.text = dic[kOrigin];
     cell.destinationLabel.text = dic[kDestination];
     if (![dic[kJourney] isEqualToString:@""]) {
-        cell.journeyLabel.text = [NSString stringWithFormat:@"路程：%@km",dic[kJourney]];
+        cell.journeyLabel.text = [NSString stringWithFormat:@"路程：%.2fkm",[dic[kJourney] floatValue]];
     }
     else{
         cell.journeyLabel.text = [NSString stringWithFormat:@"路程：%.1fkm",0.0];
     }
     if (dic[kCarbon]) {
-        cell.carbonLabel.text = [NSString stringWithFormat:@"碳排放：%@kg",dic[kCarbon]];
+        cell.carbonLabel.text = [NSString stringWithFormat:@"碳排放：%.2fkg",[dic[kCarbon] floatValue]];
     }
     else{
         cell.carbonLabel.text = [NSString stringWithFormat:@"碳排放：%.1fkg",0.0];
@@ -174,6 +174,7 @@
     
     return cell;
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     detailOrderVC *detailVC = [[detailOrderVC alloc]init];
@@ -234,9 +235,9 @@
             if (json) {
                 NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
                 if ([str isEqualToString:@"1"]) {
-                    _distanceLabel.text = [NSString stringWithFormat:@"%@km",json[@"info"][@"distance"]];
+                    _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"distance"] floatValue]];
                     _secondLabel.text = [NSString stringWithFormat:@"%@次",json[@"info"][@"num1"]];
-                    _carbonLabel.text = [NSString stringWithFormat:@"%@kg",json[@"info"][@"carbon_emission"]];
+                    _carbonLabel.text = [NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]];
                     
                     _dataArr = [NSArray arrayWithArray:json[@"info"][@"detaile"]];
                     [_tableView reloadData];

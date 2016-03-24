@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10089" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10072.1"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -33,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQZ-WZ-PAx">
-                        <rect key="frame" x="113" y="39" width="172" height="21"/>
+                        <rect key="frame" x="113" y="63" width="172" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="aQL-xB-Pug"/>
                         </constraints>
@@ -41,19 +42,32 @@
                         <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4Z-UY-pCw">
+                        <rect key="frame" x="113" y="39" width="172" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="BQh-GU-YAr"/>
+                            <constraint firstAttribute="width" constant="172" id="Piz-ii-3K3"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.4823529411764706" green="0.4823529411764706" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="ALb-XX-dcd" firstAttribute="leading" secondItem="4sl-OO-CB6" secondAttribute="trailing" constant="8" id="1CU-9x-oZG"/>
                     <constraint firstItem="4sl-OO-CB6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="Hh1-AP-za5"/>
                     <constraint firstAttribute="trailingMargin" secondItem="ALb-XX-dcd" secondAttribute="trailing" constant="27" id="K3z-nl-eVv"/>
-                    <constraint firstItem="FQZ-WZ-PAx" firstAttribute="top" secondItem="ALb-XX-dcd" secondAttribute="bottom" constant="3" id="Nam-gL-aqH"/>
+                    <constraint firstItem="FQZ-WZ-PAx" firstAttribute="top" secondItem="ALb-XX-dcd" secondAttribute="bottom" constant="27" id="Nam-gL-aqH"/>
                     <constraint firstAttribute="trailingMargin" secondItem="FQZ-WZ-PAx" secondAttribute="trailing" constant="27" id="SlM-wA-Fsh"/>
                     <constraint firstItem="FQZ-WZ-PAx" firstAttribute="leading" secondItem="4sl-OO-CB6" secondAttribute="trailing" constant="8" id="ezn-bb-QjX"/>
+                    <constraint firstItem="b4Z-UY-pCw" firstAttribute="top" secondItem="ALb-XX-dcd" secondAttribute="bottom" constant="3" id="iQJ-q2-d6H"/>
                     <constraint firstItem="ALb-XX-dcd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="qPA-cD-Ys7"/>
                     <constraint firstItem="4sl-OO-CB6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerYWithinMargins" id="rbg-Kv-pzL"/>
+                    <constraint firstItem="b4Z-UY-pCw" firstAttribute="leading" secondItem="4sl-OO-CB6" secondAttribute="trailing" constant="8" id="t2Y-iV-Ri3"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="combo" destination="b4Z-UY-pCw" id="aVN-4E-hmp"/>
                 <outlet property="imageV" destination="4sl-OO-CB6" id="vNd-HY-JBO"/>
                 <outlet property="nameLabel" destination="ALb-XX-dcd" id="XHX-BY-LoX"/>
                 <outlet property="priceLabel" destination="FQZ-WZ-PAx" id="QHL-xW-Qv1"/>

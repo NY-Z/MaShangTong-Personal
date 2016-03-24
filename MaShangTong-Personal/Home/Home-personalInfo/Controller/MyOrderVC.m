@@ -253,7 +253,7 @@
     [cell.imageV sd_setImageWithURL:dic[@"img"]];
     cell.nameLabel.text = dic[@"name"];
     cell.priceLabel.text = [NSString stringWithFormat:@"总价：%@  数量：1",dic[@"new_price"]];
-    
+    cell.combo.text = dic[@"combo"];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

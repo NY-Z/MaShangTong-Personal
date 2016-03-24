@@ -154,7 +154,7 @@
     self.type = ForgetPasswordTypeCompany;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:_mobileTextField.text forKey:@"mobile"];
-    [params setValue:@"2" forKey:@"group_id"];
+    [params setValue:APP_DELEGATE.group_id forKey:@"group_id"];
     [params setValue:_confirmTextField.text forKey:@"password"];
     [MBProgressHUD showMessage:@"正在修改"];
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"UserApi",@"forget_password"] params:params success:^(id json) {

@@ -30,14 +30,10 @@ typedef enum{
 
 @property (weak, nonatomic) IBOutlet UIButton *callBtn;
 
-@property (weak, nonatomic) IBOutlet UILabel *fareLabel;
-@property (weak, nonatomic) IBOutlet UILabel *youhuiLabel;
-@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *carbonLabel;
-
 @property (weak, nonatomic) IBOutlet UIButton *selfMoneyBtn;
 @property (weak, nonatomic) IBOutlet UIButton *alipayBtn;
 @property (weak, nonatomic) IBOutlet UIButton *weChatBtn;
+@property (weak, nonatomic) IBOutlet UIButton *bankPay;
 
 @property (weak, nonatomic) IBOutlet UIButton *makeSureBtn;
 
@@ -54,6 +50,7 @@ typedef enum{
 - (IBAction)selfMoneyAction:(id)sender;
 - (IBAction)aliPayAction:(id)sender;
 - (IBAction)weChatPayAction:(id)sender;
+- (IBAction)bankPayAction:(id)sender;
 
 
 - (IBAction)makeSureAction:(id)sender;

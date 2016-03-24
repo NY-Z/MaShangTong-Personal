@@ -94,11 +94,11 @@ static BOOL isApper = YES;
     [rightBtn addTarget:self action:@selector(chickNews:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
     
-    UIImageView *titleImageView = [[UIImageView alloc] init];
-    titleImageView.image = [UIImage imageNamed:@"LOGO"];
-    titleImageView.frame = CGRectMake(0, 0, 150, 44);
-    titleImageView.contentMode = UIViewContentModeCenter;
-    self.navigationItem.titleView = titleImageView;
+//    UIImageView *titleImageView = [[UIImageView alloc] init];
+//    titleImageView.image = [UIImage imageNamed:@"LOGO"];
+//    titleImageView.frame = CGRectMake(0, 0, 150, 44);
+//    titleImageView.contentMode = UIViewContentModeCenter;
+//    self.navigationItem.titleView = titleImageView;
 }
 -(void)chickNews:(UIButton *)sender
 {
@@ -399,7 +399,14 @@ static BOOL isApper = YES;
     
     _personCenter.logOut = ^{
         NYLog(@"退出登录");
-        
+        [USER_DEFAULT setValue:@"0" forKey:@"isLogin"];
+        [USER_DEFAULT setValue:@"0" forKey:@"group_id"];
+        [USER_DEFAULT setValue:@"0" forKey:@"user_id"];
+        NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *filePath = [documentPath stringByAppendingString:[NSString stringWithFormat:@"/%@/%@.plist",@"personInfo",@"person"]];
+        NSLog(@"%@",filePath);
+        NSArray *ary = @[@"",@"",@"",@"",@"",@""];
+        [ary writeToFile:filePath atomically:YES];
         [MBProgressHUD showMessage:@"正在退出"];
         if (self.navigationController.viewControllers.count == 2) {
             BOOL a = [weakSelf.navigationController.viewControllers[1] isKindOfClass:[RegisViewController class]];
@@ -410,8 +417,7 @@ static BOOL isApper = YES;
         else {
             RegisViewController *regis = [[RegisViewController alloc] init];
             [UIApplication sharedApplication].keyWindow.rootViewController = [[UINavigationController alloc] initWithRootViewController:regis];
-            [USER_DEFAULT setValue:@"0" forKey:@"isLogin"];
-            [USER_DEFAULT setValue:@"0" forKey:@"group_id"];
+            
         }
         [MBProgressHUD hideHUD];
         
@@ -585,6 +591,7 @@ updatingLocation:(BOOL)updatingLocation
 #pragma mark - 查看是否有未完成的行程
 -(void)chickIsHadRoute
 {
+    NSLog(@"==============%@",[USER_DEFAULT objectForKey:@"user_id"]);
     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"user_backLoge"] params:@{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]} success:^(id json) {
         @try {
             NYLog(@"%@",json);

@@ -220,7 +220,7 @@
     [MBProgressHUD showMessage:@"加载中"];
     
     NSDictionary *param = @{@"user_id":[USER_DEFAULT objectForKey:@"user_id"]};
-    
+
     NSString *url = [NSString stringWithFormat:Mast_Url,@"UserApi",@"show_ticket"];
     [DownloadManager post:url params:param success:^(id json) {
         @try {
@@ -233,11 +233,15 @@
                     label.textAlignment = 1;
                     label.font = [UIFont systemFontOfSize:12];
                     label.textColor = RGBColor(192, 192, 192, 0.9f);
+                    self.chitView.dataAry = nil;
                     [self.chitView addSubview:label];
                     
                     self.chitView.vouchersTabelV.hidden = YES;
                 }
                 else{
+                    if (self.chitView.vouchersDataAry.count != 0) {
+                        [self.chitView.vouchersDataAry removeAllObjects];
+                    }
                     self.chitView.vouchersDataAry = json[@"info"];
                     [self.chitView.vouchersTabelV reloadData];
                 }

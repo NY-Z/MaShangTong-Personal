@@ -11,6 +11,7 @@
 @interface MyTripCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *originLabel;
 @property (weak, nonatomic) IBOutlet UILabel *destinationLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *journeyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *carbonLabel;
 

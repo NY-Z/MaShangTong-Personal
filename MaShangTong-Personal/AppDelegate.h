@@ -13,12 +13,19 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 //微信支付类型
-typedef enum{
+typedef NS_ENUM(NSInteger , weChatPayed){
     NonePayed,//都没有支付
     RechargePayed,//充值
     Payed,//支付
     Buyed//购买套餐
-}weChatPayed;
+};
+//银联支付类型
+typedef NS_ENUM(NSInteger , bankPayed){
+    NoneBankPayed,//都没有支付
+    RechargeBankPayed,//充值
+    BankPayed,//支付
+    BankBuyed//购买套餐
+};
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -48,6 +55,10 @@ typedef enum{
 @property (nonatomic,strong) NSString *paymoney;
 
 @property (nonatomic,assign)weChatPayed weChatPayType;
+
+@property (nonatomic,assign)bankPayed banpayType;
+
+@property (nonatomic,copy) NSString *group_id;
 
 @end
 

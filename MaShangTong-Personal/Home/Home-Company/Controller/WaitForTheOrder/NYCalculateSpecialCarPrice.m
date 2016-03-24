@@ -99,7 +99,7 @@ static    BOOL addGonePrice = NO;
     
     return @{@"total_price":[NSString stringWithFormat:@"%f",_price],
              @"mileage":[NSString stringWithFormat:@"%f",_distance/1000],
-             @"mileage_price":[NSString stringWithFormat:@"%f",_price-_model.step.floatValue-_lowSpeedPrice],
+             @"mileage_price":[NSString stringWithFormat:@"%f",_price-_model.step.floatValue-_lowSpeedPrice-_longPrice-_nightPrice],
              @"low_time":[NSString stringWithFormat:@"%li",_lowSpeedTime],
              @"low_price":[NSString stringWithFormat:@"%f",_lowSpeedPrice],
              @"far_mileage":[NSString stringWithFormat:@"%f",_longDistance],
@@ -115,18 +115,24 @@ static    BOOL addGonePrice = NO;
     
     CLLocationDistance distance = MAMetersBetweenMapPoints(lastPoint, nowPoint);
     
-    double speed = distance;
-    
-    _distance = _distance + distance;
-    
-    _price += distance*_model.mileage.floatValue/1000;
-    
     if (params[@"gonePrice"] && !addGonePrice) {
         NSString *str = [NSString stringWithFormat:@"%@",params[@"gonePrice"]];
         CGFloat num = [str floatValue];;
         _price += num;
         addGonePrice = !addGonePrice;
     }
+    else{
+        if(distance > 60){
+            return nil;
+        }
+    }
+    
+    double speed = distance;
+    
+    _distance = _distance + distance;
+    
+    _price += distance*_model.mileage.floatValue/1000;
+
     
     if (speed <= 3.333334) {
         _lowSpeedTime++;
@@ -140,7 +146,7 @@ static    BOOL addGonePrice = NO;
     } else {
         
         if (_distance >= 10000) {
-            _price += _model.long_mileage.floatValue/1000;
+            _price += _longDistance*_model.long_mileage.floatValue/1000;
             _longDistance = _distance - 10000;
             _longPrice = _longDistance*_model.long_mileage.floatValue/1000;
         }
@@ -149,14 +155,14 @@ static    BOOL addGonePrice = NO;
             _nightPrice += _model.night.floatValue/1000;
         }
     }
-    NSLog(@"距离：%f,低速时间：%ld,价格:%f",_distance,_lowSpeedTime,_price);
+//    NSLog(@"距离：%f,低速时间：%ld,价格:%f",_distance,_lowSpeedTime,_price);
     
-    return @{@"total_price":[NSString stringWithFormat:@"%f",_price/1],
+    return @{@"total_price":[NSString stringWithFormat:@"%.0f",_price],
              @"mileage":[NSString stringWithFormat:@"%f",_distance/1000],
-             @"mileage_price":[NSString stringWithFormat:@"%f",_distance * [_model.mileage floatValue]],
+             @"mileage_price":[NSString stringWithFormat:@"%f",_distance * [_model.mileage floatValue]/1000],
              @"low_time":[NSString stringWithFormat:@"%li",_lowSpeedTime],
              @"low_price":[NSString stringWithFormat:@"%f",_lowSpeedPrice],
-             @"far_mileage":[NSString stringWithFormat:@"%f",_longDistance],
+             @"far_mileage":[NSString stringWithFormat:@"%f",_longDistance/1000],
              @"far_price":[NSString stringWithFormat:@"%f",_longPrice],
              @"night_price":[NSString stringWithFormat:@"%f",_nightPrice],
              @"carbon_emission":[NSString stringWithFormat:@"%f",_distance*0.00013]};

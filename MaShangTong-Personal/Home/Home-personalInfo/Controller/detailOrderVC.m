@@ -9,6 +9,8 @@
 #import "detailOrderVC.h"
 #import "AFNetworking.h"
 
+#import "GSPriceRuleViewController.h"
+
 @interface detailOrderVC ()
 
 
@@ -88,7 +90,7 @@
 -(void)displayData
 {
     _moneyLabel.attributedText = [self returnAttriString: _dataDic[@"total_price"]];
-    _combinedLabel.text = [NSString stringWithFormat:@"%d元", [_dataDic[@"total_price"] intValue]];
+    _combinedLabel.text = [NSString stringWithFormat:@"%f元", [_dataDic[@"total_price"] floatValue]/1];
     _mileageLabel.text = [NSString stringWithFormat:@"%@km", [self returnStrIfStringIsNil:_dataDic[@"mileage"]]];
     _carbonLabel.text = [NSString stringWithFormat:@"%@kg",[self returnStrIfStringIsNil:_dataDic[@"carbon_emission"]]];
     
@@ -118,21 +120,11 @@
         return [NSString stringWithFormat:@"%.2f",[String floatValue]];
     }
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)checkValuationRules:(id)sender {
+    
+    GSPriceRuleViewController *vc = [[GSPriceRuleViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 @end

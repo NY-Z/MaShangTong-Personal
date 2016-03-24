@@ -16,7 +16,9 @@
 @property (nonatomic,retain) UITableView *vouchersTabelV;
 
 //存储数据的Array
-@property (nonatomic,retain) NSArray *vouchersDataAry;
+@property (nonatomic,retain) NSMutableArray *vouchersDataAry;
 
+
+@property (nonatomic,retain)NSMutableArray *dataAry;
 
 @end

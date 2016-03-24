@@ -66,24 +66,25 @@ static    BOOL addGonePrice = NO;
     }
     if (_distanceFlag > _timeFlag) {
         _totalPrice += (((long)_distance/1000)+1-_containMileage)*(_rule.over_mileage_money.floatValue);
-        return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance]];
+        return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance],[NSString stringWithFormat:@"%.0f",_distance*0.00013]];
     } else if (_distanceFlag < _timeFlag){
         _totalPrice += (_totalTime/3600-_rule.times.integerValue+1)*(_rule.over_time_money.floatValue);
-        return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance]];
+        return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance],[NSString stringWithFormat:@"%.0f",_distance*0.00013]];
     }
     if (_distance > _containMileage)
     {
         _totalPrice += (((long)_distance/1000)+1-_containMileage)*(_rule.over_mileage_money.floatValue);
         _distanceFlag++;
-        return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance]];
+        return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance],[NSString stringWithFormat:@"%.0f",_distance*0.00013]];
     }
     else if (_totalTime > _rule.times.integerValue*3600 && _timeFlag == 1)
     {
         _totalPrice += (_totalTime/3600-_rule.times.integerValue+1)*(_rule.over_time_money.floatValue);
         _timeFlag++;
-        return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance]];
+        return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance],[NSString stringWithFormat:@"%.0f",_distance*0.00013]];
     }
-    return @[[NSString stringWithFormat:@"%.0f",_totalPrice/1],[NSString stringWithFormat:@"%.0f",_distance],[NSString stringWithFormat:@"%.0f",_distance*0.00013]];
+    NSLog(@"%@",@[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance],[NSString stringWithFormat:@"%.0f",_distance*0.00013]]);
+    return @[[NSString stringWithFormat:@"%.0f",_totalPrice],[NSString stringWithFormat:@"%.0f",_distance],[NSString stringWithFormat:@"%.0f",_distance*0.00013]];
 }
 
 @end

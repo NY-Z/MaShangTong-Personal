@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10089" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10072.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GSshopPayViewController">
             <connections>
                 <outlet property="alipayBtn" destination="t6G-BQ-Hn2" id="IHc-Et-Adz"/>
+                <outlet property="bankBtn" destination="zJe-6R-psN" id="p8E-Nr-wlr"/>
                 <outlet property="makeSureBtn" destination="53q-lO-52Z" id="3fc-0o-jpP"/>
                 <outlet property="moneyBtn" destination="duQ-Io-MRn" id="0yA-60-tL2"/>
                 <outlet property="nameLabel" destination="2K4-Wa-LYm" id="vLc-7w-fY1"/>
@@ -101,7 +103,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duQ-Io-MRn">
-                            <rect key="frame" x="41" y="67" width="60" height="17"/>
+                            <rect key="frame" x="41" y="49" width="60" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="brl-6R-zrJ"/>
                                 <constraint firstAttribute="height" constant="17" id="pXc-st-n2a"/>
@@ -115,7 +117,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79Q-5c-KxB">
-                            <rect key="frame" x="41" y="108" width="71" height="22"/>
+                            <rect key="frame" x="41" y="74" width="71" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="71" id="5Hz-wo-41F"/>
                                 <constraint firstAttribute="height" constant="22" id="KPI-J9-SJ6"/>
@@ -128,7 +130,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t6G-BQ-Hn2">
-                            <rect key="frame" x="41" y="157" width="70" height="22"/>
+                            <rect key="frame" x="41" y="104" width="70" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="70" id="4SH-mK-nIz"/>
                                 <constraint firstAttribute="height" constant="22" id="Ovi-rq-a2L"/>
@@ -140,16 +142,31 @@
                                 <action selector="alipay:" destination="-1" eventType="touchUpInside" id="GOP-FP-bY5"/>
                             </connections>
                         </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJe-6R-psN">
+                            <rect key="frame" x="41" y="134" width="120" height="22"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="120" id="Md9-Ew-Q4M"/>
+                                <constraint firstAttribute="height" constant="22" id="obh-5g-hmh"/>
+                            </constraints>
+                            <state key="normal" title="银联支付" image="payBtnDeselect.png">
+                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="bankPay:" destination="-1" eventType="touchUpInside" id="in2-BW-SEK"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="79Q-5c-KxB" firstAttribute="leading" secondItem="zvF-l1-2YP" secondAttribute="leading" constant="41" id="2Ap-Pp-iXj"/>
-                        <constraint firstItem="t6G-BQ-Hn2" firstAttribute="top" secondItem="79Q-5c-KxB" secondAttribute="bottom" constant="27" id="GMG-bK-4oL"/>
+                        <constraint firstItem="t6G-BQ-Hn2" firstAttribute="top" secondItem="79Q-5c-KxB" secondAttribute="bottom" constant="8" id="GMG-bK-4oL"/>
+                        <constraint firstItem="zJe-6R-psN" firstAttribute="top" secondItem="t6G-BQ-Hn2" secondAttribute="bottom" constant="8" id="Jzu-1Q-D4R"/>
+                        <constraint firstItem="zJe-6R-psN" firstAttribute="leading" secondItem="zvF-l1-2YP" secondAttribute="leading" constant="41" id="R77-Wq-I1J"/>
                         <constraint firstItem="UtJ-Mk-8QT" firstAttribute="top" secondItem="zvF-l1-2YP" secondAttribute="top" constant="8" id="bTi-4K-hwU"/>
-                        <constraint firstItem="duQ-Io-MRn" firstAttribute="top" secondItem="cAb-Uo-xuo" secondAttribute="bottom" constant="38" id="eLL-9K-13B"/>
+                        <constraint firstItem="duQ-Io-MRn" firstAttribute="top" secondItem="cAb-Uo-xuo" secondAttribute="bottom" constant="20" id="eLL-9K-13B"/>
                         <constraint firstItem="UtJ-Mk-8QT" firstAttribute="leading" secondItem="cAb-Uo-xuo" secondAttribute="trailing" constant="17" id="enL-eA-wOh"/>
                         <constraint firstItem="t6G-BQ-Hn2" firstAttribute="leading" secondItem="zvF-l1-2YP" secondAttribute="leading" constant="41" id="gmL-hk-wnu"/>
-                        <constraint firstItem="79Q-5c-KxB" firstAttribute="top" secondItem="duQ-Io-MRn" secondAttribute="bottom" constant="24" id="jft-Pb-AJ0"/>
+                        <constraint firstItem="79Q-5c-KxB" firstAttribute="top" secondItem="duQ-Io-MRn" secondAttribute="bottom" constant="8" id="jft-Pb-AJ0"/>
                         <constraint firstAttribute="height" constant="200" id="ouM-x9-jh0"/>
                         <constraint firstItem="cAb-Uo-xuo" firstAttribute="top" secondItem="zvF-l1-2YP" secondAttribute="top" constant="8" id="r0Q-OD-EbX"/>
                         <constraint firstItem="cAb-Uo-xuo" firstAttribute="leading" secondItem="zvF-l1-2YP" secondAttribute="leading" constant="13" id="xIO-Za-bhn"/>

@@ -55,7 +55,8 @@
 -(void)setRating:(float)rating
 {
     _fgImageView.frame = CGRectMake(0, 0, width*rating/5.0f, height);
-    _fgImageView.size = CGSizeMake(width*rating/5.0f, height);
+    NSString *ratingStr = [NSString stringWithFormat:@"%.0f",rating];
+    _fgImageView.size = CGSizeMake(width*[ratingStr floatValue]/5.0f, height);
 }
 
 - (UIImage *)imageToImage

@@ -10,6 +10,7 @@
 #import "NYMyTripsModel.h"
 #import "NYMyTripsTableViewCell.h"
 #import "NYDetailOrderVC.h"
+#import "detailOrderVC.h"
 
 @interface NYCompanyBillViewController () <UITableViewDataSource,UITableViewDelegate>
 {
@@ -32,8 +33,17 @@
     
     self.navigationItem.title = @"我的订单";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:21],NSForegroundColorAttributeName:RGBColor(73, 185, 254, 1.f)}];
+    
+    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [editBtn setImage:[UIImage imageNamed:@"bianji"] forState:UIControlStateNormal];
+    [editBtn addTarget:self action:@selector(clickEditeBtn) forControlEvents:UIControlEventTouchUpInside];
+    editBtn.size = CGSizeMake(22, 22);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editBtn];
 }
-
+-(void)clickEditeBtn
+{
+    _tableView.editing = !_tableView.editing;
+}
 - (void)configTableView
 {
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
@@ -112,9 +122,49 @@
 {
     NSDictionary *dic = _dataArr[indexPath.row];
     NYMyTripsModel *model = [[NYMyTripsModel alloc] initWithDictionary:dic error:nil];
-    NYDetailOrderVC *detailBill = [[NYDetailOrderVC alloc] init];
-    detailBill.route_id = model.route_id;
-    [self.navigationController pushViewController:detailBill animated:YES];
+//    NYDetailOrderVC *detailBill = [[NYDetailOrderVC alloc] init];
+//    detailBill.route_id = model.route_id;
+//    [self.navigationController pushViewController:detailBill animated:YES];
+    detailOrderVC *detailVC = [[detailOrderVC alloc]init];
+    detailVC.route_id = model.route_id;
+    
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    
+    NSDictionary *dic = _dataArr[indexPath.row];
+    NSDictionary *parma = [NSDictionary dictionaryWithObjects:@[dic[@"route_id"]] forKeys:@[@"route_id"]];
+    
+    NSString *url = [NSString stringWithFormat:URL_HEADER,@"UserApi",@"order_delete"];
+    [MBProgressHUD showMessage:@"删除中"];
+    [DownloadManager post:url params:parma success:^(id json){
+        [MBProgressHUD hideHUD];
+        @try {
+            if (json) {
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+                if ([str isEqualToString:@"1"]) {
+                    [MBProgressHUD showSuccess:@"删除成功"];
+                    NSMutableArray *tempAry = [NSMutableArray arrayWithArray:_dataArr];
+                    [tempAry removeObjectAtIndex:indexPath.row];
+                    _dataArr = tempAry;
+                    [_tableView reloadData];
+                }
+            }
+            else{
+                [MBProgressHUD showSuccess:@"删除失败"];
+            }
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
+    }failure:^(NSError *error){
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showSuccess:@"网络错误"];
+    }];
+    
+    
 }
 
 #pragma mark - Action

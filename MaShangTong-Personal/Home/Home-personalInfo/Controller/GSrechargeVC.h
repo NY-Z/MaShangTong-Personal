@@ -16,11 +16,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *alipayBtn;
 @property (weak, nonatomic) IBOutlet UIButton *weChatBtn;
 @property (weak, nonatomic) IBOutlet UIButton *rechargeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *bankPay;
 
 
 - (IBAction)doAlipay:(id)sender;
 
 - (IBAction)doWeChat:(id)sender;
+
+- (IBAction)daBank:(id)sender;
 
 - (IBAction)doRecharge:(id)sender;
 

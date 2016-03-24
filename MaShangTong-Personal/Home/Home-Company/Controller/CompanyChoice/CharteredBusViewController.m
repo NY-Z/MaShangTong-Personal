@@ -431,7 +431,11 @@
 - (void)confirmBtnClicked:(UIButton *)btn
 {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
+    UserModel *userModel = [NSKeyedUnarchiver unarchiveObjectWithData:[USER_DEFAULT objectForKey:@"user_info"]];
+    if ([userModel.money floatValue] <= 200) {
+        [MBProgressHUD showError:@"您的余额不足200"];
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:[USER_DEFAULT objectForKey:@"user_id"] forKey:@"user_id"];
     NYLog(@"%i",[Helper justMobile:numberTextField.text]);

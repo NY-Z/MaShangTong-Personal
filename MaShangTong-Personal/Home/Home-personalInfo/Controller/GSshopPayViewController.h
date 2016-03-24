@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *moneyBtn;
 @property (weak, nonatomic) IBOutlet UIButton *wechatBtn;
 @property (weak, nonatomic) IBOutlet UIButton *alipayBtn;
+@property (weak, nonatomic) IBOutlet UIButton *bankBtn;
+
 
 @property (weak, nonatomic) IBOutlet UIButton *makeSureBtn;
 
@@ -35,6 +37,9 @@
 - (IBAction)wechatPay:(id)sender;
 
 - (IBAction)alipay:(id)sender;
+
+- (IBAction)bankPay:(id)sender;
+
 
 
 - (IBAction)makeSure:(id)sender;

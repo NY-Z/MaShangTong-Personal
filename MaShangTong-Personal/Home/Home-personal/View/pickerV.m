@@ -100,6 +100,7 @@ static NSInteger betweenTime;
 }
 -(void)pickerRightBtnClicked:(UIButton *)sender
 {
+    NSLog(@"%ld",minNumber);
     betweenTime = betweenTime + dayNum + hourNum + tenMinNum - minNumber*60;
     
     NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:betweenTime];
@@ -249,7 +250,9 @@ static NSInteger betweenTime;
         nowTenminNum = 0;
     }
     
-    minNumber = num%100 - ((nowDayNum+1)*10);
+    
+    minNumber = num%100 - (nowTenminNum*10);
+    
     
 }
 -(void)rewriteHourAry

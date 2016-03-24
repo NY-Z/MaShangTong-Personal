@@ -39,7 +39,7 @@
     _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64)];
     _webView.delegate = self;
     _webView.scalesPageToFit = YES;
-    NSString *urlStr = [NSString stringWithFormat:@"http://112.124.115.81/admin/public/mst/zhuce2.php?id=%@",self.userId];
+    NSString *urlStr = [NSString stringWithFormat:@"http://139.196.189.159/admin/public/mst/zhuce2.php?id=%@",self.userId];
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [_webView loadRequest:urlRequest];

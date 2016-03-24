@@ -24,27 +24,43 @@
 #import "NYCommentViewController.h"
 #import "NYComplaintViewController.h"
 
+#include <sys/socket.h>
+#include <sys/sysctl.h>
+#include <net/if.h>
+#include <net/if_dl.h>
+#import "UPPaymentControl.h"
+
+#define kModel_Developement            @"00"
+
 typedef enum{
     SelfMoney,//账户余额支付
     Alipay,  //支付宝支付
-    WeChat   //微信支付
+    WeChat,  //微信支付
+    Bank     //银联支付
 }PayType;
 
-@interface GSpayVC ()
+@interface GSpayVC ()<UITableViewDelegate,UITableViewDataSource>
 
 {
-    int _total_price;
+    CGFloat _total_price;
     
-    int _ture_price;
+    CGFloat _ture_price;
     
-    NSDictionary *_dataDic;
+    NSMutableDictionary *_dataDic;
     
     NSString *_wxPayMoney;
+    
+    
+    NSArray * _dataAry;
+    
 }
 @property (nonatomic,assign) PayType payType;
 
 @property (nonatomic,strong) UIButton *tempBtn;
 
+@property (weak, nonatomic) IBOutlet UITableView *detialTableView;
+
+@property (nonatomic,copy) NSString *tnModel;
 
 @end
 
@@ -57,19 +73,13 @@ typedef enum{
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _dataDic = [NSDictionary new];
+    
+    
+    _dataDic = [[NSMutableDictionary alloc] init];
     _touxiangImage.layer.cornerRadius = 21;
    
     _makeSureBtn.layer.cornerRadius = 5.f;
     _makeSureBtn.layer.masksToBounds = YES;
-    
-    UIButton *clearBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    clearBtn.backgroundColor = [UIColor clearColor];
-    clearBtn.size = CGSizeMake(300, 21);
-    clearBtn.center = _youhuiLabel.center;
-    [clearBtn addTarget:self action:@selector(chooseOrder) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:clearBtn];
-    
 
     _payType = SelfMoney;
     [_selfMoneyBtn setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateNormal];
@@ -79,6 +89,9 @@ typedef enum{
     
     [self getDriverInfo];
     [self dealNaviction];
+    
+    [self creatTableView];
+    
     [self getPriceAndOthers];
     
     
@@ -99,21 +112,27 @@ typedef enum{
         _ture_price = _total_price - [ticket_money  doubleValue];
         if (_ture_price <= 0) {
             _ture_price = 0;
-            weakSelf.youhuiLabel.text = [NSString stringWithFormat:@"-%d元>",_total_price];
+//            weakSelf.youhuiLabel.text = [NSString stringWithFormat:@"-%d元>",_total_price];
+            [_dataDic setValue:[NSString stringWithFormat:@"-%.0f元",_total_price] forKey:@"ticket_money"];
+            [weakSelf.detialTableView reloadData];
         }
         else{
-            weakSelf.youhuiLabel.text = [NSString stringWithFormat:@"-%@元>",  ticket_money];
+//            weakSelf.youhuiLabel.text = [NSString stringWithFormat:@"-%@元>",  ticket_money];
+            [_dataDic setValue:[NSString stringWithFormat:@"-%@元>",ticket_money] forKey:@"ticket_money"];
+            [weakSelf.detialTableView reloadData];
         }
-        NSString *title =[NSString stringWithFormat:@"确认支付：%d",_ture_price];
+        NSString *title =[NSString stringWithFormat:@"确认支付：%.0f",_ture_price];
         [weakSelf.makeSureBtn setTitle:title forState:UIControlStateNormal];
     };
     
     vc.backNothing = ^(){
         weakSelf.orderPayType = DisUseOrderPay;
-        weakSelf.youhuiLabel.text = @"0元>";
+//        weakSelf.youhuiLabel.text = @"0元>";
+        [_dataDic setValue:@"0元>"forKey:@"ticket_money"];
+        [weakSelf.detialTableView reloadData];
         _ture_price = _total_price ;
         
-        NSString *title =[NSString stringWithFormat:@"确认支付：%d",_ture_price ];
+        NSString *title =[NSString stringWithFormat:@"确认支付：%.0f",_ture_price ];
         [weakSelf.makeSureBtn setTitle:title forState:UIControlStateNormal];
     };
     [self.navigationController pushViewController:vc animated:YES];
@@ -185,21 +204,24 @@ typedef enum{
 }
 
 - (IBAction)chooseOrder:(id)sender {
-//
-//    NSLog(@"点击事件");
-//    __weak typeof (self) weakSelf = self;
-//    GSchooseOrderViewController *vc = [[GSchooseOrderViewController alloc]init];
-//    vc.backTicket = ^(NSString *ticket_id,NSString *ticket_money){
-//        weakSelf.ticket_id = ticket_id;
-//        weakSelf.ticket_money = ticket_money;
-//        
-//        weakSelf.orderPayType = UseOrderPay;
-//        
+
+    NSLog(@"点击事件");
+    __weak typeof (self) weakSelf = self;
+    GSchooseOrderViewController *vc = [[GSchooseOrderViewController alloc]init];
+    vc.backTicket = ^(NSString *ticket_id,NSString *ticket_money){
+        weakSelf.ticket_id = ticket_id;
+        weakSelf.ticket_money = ticket_money;
+        
+        weakSelf.orderPayType = UseOrderPay;
+        
+        [_dataDic setValue:[NSString stringWithFormat:@"-%@元",ticket_money] forKey:@"ticket_money"];
+        [weakSelf.detialTableView reloadData];
+        
 //        weakSelf.youhuiLabel.text = [NSString stringWithFormat:@"-%@元",  ticket_money];
-//        NSString *title =[NSString stringWithFormat:@"确认支付：%.2f",(_total_price - [ticket_money  doubleValue])];
-//        [weakSelf.makeSureBtn setTitle:title forState:UIControlStateNormal];
-//    };
-//    [self.navigationController pushViewController:vc animated:YES];
+        NSString *title =[NSString stringWithFormat:@"确认支付：%.2f",(_total_price - [ticket_money  doubleValue])];
+        [weakSelf.makeSureBtn setTitle:title forState:UIControlStateNormal];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
 }
 //打电话
 - (IBAction)call:(id)sender {
@@ -214,6 +236,86 @@ typedef enum{
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
+}
+#pragma - mark 创建tableview
+- (void)creatTableView{
+    
+    _dataAry = [NSArray arrayWithObjects:@"总价",@"优惠券",@"起步价",@"里程",@"里程费",@"远途费",@"低速费",@"夜间费",@"碳排放", nil];
+    
+    _detialTableView.tableFooterView = [[UIView alloc]init];
+    
+    _detialTableView.delegate = self;
+    _detialTableView.dataSource = self;
+    
+}
+#pragma mark - tableView的delegate和dataSource
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _dataAry.count;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 24;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *identifier = @"GSPayTableViewCell";
+    
+    UITableViewCell *cell = [_detialTableView dequeueReusableCellWithIdentifier:identifier];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        cell.textLabel.font = [UIFont systemFontOfSize:14];
+        cell.textLabel.textColor = RGBColor(123, 123, 123, 1.f);
+        
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
+        
+        
+    }
+    cell.textLabel.text = _dataAry[indexPath.row];
+    
+    cell.detailTextLabel.textColor = RGBColor(123, 123, 123, 1.f);
+    switch (indexPath.row) {
+        case 0:
+            cell.detailTextLabel.text = _dataDic[@"total_price"];
+            break;
+        case 1:
+            cell.detailTextLabel.textColor = RGBColor(99, 193, 255, 1.f);
+            cell.detailTextLabel.text = _dataDic[@"ticket_money"];
+            break;
+        case 2:
+            cell.detailTextLabel.text = _dataDic[@"start_price"];
+            break;
+        case 3:
+            cell.detailTextLabel.text = _dataDic[@"mileage"];
+            break;
+        case 4:
+            cell.detailTextLabel.text = _dataDic[@"mileage_price"];
+            break;
+        case 5:
+            cell.detailTextLabel.text = _dataDic[@"far_price"];
+            break;
+        case 6:
+            cell.detailTextLabel.text = _dataDic[@"low_price"];
+            break;
+        case 7:
+            cell.detailTextLabel.text = _dataDic[@"night_price"];
+            break;
+        case 8:
+            cell.detailTextLabel.text = _dataDic[@"carbon_emission"];
+            break;
+            
+        default:
+            break;
+    }
+    return cell;
+    
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 1) {
+        [ self chooseOrder];
+    }
 }
 //账户余额支付
 - (IBAction)selfMoneyAction:(id)sender {
@@ -239,7 +341,15 @@ typedef enum{
     _tempBtn = _weChatBtn;
 }
 
+- (IBAction)bankPayAction:(id)sender {
+    [_tempBtn setImage:[UIImage imageNamed:@"payBtnDeselect"] forState:UIControlStateNormal];
+    _payType = Bank;
+    [_bankPay setImage:[UIImage imageNamed:@"payBtnSelect"] forState:UIControlStateNormal];
+    _tempBtn = _bankPay;
+}
+
 - (IBAction)makeSureAction:(id)sender {
+
     switch (_payType) {
         case SelfMoney:
             NYLog(@"账户余额支付");
@@ -253,6 +363,9 @@ typedef enum{
             NYLog(@"微信支付");
             [self payWeChat];
             break;
+        case Bank:
+            [self payBank];
+            break;
             
         default:
             break;
@@ -265,7 +378,7 @@ typedef enum{
     NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:userId forKey:@"user_id"];
-    [params setValue:[NSString stringWithFormat:@"%d",_total_price] forKey:@"money"];
+    [params setValue:[NSString stringWithFormat:@"%.0f",_total_price] forKey:@"money"];
     if (_orderPayType == DisUseOrderPay) {
         [params setValue:@"2" forKey:@"type"];
     }
@@ -293,7 +406,7 @@ typedef enum{
                     
                 }
                 else{
-                    [MBProgressHUD showError:@"支付失败"];
+                    [MBProgressHUD showError:json[@"info"]];
                 }
             }
             else{
@@ -338,7 +451,7 @@ typedef enum{
     order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
     order.productName = @"码尚通车费支付";
     order.productDescription = @"码尚通车费支付";
-    order.amount = [NSString stringWithFormat:@"%d",_ture_price];
+    order.amount = [NSString stringWithFormat:@"%.0f",_ture_price];
 //    order.amount = @"0.01";
     order.notifyURL =  @"http://www.baidu.com"; //回调URL
     order.service = @"mobile.securitypay.pay";
@@ -379,13 +492,14 @@ typedef enum{
             if (_orderPayType == DisUseOrderPay) {
                 [params setValue:@"2" forKey:@"type"];
                 [params setValue:_route_id forKey:@"route_id"];
-                [params setValue:[NSString stringWithFormat:@"%d",_total_price] forKey:@"money"];
+                [params setValue:[NSString stringWithFormat:@"%.0f",_total_price] forKey:@"money"];
                 [params setValue:@"1" forKey:@"group_id"];
             }
             else if (_orderPayType == UseOrderPay){
                 [params setValue:@"5" forKey:@"type"];
                 [params setValue:_ticket_id forKey:@"ticket_id"];
-                [params setValue:[NSString stringWithFormat:@"%d",_total_price] forKey:@"last_money"];
+                [params setValue:_route_id forKey:@"route_id"];
+                [params setValue:[NSString stringWithFormat:@"%.0f",_total_price] forKey:@"last_money"];
                 [params setValue:self.driverModel.driver_id forKey:@"driver_id"];
             }
             
@@ -439,9 +553,9 @@ typedef enum{
                 [self payPriceWith:params];
             }
         } @catch (NSException *exception) {
-            
+            [MBProgressHUD hideHUD];
         } @finally {
-            
+            [MBProgressHUD hideHUD];
         }
     }failure:^(NSError *error){
         [MBProgressHUD hideHUD];
@@ -453,14 +567,22 @@ typedef enum{
 -(void)payWeChat
 {
     [MBProgressHUD showMessage:@"正在跳转微信，请稍后"];
-    _wxPayMoney = [NSString stringWithFormat:@"%d",_ture_price*100];
+    
+    _wxPayMoney = [NSString stringWithFormat:@"%.0f",_ture_price*100];
 //    _wxPayMoney = @"1";
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (_orderPayType == DisUseOrderPay) {
+        
+    }
+    else if (_orderPayType == UseOrderPay){
+        [params setValue:_ticket_id forKey:@"ticket_id"];
+    }
     [params setValue:_wxPayMoney forKey:@"money"];
-    [params setValue:@"192.168.0.20" forKey:@"ip"];
+    [params setValue:_route_id forKey:@"route_id"];
+//    [params setValue:@"192.168.0.20" forKey:@"ip"];
     [params setValue:@"码尚通车费支付" forKey:@"detail"];
-    [mgr POST:@"http://112.124.115.81/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    [mgr POST:@"http://139.196.189.159/api/wechatPay/pay.php" parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         [MBProgressHUD hideHUD];
         if (responseObject) {
             
@@ -481,7 +603,7 @@ typedef enum{
             [signParams setObject: nonce_str    forKey:@"noncestr"];
             [signParams setObject: @"Sign=WXPay"      forKey:@"package"];
             [signParams setObject: time_stamp   forKey:@"timestamp"];
-            [signParams setObject: responseObject[@"info"][@"prepay_id"] forKey:@"prepayid"];
+            [signParams setObject: responseObject[@"info"][@"prepayid"] forKey:@"prepayid"];
             [signParams setObject:@"F36DA743251B99E9D7779D2209F6E3F6" forKey:@"key"];
             NSString *sign  = [self createMd5Sign:signParams];
             [signParams setObject: sign forKey:@"sign"];
@@ -497,10 +619,11 @@ typedef enum{
             req.timeStamp  = (UInt32)stamp.intValue;
             req.package = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"package"]];
             req.sign = [NSString stringWithFormat:@"%@",[signParams objectForKey:@"sign"]];
-            
+            [MBProgressHUD hideHUD];
             [WXApi sendReq:req];
             
-            APP_DELEGATE.payMoney = [NSString stringWithFormat:@"%d",_ture_price];
+            
+            APP_DELEGATE.payMoney = [NSString stringWithFormat:@"%.0f",_ture_price];
             APP_DELEGATE.weChatPayType = Payed;
             [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(weChatPayMoneyWith:) name:@"weChatPay" object:nil];
         }
@@ -554,54 +677,108 @@ typedef enum{
 #pragma mark - 微信支付
 -(void)weChatPayMoneyWith:(NSNotification *)sender
 {
+    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+    comment.driverInfoModel = self.driverModel;
+    comment.route_id = self.route_id;
+    [self.navigationController pushViewController:comment animated:YES];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatPay" object:nil];
+    
 //    [MBProgressHUD showMessage:@"正在支付,请稍后"];
-    NSMutableDictionary *params = (NSMutableDictionary *)sender.userInfo;
+//    NSMutableDictionary *params = (NSMutableDictionary *)sender.userInfo;
+//    
+//    if (_orderPayType == DisUseOrderPay) {
+//        [params setValue:[NSString stringWithFormat:@"%d",_ture_price] forKey:@"money"];
+//        [params setValue:_route_id forKey:@"route_id"];
+//        [params setValue:@"1" forKey:@"group_id"];
+//    }
+//    else if (_orderPayType == UseOrderPay){
+//        [params setValue:[NSString stringWithFormat:@"%d",_ture_price] forKey:@"last_money"];
+//        [params setValue:@"5" forKey:@"type"];
+//        [params setValue:_ticket_id forKey:@"ticket_id"];
+//        [params setValue:self.driverModel.driver_id forKey:@"driver_id"];
+//    }
+//    
+//    [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
+//        [MBProgressHUD hideHUD];
+//        @try {
+//            [MBProgressHUD hideHUD];
+//            if (json) {
+//                NSString *str = json[@"result"];
+//                if ([str isEqualToString:@"1"]) {
+//                    [MBProgressHUD showSuccess:@"支付成功"];
+//                    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
+//                    comment.driverInfoModel = self.driverModel;
+//                    comment.route_id = self.route_id;
+//                    [self.navigationController pushViewController:comment animated:YES];
+//                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatPay" object:nil];
+////                    [self rebackOrderState];
+//                }
+//                else{
+//                    [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
+//                }
+//            }
+//            else{
+//                [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
+//            }
+//        } @catch (NSException *exception) {
+//            
+//        } @finally {
+//            [MBProgressHUD hideHUD];
+//        }
+//    }failure:^(NSError *error){
+//        [MBProgressHUD hideHUD];
+//        [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
+//    }];
+}
+#pragma mark - 银联支付
+-(void)payBank
+{
+    NSDictionary *parmas = @{@"money":[NSString stringWithFormat:@"%.0f",_ture_price*100],@"uid":USER_ID};
     
-    if (_orderPayType == DisUseOrderPay) {
-        [params setValue:[NSString stringWithFormat:@"%d",_ture_price] forKey:@"money"];
-        [params setValue:_route_id forKey:@"route_id"];
-        [params setValue:@"1" forKey:@"group_id"];
-    }
-    else if (_orderPayType == UseOrderPay){
-        [params setValue:[NSString stringWithFormat:@"%d",_ture_price] forKey:@"last_money"];
-        [params setValue:@"5" forKey:@"type"];
-        [params setValue:_ticket_id forKey:@"ticket_id"];
-        [params setValue:self.driverModel.driver_id forKey:@"driver_id"];
-    }
+//    NSDictionary *parmas = @{@"money":@"1",@"uid":USER_ID};
     
-    [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"UserApi",@"recharge"] params:params success:^(id json){
-        [MBProgressHUD hideHUD];
-        @try {
-            [MBProgressHUD hideHUD];
-            if (json) {
-                NSString *str = json[@"result"];
-                if ([str isEqualToString:@"1"]) {
-                    [MBProgressHUD showSuccess:@"支付成功"];
-                    NYCommentViewController *comment = [[NYCommentViewController alloc] init];
-                    comment.driverInfoModel = self.driverModel;
-                    comment.route_id = self.route_id;
-                    [self.navigationController pushViewController:comment animated:YES];
-                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"weChatPay" object:nil];
-//                    [self rebackOrderState];
-                }
-                else{
-                    [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
-                }
-            }
-            else{
-                [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
-            }
-        } @catch (NSException *exception) {
-            
-        } @finally {
-            
-        }
-    }failure:^(NSError *error){
-        [MBProgressHUD hideHUD];
-        [self weChatPayMoneyWith:[NSNotification notificationWithName:@"weChatPay" object:sender]];
+    self.tnModel = kModel_Developement;
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager POST:@"http://139.196.189.159/mst/api/cn/demo/api_05_app/Form_6_2_AppConsume.php" parameters:parmas success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSString *tn = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        
+        APP_DELEGATE.banpayType = BankPayed;
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(bankPayFare) name:@"bankPayed" object:nil];
+        
+        [[UPPaymentControl defaultControl] startPay:tn fromScheme:@"MaShangTong" mode:self.tnModel viewController:self];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [MBProgressHUD showError:@"支付失败"];
     }];
 }
 
+-(void)bankPayFare{//银联支付成功，跳转评价页面
+    
+    NSString *userId = [USER_DEFAULT objectForKey:@"user_id"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:userId forKey:@"user_id"];
+    
+    if (_orderPayType == DisUseOrderPay) {
+        [params setValue:@"2" forKey:@"type"];
+        [params setValue:_route_id forKey:@"route_id"];
+        [params setValue:[NSString stringWithFormat:@"%.0f",_total_price] forKey:@"money"];
+        [params setValue:@"1" forKey:@"group_id"];
+    }
+    else if (_orderPayType == UseOrderPay){
+        [params setValue:@"5" forKey:@"type"];
+        [params setValue:_ticket_id forKey:@"ticket_id"];
+        [params setValue:_route_id forKey:@"route_id"];
+        [params setValue:[NSString stringWithFormat:@"%.0f",_total_price] forKey:@"last_money"];
+        [params setValue:self.driverModel.driver_id forKey:@"driver_id"];
+    }
+    
+    [self payPriceWith:params];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"bankPayed" object:nil];
+}
 //#pragma mrak - 返回订单状态
 //-(void)rebackOrderState
 //{
@@ -651,20 +828,31 @@ typedef enum{
     
     [DownloadManager post:url params:param success:^(id json) {
         [MBProgressHUD hideHUD];
-        @try {
             if (json) {
+                
                 NSNumber *num  = json[@"data"];
                 if ([num isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                    _dataDic = json[@"info"];
+                    _dataDic = [json[@"info"] mutableCopy];
                     
-                    _total_price = [_dataDic[@"total_price"] intValue];
-                    _ture_price = [_dataDic[@"total_price"] intValue];
+                    [_dataDic setObject:@"0元>" forKey:@"ticket_money"];
+                    [_dataDic setObject:[NSString stringWithFormat:@"%.2fkm",[json[@"info"][@"mileage"] floatValue]] forKey:@"mileage"];
+                    [_dataDic setObject:[NSString stringWithFormat:@"%.2fkg",[json[@"info"][@"carbon_emission"] floatValue]] forKey:@"carbon_emission"];
+                    [_dataDic setObject:[NSString stringWithFormat:@"%@元",json[@"info"][@"low_price"]] forKey:@"low_price"];
+                    [_dataDic setObject:[NSString stringWithFormat:@"%@元",json[@"info"][@"night_price"]] forKey:@"night_price"];
                     
-                    _fareLabel.text = [NSString stringWithFormat:@"%d元",  _total_price];
-                    _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",[_dataDic[@"mileage"] floatValue]];
-                    _carbonLabel.text = [NSString stringWithFormat:@"%.2fkg",[_dataDic[@"carbon_emission"] floatValue]];
                     
-                    NSString *title =[NSString stringWithFormat:@"确认支付：%d",_total_price];
+                    [_detialTableView reloadData];
+                    
+                    _total_price = [ self getmoeny:[_dataDic[@"total_price"] floatValue]];
+                    _ture_price = [ self getmoeny:[_dataDic[@"total_price"] floatValue]];
+                    
+//                    _fareLabel.text = [NSString stringWithFormat:@"%d元",  _total_price];
+//                    _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",[_dataDic[@"mileage"] floatValue]];
+//                    _carbonLabel.text = [NSString stringWithFormat:@"%.2fkg",[_dataDic[@"carbon_emission"] floatValue]];
+//                    _lowPriceLabel.text = [NSString stringWithFormat:@"%@元",json[@"info"][@"low_price"]];
+//                    _nightLabel.text = [NSString stringWithFormat:@"%@元",json[@"info"][@"night_price"]];
+                    
+                    NSString *title =[NSString stringWithFormat:@"确认支付：%.0f",_total_price];
                     [_makeSureBtn setTitle:title forState:UIControlStateNormal];
                     
                 }
@@ -675,16 +863,19 @@ typedef enum{
             else{
                 [self getPriceAndOthers];
             }
-        } @catch (NSException *exception) {
-            
-        } @finally {
-            
-        }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUD];
         [self getPriceAndOthers];
     }];
 
+}
+-(CGFloat)getmoeny:(CGFloat) money{
+    CGFloat num = money/1;
+    CGFloat num1 = money-num;
+    if (num1 >= 0.5) {
+        num += 1;
+    }
+    return num;
 }
 #pragma mark - 请求司机信息
 -(void)getDriverInfo

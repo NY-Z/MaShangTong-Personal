@@ -28,6 +28,7 @@
 {
     BOOL isPullDown;
     BOOL isDriverCatch;// 司机是否已接单
+    BOOL isShowtime;//时间是否展示开关
     BOOL _iscalculateStart;
     NSInteger _actualDistance;
     
@@ -63,7 +64,6 @@
 @property (nonatomic,strong) MANaviRoute * naviRoute;
 
 @property (nonatomic,assign) NSInteger driveringTime;
-@property (nonatomic,assign) BOOL calculaterWitch; // 0 到乘客的距离，1 到达目的地的距离
 @property (nonatomic,assign) DriverState lastState;
 @property (nonatomic,strong) UIView *chargingBgView;
 @property (nonatomic,strong) ActualPriceModel *actualPriceModel;
@@ -404,10 +404,10 @@ static BOOL isHadRecord = NO;
     [super viewDidLoad];
     @autoreleasepool {
         [self clearCalculateSpecialCarData];
-        _calculaterWitch = 0;
         _driveringTime = 0;
         _lastState = 0;
         _iscalculateStart = 0;
+        isShowtime = NO;
         _actualDistance = 0;
         _distance = 0;
         
@@ -440,9 +440,12 @@ static BOOL isHadRecord = NO;
                     return ;
                 }
                 //当司机修改终点之后，传过来的终点的位置坐标和名字则不一样
-                if (json[@"data"][@"end_name"] && json[@"data"][@"end_coordinates"]) {
+                NSString *str1 = [NSString stringWithFormat:@"%@",json[@"data"][@"end_name"]];
+                NSString *str2 = [NSString stringWithFormat:@"%@",json[@"data"][@"end_coordinates"]];
+                if (str1.length > 0 && str2.length > 0) {
                     NSString *nameStr = [NSString stringWithFormat:@"%@",json[@"data"][@"end_name"]];
                     NSString *coordinatesStr = [NSString stringWithFormat:@"%@",json[@"data"][@"end_coordinates"]];
+                    
                     if(![nameStr isEqualToString:_model.end_name] || ![coordinatesStr isEqualToString:_model.end_coordinates]){
                         
                         NSString *iFlyStr = [NSString stringWithFormat:@"司机师傅已修改目的地为%@",nameStr];
@@ -453,6 +456,8 @@ static BOOL isHadRecord = NO;
                         
                         [infoModel setEnd_name:nameStr];
                         [infoModel setEnd_coordinates:coordinatesStr];
+                        
+                        [self.tableView reloadData];
                     }
                 }
                 
@@ -461,8 +466,12 @@ static BOOL isHadRecord = NO;
                 if ([routeStatus isEqualToString:@"0"]) {
                     self.navigationItem.rightBarButtonItem.customView.hidden = NO;
                     return;
-                } else {
-                    isDriverCatch = 1;
+                }
+//                if ([routeStatus isEqualToString:@"-1"]) {
+//                    [self.navigationController popViewControllerAnimated:YES];
+//                }
+                else {
+                    isDriverCatch = YES;
                     switch ([routeStatus integerValue]) {
                                                
                         case 1:
@@ -510,7 +519,6 @@ static BOOL isHadRecord = NO;
                                 [_iFlySpeechSynthesizer startSpeaking:@"司机师傅已开始计费"];
                                 _chargingBgView.y = SCREEN_HEIGHT-70-34;
                                 _chargingBgView.hidden = NO;
-                                _calculaterWitch = 1;
                                 _iscalculateStart = 1;
                             }
                             _lastState = DriverStateBeginCharge;
@@ -594,23 +602,42 @@ static BOOL isHadRecord = NO;
     for (id ann in self.mapView.annotations) {
         if ([ann isKindOfClass:[MAUserLocation class]]) {
             MAUserLocation *userLocation = (MAUserLocation *)ann;
-            NSInteger minute = (long)_driveringTime/60;
-            NSInteger second = (long)_driveringTime%60;
-            NSMutableString *minuteStr = [NSMutableString stringWithFormat:@"%ld",minute];
-            NSMutableString *secondStr = [NSMutableString stringWithFormat:@"%ld",second];
-            if (minuteStr.length == 1) {
-                minuteStr = [NSMutableString stringWithFormat:@"0%@",minuteStr];
+            
+            if(_route_status == 0){
+                NSInteger minute = (long)_driveringTime/60;
+                NSInteger second = (long)_driveringTime%60;
+                NSMutableString *minuteStr = [NSMutableString stringWithFormat:@"%ld",minute];
+                NSMutableString *secondStr = [NSMutableString stringWithFormat:@"%ld",second];
+                if (minuteStr.length == 1) {
+                    minuteStr = [NSMutableString stringWithFormat:@"0%@",minuteStr];
+                }
+                if (secondStr.length == 1) {
+                    secondStr = [NSMutableString stringWithFormat:@"0%@",secondStr];
+                }
+                NSString *annTitle = [NSString stringWithFormat:@"正在寻找司机，等待%@:%@",minuteStr,secondStr];
+                userLocation.title = annTitle;
+                
             }
-            if (secondStr.length == 1) {
-                secondStr = [NSMutableString stringWithFormat:@"0%@",secondStr];
+            else{
+                
+                NSInteger minute = (long)_driveringTime/60;
+                NSInteger second = (long)_driveringTime%60;
+                NSMutableString *minuteStr = [NSMutableString stringWithFormat:@"%ld",minute];
+                NSMutableString *secondStr = [NSMutableString stringWithFormat:@"%ld",second];
+                if (minuteStr.length == 1) {
+                    minuteStr = [NSMutableString stringWithFormat:@"0%@",minuteStr];
+                }
+                if (secondStr.length == 1) {
+                    secondStr = [NSMutableString stringWithFormat:@"0%@",secondStr];
+                }
+                _distance += [_mileage floatValue];
+                NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%@:%@",((float)_distance)/1000,minuteStr,secondStr];
+                userLocation.title = annTitle;
             }
-            _distance += [_mileage floatValue];
-            NSString *annTitle = [NSString stringWithFormat:@"剩余%.2f公里 已行驶%@:%@",((float)_distance)/1000,minuteStr,secondStr];
-            userLocation.title = annTitle;
         }
     }
     
-#pragma 计价
+#pragma mark —— 计价
     if (_isHadExit == HadExit && !isHadRecord) {//如果退出过程序，那么上一秒的坐标经纬度就是请求道服务器的坐标
         NSArray *ary = [_model.origin_coordinates componentsSeparatedByString:@","];
         lastPoint = CLLocationCoordinate2DMake([ary[1] doubleValue], [ary[0] doubleValue]);
@@ -621,7 +648,7 @@ static BOOL isHadRecord = NO;
             lastPoint = nowPoint;
         }
     }
-    if(_userLocation.location){//如果定位到坐标，则赋值给当前这一秒坐标
+    if(_userLocation.location.coordinate.longitude != 0){//如果定位到坐标，则赋值给当前这一秒坐标
         nowPoint = _userLocation.location.coordinate;
     }
     else{//如果没有的话，则直接return，不做计价。
@@ -658,6 +685,9 @@ static BOOL isHadRecord = NO;
                 
 //                NSMutableDictionary *priceDic = [[self.calculateSpecialCar calculatePriceWithParams:params] mutableCopy];
                 NSMutableDictionary *priceDic = [[self.calculateSpecialCar calculatePriceByLocationWithParams:params] mutableCopy];
+                if (!priceDic) {
+                    return;
+                }
                 
                 if (_isHadExit == HadExit) {//如果是退出程序重新启动，低速时间要加上之前的低速时间
                     [priceDic setValue:[NSString stringWithFormat:@"%ld",[priceDic[@"low_time"] integerValue] + [_low_time integerValue]] forKey:@"low_time"];
@@ -685,10 +715,12 @@ static BOOL isHadRecord = NO;
             case ReservationTypeCharteredBus:
             {
                 speedLabel.hidden = YES;
+                
                 //将每秒根据经纬度定位到的距离按照速度传给计价规则
                 MAMapPoint point1 = MAMapPointMake(lastPoint.longitude, lastPoint.latitude);
                 MAMapPoint point2 = MAMapPointMake(nowPoint.longitude, nowPoint.latitude);
                 CLLocationDistance distance = MAMetersBetweenMapPoints(point1, point2);
+                
                 _speed = distance;
                 NSArray *priceArr = [self.calculateCharteredBus calculatePriceWithSpeed:_speed andGonePrice:_mileage andBordingTime:_boardingTime];
                 distanceLabel.text = [NSString stringWithFormat:@"里程%.2f公里",[priceArr[1] floatValue]];
@@ -696,7 +728,7 @@ static BOOL isHadRecord = NO;
                 NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_totalPrice];
                 [attri addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22],NSForegroundColorAttributeName : RGBColor(44, 44, 44, 1.f)} range:NSMakeRange(0, _totalPrice.length)];
                 priceLabel.attributedText = attri;
-                if (_driveringTime%60 == 0) {
+                if (_driveringTime%20 == 0) {
                     [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"billing"] params:@{@"route_id":_route_id,@"total_price":priceArr[0],@"mileage":priceArr[1],@"carbon_emission":priceArr[2]} success:^(id json) {
                         
                     } failure:^(NSError *error) {
@@ -708,6 +740,7 @@ static BOOL isHadRecord = NO;
                 // 接机
             case ReservationTypeAirportPickUp:
             {
+                _iscalculateStart = 1;
                 _driveDistance += _speed;
                 speedLabel.hidden = YES;
                 _totalPrice = [NSString stringWithFormat:@"%.0f元",_airportModel.once_price.floatValue];
@@ -725,6 +758,7 @@ static BOOL isHadRecord = NO;
             }
             case ReservationTypeAirportDropOff:
             {
+                _iscalculateStart = 1;
                 _driveDistance += _speed;
                 speedLabel.hidden = YES;
                 //                priceLabel.text = [NSString stringWithFormat:@"%.0f",_airportModel.once_price.floatValue];
@@ -745,8 +779,6 @@ static BOOL isHadRecord = NO;
                 break;
         }
     }
-    
-    
     
 }
 
@@ -796,7 +828,16 @@ static BOOL isHadRecord = NO;
         [_mapView setCenterCoordinate:userLocation.coordinate animated:YES];
         [_mapView setZoomLevel:16 animated:YES];
     });
-    _mapView.centerCoordinate = userLocation.coordinate;
+    if(_iscalculateStart){//如果开始计费之后，地图的中心就是自己的位置了
+        
+        _mapView.centerCoordinate = userLocation.coordinate;
+        
+        for (MAPointAnnotation *point in _mapView.annotations) {
+            if (![point isKindOfClass:[MAUserLocation class]]) {
+                [_mapView removeAnnotation:point];
+            }
+        }
+    }
     _passengerCoordinate = userLocation.coordinate;
     _speed = userLocation.location.speed;
     
@@ -826,11 +867,14 @@ static BOOL isHadRecord = NO;
         if (_driveringTime %10 == 0) {
             AMapDrivingRouteSearchRequest *request = [[AMapDrivingRouteSearchRequest alloc] init];
             request.origin = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
-            if (!_calculaterWitch) {
+            if (!_iscalculateStart) {
                 request.destination = [AMapGeoPoint locationWithLatitude:_driverCoordinate.latitude longitude:_driverCoordinate.longitude];
-            } else {
+            } else if(![_model.reserva_type isEqualToString:@"2"]){
                 PassengerMessageModel *model = _model;
-                request.destination = [AMapGeoPoint locationWithLatitude:[[model.end_coordinates componentsSeparatedByString:@","][1] floatValue] longitude:[[model.end_coordinates componentsSeparatedByString:@","][0] floatValue]];
+                request.destination = [AMapGeoPoint locationWithLatitude:[[model. end_coordinates componentsSeparatedByString:@","][1] floatValue] longitude:[[model.end_coordinates componentsSeparatedByString:@","][0] floatValue]];
+            }
+            else{
+                 request.destination = [AMapGeoPoint locationWithLatitude:_driverCoordinate.latitude longitude:_driverCoordinate.longitude];
             }
             request.strategy = 2;
             request.requireExtension = YES;
@@ -843,16 +887,18 @@ static BOOL isHadRecord = NO;
     }
     
     //修改司机坐标（以免司机退掉程序，个人端仍在计费导致司机端的位置信息有偏差）
-    NSString *locationStr = [NSString stringWithFormat:@"%f,%f",userLocation.coordinate.longitude,userLocation.coordinate.latitude];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:infoModel.driver_id forKey:@"user_id"];
-    [params setValue:locationStr forKey:@"location"];
-    
-    if (_driveringTime % 10 == 0) {
+    if(_iscalculateStart){
+        NSString *locationStr = [NSString stringWithFormat:@"%f,%f",userLocation.coordinate.longitude,userLocation.coordinate.latitude];
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        [params setValue:infoModel.driver_id forKey:@"user_id"];
+        [params setValue:locationStr forKey:@"location"];
         
-        [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"dri_address"] params:params success:^(id json) {
-        } failure:^(NSError *error) {
-        }];
+        if (_driveringTime % 10 == 0) {
+            
+            [DownloadManager post:[NSString stringWithFormat:URL_HEADER,@"OrderApi",@"dri_address"] params:params success:^(id json) {
+            } failure:^(NSError *error) {
+            }];
+        }
     }
 }
 

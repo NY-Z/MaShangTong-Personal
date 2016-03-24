@@ -21,6 +21,8 @@
 // 个人账号，登陆
 @property (weak, nonatomic) IBOutlet UILabel *personLoginLabel;
 
+
+
 @end
 
 @implementation RegisViewController
@@ -58,16 +60,19 @@
 // Btn
 - (IBAction)individualBtnClick:(id)sender {
     
+    APP_DELEGATE.group_id = @"1";
     PersonRegisViewController *personRegis = [[PersonRegisViewController alloc] init];
     [self.navigationController pushViewController:personRegis animated:YES];
     
 }
 - (IBAction)businessBtnClick:(id)sender {
+    APP_DELEGATE.group_id = @"2";
     [self.navigationController pushViewController:[[RegisCompanyViewController alloc] init] animated:YES];
 }
 
 // LoginLabel
 - (void)loginLabelTap:(UITapGestureRecognizer *)tap {
+    APP_DELEGATE.group_id = @"2";
     LoginViewController *login = [[LoginViewController alloc] init];
     login.type = LoginTypeCompany;
      [self.navigationController pushViewController:login animated:YES];
@@ -75,6 +80,7 @@
 
 - (void)personLoginLabelTap:(UITapGestureRecognizer *)tap
 {
+    APP_DELEGATE.group_id = @"1";
     LoginViewController *login = [[LoginViewController alloc] init];
     login.type = LoginTypePerson;
     [self.navigationController pushViewController:login animated:YES];

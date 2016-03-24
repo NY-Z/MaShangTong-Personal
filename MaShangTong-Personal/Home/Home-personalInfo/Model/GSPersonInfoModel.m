@@ -74,11 +74,19 @@
         @try {
             NYLog(@"%@",json);
             if (json) {
-                NSURL *urlStr = [NSURL URLWithString:json[@"data"][@"head_image"]];
-                NSData *data = [NSData dataWithContentsOfURL:urlStr];
-                if (data) {
-                    [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:0 andContent:data];
+                
+                NSString *str = [NSString stringWithFormat:@"%@",json[@"result"]];
+                if ([str isEqualToString:@"1"]) {
                     
+                    NSURL *urlStr = [NSURL URLWithString:json[@"data"][@"head_image"]];
+                    NSData *data = [NSData dataWithContentsOfURL:urlStr];
+                    if (data) {
+                        [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:0 andContent:data];
+                    }
+                    else{
+                        NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"touxiang"]);
+                        [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:0 andContent:imageData];
+                    }
                     [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:1 andContent:json[@"data"][@"user_name"]];
                     
                     [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:2 andContent:json[@"data"][@"sex"]];
@@ -88,7 +96,6 @@
                     [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:4 andContent:json[@"data"][@"city"]];
                     
                     [self updateDateWithDirectorName:@"personInfo" andFileName:@"person" andSelectedCell:5 andContent:json[@"data"][@"mobile"]];
-                    
                     
                 }
             }
@@ -104,7 +111,7 @@
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络错误"];
     }];
-
+    
     
 }
 #pragma mark - 在沙盒document内的文件夹内的文件内修改文件
@@ -125,6 +132,7 @@
         }
     }
     [tempAry writeToFile:filePath atomically:YES];
+    
     return tempAry;
     
 }

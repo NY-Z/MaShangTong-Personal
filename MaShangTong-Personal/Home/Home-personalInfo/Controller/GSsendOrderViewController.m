@@ -21,8 +21,14 @@
 static int number = 1;
 @implementation GSsendOrderViewController
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    number = 1;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    number = 1;
     
     _sendOrder.layer.cornerRadius = 5.f;
     _minusBtn.enabled = NO;

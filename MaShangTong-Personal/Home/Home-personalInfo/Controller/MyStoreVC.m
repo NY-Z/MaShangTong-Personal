@@ -167,25 +167,19 @@
     [MBProgressHUD showMessage:@"正在加载"];
     //获取商城内详细
     [DownloadManager post:[NSString stringWithFormat:Mast_Url,@"ShcApi",@"shh"] params:nil success:^(id json){
-        @try {
-            [MBProgressHUD hideHUD];
-            if (json) {
-                NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
-                if ([str isEqualToString:@"1"]) {
-                    _dataAry = json[@"info"];
-                    [_tableView reloadData];
-                }
-                else{
-                    [MBProgressHUD showSuccess:@"暂没有商家入驻"];
-                }
+        [MBProgressHUD hideHUD];
+        if (json) {
+            NSString *str = [NSString stringWithFormat:@"%@",json[@"data"]];
+            if ([str isEqualToString:@"1"]) {
+                _dataAry = json[@"info"];
+                [_tableView reloadData];
             }
             else{
-                [MBProgressHUD showError:@"网络错误"];
+                [MBProgressHUD showSuccess:@"暂没有商家入驻"];
             }
-        } @catch (NSException *exception) {
-            
-        } @finally {
-            
+        }
+        else{
+            [MBProgressHUD showError:@"网络错误"];
         }
         
     }failure:^(NSError *error){
